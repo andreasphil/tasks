@@ -1,0 +1,21 @@
+/* CSS */
+@import "finecss/dist/index.min.css" layer(fine);
+
+@layer fine {
+  :root {
+    --body-width: auto;
+    --body-padding-x: 0rem;
+    --body-padding-y: 0rem;
+    --nav-height: 4rem;
+    --theme-tint: 43;
+    --theme-primary: var(--theme-tint) 90% 67%;
+  }
+}
+
+/* -------------------------------------------------- *
+ * Utilities                                          *
+ * -------------------------------------------------- */
+
+.text-c-variant {
+  color: var(--c-fg-variant);
+}
