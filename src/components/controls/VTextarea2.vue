@@ -1,20 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import { computed, nextTick, ref, watch, watchEffect } from "vue";
 
-const props = defineProps({
-  modelValue: { type: String, required: true },
-  dock: { type: Boolean, default: false },
-  scrollBeyondLastLine: { type: [Boolean, Number], default: true },
-});
+const props = withDefaults(
+  defineProps<{
+    modelValue: string;
+    dock?: boolean;
+    scrollBeyondLastLine?: boolean | number;
+  }>(),
+  {
+    dock: false,
+    scrollBeyondLastLine: true,
+  }
+);
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits<{
+  (e: "update:modelValue", value: string): void;
+}>();
 
-const localModelValue = computed({
+const localModelValue = computed<string>({
   get: () => props.modelValue,
   set: (value) => emit("update:modelValue", value),
 });
 
-const overscroll = computed(() => {
+const overscroll = computed<string | undefined>(() => {
   if (props.scrollBeyondLastLine === true) return "18rem";
   else if (typeof props.scrollBeyondLastLine === "number") {
     return `${props.scrollBeyondLastLine}rem`;
@@ -25,16 +33,17 @@ const overscroll = computed(() => {
  * DOM interaction                                    *
  * -------------------------------------------------- */
 
-/** @type {import("vue").Ref<null | HTMLTextAreaElement} */
-const textareaEl = ref(null);
+const textareaEl = ref<null | HTMLTextAreaElement>(null);
 
-const editorHeight = ref(0);
+const editorHeight = ref<string>("auto");
 
 async function determineEditorHeight() {
-  editorHeight.value = 0;
-  await nextTick().then(() => {
-    editorHeight.value = textareaEl.value?.scrollHeight;
-  });
+  editorHeight.value = "auto";
+  await nextTick();
+
+  editorHeight.value = textareaEl.value?.scrollHeight
+    ? `${textareaEl.value?.scrollHeight}px`
+    : "auto";
 }
 
 watchEffect(() => {
@@ -45,7 +54,7 @@ watch(localModelValue, () => {
   if (textareaEl.value) determineEditorHeight();
 });
 
-function focus() {
+function focus(): void {
   textareaEl.value?.focus();
 }
 
@@ -82,7 +91,7 @@ defineExpose({ focus });
 .textarea,
 .output {
   font: inherit;
-  height: max(calc(1px * v-bind(editorHeight)), 2em);
+  height: v-bind(editorHeight);
   white-space: pre-wrap;
 }
 

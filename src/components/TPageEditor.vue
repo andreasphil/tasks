@@ -1,9 +1,21 @@
-<script setup>
-import VTextarea2 from "./controls/VTextarea2.vue";
+<script setup lang="ts">
+import VTextarea2 from "@/components/controls/VTextarea2.vue";
+
+defineProps<{
+  modelValue: string;
+}>();
+
+defineEmits<{
+  (e: "update:modelValue", value: string): void;
+}>();
 </script>
 
 <template>
-  <VTextarea2 :class="$style.editor" />
+  <VTextarea2
+    :class="$style.editor"
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
+  />
 </template>
 
 <style module>
@@ -15,6 +27,6 @@ import VTextarea2 from "./controls/VTextarea2.vue";
   margin: auto;
   max-width: 50rem;
   min-height: 100%;
-  padding: 0.25rem 0;
+  padding-top: 0.25rem;
 }
 </style>

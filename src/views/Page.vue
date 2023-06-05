@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
+import TPageEditor from "@/components/TPageEditor.vue";
+import { usePage } from "@/stores/page";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { usePage } from "../stores/page";
-import TPageEditor from "../components/TPageEditor.vue";
 
 const route = useRoute();
 const pageId = computed(() => route.params.id?.toString());
@@ -13,7 +13,7 @@ const { text, exists } = usePage(pageId);
 <template>
   <p v-if="!exists">Page {{ pageId }} doesn't exist!</p>
 
-  <template v-else>
+  <template v-else-if="text !== undefined">
     <TPageEditor v-model="text" />
   </template>
 </template>

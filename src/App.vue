@@ -1,11 +1,8 @@
-<script setup>
-import { useThemeColor } from "finecss";
-import { onMounted } from "vue";
+<script setup lang="ts">
+import { useThemeColor } from "@/lib/themeColor";
 import { RouterView } from "vue-router";
 
-onMounted(() => {
-  useThemeColor();
-});
+useThemeColor();
 </script>
 
 <template>

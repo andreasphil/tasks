@@ -1,9 +1,12 @@
-<script setup>
-const props = defineProps({
-  type: { type: String, default: "button" },
-  variant: { type: String, default: "primary" },
-  loading: { type: Boolean, default: false },
-});
+<script setup lang="ts">
+withDefaults(
+  defineProps<{
+    type?: "button" | "submit" | "reset";
+    variant?: "outline" | "ghost";
+    loading?: boolean;
+  }>(),
+  { type: "button" }
+);
 </script>
 
 <template>

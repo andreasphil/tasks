@@ -1,19 +1,22 @@
-<script setup>
-import { RouterLink, RouterView, useRouter } from "vue-router";
-import VOffcanvas from "../components/controls/VOffcanvas.vue";
-import { usePages } from "../stores/pages";
+<script setup lang="ts">
+import VOffcanvas from "@/components/controls/VOffcanvas.vue";
+import { usePages } from "@/stores/pages";
 import { onMounted } from "vue";
+import { RouterLink, RouterView, useRouter } from "vue-router";
+import { useAsyncTask } from "vue-use-async-task";
 
-const { addPage, pagesList, fetchPages } = usePages();
 const router = useRouter();
 
-onMounted(() => {
-  fetchPages();
-});
+const { pagesList, ...store } = usePages();
+const { run: fetchPages, isLoading, error } = useAsyncTask(store.fetchPages);
+const { run: addPage } = useAsyncTask(store.addPage, { isLoading, error });
 
-function goToNewPage() {
-  const newPage = addPage("");
-  router.push({ name: "Page", params: { id: newPage } });
+onMounted(() => fetchPages());
+
+async function goToNewPage() {
+  const [newPage] = await addPage("");
+  if (newPage) router.push({ name: "Page", params: { id: newPage } });
+  // TODO: handle error
 }
 </script>
 
