@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VTextarea2 from "@/components/controls/VTextarea2.vue";
+import TPageItem from "@/components/TPageItem.vue";
 import { Item, parse } from "@/lib/parser";
 
 defineProps<{
@@ -23,20 +24,8 @@ function rowToTask(row: string): Item {
     @update:modelValue="$emit('update:modelValue', $event)"
     lineHeight="calc(var(--line-height) * 1em)"
   >
-    <template #row="{ row, context, index }">
-      <h1 v-if="index === 0" :class="$style.heading">
-        {{ row }}
-      </h1>
-
-      <h2 v-else-if="context.type === 'heading'" :class="$style.heading">
-        {{ row }}
-      </h2>
-
-      <p v-else-if="context.type === 'note'" :class="$style.note">
-        {{ row }}
-      </p>
-
-      <template v-else>{{ row }}</template>
+    <template #row="{ context, index }">
+      <TPageItem :item="context" :as="index === 0 ? 'heading' : undefined" />
     </template>
   </VTextarea2>
 </template>
@@ -49,24 +38,5 @@ function rowToTask(row: string): Item {
   min-height: 100%;
   padding-top: 0.25rem;
   font-family: var(--font-mono);
-}
-
-.heading {
-  font: inherit;
-  font-weight: var(--font-weight-bold);
-  margin: 0;
-  padding: 0;
-}
-
-.note {
-  color: var(--neutral-700);
-  font: inherit;
-  margin: 0;
-  padding: 0;
-}
-@media (prefers-color-scheme: dark) {
-  .note {
-    color: var(--neutral-300);
-  }
 }
 </style>
