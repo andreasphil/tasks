@@ -16,7 +16,6 @@ function createPagesStore() {
 
   async function fetch(): Promise<void> {
     const result = await listPages();
-    console.log(result);
     pages.splice(0, pages.length);
     pages.push(...result);
   }
