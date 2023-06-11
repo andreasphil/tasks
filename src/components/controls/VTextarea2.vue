@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="RowContext extends Record<string, any>">
 import { computed, nextTick, ref, watch, watchEffect } from "vue";
 
 const props = withDefaults(
@@ -6,15 +6,23 @@ const props = withDefaults(
     modelValue: string;
     dock?: boolean;
     scrollBeyondLastLine?: boolean | number;
+    lineHeight?: string;
+    contextProvider?: (row: string) => RowContext;
   }>(),
   {
     dock: false,
     scrollBeyondLastLine: true,
+    lineHeight: "1.5em",
+    contextProvider: (_: string) => ({} as RowContext),
   }
 );
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
+}>();
+
+defineSlots<{
+  row(props: { row: string; context: RowContext; index: number }): any;
 }>();
 
 const localModelValue = computed<string>({
@@ -59,6 +67,22 @@ function focus(): void {
 }
 
 /* -------------------------------------------------- *
+ * Output parsing and rendering                       *
+ * -------------------------------------------------- */
+
+function splitLines(text: string): string[] {
+  return text.split("\n");
+}
+
+const rows = computed(() =>
+  splitLines(localModelValue.value).map((r, i) => ({
+    row: r,
+    key: `${i}#${r}`,
+    context: props.contextProvider(r),
+  }))
+);
+
+/* -------------------------------------------------- *
  * Public interface                                   *
  * -------------------------------------------------- */
 
@@ -72,7 +96,17 @@ defineExpose({ focus });
       ref="textareaEl"
       v-model="localModelValue"
     />
-    <div :class="$style.output">{{ localModelValue }}</div>
+    <div :class="$style.output">
+      <div
+        v-for="({ row, key, context }, i) in rows"
+        :class="$style.row"
+        :key="key"
+      >
+        <slot :row="row" :context="context" :index="i" name="row">
+          {{ row }}
+        </slot>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,26 +122,33 @@ defineExpose({ focus });
   box-sizing: border-box;
 }
 
-.textarea,
-.output {
-  font: inherit;
-  height: v-bind(editorHeight);
-  white-space: pre-wrap;
-}
-
 .textarea {
   caret-color: inherit;
   color: transparent;
   display: block;
+  font: inherit;
+  height: v-bind(editorHeight);
   left: 0;
+  line-height: v-bind(lineHeight);
   position: absolute;
   resize: none;
   right: 0;
+  white-space: pre-wrap;
+  background: inherit;
 }
 
 .output {
+  font: inherit;
+  height: v-bind(editorHeight);
+  line-height: v-bind(lineHeight);
   pointer-events: none;
   position: relative;
+  white-space: pre-wrap;
+  background: inherit;
+}
+
+.row {
+  min-height: v-bind(lineHeight);
 }
 
 .dock {

@@ -12,6 +12,12 @@
   }
 }
 
+:root {
+  /* Based on Monospace Code from https://modernfontstacks.com */
+  --font-mono: "iA Writer Quattro V", "Fira Code", ui-monospace, "Cascadia Code",
+    "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
+
 /* -------------------------------------------------- *
  * Utilities                                          *
  * -------------------------------------------------- */
