@@ -11,8 +11,8 @@ withDefaults(
 
 <template>
   <button
-    :aria-busy="loading || undefined"
-    :data-variant="variant"
+    :ariaBusy="loading || undefined"
+    :dataVariant="variant"
     :type="type"
   >
     <slot />

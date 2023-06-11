@@ -18,10 +18,10 @@ function rowToTask(row: string): Item {
 <template>
   <VTextarea2
     :class="$style.editor"
-    :context-provider="rowToTask"
-    :model-value="modelValue"
-    @update:model-value="$emit('update:modelValue', $event)"
-    line-height="calc(var(--line-height) * 1em)"
+    :contextProvider="rowToTask"
+    :modelValue="modelValue"
+    @update:modelValue="$emit('update:modelValue', $event)"
+    lineHeight="calc(var(--line-height) * 1em)"
   >
     <template #row="{ row, context, index }">
       <h1 v-if="index === 0" :class="$style.heading">
