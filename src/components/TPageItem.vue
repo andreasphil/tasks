@@ -69,10 +69,7 @@ const effectiveType = computed(() => props.as ?? props.item.type);
   font: inherit;
 }
 .task:has(.status.completed) {
-  text-decoration: underline;
   color: var(--c-fg-variant);
-  text-underline-offset: -0.3em;
-  text-decoration-skip-ink: none;
 }
 
 .note {

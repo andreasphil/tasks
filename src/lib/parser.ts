@@ -75,7 +75,7 @@ const regexes = {
   // Section headings
   heading: /^# /,
   // Task status
-  status: /^ *\[(?<status>[ x/*?])\]/,
+  status: /^[^\S\n]*\[(?<status>[ x/*?])\]/,
   // Due date
   dueDate: /->(?<dueDate>\d{4}-\d{2}-\d{2})/,
   // Tags

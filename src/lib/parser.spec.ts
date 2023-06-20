@@ -102,8 +102,13 @@ describe("parser", () => {
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
 
-    it("ignores indentation", () => {
+    it("ignores indentation with spaces", () => {
       const r = parse("  [ ] Task 1");
+      expect(r.type).toBe("task");
+    });
+
+    it("ignores indentation with tabs", () => {
+      const r = parse("\t[ ] Task 1");
       expect(r.type).toBe("task");
     });
 
