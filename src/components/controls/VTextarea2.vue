@@ -14,7 +14,7 @@ const props = withDefaults(
   {
     dock: false,
     scrollBeyondLastLine: true,
-    lineHeight: "1.5em",
+    lineHeight: "1.5",
     contextProvider: (_: string) => ({} as RowContext),
     insertTabs: true,
     tabSize: 4,
@@ -255,6 +255,7 @@ defineExpose({ focus });
   cursor: text;
   padding-bottom: v-bind(overscroll);
   position: relative;
+  line-height: v-bind(lineHeight);
   tab-size: v-bind(tabSize);
 }
 
@@ -263,33 +264,32 @@ defineExpose({ focus });
   box-sizing: border-box;
 }
 
+.textarea,
+.output {
+  background: inherit;
+  font: inherit;
+  white-space: pre-wrap;
+}
+
 .textarea {
   caret-color: inherit;
   color: transparent;
   display: block;
-  font: inherit;
   height: v-bind(editorHeight);
   left: 0;
-  line-height: v-bind(lineHeight);
   position: absolute;
   resize: none;
   right: 0;
-  white-space: pre-wrap;
-  background: inherit;
 }
 
 .output {
-  font: inherit;
   height: v-bind(editorHeight);
-  line-height: v-bind(lineHeight);
   pointer-events: none;
   position: relative;
-  white-space: pre-wrap;
-  background: inherit;
 }
 
 .row {
-  min-height: v-bind(lineHeight);
+  min-height: 1lh;
 }
 
 .dock {
