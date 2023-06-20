@@ -132,6 +132,11 @@ function setLocalModelValue(value: string): void {
   emit("update:modelValue", value);
 }
 
+function onInput(event: Event): void {
+  if (!(event.target instanceof HTMLTextAreaElement)) return;
+  setLocalModelValue(event.target.value);
+}
+
 /* -------------------------------------------------- *
  * Autosizing                                         *
  * -------------------------------------------------- */
@@ -232,7 +237,7 @@ defineExpose({ focus });
     <textarea
       :class="$style.textarea"
       :value="localModelValue"
-      @input="setLocalModelValue($event.target?.value)"
+      @input="onInput($event)"
       @keydown.tab="insertTabs ? onInsertTab($event) : undefined"
       ref="textareaEl"
     />
