@@ -178,39 +178,47 @@ async function onInsertTab(event: KeyboardEvent): Promise<void> {
   event.preventDefault();
 
   const { selectionStart, selectionEnd } = textareaEl.value;
-  const value = localModelValue.value;
-  const lines = splitLines(value);
-  const [from, to] = getSelectedLines(selectionStart, selectionEnd, lines);
+  const [from, to] = getSelectedLines(selectionStart, selectionEnd, rows.value);
   const mode: "indent" | "outdent" = event.shiftKey ? "outdent" : "indent";
 
   // TODO: Refactor to have this in utilities
   if (mode === "indent") {
     // Insert tab at the beginning of each selected line (unless it's empty)
-    for (let i = from; i <= to; i++) {
-      if (lines[i]) lines[i] = `\t${lines[i]}`;
-    }
+    for (let i = from; i <= to; i++) rows.value[i] = `\t${rows.value[i]}`;
   } else {
     // Remove tab from the beginning of each selected line
     for (let i = from; i <= to; i++) {
-      if (lines[i].startsWith("\t")) {
-        lines[i] = lines[i].slice(1);
+      if (rows.value[i].startsWith("\t")) {
+        rows.value[i] = rows.value[i].slice(1);
       }
     }
   }
 
-  setLocalModelValue(lines.join("\n"));
+  setLocalModelValue(rows.value.join("\n"));
 
   await nextTick();
-  const [nextStart, nextEnd] = getRangeFromSelectedLines(from, to, lines);
-  textareaEl.value?.setSelectionRange(nextStart, nextEnd);
+
+  if (from === to && mode === "indent") {
+    const start = selectionStart + 1;
+    textareaEl.value?.setSelectionRange(start, start);
+  } else if (from === to && mode === "outdent") {
+    const [minStart] = getRangeFromSelectedLines(from, to, rows.value);
+    const start = Math.max(minStart, selectionStart - 1);
+    textareaEl.value?.setSelectionRange(start, start);
+  } else {
+    const [start, end] = getRangeFromSelectedLines(from, to, rows.value);
+    textareaEl.value?.setSelectionRange(start, end);
+  }
 }
 
 /* -------------------------------------------------- *
  * Output parsing and rendering                       *
  * -------------------------------------------------- */
 
-const rows = computed(() =>
-  splitLines(localModelValue.value).map((r, i) => ({
+const rows = computed(() => splitLines(localModelValue.value));
+
+const rowsWithContext = computed(() =>
+  rows.value.map((r, i) => ({
     row: r,
     key: `${i}#${r}`,
     context: props.contextProvider(r),
@@ -243,7 +251,7 @@ defineExpose({ focus });
     />
     <div :class="$style.output">
       <div
-        v-for="({ row, key, context }, i) in rows"
+        v-for="({ row, key, context }, i) in rowsWithContext"
         :class="$style.row"
         :key="key"
       >
