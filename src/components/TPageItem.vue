@@ -19,6 +19,20 @@ const status = computed(() =>
   props.item.type === "task" ? props.item.status : "incomplete"
 );
 
+const todayOrOverdue = computed(() => {
+  const today = new Date();
+  const dueLatest = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate(),
+    23,
+    59,
+    59
+  );
+
+  return props.item.dueDate && new Date(props.item.dueDate) <= dueLatest;
+});
+
 const effectiveType = computed(() => props.as ?? props.item.type);
 </script>
 
@@ -33,7 +47,11 @@ const effectiveType = computed(() => props.as ?? props.item.type);
 
       <span
         v-else-if="token.type === 'dueDate'"
-        :class="[$style.token, $style.dueDate]"
+        :class="[
+          $style.token,
+          $style.dueDate,
+          { [$style.today]: todayOrOverdue },
+        ]"
         >{{ token.match }}</span
       >
 
