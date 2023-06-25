@@ -20,7 +20,6 @@ export function splitAt(text: string, index: number): [string, string] {
  * For a selection beginning at `from` and ending at `to`, returns the line
  * numbers of the first and last selected line.
  *
- * TODO: See what happens with nonsensical start/end values
  * TODO: Only accept string values
  *
  * @param from The start of the selection
@@ -36,6 +35,7 @@ export function getSelectedLines(
   let cursor = 0;
   let startLine = -1;
   let endLine = -1;
+  if (to < from) [from, to] = [to, from];
 
   for (let i = 0; i < lines.length && (startLine < 0 || endLine < 0); i++) {
     const line = lines[i];
@@ -48,14 +48,13 @@ export function getSelectedLines(
     cursor += line.length + 1;
   }
 
-  return [Math.max(startLine, 0), Math.max(endLine, 0)];
+  return [Math.max(startLine, 0), endLine === -1 ? lines.length - 1 : endLine];
 }
 
 /**
  * For a selection beginning at `from` and ending at `to`, extends the selection
  * to include the entire lines of the first and last selected line.
  *
- * TODO: See what happens with nonsensical start/end values
  * TODO: Only accept string values
  *
  * @param from The start of the selection
@@ -69,6 +68,10 @@ export function getRangeFromSelectedLines(
 ): [number, number] {
   const lines = Array.isArray(value) ? [...value] : splitLines(value);
   const lengths = lines.map((i) => i.length);
+
+  from = Math.max(from, 0);
+  to = Math.min(to, lines.length - 1);
+  if (to < from) [from, to] = [to, from];
 
   // Starting at the sum of the lengths of all lines before the first selected
   // line, adjusting for the line breaks which we lost when splitting
@@ -91,7 +94,12 @@ export function getRangeFromSelectedLines(
  * @param value The value containing the cursor
  * @param cursor The position of the cursor
  */
-export function getCursorInLine(value: string, cursor: number): number {
+export function getCursorInLine(
+  value: string,
+  cursor: number
+): number | undefined {
+  if (cursor > value.length || cursor < 0) return undefined;
+
   const beforeCursor = value.slice(0, cursor);
   const lineStart = beforeCursor.lastIndexOf("\n") + 1;
   return cursor - lineStart;
