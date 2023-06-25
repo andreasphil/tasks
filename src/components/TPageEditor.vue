@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import VTextarea2 from "@/components/controls/VTextarea2.vue";
 import TPageItem from "@/components/TPageItem.vue";
+import VTextarea2 from "@/components/controls/VTextarea2.vue";
 import { Item, parse } from "@/lib/parser";
+import { ContinueListRule, continueListRules } from "@/lib/text";
 
 defineProps<{
   modelValue: string;
@@ -14,12 +15,19 @@ defineEmits<{
 function rowToTask(row: string): Item {
   return parse(row);
 }
+
+const continueLists: ContinueListRule[] = [
+  { pattern: /\t*\[-] /, next: "same" },
+  { pattern: /\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
+  ...Object.values(continueListRules),
+];
 </script>
 
 <template>
   <VTextarea2
     :class="$style.editor"
     :contextProvider="rowToTask"
+    :continueLists="continueLists"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
   >
