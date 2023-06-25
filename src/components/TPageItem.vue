@@ -43,6 +43,14 @@ const effectiveType = computed(() => props.as ?? props.item.type);
         >{{ token.match }}</span
       >
 
+      <a
+        v-else-if="token.type === 'link'"
+        :class="[$style.link]"
+        :href="token.match"
+        target="_blank"
+        >{{ token.match }}</a
+      >
+
       <template v-else>{{ token.match }}</template>
     </template>
   </component>
@@ -106,7 +114,10 @@ const effectiveType = computed(() => props.as ?? props.item.type);
   color: deepskyblue;
 }
 
-.tag {
-  color: lightseagreen;
+.link {
+  color: var(--primary);
+  pointer-events: initial;
+  text-decoration: underline;
+  text-underline-offset: 0.125rem;
 }
 </style>

@@ -42,7 +42,13 @@ export type TaskStatus =
   | "question";
 
 /** Different types of tokens that can be found in an item. */
-export type TokenType = "headingMarker" | "status" | "dueDate" | "tag" | "text";
+export type TokenType =
+  | "headingMarker"
+  | "status"
+  | "dueDate"
+  | "tag"
+  | "link"
+  | "text";
 
 /** Represents a token in an item. */
 export type Token = {
@@ -79,7 +85,8 @@ const regexes = {
   // Due date
   dueDate: /->(?<dueDate>\d{4}-\d{2}-\d{2})/,
   // Tags
-  tags: /#(?<tag>[^\s]+)/g,
+  // Links
+  links: /(?<url>https?:\/\/\S+)/g,
 } as const;
 
 const mergedRegex = new RegExp(
@@ -223,7 +230,7 @@ export function parse(input: string): Item {
 
   while ((token = mergedRegex.exec(input))) {
     const tokenDescriptor: Token = {
-      type: "headingMarker",
+      type: "text",
       text: token[0],
 
       match: token[0],
@@ -256,6 +263,10 @@ export function parse(input: string): Item {
       tags.add(token.groups.tag);
       tokenDescriptor.type = "tag";
       tokenDescriptor.text = token.groups.tag;
+    } else if (token.groups?.url) {
+      // Links
+      tokenDescriptor.type = "link";
+      tokenDescriptor.text = token.groups.url;
     }
 
     tokens.push(tokenDescriptor);

@@ -38,6 +38,16 @@ describe("parser", () => {
       const r = parse("# Heading [ ] heading");
       expect(r.type).toBe("heading");
     });
+
+    it("finds an url", () => {
+      const r = parse("# Heading https://example.com");
+      expect(r.tokens[2].type).toBe("link");
+    });
+
+    it("reads the url correctly", () => {
+      const r = parse("# Heading https://example.com");
+      expect(r.tokens[2].text).toBe("https://example.com");
+    });
   });
 
   describe("tasks", () => {
@@ -116,6 +126,16 @@ describe("parser", () => {
       const r = parse("[ ] Task 1 # Not a heading");
       expect(r.tags).toEqual([]);
     });
+
+    it("finds an url", () => {
+      const r = parse("[ ] Task 1 https://example.com");
+      expect(r.tokens[2].type).toBe("link");
+    });
+
+    it("reads the url correctly", () => {
+      const r = parse("[ ] Task 1 https://example.com");
+      expect(r.tokens[2].text).toBe("https://example.com");
+    });
   });
 
   describe("notes", () => {
@@ -168,6 +188,16 @@ describe("parser", () => {
     it("ignores '[ ]' in the middle of a note", () => {
       const r = parse("This is a note. [ ] Not a task");
       expect(r.tags).toEqual([]);
+    });
+
+    it("finds an url", () => {
+      const r = parse("This is a note. https://example.com");
+      expect(r.tokens[1].type).toBe("link");
+    });
+
+    it("reads the url correctly", () => {
+      const r = parse("This is a note. https://example.com");
+      expect(r.tokens[1].text).toBe("https://example.com");
     });
   });
 
