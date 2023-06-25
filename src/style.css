@@ -8,7 +8,7 @@
     --body-padding-y: 0rem;
     --nav-height: 4rem;
     --theme-tint: 43;
-    --theme-primary: var(--theme-tint) 90% 67%;
+    --theme-primary: var(--theme-tint) 90% 60%;
     --font-size: 14px;
   }
 }
@@ -17,6 +17,9 @@
   /* Based on Monospace Code from https://modernfontstacks.com */
   --font-mono: "iA Writer Quattro V", "Fira Code", ui-monospace, "Cascadia Code",
     "Source Code Pro", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+  --red: hsl(350 89% 60%);
+  --red-50: hsl(350 89% 60% / 0.075);
 }
 
 /* -------------------------------------------------- *

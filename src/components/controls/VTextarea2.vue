@@ -256,6 +256,10 @@ defineExpose({ focus });
   position: relative;
 }
 
+.output::selection {
+  background: transparent;
+}
+
 .row {
   min-height: 1lh;
 }

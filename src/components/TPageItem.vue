@@ -37,7 +37,14 @@ const effectiveType = computed(() => props.as ?? props.item.type);
 </script>
 
 <template>
-  <component :is="tag" :class="[$style.item, $style[effectiveType]]">
+  <component
+    :is="tag"
+    :class="[
+      $style.item,
+      $style[effectiveType],
+      { [$style.completed]: status === 'completed' },
+    ]"
+  >
     <template v-for="token in item.tokens" :key="token.matchStart">
       <span
         v-if="token.type === 'status'"
@@ -94,7 +101,8 @@ const effectiveType = computed(() => props.as ?? props.item.type);
 .task {
   font: inherit;
 }
-.task:has(.status.completed) {
+
+.task.completed {
   color: var(--c-fg-variant);
 }
 
@@ -112,24 +120,54 @@ const effectiveType = computed(() => props.as ?? props.item.type);
   border-radius: var(--border-radius-small);
 }
 
-.status {
-}
-.status.incomplete {
-}
-.status.completed {
-}
-.status.inProgress {
-  color: orchid;
-}
 .status.important {
-  color: orangered;
+  color: var(--red);
+  font-weight: var(--font-weight-bold);
 }
+
+.status.inProgress,
 .status.question {
-  color: gold;
+  font-weight: var(--font-weight-bold);
 }
 
 .dueDate {
-  color: deepskyblue;
+  color: var(--primary);
+  position: relative;
+}
+
+.dueDate::after {
+  background-color: var(--primary-50);
+  border-radius: inherit;
+  bottom: 0px;
+  content: "";
+  left: -2px;
+  position: absolute;
+  right: -2px;
+  top: 0px;
+}
+
+.dueDate.today {
+  color: var(--red);
+}
+
+.dueDate.today::after {
+  background-color: var(--red-50);
+}
+
+.tag {
+  color: var(--c-fg-variant);
+  position: relative;
+}
+
+.tag::after {
+  background-color: hsl(var(--theme-tint) 15% 4% / 0.03);
+  border-radius: inherit;
+  bottom: 0px;
+  content: "";
+  left: -2px;
+  position: absolute;
+  right: -2px;
+  top: 0px;
 }
 
 .link {

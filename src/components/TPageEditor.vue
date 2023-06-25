@@ -39,11 +39,11 @@ const continueLists: ContinueListRule[] = [
 
 <style module>
 .editor {
-  caret-color: var(--primary);
+  caret-color: var(--c-fg);
+  font-family: var(--font-mono);
   margin: auto;
   max-width: 50rem;
   min-height: 100%;
   padding-top: 0.25rem;
-  font-family: var(--font-mono);
 }
 </style>
