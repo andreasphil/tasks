@@ -18,7 +18,7 @@
  * with whitespace, which is ignored (but can be used for indentation). The
  * text of the task can contain tags and a due date:
  *
- * - Tags: #tag1 #tag2 (tags can be any string that does not contain a space)
+ * - Tags: #tag1 #tag2 (tags can be any letter, number, or underscore)
  * - Due date: ->2021-01-01
  *
  * Besides tasks, lists can also contain notes and sections. Sections are started
@@ -77,6 +77,8 @@ export type Item = {
  * Regexes                                            *
  * -------------------------------------------------- */
 
+// Singular means only one of these can be matched per line. Plural means
+// multiple matches can be found per line.
 const regexes = {
   // Section headings
   heading: /^# /,
@@ -85,6 +87,7 @@ const regexes = {
   // Due date
   dueDate: /->(?<dueDate>\d{4}-\d{2}-\d{2})/,
   // Tags
+  tags: /#(?<tag>\w+)/g,
   // Links
   links: /(?<url>https?:\/\/\S+)/g,
 } as const;
