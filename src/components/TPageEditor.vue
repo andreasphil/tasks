@@ -22,7 +22,6 @@ function rowToTask(row: string): Item {
     :contextProvider="rowToTask"
     :modelValue="modelValue"
     @update:modelValue="$emit('update:modelValue', $event)"
-    lineHeight="calc(var(--line-height) * 1em)"
   >
     <template #row="{ context, index }">
       <TPageItem :item="context" :as="index === 0 ? 'heading' : undefined" />
