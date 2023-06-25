@@ -26,10 +26,10 @@ const continueLists: ContinueListRule[] = [
 <template>
   <VTextarea2
     :class="$style.editor"
-    :contextProvider="rowToTask"
-    :continueLists="continueLists"
-    :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
+    :context-provider="rowToTask"
+    :continue-lists="continueLists"
+    :model-value="modelValue"
+    @update:model-value="$emit('update:modelValue', $event)"
   >
     <template #row="{ context, index }">
       <TPageItem :item="context" :as="index === 0 ? 'heading' : undefined" />
