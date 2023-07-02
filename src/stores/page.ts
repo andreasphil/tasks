@@ -1,6 +1,6 @@
-import { WritableItem, asWritable } from "@/lib/items";
+import { mutate } from "@/lib/items";
 import { Page, getTitle } from "@/lib/page";
-import { Item, parse, stringify } from "@/lib/parser";
+import { parse } from "@/lib/parser";
 import { splitLines } from "@/lib/text";
 import { usePages } from "@/stores/pages";
 import { MaybeRefOrGetter, computed, readonly, toValue } from "vue";
@@ -38,22 +38,26 @@ export function usePage(id: MaybeRefOrGetter<string>) {
    * Parsed content                                     *
    * -------------------------------------------------- */
 
-  const items = computed(() =>
-    splitLines(text.value || "").map((i) => parse(i))
-  );
+  // const items = computed(() =>
+  // splitLines(text.value || "").map((i) => parse(i))
+  // );
 
   function updateItem(
     index: number,
-    factory: (original: WritableItem) => Item
-  ) {
-    const newItems = [...items.value];
-    newItems[index] = factory(asWritable(newItems[index]));
-    text.value = newItems.map((i) => stringify(i)).join("\n");
+    factory: Parameters<typeof mutate>[1]
+  ): void {
+    const lines = splitLines(text.value ?? "");
+    if (index >= lines.length) return;
+
+    const item = parse(lines[index]);
+    mutate(item, factory);
+    lines[index] = item.raw;
+
+    text.value = lines.join("\n");
   }
 
   return {
     exists,
-    items,
     page: readonly(page),
     text,
     title,

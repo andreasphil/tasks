@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Item } from "@/lib/parser";
+import { Item, TaskStatus } from "@/lib/parser";
 import { computed } from "vue";
 
 const props = defineProps<{
@@ -7,40 +7,53 @@ const props = defineProps<{
   as?: Item["type"];
 }>();
 
-const tags: Record<Item["type"], string> = {
+const emit = defineEmits<{
+  (emit: "update:status", value: TaskStatus): void;
+}>();
+
+/* -------------------------------------------------- *
+ * Rendering                                          *
+ * -------------------------------------------------- */
+
+const htmlTags: Record<Item["type"], string> = {
   heading: "h2",
   note: "p",
   task: "div",
 };
 
-const tag = computed(() => tags[effectiveType.value] ?? "div");
+const effectiveType = computed(() => props.as ?? props.item.type);
+
+const htmlTag = computed(() => htmlTags[effectiveType.value] ?? "div");
+
+/* -------------------------------------------------- *
+ * Status                                             *
+ * -------------------------------------------------- */
 
 const status = computed(() =>
   props.item.type === "task" ? props.item.status : "incomplete"
 );
 
+function updateStatus() {
+  emit(
+    "update:status",
+    props.item.status === "completed" ? "incomplete" : "completed"
+  );
+}
+
+/* -------------------------------------------------- *
+ * Due date                                           *
+ * -------------------------------------------------- */
+
 const todayOrOverdue = computed(() => {
   const today = new Date();
-  const dueLatest = new Date(
-    today.getFullYear(),
-    today.getMonth(),
-    today.getDate(),
-    23,
-    59,
-    59
-  );
-
-  return (
-    props.item.dueDate && new Date(props.item.dueDate as Date) <= dueLatest
-  );
+  today.setHours(23, 59, 59);
+  return props.item.dueDate && new Date(props.item.dueDate as Date) <= today;
 });
-
-const effectiveType = computed(() => props.as ?? props.item.type);
 </script>
 
 <template>
   <component
-    :is="tag"
+    :is="htmlTag"
     :class="[
       $style.item,
       $style[effectiveType],
@@ -48,11 +61,13 @@ const effectiveType = computed(() => props.as ?? props.item.type);
     ]"
   >
     <template v-for="token in item.tokens" :key="token.matchStart">
-      <span
+      <button
         v-if="token.type === 'status'"
         :class="[$style.token, $style.status, $style[status]]"
-        >{{ token.match }}</span
+        @click="updateStatus()"
       >
+        {{ token.match }}
+      </button>
 
       <span
         v-else-if="token.type === 'dueDate'"
@@ -118,8 +133,17 @@ const effectiveType = computed(() => props.as ?? props.item.type);
  * Token types                                        *
  * -------------------------------------------------- */
 
-.token {
+.status {
+  all: unset;
   border-radius: var(--border-radius-small);
+  cursor: pointer;
+  pointer-events: initial;
+  transition: var(--transition);
+  transition-property: background-color;
+}
+
+.status:hover {
+  background: var(--c-surface-variant-bg);
 }
 
 .status.important {
@@ -133,6 +157,7 @@ const effectiveType = computed(() => props.as ?? props.item.type);
 }
 
 .dueDate {
+  border-radius: var(--border-radius-small);
   color: var(--primary);
   position: relative;
 }
@@ -157,6 +182,7 @@ const effectiveType = computed(() => props.as ?? props.item.type);
 }
 
 .tag {
+  border-radius: var(--border-radius-small);
   color: var(--c-fg-variant);
   position: relative;
 }

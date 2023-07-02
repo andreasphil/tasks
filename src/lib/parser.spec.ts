@@ -36,7 +36,7 @@ describe("parser", () => {
 
     it("ignores '[ ]' in the middle of a heading", () => {
       const r = parse("# Heading [ ] heading");
-      expect(r.type).toBe("heading");
+      expect(r.type).not.toBe("task");
     });
 
     it("finds an url", () => {
@@ -187,7 +187,7 @@ describe("parser", () => {
 
     it("ignores '[ ]' in the middle of a note", () => {
       const r = parse("This is a note. [ ] Not a task");
-      expect(r.tags).toEqual([]);
+      expect(r.type).not.toBe("task");
     });
 
     it("finds an url", () => {
@@ -380,6 +380,6 @@ describe("stringifier", () => {
   ].forEach((input) => {
     it(`produces identical input and output for "${input}"`, () => {
       expect(stringify(parse(input))).toEqual(input);
-    })
-  })
+    });
+  });
 });

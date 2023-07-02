@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import TPageItem from "@/components/TPageItem.vue";
 import VTextarea2 from "@/components/controls/VTextarea2.vue";
-import { Item, parse } from "@/lib/parser";
+import { Item, TaskStatus, parse } from "@/lib/parser";
 import { ContinueListRule, continueListRules } from "@/lib/text";
+import { usePage } from "@/stores/page";
 
-defineProps<{
-  modelValue: string;
+const props = defineProps<{
+  pageId: string;
 }>();
 
-defineEmits<{
-  (e: "update:modelValue", value: string): void;
-}>();
+const { exists, text, updateItem } = usePage(() => props.pageId);
+
+/* -------------------------------------------------- *
+ * Editor hooks and customizations                    *
+ * -------------------------------------------------- */
 
 function rowToTask(row: string): Item {
   return parse(row);
@@ -21,18 +24,34 @@ const continueLists: ContinueListRule[] = [
   { pattern: /\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
   ...Object.values(continueListRules),
 ];
+
+/* -------------------------------------------------- *
+ * Interacting with items                             *
+ * -------------------------------------------------- */
+
+function updateStatus(index: number, status: TaskStatus) {
+  updateItem(index, (item) => {
+    item.status = status;
+  });
+}
 </script>
 
 <template>
+  <p v-if="!exists">This page doesn't exist!</p>
+
   <VTextarea2
+    v-else-if="text !== undefined"
     :class="$style.editor"
     :context-provider="rowToTask"
     :continue-lists="continueLists"
-    :model-value="modelValue"
-    @update:model-value="$emit('update:modelValue', $event)"
+    v-model="text"
   >
     <template #row="{ context, index }">
-      <TPageItem :item="context" :as="index === 0 ? 'heading' : undefined" />
+      <TPageItem
+        :item="context"
+        :as="index === 0 ? 'heading' : undefined"
+        @update:status="updateStatus(index, $event)"
+      />
     </template>
   </VTextarea2>
 </template>
