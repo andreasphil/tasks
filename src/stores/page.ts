@@ -1,4 +1,7 @@
+import { WritableItem, asWritable } from "@/lib/items";
 import { Page, getTitle } from "@/lib/page";
+import { Item, parse, stringify } from "@/lib/parser";
+import { splitLines } from "@/lib/text";
 import { usePages } from "@/stores/pages";
 import { MaybeRefOrGetter, computed, readonly, toValue } from "vue";
 
@@ -10,6 +13,20 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     return pages.find((i) => i.id === idVal);
   });
 
+  /* -------------------------------------------------- *
+   * Metadata                                           *
+   * -------------------------------------------------- */
+
+  const exists = computed<boolean>(() => !!page.value);
+
+  const title = computed<string | undefined>(() =>
+    page.value ? getTitle(page.value) : undefined
+  );
+
+  /* -------------------------------------------------- *
+   * Raw content                                        *
+   * -------------------------------------------------- */
+
   const text = computed<string | undefined>({
     get: () => page.value?.text,
     set: (value) => {
@@ -17,16 +34,29 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     },
   });
 
-  const title = computed<string | undefined>(() =>
-    page.value ? getTitle(page.value) : undefined
+  /* -------------------------------------------------- *
+   * Parsed content                                     *
+   * -------------------------------------------------- */
+
+  const items = computed(() =>
+    splitLines(text.value || "").map((i) => parse(i))
   );
 
-  const exists = computed<boolean>(() => !!page.value);
+  function updateItem(
+    index: number,
+    factory: (original: WritableItem) => Item
+  ) {
+    const newItems = [...items.value];
+    newItems[index] = factory(asWritable(newItems[index]));
+    text.value = newItems.map((i) => stringify(i)).join("\n");
+  }
 
   return {
+    exists,
+    items,
     page: readonly(page),
     text,
     title,
-    exists,
+    updateItem,
   };
 }

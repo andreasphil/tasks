@@ -30,7 +30,9 @@ const todayOrOverdue = computed(() => {
     59
   );
 
-  return props.item.dueDate && new Date(props.item.dueDate) <= dueLatest;
+  return (
+    props.item.dueDate && new Date(props.item.dueDate as Date) <= dueLatest
+  );
 });
 
 const effectiveType = computed(() => props.as ?? props.item.type);

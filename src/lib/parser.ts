@@ -29,6 +29,8 @@
  * to contain tags and due dates.
  */
 
+import { DeepReadonly } from "./utils";
+
 /* -------------------------------------------------- *
  * Types                                              *
  * -------------------------------------------------- */
@@ -59,7 +61,6 @@ export type TokenType =
 export type Token = {
   type: TokenType;
   text: string;
-
   match: string;
   matchStart: number;
   matchLength: number;
@@ -68,15 +69,35 @@ export type Token = {
 /**
  * Represents a parsed item. "Item" is the generic type for anything that can
  * be included in a list, such as a task, note, or section heading.
+ *
+ * Unchecked items allow changing any property in any way you want. Note that
+ * since properties depend on each other (e.g. status is parsed from raw, and
+ * also leads to the presence of a "status" token), changing them individually
+ * might result in inconsistent data within the item.
  */
-export type Item = {
+export type UncheckedItem = {
   raw: string;
   text: string;
   tokens: Token[];
-
   tags: string[];
   dueDate?: Date;
-} & ({ type: "note" | "heading" } | { type: "task"; status: TaskStatus });
+} & (
+  | { type: "note" | "heading"; status: null }
+  | { type: "task"; status: TaskStatus }
+);
+
+/**
+ * Represents a parsed item. "Item" is the generic type for anything that can
+ * be included in a list, such as a task, note, or section heading.
+ *
+ * Note that in a regular item, all properties are readonly. This is because
+ * some depend on each other (e.g. status is parsed from raw, and also leads
+ * to the presence of a "status" token), and changing them individually might
+ * result in inconsistent data within the item.
+ *
+ * Check out `items.ts@asWritable` to learn how to safely mutate items.
+ */
+export type Item = DeepReadonly<UncheckedItem>;
 
 /* -------------------------------------------------- *
  * Regexes                                            *
@@ -229,10 +250,10 @@ function insertTextTokens(original: string, tokens: Token[]): Token[] {
 export function parse(input: string): Item {
   let token = null;
 
-  let type: Item["type"] = "note";
+  let type: UncheckedItem["type"] = "note";
   let text = input;
   let tags: Set<Item["tags"][number]> = new Set();
-  let dueDate: Item["dueDate"] = undefined;
+  let dueDate: UncheckedItem["dueDate"] = undefined;
   let status: TaskStatus = "incomplete";
   let tokens: Token[] = [];
 
@@ -284,7 +305,7 @@ export function parse(input: string): Item {
 
   // @ts-expect-error Complains about the missing status, but we'll add it later
   // if needed.
-  const result: Item = {
+  const result: UncheckedItem = {
     type,
     raw: input,
     text,
@@ -303,5 +324,5 @@ export function parse(input: string): Item {
  * -------------------------------------------------- */
 
 export function stringify(item: Item): string {
-  return item.raw;
+  return item.tokens.map((i) => i.match).join("");
 }
