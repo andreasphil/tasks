@@ -40,6 +40,7 @@ async function beginRemovePage() {
         <button
           data-variant="muted"
           title="Delete page"
+          type="button"
           @click="beginRemovePage()"
         >
           <Trash2 />
@@ -76,8 +77,3 @@ async function beginRemovePage() {
     <RouterView />
   </VOffcanvas>
 </template>
-
-<style module>
-.screen {
-}
-</style>
