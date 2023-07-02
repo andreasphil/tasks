@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "finecss": "github:andreasphil/fine#v0.14.0",
+    "lucide-vue-next": "^0.257.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2",
     "vue-use-async-task": "github:andreasphil/vue-use-async-task#v0.1.0"

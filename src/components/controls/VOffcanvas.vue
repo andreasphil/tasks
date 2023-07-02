@@ -1,9 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div :class="$style.layout">
+  <div :class="[$style.layout, { [$style.layoutWithHeader]: $slots.header }]">
     <header>
-      <nav>
+      <nav data-variant="fixed" :class="$style.headerNav">
         <slot name="header" />
       </nav>
     </header>
@@ -23,6 +23,15 @@
   display: flex;
   height: 100dvh;
   overflow: hidden;
+}
+
+.layoutWithHeader {
+  height: calc(100dvh - var(--nav-height));
+}
+
+.headerNav {
+  box-shadow: var(--shadow-elevation-low);
+  padding: 0.25rem 2rem;
 }
 
 .sidebar {

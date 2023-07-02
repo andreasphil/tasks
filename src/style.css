@@ -1,18 +1,6 @@
 /* CSS */
 @import "finecss/dist/index.min.css" layer(fine);
 
-@layer fine {
-  :root {
-    --body-width: auto;
-    --body-padding-x: 0rem;
-    --body-padding-y: 0rem;
-    --nav-height: 4rem;
-    --theme-tint: 43;
-    --theme-primary: var(--theme-tint) 90% 60%;
-    --font-size: 14px;
-  }
-}
-
 :root {
   /* Based on Monospace Code from https://modernfontstacks.com */
   --font-mono: "iA Writer Quattro V", "Fira Code", ui-monospace, "Cascadia Code",
@@ -28,4 +16,35 @@
 
 .text-c-variant {
   color: var(--c-fg-variant);
+}
+
+/* -------------------------------------------------- *
+ * Fine customizations                                *
+ * -------------------------------------------------- */
+
+@layer fine {
+  :root {
+    --body-width: auto;
+    --body-padding-x: 0rem;
+    --body-padding-y: 0rem;
+    --nav-height: 4rem;
+    --theme-tint: 43;
+    --theme-primary: var(--theme-tint) 90% 60%;
+    --font-size: 14px;
+  }
+}
+
+nav a:has(svg) {
+  align-items: center;
+  display: flex;
+  gap: 0.375rem;
+}
+
+nav a[data-active="true"] {
+  background: var(--c-surface-variant-bg);
+  text-decoration: none;
+}
+
+nav a {
+  text-decoration: none;
 }
