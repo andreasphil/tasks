@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parse } from "./parser"; // TODO: Use path alias
+import { parse, stringify } from "./parser"; // TODO: Use path alias
 
 describe("parser", () => {
   describe("headings", () => {
@@ -284,13 +284,13 @@ describe("parser", () => {
     });
 
     it("returns text tokens if there's nothing but text", () => {
-      const r = parse("This is a note");
+      const r = parse("This is a note.");
       expect(r.tokens[0]).toEqual({
         type: "text",
-        text: "This is a note",
-        match: "This is a note",
+        text: "This is a note.",
+        match: "This is a note.",
         matchStart: 0,
-        matchLength: 14,
+        matchLength: 15,
       });
     });
 
@@ -334,4 +334,52 @@ describe("parser", () => {
       });
     });
   });
+});
+
+describe("stringifier", () => {
+  [
+    "  [ ] Task 1",
+    "[ ] Task 1 ->2021-01-01",
+    "[ ] Task 1 # Not a heading",
+    "[ ] Task 1 #tag1 ->2021-01-01 text #tag2",
+    "[ ] Task 1 #tag1 #tag1",
+    "[ ] Task 1 #tag1 continued text #tag2",
+    "[ ] Task 1 #tag1",
+    "[ ] Task 1 https://example.com",
+    "[ ] Task 1",
+    "[ ] Task with #tag1 and ->2021-01-01",
+    "[ ] Task with #tag1 continued",
+    "[ ] Task with due date ->2021-01-01 continued",
+    "[ ] Task with tag #tag1 continued",
+    "[ ] Task with tags #tag1 #tag1 continued",
+    "[-] This is a note.",
+    "[?] Task 1",
+    "[*] Task 1",
+    "[/] Task 1",
+    "[x] Completed task",
+    "[x] Task 1",
+    "\t[ ] Task 1",
+    "# Heading ->2021-01-01",
+    "# Heading [ ] heading",
+    "# Heading #tag1 ->2021-01-01",
+    "# Heading #tag1 #tag1",
+    "# Heading #tag1",
+    "# Heading https://example.com",
+    "# Heading",
+    "Note with #tag1 and ->2021-01-01",
+    "This is a note. ->2021-01-01 ->2021-01-02",
+    "This is a note. ->2021-01-01",
+    "This is a note. [ ] Not a task",
+    "This is a note. # Not a heading",
+    "This is a note. #tag1 ->2021-01-01 #tag2",
+    "This is a note. #tag1 #tag1",
+    "This is a note. #tag1 continued #tag2",
+    "This is a note. #tag1",
+    "This is a note. https://example.com",
+    "This is a note.",
+  ].forEach((input) => {
+    it(`produces identical input and output for "${input}"`, () => {
+      expect(stringify(parse(input))).toEqual(input);
+    })
+  })
 });

@@ -33,13 +33,18 @@
  * Types                                              *
  * -------------------------------------------------- */
 
+export const taskStatuses = {
+  incomplete: " ",
+  completed: "x",
+  inProgress: "/",
+  important: "*",
+  question: "?",
+} as const;
+
+const statusChars = Object.values(taskStatuses);
+
 /** Represents the status of a task. */
-export type TaskStatus =
-  | "incomplete"
-  | "completed"
-  | "inProgress"
-  | "important"
-  | "question";
+export type TaskStatus = keyof typeof taskStatuses;
 
 /** Different types of tokens that can be found in an item. */
 export type TokenType =
@@ -83,7 +88,7 @@ const regexes = {
   // Section headings
   heading: /^# /,
   // Task status
-  status: /^[^\S\n]*\[(?<status>[ x/*?])\]/,
+  status: new RegExp(`^[^\\S\\n]*\\[(?<status>[${statusChars.join("")}])\\]`),
   // Due date
   dueDate: /->(?<dueDate>\d{4}-\d{2}-\d{2})/,
   // Tags
@@ -112,16 +117,16 @@ function toStatus(status: string, strict = false): TaskStatus {
   let result: TaskStatus = "incomplete";
 
   switch (status) {
-    case "x":
+    case taskStatuses.completed:
       result = "completed";
       break;
-    case "/":
+    case taskStatuses.inProgress:
       result = "inProgress";
       break;
-    case "*":
+    case taskStatuses.important:
       result = "important";
       break;
-    case "?":
+    case taskStatuses.question:
       result = "question";
       break;
     default:
@@ -290,15 +295,13 @@ export function parse(input: string): Item {
 
   if (result.type === "task") result.status = status;
 
-  return result;
+  return result as Item;
 }
 
-/**
- * Parses a string that contains a list of tasks. If the input is an array, it
- * parses each element of the array. Otherwise, it splits the string by newlines
- * and parses each line.
- */
-export function parseList(input: string | string[]): Item[] {
-  const inputArray = Array.isArray(input) ? input : input.split("\n");
-  return inputArray.map((i) => parse(i));
+/* -------------------------------------------------- *
+ * Stringifier                                        *
+ * -------------------------------------------------- */
+
+export function stringify(item: Item): string {
+  return item.raw;
 }
