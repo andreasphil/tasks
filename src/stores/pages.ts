@@ -1,7 +1,7 @@
 import { touch } from "@/lib/model";
 import { Page, getTitle } from "@/lib/page";
 import { createPage, deletePage, listPages, patchPage } from "@/lib/storage";
-import { computed, reactive, readonly } from "vue";
+import { MaybeRefOrGetter, computed, reactive, readonly, toValue } from "vue";
 
 type PageUpdate = Partial<Page>;
 
@@ -43,11 +43,19 @@ function createPagesStore() {
     pages[index] = updatedPage;
   }
 
+  function listItem(id: MaybeRefOrGetter<string>) {
+    return computed(() => {
+      const idVal = toValue(id);
+      return list.value.find((i) => i.id === idVal);
+    });
+  }
+
   return () => ({
+    addPage: add,
+    fetchPages: fetch,
+    listItem,
     pages: readonly(pages),
     pagesList: list,
-    fetchPages: fetch,
-    addPage: add,
     removePage: remove,
     updatePage: update,
   });
