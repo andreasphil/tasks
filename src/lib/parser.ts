@@ -109,7 +109,9 @@ const regexes = {
   // Section headings
   heading: /^# /,
   // Task status
-  status: new RegExp(`^[^\\S\\n]*\\[(?<status>[${statusChars.join("")}])\\]`),
+  status: new RegExp(
+    `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`
+  ),
   // Due date
   dueDate: /->(?<dueDate>\d{4}-\d{2}-\d{2})/,
   // Tags
@@ -286,8 +288,8 @@ export function parse(input: string): Item {
       const maybeDueDate = new Date(token.groups.dueDate);
       if (!Number.isNaN(maybeDueDate.getTime())) {
         dueDate = maybeDueDate;
-      tokenDescriptor.type = "dueDate";
-      tokenDescriptor.text = token.groups.dueDate;
+        tokenDescriptor.type = "dueDate";
+        tokenDescriptor.text = token.groups.dueDate;
       }
     } else if (token.groups?.tag) {
       // Tags

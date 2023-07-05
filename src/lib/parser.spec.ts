@@ -117,14 +117,26 @@ describe("parser", () => {
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
 
-    it("ignores indentation with spaces", () => {
+    it("identifies tasks indented with spaces", () => {
       const r = parse("  [ ] Task 1");
       expect(r.type).toBe("task");
     });
 
-    it("ignores indentation with tabs", () => {
+    it("identifies tasks indented with tabs", () => {
       const r = parse("\t[ ] Task 1");
       expect(r.type).toBe("task");
+    });
+
+    it("ignores indentation with spaces", () => {
+      const r = parse("  [ ] Task 1");
+      expect(r.tokens[0].match).toBe("  ");
+      expect(r.tokens[1].match.trim()).toBe(r.tokens[1].match);
+    });
+
+    it("ignores indentation with tabs", () => {
+      const r = parse("\t[ ] Task 1");
+      expect(r.tokens[0].match).toBe("\t");
+      expect(r.tokens[1].match.trim()).toBe(r.tokens[1].match);
     });
 
     it("ignores '#' in the middle of a task", () => {
