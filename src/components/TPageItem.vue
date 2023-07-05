@@ -64,7 +64,8 @@ const todayOrOverdue = computed(() => {
       <button
         v-if="token.type === 'status'"
         :class="[$style.token, $style.status, $style[status]]"
-        @click="updateStatus()"
+        @click.prevent.stop="updateStatus()"
+        type="button"
       >
         {{ token.match }}
       </button>
