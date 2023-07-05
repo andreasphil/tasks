@@ -106,6 +106,11 @@ describe("parser", () => {
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
+    it("ignores an invalid due date", () => {
+      const r = parse("[ ] Task 1 ->2021-01-32");
+      expect(r.dueDate).toBeUndefined();
+    })
+
     it("finds a due date and tags", () => {
       const r = parse("[ ] Task 1 #tag1 ->2021-01-01 text #tag2");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));

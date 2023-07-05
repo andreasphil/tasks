@@ -283,10 +283,12 @@ export function parse(input: string): Item {
       tokenDescriptor.text = token.groups.status;
     } else if (token.groups?.dueDate && !dueDate) {
       // Due date
-      // TODO: Handle invalid dates
-      dueDate = new Date(token.groups.dueDate);
+      const maybeDueDate = new Date(token.groups.dueDate);
+      if (!Number.isNaN(maybeDueDate.getTime())) {
+        dueDate = maybeDueDate;
       tokenDescriptor.type = "dueDate";
       tokenDescriptor.text = token.groups.dueDate;
+      }
     } else if (token.groups?.tag) {
       // Tags
       tags.add(token.groups.tag);
