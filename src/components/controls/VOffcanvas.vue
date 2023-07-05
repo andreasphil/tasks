@@ -45,7 +45,6 @@
 .content {
   flex: 1 1 auto;
   padding: 2rem;
-  background: var(--c-surface-bg);
   overflow: auto;
 }
 </style>
