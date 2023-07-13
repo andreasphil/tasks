@@ -139,7 +139,7 @@ function runFocusedCommand() {
 provide(VBarContext, {
   registerCommand,
   removeCommand,
-  open: () => toggle(false),
+  open: () => toggle(true),
 });
 </script>
 
