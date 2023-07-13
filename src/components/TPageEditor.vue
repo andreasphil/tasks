@@ -4,10 +4,14 @@ import VTextarea2 from "@/components/controls/VTextarea2.vue";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { ContinueListRule, continueListRules } from "@/lib/text";
 import { usePage } from "@/stores/page";
+import { ref } from "vue";
 
 const props = defineProps<{
   pageId: string;
 }>();
+
+// @ts-expect-error Vue types seem to be buggy here
+const textareaEl = ref<InstanceType<typeof VTextarea2> | null>(null);
 
 const { exists, text, updateItem } = usePage(() => props.pageId);
 
@@ -34,6 +38,20 @@ function updateStatus(index: number, status: TaskStatus) {
     item.status = status;
   });
 }
+
+/* -------------------------------------------------- *
+ * DOM interactions                                   *
+ * -------------------------------------------------- */
+
+function focus(): void {
+  textareaEl.value?.focus(0);
+}
+
+/* -------------------------------------------------- *
+ * Public interface                                   *
+ * -------------------------------------------------- */
+
+defineExpose({ focus });
 </script>
 
 <template>
@@ -44,12 +62,13 @@ function updateStatus(index: number, status: TaskStatus) {
     :class="$style.editor"
     :context-provider="rowToTask"
     :continue-lists="continueLists"
+    ref="textareaEl"
     v-model="text"
   >
     <template #row="{ context, index }">
       <TPageItem
-        :item="context"
         :as="index === 0 ? 'heading' : undefined"
+        :item="context"
         @update:status="updateStatus(index, $event)"
       />
     </template>

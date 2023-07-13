@@ -1,14 +1,14 @@
 <script setup lang="ts" generic="RowContext extends Record<string, any>">
 import {
-  ContinueListRule,
-  IndentMode,
-  continueList,
-  continueListRules,
-  getCursorInLine,
-  getRangeFromSelectedLines,
-  getSelectedLines,
-  indent,
-  splitLines,
+ContinueListRule,
+IndentMode,
+continueList,
+continueListRules,
+getCursorInLine,
+getRangeFromSelectedLines,
+getSelectedLines,
+indent,
+splitLines,
 } from "@/lib/text";
 import { computed, nextTick, ref, watch, watchEffect } from "vue";
 
@@ -184,8 +184,13 @@ async function onContinueList(event: KeyboardEvent): Promise<void> {
  * DOM interactions                                   *
  * -------------------------------------------------- */
 
-function focus(): void {
+async function focus(at?: number): Promise<void> {
   textareaEl.value?.focus();
+
+  if (typeof at === "number") {
+    await nextTick();
+    textareaEl.value?.setSelectionRange(at, at);
+  }
 }
 
 /* -------------------------------------------------- *
