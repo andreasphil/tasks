@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "finecss": "github:andreasphil/fine#v0.16.0",
+    "finecss": "github:andreasphil/fine#v0.17.0",
     "lucide-vue-next": "^0.257.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2",

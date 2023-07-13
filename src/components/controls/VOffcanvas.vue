@@ -30,7 +30,6 @@
 }
 
 .headerNav {
-  box-shadow: var(--shadow-elevation-low);
   padding: 0.25rem 2rem;
 }
 

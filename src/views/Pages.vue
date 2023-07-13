@@ -1,13 +1,24 @@
 <script setup lang="ts">
+import { VBarContext, type Command } from "@/components/controls/VBar.vue";
 import VOffcanvas from "@/components/controls/VOffcanvas.vue";
 import { usePages } from "@/stores/pages";
-import { FileCheck2, Plus, Trash2 } from "lucide-vue-next";
-import { onMounted } from "vue";
+import {
+  Command as CommandIcon,
+  FileCheck2,
+  Plus,
+  Trash2,
+} from "lucide-vue-next";
+import { inject, onBeforeUnmount, onMounted, toValue, watch } from "vue";
 import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
 import { useAsyncTask } from "vue-use-async-task";
 
 const router = useRouter();
 const route = useRoute();
+
+/* -------------------------------------------------- *
+ * Pages                                              *
+ * -------------------------------------------------- */
+
 const { pagesList, ...store } = usePages();
 const { run: fetchPages } = useAsyncTask(store.fetchPages);
 const { run: addPage } = useAsyncTask(store.addPage);
@@ -30,6 +41,64 @@ async function beginRemovePage() {
     if (nextPage) router.push({ name: "Page", params: { id: nextPage } });
   }
 }
+
+/* -------------------------------------------------- *
+ * Command bar integration                            *
+ * -------------------------------------------------- */
+
+const vbar = inject(VBarContext, null);
+
+let cleanupPages: (() => void) | null = null;
+
+function registerPages(pages: (typeof pagesList)["value"]) {
+  cleanupPages?.();
+
+  const commands = toValue(pages).map<Command>((page) => ({
+    id: `open-page-${page.id}`,
+    name: page.title,
+    alias: ["open page"],
+    groupName: "Open",
+    icon: FileCheck2,
+    action: () => router.push({ name: "Page", params: { id: page.id } }),
+  }));
+
+  cleanupPages = vbar?.registerCommand(...commands) ?? null;
+}
+
+watch(pagesList, (pages) => registerPages(pages));
+
+onBeforeUnmount(() => {
+  cleanupPages?.();
+});
+
+let cleanupStaticCommands: (() => void) | null = null;
+
+const staticCommands: Command[] = [
+  {
+    id: "new-page",
+    name: "Add page",
+    alias: ["New page"],
+    groupName: "Pages",
+    icon: Plus,
+    action: goToNewPage,
+  },
+  {
+    id: "delete-page",
+    name: "Delete page",
+    alias: ["Remove page"],
+    groupName: "Pages",
+    icon: Trash2,
+    action: beginRemovePage,
+  },
+];
+
+onMounted(() => {
+  cleanupStaticCommands = vbar?.registerCommand(...staticCommands) ?? null;
+});
+
+onBeforeUnmount(() => {
+  cleanupStaticCommands?.();
+});
 </script>
 
 <template>
@@ -53,10 +122,19 @@ async function beginRemovePage() {
       <nav>
         <ul>
           <li>
+            <a href="#" @click.prevent="vbar?.open()" class="text-c-variant">
+              <CommandIcon />
+              Go to anything
+            </a>
+          </li>
+          <li>
             <a href="#" @click.prevent="goToNewPage()" class="text-c-variant">
               <Plus />
               Add page...
             </a>
+          </li>
+          <li>
+            <hr />
           </li>
           <li v-for="page in pagesList">
             <RouterLink

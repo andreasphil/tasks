@@ -31,6 +31,15 @@
     --theme-tint: 43;
     --theme-primary: var(--theme-tint) 90% 60%;
     --font-size: 14px;
+    --font-size-small: 12px;
+  }
+
+  dialog:focus-visible {
+    outline: none;
+  }
+
+  label [data-hidden] + input {
+    margin-top: 0;
   }
 }
 
@@ -47,4 +56,8 @@ nav a[data-active="true"] {
 
 nav a {
   text-decoration: none;
+}
+
+nav li hr {
+  margin: 0.5rem 0;
 }
