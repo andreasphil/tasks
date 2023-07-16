@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import TPageItem from "@/components/TPageItem.vue";
+import VEmpty from "@/components/controls/VEmpty.vue";
 import VTextarea2 from "@/components/controls/VTextarea2.vue";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { ContinueListRule, continueListRules } from "@/lib/text";
 import { usePage } from "@/stores/page";
+import { FileX2 } from "lucide-vue-next";
 import { ref } from "vue";
 
 const props = defineProps<{
@@ -55,7 +57,7 @@ defineExpose({ focus });
 </script>
 
 <template>
-  <p v-if="!exists">This page doesn't exist!</p>
+  <VEmpty v-if="!exists" :icon="FileX2" text="This page doesn't exist." />
 
   <VTextarea2
     v-else-if="text !== undefined"
