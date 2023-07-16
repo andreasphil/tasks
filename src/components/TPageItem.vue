@@ -201,7 +201,10 @@ const todayOrOverdue = computed(() => {
 
 .link {
   color: var(--primary);
+  font-weight: var(--font-weight-normal);
   pointer-events: initial;
+  text-decoration-color: var(--primary);
+  text-decoration-thickness: var(--border-width);
   text-decoration: underline;
   text-underline-offset: 0.125rem;
 }
