@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import VEmpty from "@/components/controls/VEmpty.vue";
-import VOffcanvas from "@/components/controls/VOffcanvas.vue";
+import VEmpty from "@/components/VEmpty.vue";
+import VLayout from "@/components/VLayout.vue";
 import { Ghost } from "lucide-vue-next";
 </script>
 
 <template>
-  <VOffcanvas>
+  <VLayout>
     <VEmpty :icon="Ghost" text="This page doesn't exist." />
-  </VOffcanvas>
+  </VLayout>
 </template>

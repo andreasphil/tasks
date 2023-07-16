@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import TPageEditor from "@/components/TPageEditor.vue";
+import VPage from "@/components/VPage.vue";
 import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 
@@ -11,7 +11,7 @@ const route = useRoute();
 
 const pageId = computed(() => route.params.id?.toString());
 
-const editorEl = ref<InstanceType<typeof TPageEditor> | null>(null);
+const editorEl = ref<InstanceType<typeof VPage> | null>(null);
 
 watch(pageId, () => {
   editorEl.value?.focus();
@@ -19,5 +19,5 @@ watch(pageId, () => {
 </script>
 
 <template>
-  <TPageEditor :page-id="pageId" ref="editorEl" />
+  <VPage :page-id="pageId" ref="editorEl" />
 </template>

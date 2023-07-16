@@ -38,10 +38,6 @@ export function usePage(id: MaybeRefOrGetter<string>) {
    * Parsed content                                     *
    * -------------------------------------------------- */
 
-  // const items = computed(() =>
-  // splitLines(text.value || "").map((i) => parse(i))
-  // );
-
   function updateItem(
     index: number,
     factory: Parameters<typeof mutate>[1]

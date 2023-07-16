@@ -55,7 +55,7 @@ function createPagesStore() {
     fetchPages: fetch,
     listItem,
     pages: readonly(pages),
-    pagesList: list,
+    pagesList: readonly(list),
     removePage: remove,
     updatePage: update,
   });

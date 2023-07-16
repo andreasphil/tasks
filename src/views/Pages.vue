@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { VBarContext, type Command } from "@/components/controls/VBar.vue";
-import VOffcanvas from "@/components/controls/VOffcanvas.vue";
+import { VBarContext, type Command } from "@/components/VBar.vue";
+import VLayout from "@/components/VLayout.vue";
 import { usePages } from "@/stores/pages";
 import {
   Command as CommandIcon,
@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <VOffcanvas>
+  <VLayout>
     <template #header>
       <button
         data-variant="muted"
@@ -155,5 +155,5 @@ onBeforeUnmount(() => {
     </template>
 
     <RouterView />
-  </VOffcanvas>
+  </VLayout>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VEmpty from "@/components/controls/VEmpty.vue";
+import VEmpty from "@/components/VEmpty.vue";
 import { Frown } from "lucide-vue-next";
 import {
   computed,

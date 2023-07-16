@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TPageItem from "@/components/TPageItem.vue";
-import VEmpty from "@/components/controls/VEmpty.vue";
-import VTextarea2 from "@/components/controls/VTextarea2.vue";
+import VPageItem from "@/components/VPageItem.vue";
+import VEmpty from "@/components/VEmpty.vue";
+import VTextarea2 from "@/components/VTextarea2.vue";
 import { Item, TaskStatus, parse } from "@/lib/parser";
-import { ContinueListRule, continueListRules } from "@/lib/text";
+import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
 import { FileX2 } from "lucide-vue-next";
 import { ref } from "vue";
@@ -68,7 +68,7 @@ defineExpose({ focus });
     v-model="text"
   >
     <template #row="{ context, index }">
-      <TPageItem
+      <VPageItem
         :as="index === 0 ? 'heading' : undefined"
         :item="context"
         @update:status="updateStatus(index, $event)"
