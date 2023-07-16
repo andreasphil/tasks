@@ -6,6 +6,7 @@ import {
   getRangeFromSelectedLines,
   getSelectedLines,
   indent,
+  joinLines,
   splitAt,
   splitLines,
 } from "./text";
@@ -22,6 +23,20 @@ describe("text", () => {
 
     it("splits empty string", () => {
       expect(splitLines("")).toEqual([""]);
+    });
+  });
+
+  describe("join lines", () => {
+    it("joins a list of lines into a single string", () => {
+      expect(joinLines(["foo", "bar", "baz"])).toBe("foo\nbar\nbaz");
+    });
+
+    it("joins a list of lines with a single line", () => {
+      expect(joinLines(["foo"])).toBe("foo");
+    });
+
+    it("joins a list of lines with an empty line", () => {
+      expect(joinLines([""])).toBe("");
     });
   });
 

@@ -7,6 +7,7 @@ import {
   getSelectedLines,
   indent,
   splitLines,
+  joinLines,
   type ContinueListRule,
   type IndentMode,
 } from "@/lib/text";
@@ -133,7 +134,7 @@ async function onInsertTab(event: KeyboardEvent): Promise<void> {
 
   const indented = indent(newRows.slice(from, to + 1), mode);
   newRows.splice(from, to - from + 1, ...indented);
-  setLocalModelValue(newRows.join("\n"));
+  setLocalModelValue(joinLines(newRows));
 
   await nextTick();
 
@@ -167,7 +168,7 @@ async function onContinueList(event: KeyboardEvent): Promise<void> {
 
   const continued = continueList(newRows[lineNr], rules, cursorInLine);
   newRows.splice(lineNr, 1, continued.current, continued.next);
-  setLocalModelValue(newRows.join("\n"));
+  setLocalModelValue(joinLines(newRows));
 
   await nextTick();
 

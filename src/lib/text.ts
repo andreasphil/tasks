@@ -7,6 +7,11 @@ export function splitLines(text: string): string[] {
   return text.split("\n");
 }
 
+/** Joins a list of lines into a single string. */
+export function joinLines(lines: string[]): string {
+  return lines.join("\n");
+}
+
 /** Splits a string in two at the specified index. */
 export function splitAt(text: string, index: number): [string, string] {
   return [text.slice(0, index), text.slice(index)];

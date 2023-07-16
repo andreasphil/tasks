@@ -1,7 +1,7 @@
 import { mutate } from "@/lib/items";
 import { Page, getTitle } from "@/lib/page";
 import { parse } from "@/lib/parser";
-import { splitLines } from "@/lib/text";
+import { joinLines, splitLines } from "@/lib/text";
 import { usePages } from "@/stores/pages";
 import { MaybeRefOrGetter, computed, readonly, toValue } from "vue";
 
@@ -49,7 +49,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     mutate(item, factory);
     lines[index] = item.raw;
 
-    text.value = lines.join("\n");
+    text.value = joinLines(lines);
   }
 
   return {
