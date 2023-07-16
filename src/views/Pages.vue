@@ -104,18 +104,15 @@ onBeforeUnmount(() => {
 <template>
   <VOffcanvas>
     <template #header>
-      <strong>Textflow</strong>
-      <section>
-        <button
-          data-variant="muted"
-          title="Delete page"
-          type="button"
-          @click="beginRemovePage()"
-        >
-          <Trash2 />
-          <span data-hidden>Delete page</span>
-        </button>
-      </section>
+      <button
+        data-variant="muted"
+        title="Delete page"
+        type="button"
+        @click="beginRemovePage()"
+      >
+        <Trash2 />
+        <span data-hidden>Delete page</span>
+      </button>
     </template>
 
     <template #sidebar>

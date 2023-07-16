@@ -4,11 +4,14 @@
   <div :class="[$style.layout, { [$style.layoutWithHeader]: $slots.header }]">
     <header>
       <nav data-variant="fixed" :class="$style.headerNav">
-        <slot name="header" />
+        <strong>Textflow</strong>
+        <section>
+          <slot name="header" />
+        </section>
       </nav>
     </header>
 
-    <aside :class="$style.sidebar">
+    <aside v-if="$slots.sidebar" :class="$style.sidebar">
       <slot name="sidebar" />
     </aside>
 

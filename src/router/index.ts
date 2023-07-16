@@ -9,14 +9,19 @@ const routes: RouteRecordRaw[] = [
   {
     path: "/pages",
     name: "Pages",
-    component: () => import("../views/Pages.vue"),
+    component: () => import("@/views/Pages.vue"),
     children: [
       {
         path: ":id",
         name: "Page",
-        component: () => import("../views/Page.vue"),
+        component: () => import("@/views/Page.vue"),
       },
     ],
+  },
+  {
+    path: "/:catchAll(.*)*",
+    name: "NotFound",
+    component: () => import("@/views/NotFound.vue"),
   },
 ];
 
