@@ -37,6 +37,8 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
+  (e: "update:currentLineIndex", value: number): void;
+  (e: "update:currentSelectionRange", value: [number, number]): void;
 }>();
 
 defineSlots<{
@@ -119,7 +121,6 @@ const overscroll = computed<string | undefined>(() => {
 
 /* -------------------------------------------------- *
  * Tab handling                                       *
- * FIXME: Unfortunately this breaks undo/redo         *
  * -------------------------------------------------- */
 
 async function onInsertTab(event: KeyboardEvent): Promise<void> {
@@ -185,12 +186,25 @@ async function onContinueList(event: KeyboardEvent): Promise<void> {
  * DOM interactions                                   *
  * -------------------------------------------------- */
 
-async function focus(at?: number): Promise<void> {
+function emitCurrentPosition(): void {
+  if (!textareaEl.value) return;
+
+  const { selectionStart, selectionEnd } = textareaEl.value;
+  emit("update:currentSelectionRange", [selectionStart, selectionEnd]);
+
+  const [lineNr] = getSelectedLines(rows.value, selectionStart);
+  emit("update:currentLineIndex", lineNr);
+}
+
+async function focus(from?: number, to?: number): Promise<void> {
   textareaEl.value?.focus();
 
-  if (typeof at === "number") {
+  if (typeof from === "number") {
     await nextTick();
-    textareaEl.value?.setSelectionRange(at, at);
+    textareaEl.value?.setSelectionRange(from, to ?? from);
+    emitCurrentPosition();
+  } else {
+    emitCurrentPosition();
   }
 }
 
@@ -207,8 +221,10 @@ defineExpose({ focus });
       :class="$style.textarea"
       :value="localModelValue"
       @input="onInput($event)"
-      @keydown.tab="insertTabs ? onInsertTab($event) : undefined"
       @keydown.enter="continueLists ? onContinueList($event) : undefined"
+      @keydown.tab="insertTabs ? onInsertTab($event) : undefined"
+      @keyup="emitCurrentPosition()"
+      @mouseup="emitCurrentPosition()"
       ref="textareaEl"
     />
     <div :class="$style.output">

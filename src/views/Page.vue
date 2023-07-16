@@ -1,12 +1,28 @@
 <script setup lang="ts">
+import { Command, VBarContext } from "@/components/VBar.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
 import VTextarea2 from "@/components/VTextarea2.vue";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
-import { FileX2 } from "lucide-vue-next";
-import { computed, ref, watch } from "vue";
+import {
+  Check,
+  CircleDashed,
+  Construction,
+  FileX2,
+  HelpCircle,
+  Star,
+} from "lucide-vue-next";
+import {
+  computed,
+  inject,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 import { useRoute } from "vue-router";
 
 /* -------------------------------------------------- *
@@ -44,11 +60,77 @@ const continueLists: ContinueListRule[] = [
  * Interacting with items                             *
  * -------------------------------------------------- */
 
-function updateStatus(index: number, status: TaskStatus) {
+const currentItemIndex = ref(0);
+
+const currentSelection = ref<[number, number]>([0, 0]);
+
+async function updateStatus(index: number, status: TaskStatus) {
   updateItem(index, (item) => {
     item.status = status;
   });
+
+  await nextTick();
+  textareaEl.value?.focus(...currentSelection.value);
 }
+
+/* -------------------------------------------------- *
+ * Command bar integration                            *
+ * -------------------------------------------------- */
+
+const vbar = inject(VBarContext, null);
+
+let cleanup: (() => void) | null = null;
+
+const commands: Command[] = [
+  {
+    id: "task:incomplete",
+    name: "Incomplete",
+    alias: ["todo", "open", "oo"],
+    groupName: "Set status",
+    icon: CircleDashed,
+    action: () => updateStatus(currentItemIndex.value, "incomplete"),
+  },
+  {
+    id: "task:complete",
+    name: "Complete",
+    alias: ["done", "dd"],
+    groupName: "Set status",
+    icon: Check,
+    action: () => updateStatus(currentItemIndex.value, "completed"),
+  },
+  {
+    id: "task:inProgress",
+    name: "In progress",
+    alias: ["doing", "//"],
+    groupName: "Set status",
+    icon: Construction,
+    action: () => updateStatus(currentItemIndex.value, "inProgress"),
+  },
+  {
+    id: "task:important",
+    name: "Important",
+    alias: ["starred", "!!", "**"],
+    groupName: "Set status",
+    icon: Star,
+    action: () => updateStatus(currentItemIndex.value, "important"),
+  },
+  {
+    id: "task:question",
+    name: "Question",
+    alias: ["blocked", "waiting", "??"],
+    groupName: "Set status",
+    icon: HelpCircle,
+    action: () => updateStatus(currentItemIndex.value, "question"),
+  },
+];
+
+onMounted(() => {
+  cleanup = vbar?.registerCommand(...commands) ?? null;
+});
+
+onBeforeUnmount(() => {
+  cleanup?.();
+});
 </script>
 
 <template>
@@ -59,6 +141,8 @@ function updateStatus(index: number, status: TaskStatus) {
     :class="$style.editor"
     :context-provider="rowToTask"
     :continue-lists="continueLists"
+    @update:current-line-index="currentItemIndex = $event"
+    @update:current-selection-range="currentSelection = $event"
     ref="textareaEl"
     v-model="text"
   >

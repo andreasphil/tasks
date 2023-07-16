@@ -54,7 +54,7 @@ function registerPages(pages: (typeof pagesList)["value"]) {
   cleanupPages?.();
 
   const commands = toValue(pages).map<Command>((page) => ({
-    id: `open-page-${page.id}`,
+    id: `page:open-${page.id}`,
     name: page.title,
     alias: ["open page"],
     groupName: "Open",
@@ -75,7 +75,7 @@ let cleanupStaticCommands: (() => void) | null = null;
 
 const staticCommands: Command[] = [
   {
-    id: "new-page",
+    id: "pages:new",
     name: "Add page",
     alias: ["New page"],
     groupName: "Pages",
@@ -83,7 +83,7 @@ const staticCommands: Command[] = [
     action: goToNewPage,
   },
   {
-    id: "delete-page",
+    id: "pages:delete",
     name: "Delete page",
     alias: ["Remove page"],
     groupName: "Pages",
