@@ -142,9 +142,14 @@ onBeforeUnmount(() => {
               custom
               v-slot="{ isExactActive, href, navigate }"
             >
-              <a :href="href" @click="navigate" :data-active="isExactActive">
+              <a
+                :data-active="isExactActive"
+                :href="href"
+                :title="page.title"
+                @click="navigate"
+              >
                 <FileCheck2 />
-                {{ page.title }}
+                <span data-clamp>{{ page.title }}</span>
               </a>
             </RouterLink>
           </li>

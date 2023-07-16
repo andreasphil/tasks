@@ -1,14 +1,14 @@
 <script setup lang="ts" generic="RowContext extends Record<string, any>">
 import {
-ContinueListRule,
-IndentMode,
-continueList,
-continueListRules,
-getCursorInLine,
-getRangeFromSelectedLines,
-getSelectedLines,
-indent,
-splitLines,
+  continueList,
+  continueListRules,
+  getCursorInLine,
+  getRangeFromSelectedLines,
+  getSelectedLines,
+  indent,
+  splitLines,
+  type ContinueListRule,
+  type IndentMode,
 } from "@/lib/text";
 import { computed, nextTick, ref, watch, watchEffect } from "vue";
 

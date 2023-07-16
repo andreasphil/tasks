@@ -200,12 +200,11 @@ export const VBarContext: InjectionKey<{
             @click="runCommand(c)"
           >
             <component v-if="c.icon" :is="c.icon" />
-            <span>
-              <span v-if="c.groupName" :class="$style.groupName">
-                {{ c.groupName }} &rsaquo;
-              </span>
-              {{ c.name }}
-            </span>
+            <template v-if="c.groupName">
+              <span :class="$style.groupName">{{ c.groupName }}</span>
+              <span :class="$style.groupName">&rsaquo;</span>
+            </template>
+            <span data-clamp :title="c.name">{{ c.name }}</span>
           </button>
         </li>
       </ul>
@@ -242,6 +241,7 @@ export const VBarContext: InjectionKey<{
 
   justify-content: start;
   padding: 0.375rem 0.5rem;
+  text-align: left;
   width: 100%;
 }
 
@@ -252,6 +252,7 @@ export const VBarContext: InjectionKey<{
 .groupName {
   color: var(--c-fg-variant);
   display: inline-block;
+  flex: none;
   font-weight: var(--font-weight-normal);
 }
 </style>
