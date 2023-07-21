@@ -15,9 +15,11 @@ import {
 const props = withDefaults(
   defineProps<{
     hotkey?: KeyboardShortcut;
+    limitResults?: number;
   }>(),
   {
     hotkey: () => ({ key: "k", metaKey: true }),
+    limitResults: 10,
   }
 );
 
@@ -110,12 +112,14 @@ const focusedResult = ref(0);
 const filteredCommands = computed(() => {
   if (!query.value) return [];
 
-  return commands.value.filter((command) => {
-    return [command.name, ...(command.alias ?? []), command.groupName ?? ""]
-      .join(" ")
-      .toLowerCase()
-      .includes(query.value.toLowerCase());
-  });
+  return commands.value
+    .filter((command) => {
+      return [command.name, ...(command.alias ?? []), command.groupName ?? ""]
+        .join(" ")
+        .toLowerCase()
+        .includes(query.value.toLowerCase());
+    })
+    .slice(0, props.limitResults);
 });
 
 function moveFocusDown() {
