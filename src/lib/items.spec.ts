@@ -4,7 +4,71 @@ import { asWritable, mutate } from "./items";
 
 describe("writable items", () => {
   describe("set due date", () => {
-    it.todo("changes the due date");
+    it("updates an existing due date at the end", () => {
+      const r = parse("[ ] Task 1 ->2020-01-01");
+      const writable = asWritable(r);
+
+      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+
+      writable.dueDate = new Date("2021-01-02");
+      const newR = parse("[ ] Task 1 ->2021-01-02");
+      expect(writable).toStrictEqual(newR);
+    });
+
+    it("updates an existing due date in between", () => {
+      const r = parse("[ ] Task 1 ->2020-01-01 some more text");
+      const writable = asWritable(r);
+
+      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+
+      writable.dueDate = new Date("2021-01-02");
+      const newR = parse("[ ] Task 1 ->2021-01-02 some more text");
+      expect(writable).toStrictEqual(newR);
+    });
+
+    it("adds a new due date", () => {
+      const r = parse("[ ] Task 1");
+      const writable = asWritable(r);
+
+      expect(writable.dueDate).toBeUndefined();
+
+      writable.dueDate = new Date("2021-01-02");
+      const newR = parse("[ ] Task 1 ->2021-01-02");
+      expect(writable).toStrictEqual(newR);
+    });
+
+    it("adds a new due date after a non-text token", () => {
+      const r = parse("[ ] Task 1 #tag");
+      const writable = asWritable(r);
+
+      expect(writable.dueDate).toBeUndefined();
+
+      writable.dueDate = new Date("2021-01-02");
+      const newR = parse("[ ] Task 1 #tag ->2021-01-02");
+      expect(writable).toStrictEqual(newR);
+    });
+
+    it("removes an existing due date at the end", () => {
+      const r = parse("[ ] Task 1 ->2020-01-01");
+      const writable = asWritable(r);
+
+      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+
+      writable.dueDate = undefined;
+      const newR = parse("[ ] Task 1");
+      expect(writable).toStrictEqual(newR);
+    });
+
+    it("removes an existing due date in between", () => {
+      const r = parse("[ ] Task 1 ->2020-01-01 some more text");
+      const writable = asWritable(r);
+
+      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+
+      writable.dueDate = undefined;
+      const newR = parse("[ ] Task 1 some more text");
+      expect(writable).toStrictEqual(newR);
+    });
   });
 
   describe("set status", () => {

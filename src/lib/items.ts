@@ -2,10 +2,12 @@ import {
   Item,
   TaskStatus,
   UncheckedItem,
+  parse,
   stringify,
   taskStatuses,
 } from "@/lib/parser";
 import { DeepWritable } from "./utils";
+import { formatDate } from "./date";
 
 /**
  * Special variant of the Item where all properties that can safely be changed
@@ -29,6 +31,32 @@ function setStatus(item: UncheckedItem, newStatus: TaskStatus) {
   item.raw = stringify(item);
 }
 
+function setDueDate(item: UncheckedItem, newDueDate?: Date) {
+  const hasDueDate = item.dueDate !== undefined;
+  const newDueDateStr = newDueDate ? formatDate(newDueDate) : "";
+  let newRaw = item.raw;
+
+  // 1. No due date before, no due date after -> skip
+  if (!hasDueDate && !newDueDate) return;
+  // 2. No due date before, due date after -> add
+  else if (!hasDueDate && newDueDate) newRaw = `${item.raw} ->${newDueDateStr}`;
+  // 3. Due date before, no due date after -> remove
+  else if (hasDueDate && !newDueDate) {
+    const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
+    if (!dueDateToken) return;
+    const exp = new RegExp(`\\s?->${dueDateToken.text}`);
+    newRaw = newRaw.replace(exp, "");
+  }
+  // 4. Due date before, due date after -> update
+  else if (hasDueDate && newDueDate) {
+    const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
+    if (!dueDateToken) return;
+    newRaw = newRaw.replace(`->${dueDateToken.text}`, `->${newDueDateStr}`);
+  }
+
+  Object.assign(item, parse(newRaw));
+}
+
 /**
  * Returns a wrtiable proxy to the original item. This will allow changing some
  * of the properties of an item while keeping the data structure intact and
@@ -39,8 +67,7 @@ export function asWritable(item: Item): WritableItem {
   return new Proxy(structuredClone(item as UncheckedItem), {
     set: (target, property, value) => {
       if (property === "dueDate") {
-        // TODO: Implement
-        throw new Error("Setting dueDate is not currently supported");
+        setDueDate(target, value);
       } else if (property === "status") {
         setStatus(target, value);
       } else {
