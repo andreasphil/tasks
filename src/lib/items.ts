@@ -1,3 +1,4 @@
+import { format } from "@/lib/date";
 import {
   Item,
   TaskStatus,
@@ -6,8 +7,7 @@ import {
   stringify,
   taskStatuses,
 } from "@/lib/parser";
-import { DeepWritable } from "./utils";
-import { formatDate } from "./date";
+import { DeepWritable } from "@/lib/utils";
 
 /**
  * Special variant of the Item where all properties that can safely be changed
@@ -33,8 +33,8 @@ function setStatus(item: UncheckedItem, newStatus: TaskStatus) {
 
 function setDueDate(item: UncheckedItem, newDueDate?: Date) {
   const hasDueDate = item.dueDate !== undefined;
-  const newDueDateStr = newDueDate ? formatDate(newDueDate) : "";
   let newRaw = item.raw;
+  const newDueDateStr = newDueDate ? format(newDueDate, "YYYY-MM-DD") : "";
 
   // 1. No due date before, no due date after -> skip
   if (!hasDueDate && !newDueDate) return;

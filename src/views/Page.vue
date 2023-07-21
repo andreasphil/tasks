@@ -3,10 +3,13 @@ import { Command, VBarContext } from "@/components/VBar.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
 import VTextarea2 from "@/components/VTextarea2.vue";
+import { nextWeek, today, tomorrow } from "@/lib/date";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
 import {
+  Calendar,
+  CalendarX2,
   Check,
   CircleDashed,
   Construction,
@@ -64,13 +67,46 @@ const currentItemIndex = ref(0);
 
 const currentSelection = ref<[number, number]>([0, 0]);
 
-async function updateStatus(index: number, status: TaskStatus) {
+async function updateStatus(
+  index: number,
+  status: TaskStatus,
+  keepSelection = true
+) {
   updateItem(index, (item) => {
     item.status = status;
   });
 
-  await nextTick();
-  textareaEl.value?.focus(...currentSelection.value);
+  if (keepSelection) {
+    await nextTick();
+    textareaEl.value?.focus(...currentSelection.value);
+  }
+}
+
+async function updateDueDate(
+  index: number,
+  dueDate: Date | "today" | "tomorrow" | "next-week" | undefined,
+  keepSelection = true
+) {
+  let effectiveDueDate: Date | undefined;
+
+  if (dueDate === "today") {
+    effectiveDueDate = today();
+  } else if (dueDate === "tomorrow") {
+    effectiveDueDate = tomorrow();
+  } else if (dueDate === "next-week") {
+    effectiveDueDate = nextWeek();
+  } else {
+    effectiveDueDate = dueDate;
+  }
+
+  updateItem(index, (item) => {
+    item.dueDate = effectiveDueDate;
+  });
+
+  if (keepSelection) {
+    await nextTick();
+    textareaEl.value?.focus(...currentSelection.value);
+  }
 }
 
 /* -------------------------------------------------- *
@@ -83,7 +119,7 @@ let cleanup: (() => void) | null = null;
 
 const commands: Command[] = [
   {
-    id: "task:incomplete",
+    id: "task:status:incomplete",
     name: "Incomplete",
     alias: ["todo", "open", "oo"],
     groupName: "Set status",
@@ -91,7 +127,7 @@ const commands: Command[] = [
     action: () => updateStatus(currentItemIndex.value, "incomplete"),
   },
   {
-    id: "task:complete",
+    id: "task:status:complete",
     name: "Complete",
     alias: ["done", "dd"],
     groupName: "Set status",
@@ -99,7 +135,7 @@ const commands: Command[] = [
     action: () => updateStatus(currentItemIndex.value, "completed"),
   },
   {
-    id: "task:inProgress",
+    id: "task:status:inProgress",
     name: "In progress",
     alias: ["doing", "//"],
     groupName: "Set status",
@@ -107,7 +143,7 @@ const commands: Command[] = [
     action: () => updateStatus(currentItemIndex.value, "inProgress"),
   },
   {
-    id: "task:important",
+    id: "task:status:important",
     name: "Important",
     alias: ["starred", "!!", "**"],
     groupName: "Set status",
@@ -115,12 +151,40 @@ const commands: Command[] = [
     action: () => updateStatus(currentItemIndex.value, "important"),
   },
   {
-    id: "task:question",
+    id: "task:status:question",
     name: "Question",
     alias: ["blocked", "waiting", "??"],
     groupName: "Set status",
     icon: HelpCircle,
     action: () => updateStatus(currentItemIndex.value, "question"),
+  },
+  {
+    id: "task:dueDate:today",
+    name: "Today",
+    groupName: "Set due date",
+    icon: Calendar,
+    action: () => updateDueDate(currentItemIndex.value, "today"),
+  },
+  {
+    id: "task:dueDate:tomorrow",
+    name: "Tomorrow",
+    groupName: "Set due date",
+    icon: Calendar,
+    action: () => updateDueDate(currentItemIndex.value, "tomorrow"),
+  },
+  {
+    id: "task:dueDate:nextWeek",
+    name: "Next week",
+    groupName: "Set due date",
+    icon: Calendar,
+    action: () => updateDueDate(currentItemIndex.value, "next-week"),
+  },
+  {
+    id: "task:dueDate:clear",
+    name: "Clear",
+    groupName: "Set due date",
+    icon: CalendarX2,
+    action: () => updateDueDate(currentItemIndex.value, undefined),
   },
 ];
 
@@ -150,7 +214,7 @@ onBeforeUnmount(() => {
       <VPageItem
         :as="index === 0 ? 'heading' : undefined"
         :item="context"
-        @update:status="updateStatus(index, $event)"
+        @update:status="updateStatus(index, $event, false)"
       />
     </template>
   </VTextarea2>
