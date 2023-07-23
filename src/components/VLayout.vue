@@ -2,18 +2,6 @@
 
 <template>
   <div :class="[$style.layout, { [$style.layoutWithHeader]: $slots.header }]">
-    <header>
-      <nav data-variant="fixed" :class="$style.headerNav">
-        <div :class="[$style.logo]">
-          <img src="/icon-192.png" alt="" width="36" height="36" />
-          <strong>Textflow</strong>
-        </div>
-        <section>
-          <slot name="header" />
-        </section>
-      </nav>
-    </header>
-
     <aside v-if="$slots.sidebar" :class="$style.sidebar">
       <slot name="sidebar" />
     </aside>
@@ -31,26 +19,13 @@
   overflow: hidden;
 }
 
-.layoutWithHeader {
-  height: calc(100dvh - var(--nav-height));
-}
-
-.headerNav {
-  padding: 0.25rem 2rem;
-}
-
-.logo {
-  align-items: center;
-  display: flex;
-  gap: 0.75rem;
-}
-
 .sidebar {
-  flex: 0 0 auto;
-  width: 18rem;
-  padding: 2rem;
+  background-color: var(--c-surface-bg);
   border-right: var(--border-width) solid var(--c-border-variant);
+  flex: 0 0 auto;
   overflow: auto;
+  padding: 2rem;
+  width: 18rem;
 }
 
 .content {

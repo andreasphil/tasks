@@ -117,6 +117,7 @@ onBeforeUnmount(() => {
 
     <template #sidebar>
       <nav>
+        <strong>Textflow</strong>
         <ul>
           <li>
             <a href="#" @click.prevent="vbar?.open()" class="text-c-variant">
