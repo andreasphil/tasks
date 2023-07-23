@@ -27,7 +27,7 @@
     --body-padding-y: 0rem;
     --nav-height: 4rem;
     --theme-tint: 43;
-    --theme-primary: var(--theme-tint) 90% 60%;
+    --theme-primary: var(--theme-tint) 90% 65%;
     --font-size: 14px;
     --font-size-small: 12px;
   }

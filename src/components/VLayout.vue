@@ -4,7 +4,10 @@
   <div :class="[$style.layout, { [$style.layoutWithHeader]: $slots.header }]">
     <header>
       <nav data-variant="fixed" :class="$style.headerNav">
-        <strong>Textflow</strong>
+        <div :class="[$style.logo]">
+          <img src="/icon-192.png" alt="" width="36" height="36" />
+          <strong>Textflow</strong>
+        </div>
         <section>
           <slot name="header" />
         </section>
@@ -34,6 +37,12 @@
 
 .headerNav {
   padding: 0.25rem 2rem;
+}
+
+.logo {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
 }
 
 .sidebar {
