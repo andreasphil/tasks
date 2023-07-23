@@ -30,6 +30,7 @@
     --theme-primary: var(--theme-tint) 90% 65%;
     --font-size: 14px;
     --font-size-small: 12px;
+    --font-size-h5: 1.125em; /* TODO: Scale automatically in Fine? */
   }
 }
 
