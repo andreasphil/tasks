@@ -78,6 +78,11 @@ nav li hr {
   --clamp: 3;
 }
 
+/* TODO: Move to Fine */
+[role="button"] {
+  display: inline-flex;
+}
+
 nav a[data-active="true"] {
   background: var(--c-surface-variant-bg);
   text-decoration: none;

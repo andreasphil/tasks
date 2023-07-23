@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import VBackupDialog from "@/components/VBackupDialog.vue";
 import { Command, VBarContext } from "@/components/VBar.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
@@ -7,6 +8,7 @@ import { nextWeek, today, tomorrow } from "@/lib/date";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
+import { Download } from "lucide-vue-next";
 import {
   Calendar,
   CalendarX2,
@@ -110,6 +112,16 @@ async function updateDueDate(
 }
 
 /* -------------------------------------------------- *
+ * Backups                                            *
+ * -------------------------------------------------- */
+
+const backupDialog = ref(false);
+
+function beginBackup() {
+  backupDialog.value = true;
+}
+
+/* -------------------------------------------------- *
  * Command bar integration                            *
  * -------------------------------------------------- */
 
@@ -118,6 +130,7 @@ const vbar = inject(VBarContext, null);
 let cleanup: (() => void) | null = null;
 
 const commands: Command[] = [
+  // Task status
   {
     id: "task:status:incomplete",
     name: "Incomplete",
@@ -158,6 +171,8 @@ const commands: Command[] = [
     icon: HelpCircle,
     action: () => updateStatus(currentItemIndex.value, "question"),
   },
+
+  // Due date
   {
     id: "task:dueDate:today",
     name: "Today",
@@ -185,6 +200,16 @@ const commands: Command[] = [
     groupName: "Set due date",
     icon: CalendarX2,
     action: () => updateDueDate(currentItemIndex.value, undefined),
+  },
+
+  // Backups
+  {
+    id: "page:backup",
+    name: "Download copy",
+    alias: ["backup", "save", "export"],
+    groupName: "Page",
+    icon: Download,
+    action: () => beginBackup(),
   },
 ];
 
@@ -218,6 +243,8 @@ onBeforeUnmount(() => {
       />
     </template>
   </VTextarea2>
+
+  <VBackupDialog v-if="exists" v-model="backupDialog" :pageId="pageId" />
 </template>
 
 <style module>
@@ -227,6 +254,5 @@ onBeforeUnmount(() => {
   margin: auto;
   max-width: 50rem;
   min-height: 100%;
-  padding-top: 0.25rem;
 }
 </style>
