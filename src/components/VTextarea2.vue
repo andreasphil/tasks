@@ -18,7 +18,6 @@ type ContextProvider = (row: string) => RowContext;
 
 const props = withDefaults(
   defineProps<{
-    autocorrect?: boolean;
     allowFlipLines?: boolean;
     contextProvider?: ContextProvider;
     continueLists?: false | ContinueListRule[];
@@ -26,6 +25,7 @@ const props = withDefaults(
     insertTabs?: boolean;
     modelValue: string;
     scrollBeyondLastLine?: boolean | number;
+    spellcheck?: boolean;
     tabSize?: number;
   }>(),
   {
@@ -191,8 +191,12 @@ async function onFlip(direction: "up" | "down") {
   if (!textareaEl.value) return;
 
   const newRows = [...rows.value];
-  const { selectionStart } = textareaEl.value;
-  const [from, endLineNr] = getSelectedLines(newRows, selectionStart);
+  const { selectionStart, selectionEnd } = textareaEl.value;
+  const [from, endLineNr] = getSelectedLines(
+    newRows,
+    selectionStart,
+    selectionEnd
+  );
   const to = direction === "up" ? from - 1 : from + 1;
 
   if (from !== endLineNr || to < 0 || to >= newRows.length) return;
@@ -245,8 +249,8 @@ defineExpose({ focus });
 <template>
   <div :class="[$style.wrapper, { [$style.dock]: dock }]" @click="focus()">
     <textarea
-      :autocorrect="autocorrect ? 'on' : 'off'"
       :class="$style.textarea"
+      :spellcheck="spellcheck"
       :value="localModelValue"
       @input="onInput"
       @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
