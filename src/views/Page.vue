@@ -227,6 +227,7 @@ onBeforeUnmount(() => {
 
   <VTextarea2
     v-else-if="text !== undefined"
+    :autocorrect="false"
     :class="$style.editor"
     :context-provider="rowToTask"
     :continue-lists="continueLists"

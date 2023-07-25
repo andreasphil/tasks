@@ -18,6 +18,7 @@ type ContextProvider = (row: string) => RowContext;
 
 const props = withDefaults(
   defineProps<{
+    autocorrect?: boolean;
     allowFlipLines?: boolean;
     contextProvider?: ContextProvider;
     continueLists?: false | ContinueListRule[];
@@ -243,6 +244,7 @@ defineExpose({ focus });
 <template>
   <div :class="[$style.wrapper, { [$style.dock]: dock }]" @click="focus()">
     <textarea
+      :autocorrect="autocorrect ? 'on' : 'off'"
       :class="$style.textarea"
       :value="localModelValue"
       @input="onInput"
