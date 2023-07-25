@@ -186,6 +186,7 @@ export function continueList(
 ): ContinueListResult {
   let continueWith: ContinueListRule["next"] | undefined = undefined;
   let match: RegExpMatchArray | null = null;
+  let nextMatch: string | null = null;
 
   // Find the first matching rule
   for (let i = 0; i < rules.length && !continueWith; i++) {
@@ -199,8 +200,8 @@ export function continueList(
   let [current, next] = splitAt(line, cursor);
 
   if (current && match && continueWith) {
-    if (continueWith === "same") next = match[0] + next;
-    else next = continueWith(match[0]) + next;
+    nextMatch = continueWith === "same" ? match[0] : continueWith(match[0]);
+    next = nextMatch + next;
   }
 
   // Special case: If current and next are identical, we clear both lines. This
@@ -209,10 +210,10 @@ export function continueList(
   const hasEnded = current === match?.[0] && cursor === line.length;
   if (hasEnded) current = "";
 
-  if (hasEnded && match) {
-    return { current, next: null, didEnd: true, match: match[0] };
-  } else if (current && match) {
-    return { current, next, didContinue: true, match: match[0] };
+  if (hasEnded && nextMatch) {
+    return { current, next: null, didEnd: true, match: nextMatch };
+  } else if (current && nextMatch) {
+    return { current, next, didContinue: true, match: nextMatch };
   } else {
     return { current, next, didContinue: false, didEnd: false };
   }

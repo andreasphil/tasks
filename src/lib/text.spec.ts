@@ -197,7 +197,7 @@ describe("text", () => {
       const continued = continueList("1. foo", rules);
       expect(continued).toStrictEqual<ContinueListResult>({
         didContinue: true,
-        match: "1. ",
+        match: "2. ",
         current: "1. foo",
         next: "2. ",
       });
@@ -267,7 +267,7 @@ describe("text", () => {
       const continued = continueList("1. foo", [continueListRules.numbered]);
       expect(continued).toStrictEqual<ContinueListResult>({
         didContinue: true,
-        match: "1. ",
+        match: "2. ",
         current: "1. foo",
         next: "2. ",
       });
