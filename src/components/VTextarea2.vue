@@ -249,10 +249,10 @@ defineExpose({ focus });
       :class="$style.textarea"
       :value="localModelValue"
       @input="onInput"
-      @keydown.enter.prevent="continueLists ? onContinueList : undefined"
-
-      @keydown.alt.up.prevent="allowFlipLines ? onFlip('up') : undefined"
       @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
+      @keydown.alt.up.prevent="allowFlipLines ? onFlip('up') : undefined"
+      @keydown.enter.prevent="continueLists ? onContinueList() : undefined"
+      @keydown.tab.prevent="insertTabs ? onInsertTab($event) : undefined"
       @keyup="emitCurrentPosition()"
       @mouseup="emitCurrentPosition()"
       ref="textareaEl"
