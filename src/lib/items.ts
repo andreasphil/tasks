@@ -39,7 +39,9 @@ function setDueDate(item: UncheckedItem, newDueDate?: Date) {
   // 1. No due date before, no due date after -> skip
   if (!hasDueDate && !newDueDate) return;
   // 2. No due date before, due date after -> add
-  else if (!hasDueDate && newDueDate) newRaw = `${item.raw} ->${newDueDateStr}`;
+  else if (!hasDueDate && newDueDate) {
+    newRaw = item.raw.replace(/ ?$/, ` ->${newDueDateStr}`);
+  }
   // 3. Due date before, no due date after -> remove
   else if (hasDueDate && !newDueDate) {
     const dueDateToken = item.tokens.find((i) => i.type === "dueDate");

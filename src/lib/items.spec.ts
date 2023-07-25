@@ -48,6 +48,17 @@ describe("writable items", () => {
       expect(writable).toStrictEqual(newR);
     });
 
+    it("doesn't add double whitespace when adding a due date", () => {
+      const r = parse("[ ] Task 1 ");
+      const writable = asWritable(r);
+
+      expect(writable.dueDate).toBeUndefined();
+
+      writable.dueDate = new Date("2021-01-02");
+      const newR = parse("[ ] Task 1 ->2021-01-02");
+      expect(writable).toStrictEqual(newR);
+    });
+
     it("removes an existing due date at the end", () => {
       const r = parse("[ ] Task 1 ->2020-01-01");
       const writable = asWritable(r);
