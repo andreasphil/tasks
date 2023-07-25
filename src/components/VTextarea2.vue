@@ -168,7 +168,8 @@ async function onContinueList(): Promise<void> {
   const cursorInLine = getCursorInLine(props.modelValue, selectionStart);
 
   const continued = continueList(newRows[lineNr], rules, cursorInLine);
-  newRows.splice(lineNr, 1, continued.current, continued.next);
+  newRows.splice(lineNr, 1, continued.current);
+  if (continued.next !== null) newRows.splice(lineNr + 1, 0, continued.next);
   setLocalModelValue(joinLines(newRows));
 
   await nextTick();
@@ -177,7 +178,7 @@ async function onContinueList(): Promise<void> {
   if ("didContinue" in continued && continued.didContinue) {
     start += continued.match.length;
   } else if ("didEnd" in continued && continued.didEnd) {
-    start = selectionStart - continued.match.length + 1;
+    start = selectionStart - continued.match.length;
   }
   textareaEl.value?.setSelectionRange(start, start);
 }
@@ -249,7 +250,7 @@ defineExpose({ focus });
       :value="localModelValue"
       @input="onInput"
       @keydown.enter.prevent="continueLists ? onContinueList : undefined"
-      
+
       @keydown.alt.up.prevent="allowFlipLines ? onFlip('up') : undefined"
       @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
       @keyup="emitCurrentPosition()"

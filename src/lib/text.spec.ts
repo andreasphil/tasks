@@ -10,6 +10,7 @@ import {
   joinLines,
   splitAt,
   splitLines,
+  type ContinueListResult,
 } from "./text";
 
 describe("text", () => {
@@ -183,95 +184,113 @@ describe("text", () => {
     const rules = Object.values(continueListRules);
 
     it("continues a list with the same marker", () => {
-      const { current, next } = continueList("- foo", rules);
-      expect(current).toBe("- foo");
-      expect(next).toBe("- ");
+      const continued = continueList("- foo", rules);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: true,
+        match: "- ",
+        current: "- foo",
+        next: "- ",
+      });
     });
 
     it("continues a list with a custom marker", () => {
-      const { current, next } = continueList("1. foo", rules);
-      expect(current).toBe("1. foo");
-      expect(next).toBe("2. ");
+      const continued = continueList("1. foo", rules);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: true,
+        match: "1. ",
+        current: "1. foo",
+        next: "2. ",
+      });
     });
 
     it("adds an empty line if there is no list", () => {
-      const { current, next } = continueList("foo", rules);
-      expect(current).toBe("foo");
-      expect(next).toBe("");
+      const continued = continueList("foo", rules);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: false,
+        didEnd: false,
+        current: "foo",
+        next: "",
+      });
     });
 
     it("splits a line when continuing a list", () => {
-      const { current, next } = continueList("- foo bar", rules, 6);
-      expect(current).toBe("- foo ");
-      expect(next).toBe("- bar");
+      const continued = continueList("- foo bar", rules, 6);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: true,
+        match: "- ",
+        current: "- foo ",
+        next: "- bar",
+      });
     });
 
     it("splits a line when there is no list", () => {
-      const { current, next } = continueList("foo bar", rules, 4);
-      expect(current).toBe("foo ");
-      expect(next).toBe("bar");
+      const continued = continueList("foo bar", rules, 4);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: false,
+        didEnd: false,
+        current: "foo ",
+        next: "bar",
+      });
     });
 
     it("ends a list when continuing an empty item", () => {
-      const { current, next } = continueList("- ", rules);
-      expect(current).toBe("");
-      expect(next).toBe("");
-    });
-
-    it("returns the match when continuing a list", () => {
-      const continued = continueList("- foo", rules);
-      expect("match" in continued && continued.match === "- ").toBe(true);
-    });
-
-    it("returns the match when continuing a list with a custom marker", () => {
-      const continued = continueList("1. foo", rules);
-      expect("match" in continued && continued.match === "1. ").toBe(true);
-    });
-
-    it("returns the match when ending a list", () => {
       const continued = continueList("- ", rules);
-      expect("match" in continued && continued.match === "- ").toBe(true);
-    });
-
-    it("returns the match when ending a list with a custom marker", () => {
-      const continued = continueList("1. ", rules);
-      expect("match" in continued && continued.match === "1. ").toBe(true);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didEnd: true,
+        match: "- ",
+        current: "",
+        next: null,
+      });
     });
 
     it("continues an unordered list with *", () => {
-      const { current, next } = continueList("* foo", [
-        continueListRules.unordered,
-      ]);
-
-      expect(current).toBe("* foo");
-      expect(next).toBe("* ");
+      const continued = continueList("* foo", [continueListRules.unordered]);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: true,
+        match: "* ",
+        current: "* foo",
+        next: "* ",
+      });
     });
 
     it("continues an unordered list with -", () => {
-      const { current, next } = continueList("- foo", [
-        continueListRules.unordered,
-      ]);
-
-      expect(current).toBe("- foo");
-      expect(next).toBe("- ");
+      const continued = continueList("- foo", [continueListRules.unordered]);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: true,
+        match: "- ",
+        current: "- foo",
+        next: "- ",
+      });
     });
 
     it("continues an numbered list", () => {
-      const { current, next } = continueList("1. foo", [
-        continueListRules.numbered,
-      ]);
-
-      expect(current).toBe("1. foo");
-      expect(next).toBe("2. ");
+      const continued = continueList("1. foo", [continueListRules.numbered]);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: true,
+        match: "1. ",
+        current: "1. foo",
+        next: "2. ",
+      });
     });
 
     it("continues indentation", () => {
-      const { current, next } = continueList("\tfoo", [
-        continueListRules.indent,
-      ]);
+      const continued = continueList("\tfoo", [continueListRules.indent]);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: true,
+        match: "\t",
+        current: "\tfoo",
+        next: "\t",
+      });
+    });
 
-      expect(current).toBe("\tfoo");
-      expect(next).toBe("\t");
+    it("inserts a blank line when continuing with the cursor at the start of the line", () => {
+      const continued = continueList("- Foo", rules, 0);
+      expect(continued).toStrictEqual<ContinueListResult>({
+        didContinue: false,
+        didEnd: false,
+        current: "",
+        next: "- Foo",
+      });
     });
   });
 

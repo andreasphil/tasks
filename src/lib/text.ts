@@ -129,22 +129,29 @@ export type ContinueListRule = {
 export type ContinueListResult = {
   /** Updated input line, might have been split if a cursor was given */
   current: string;
-  /** Newly created line */
-  next: string;
 } & (
   | {
+      /** Newly created line. */
+      next: string;
+      /** List marker as returned by the matching rule */
+      match: string;
       /** Indicates that a rule has matched */
       didContinue: true;
-      /** List marker as returned by the matching rule */
-      match: string;
     }
   | {
+      /**
+       * No next line if the list has ended. Set to null for differentiating
+       * it from lines that just happen to be empty.
+       */
+      next: null;
+      /** List marker as returned by the matching rule */
+      match: string;
       /** Indicates that a rule has matched but the list has ended */
       didEnd: true;
-      /** List marker as returned by the matching rule */
-      match: string;
     }
   | {
+      /** Newly created line. */
+      next: string;
       /** Indicates that no rule has matched */
       didContinue: false;
       /** Since no rule has matched, no list has ended either */
@@ -191,7 +198,7 @@ export function continueList(
   // continuation text, and 3) adding the rest of the line.
   let [current, next] = splitAt(line, cursor);
 
-  if (match && continueWith) {
+  if (current && match && continueWith) {
     if (continueWith === "same") next = match[0] + next;
     else next = continueWith(match[0]) + next;
   }
@@ -200,11 +207,11 @@ export function continueList(
   // is useful for example when the user presses enter on an empty list item in
   // order to exit the list.
   const hasEnded = current === match?.[0] && cursor === line.length;
-  if (hasEnded) current = next = "";
+  if (hasEnded) current = "";
 
   if (hasEnded && match) {
-    return { current, next, didEnd: true, match: match[0] };
-  } else if (match) {
+    return { current, next: null, didEnd: true, match: match[0] };
+  } else if (current && match) {
     return { current, next, didContinue: true, match: match[0] };
   } else {
     return { current, next, didContinue: false, didEnd: false };
