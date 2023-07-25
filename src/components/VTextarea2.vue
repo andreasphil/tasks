@@ -2,12 +2,13 @@
 import {
   continueList,
   continueListRules,
+  flip,
   getCursorInLine,
   getRangeFromSelectedLines,
   getSelectedLines,
   indent,
-  splitLines,
   joinLines,
+  splitLines,
   type ContinueListRule,
   type IndentMode,
 } from "@/lib/text";
@@ -17,6 +18,7 @@ type ContextProvider = (row: string) => RowContext;
 
 const props = withDefaults(
   defineProps<{
+    allowFlipLines?: boolean;
     contextProvider?: ContextProvider;
     continueLists?: false | ContinueListRule[];
     dock?: boolean;
@@ -26,6 +28,7 @@ const props = withDefaults(
     tabSize?: number;
   }>(),
   {
+    allowFlipLines: true,
     contextProvider: (_: string) => ({} as RowContext),
     continueLists: () => Object.values(continueListRules),
     dock: false,
@@ -126,8 +129,6 @@ const overscroll = computed<string | undefined>(() => {
 async function onInsertTab(event: KeyboardEvent): Promise<void> {
   if (!textareaEl.value) return;
 
-  event.preventDefault();
-
   const newRows = [...rows.value];
   const { selectionStart, selectionEnd } = textareaEl.value;
   const [from, to] = getSelectedLines(newRows, selectionStart, selectionEnd);
@@ -141,14 +142,14 @@ async function onInsertTab(event: KeyboardEvent): Promise<void> {
 
   if (from === to && mode === "indent") {
     const start = selectionStart + 1;
-    textareaEl.value?.setSelectionRange(start, start);
+    textareaEl.value.setSelectionRange(start, start);
   } else if (from === to && mode === "outdent") {
     const [minStart] = getRangeFromSelectedLines(newRows, from, to);
     const start = Math.max(minStart, selectionStart - 1);
-    textareaEl.value?.setSelectionRange(start, start);
+    textareaEl.value.setSelectionRange(start, start);
   } else {
     const [start, end] = getRangeFromSelectedLines(newRows, from, to);
-    textareaEl.value?.setSelectionRange(start, end);
+    textareaEl.value.setSelectionRange(start, end);
   }
 }
 
@@ -156,10 +157,8 @@ async function onInsertTab(event: KeyboardEvent): Promise<void> {
  * List continuation                                  *
  * -------------------------------------------------- */
 
-async function onContinueList(event: KeyboardEvent): Promise<void> {
+async function onContinueList(): Promise<void> {
   if (!textareaEl.value) return;
-
-  event.preventDefault();
 
   const newRows = [...rows.value];
   const { selectionStart } = textareaEl.value;
@@ -180,6 +179,32 @@ async function onContinueList(event: KeyboardEvent): Promise<void> {
     start = selectionStart - continued.match.length + 1;
   }
   textareaEl.value?.setSelectionRange(start, start);
+}
+
+/* -------------------------------------------------- *
+ * Flipping lines                                     *
+ * -------------------------------------------------- */
+
+async function onFlip(direction: "up" | "down") {
+  if (!textareaEl.value) return;
+
+  const newRows = [...rows.value];
+  const { selectionStart } = textareaEl.value;
+  const [from, endLineNr] = getSelectedLines(newRows, selectionStart);
+  const to = direction === "up" ? from - 1 : from + 1;
+
+  if (from !== endLineNr || to < 0 || to >= newRows.length) return;
+
+  const [flippedFrom, flippedTo] = flip(newRows[from], newRows[to]);
+  newRows[from] = flippedFrom;
+  newRows[to] = flippedTo;
+  setLocalModelValue(joinLines(newRows));
+
+  await nextTick();
+
+  const [selUp, selDown] = getRangeFromSelectedLines(newRows, from, to);
+  if (direction === "up") textareaEl.value.setSelectionRange(selUp, selUp);
+  else textareaEl.value.setSelectionRange(selDown, selDown);
 }
 
 /* -------------------------------------------------- *
@@ -220,9 +245,11 @@ defineExpose({ focus });
     <textarea
       :class="$style.textarea"
       :value="localModelValue"
-      @input="onInput($event)"
-      @keydown.enter="continueLists ? onContinueList($event) : undefined"
-      @keydown.tab="insertTabs ? onInsertTab($event) : undefined"
+      @input="onInput"
+      @keydown.enter.prevent="continueLists ? onContinueList : undefined"
+      
+      @keydown.alt.up.prevent="allowFlipLines ? onFlip('up') : undefined"
+      @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
       @keyup="emitCurrentPosition()"
       @mouseup="emitCurrentPosition()"
       ref="textareaEl"

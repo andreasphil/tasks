@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   continueList,
   continueListRules,
+  flip,
   getCursorInLine,
   getRangeFromSelectedLines,
   getSelectedLines,
@@ -305,6 +306,12 @@ describe("text", () => {
 
     it("indents multiple lines when the lines are already indented", () => {
       expect(indent(["\tfoo", "\tbar"])).toEqual(["\t\tfoo", "\t\tbar"]);
+    });
+  });
+
+  describe("flip", () => {
+    it("flips two lines", () => {
+      expect(flip("foo", "bar")).toEqual(["bar", "foo"]);
     });
   });
 });

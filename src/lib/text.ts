@@ -228,3 +228,11 @@ export function indent(lines: string[], mode: IndentMode = "indent"): string[] {
     ? lines.map((i) => `\t${i}`)
     : lines.map((i) => (i.startsWith("\t") ? i.slice(1) : i));
 }
+
+/* -------------------------------------------------- *
+ * Flipping lines                                     *
+ * -------------------------------------------------- */
+
+export function flip(a: string, b: string): [string, string] {
+  return [b, a];
+}
