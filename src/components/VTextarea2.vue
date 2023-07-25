@@ -21,6 +21,7 @@ const props = withDefaults(
     allowFlipLines?: boolean;
     contextProvider?: ContextProvider;
     continueLists?: false | ContinueListRule[];
+    cutFullLine?: boolean;
     dock?: boolean;
     insertTabs?: boolean;
     modelValue: string;
@@ -32,6 +33,7 @@ const props = withDefaults(
     allowFlipLines: true,
     contextProvider: (_: string) => ({} as RowContext),
     continueLists: () => Object.values(continueListRules),
+    cutFullLine: true,
     dock: false,
     insertTabs: true,
     scrollBeyondLastLine: true,
@@ -214,6 +216,29 @@ async function onFlip(direction: "up" | "down") {
 }
 
 /* -------------------------------------------------- *
+ * Cutting and pasting                                *
+ * -------------------------------------------------- */
+
+async function onCut(event: KeyboardEvent) {
+  if (!textareaEl.value) return;
+
+  const { selectionStart, selectionEnd } = textareaEl.value;
+  if (selectionStart !== selectionEnd) return;
+
+  event.preventDefault();
+
+  const newRows = [...rows.value];
+  const [lineNr] = getSelectedLines(newRows, selectionStart);
+
+  await navigator.clipboard.writeText(newRows[lineNr]);
+  newRows.splice(lineNr, 1);
+  setLocalModelValue(joinLines(newRows));
+
+  await nextTick();
+  textareaEl.value.setSelectionRange(selectionStart, selectionStart);
+}
+
+/* -------------------------------------------------- *
  * DOM interactions                                   *
  * -------------------------------------------------- */
 
@@ -256,6 +281,7 @@ defineExpose({ focus });
       @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
       @keydown.alt.up.prevent="allowFlipLines ? onFlip('up') : undefined"
       @keydown.enter.prevent="continueLists ? onContinueList() : undefined"
+      @keydown.meta.x="cutFullLine ? onCut($event) : undefined"
       @keydown.tab.prevent="insertTabs ? onInsertTab($event) : undefined"
       @keyup="emitCurrentPosition()"
       @mouseup="emitCurrentPosition()"
