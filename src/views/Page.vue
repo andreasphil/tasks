@@ -227,10 +227,10 @@ onBeforeUnmount(() => {
 
   <VTextarea2
     v-else-if="text !== undefined"
-    :autocorrect="false"
     :class="$style.editor"
     :context-provider="rowToTask"
     :continue-lists="continueLists"
+    :spellcheck="false"
     @update:current-line-index="currentItemIndex = $event"
     @update:current-selection-range="currentSelection = $event"
     ref="textareaEl"
