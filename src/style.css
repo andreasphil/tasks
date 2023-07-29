@@ -2,12 +2,6 @@
 @import "@fontsource/ia-writer-quattro/400.css";
 @import "@fontsource/ia-writer-quattro/700.css";
 
-:root {
-  --font-mono: "iA Writer Quattro", ui-monospace, monospace;
-  --red: hsl(350 89% 60%);
-  --red-50: hsl(350 89% 60% / 0.075);
-}
-
 /* -------------------------------------------------- *
  * Utilities                                          *
  * -------------------------------------------------- */
@@ -27,7 +21,7 @@
     --body-padding-y: 0rem;
     --nav-height: 4rem;
     --theme-tint: 43;
-    --theme-primary: var(--theme-tint) 90% 65%;
+    --theme-primary: var(--theme-tint) var(--theme-sl);
     --font-size: 14px;
     --font-size-small: 12px;
     --font-size-h5: 1.125em; /* TODO: Scale automatically in Fine? */
@@ -90,4 +84,22 @@ nav a[data-active="true"] {
 
 nav a {
   text-decoration: none;
+}
+
+/* -------------------------------------------------- *
+ * Additional global stuff                            *
+ * -------------------------------------------------- */
+
+:root {
+  --font-mono: "iA Writer Quattro", ui-monospace, monospace;
+
+  --theme-sl: 90% 65%;
+
+  --red: 350 var(--theme-sl);
+  --red-50: hsl(var(--red) / 0.075);
+  --red-100: hsl(var(--red) / 0.18);
+  --red-200: hsl(var(--red) / 0.4);
+  --red-300: hsl(var(--red) / 0.6);
+  --red-400: hsl(var(--red) / 0.7);
+  --red-500: hsl(var(--red) / 1);
 }

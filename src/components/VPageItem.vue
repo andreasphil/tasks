@@ -75,7 +75,7 @@ const todayOrOverdue = computed(() => {
         :class="[
           $style.token,
           $style.dueDate,
-          { [$style.today]: todayOrOverdue },
+          { [$style.today]: todayOrOverdue && item.status !== 'completed' },
         ]"
         >{{ token.match }}</span
       >
@@ -105,6 +105,8 @@ const todayOrOverdue = computed(() => {
  * -------------------------------------------------- */
 
 .item {
+  --item-neutral-30: hsl(var(--theme-tint) 15% 4% / 0.03);
+
   border-radius: var(--border-radius-small);
 }
 
@@ -148,8 +150,12 @@ const todayOrOverdue = computed(() => {
 }
 
 .status.important {
-  color: var(--red);
+  color: var(--red-500);
   font-weight: var(--font-weight-bold);
+}
+
+.status.important:hover {
+  background: var(--red-50);
 }
 
 .status.inProgress,
@@ -159,12 +165,12 @@ const todayOrOverdue = computed(() => {
 
 .dueDate {
   border-radius: var(--border-radius-small);
-  color: var(--primary);
+  color: var(--c-fg-variant);
   position: relative;
 }
 
 .dueDate::after {
-  background-color: var(--primary-50);
+  background-color: var(--item-neutral-30);
   border-radius: inherit;
   bottom: 0px;
   content: "";
@@ -175,7 +181,7 @@ const todayOrOverdue = computed(() => {
 }
 
 .dueDate.today {
-  color: var(--red);
+  color: var(--red-500);
 }
 
 .dueDate.today::after {
@@ -189,7 +195,7 @@ const todayOrOverdue = computed(() => {
 }
 
 .tag::after {
-  background-color: hsl(var(--theme-tint) 15% 4% / 0.03);
+  background-color: var(--item-neutral-30);
   border-radius: inherit;
   bottom: 0px;
   content: "";
