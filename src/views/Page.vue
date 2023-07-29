@@ -43,7 +43,12 @@ const { exists, text, updateItem } = usePage(() => pageId.value);
 // @ts-expect-error Vue types seem to be buggy here
 const textareaEl = ref<InstanceType<typeof VTextarea2> | null>(null);
 
-watch(pageId, () => {
+watch(pageId, async () => {
+  await nextTick();
+  textareaEl.value?.focus(0);
+});
+
+onMounted(() => {
   textareaEl.value?.focus(0);
 });
 

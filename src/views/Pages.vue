@@ -39,6 +39,7 @@ async function beginRemovePage() {
     await removePage(pageId);
     const nextPage = pagesList.value[0]?.id;
     if (nextPage) router.push({ name: "Page", params: { id: nextPage } });
+    else router.push({ name: "Welcome" });
   }
 }
 
