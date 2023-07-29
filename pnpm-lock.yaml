@@ -20,6 +20,9 @@ dependencies:
   lucide-vue-next:
     specifier: ^0.257.0
     version: 0.257.0(vue@3.3.4)
+  memize:
+    specifier: ^2.1.0
+    version: 2.1.0
   typescript:
     specifier: ^5.1.6
     version: 5.1.6
@@ -658,6 +661,10 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: false
+
+  /memize@2.1.0:
+    resolution: {integrity: sha512-yywVJy8ctVlN5lNPxsep5urnZ6TTclwPEyigM9M3Bi8vseJBOfqNrGWN/r8NzuIt3PovM323W04blJfGQfQSVg==}
     dev: false
 
   /minimatch@9.0.3:

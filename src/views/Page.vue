@@ -8,17 +8,18 @@ import { nextWeek, today, tomorrow } from "@/lib/date";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
-import { Download } from "lucide-vue-next";
 import {
   Calendar,
   CalendarX2,
   Check,
   CircleDashed,
   Construction,
+  Download,
   FileX2,
   HelpCircle,
   Star,
 } from "lucide-vue-next";
+import memize from "memize";
 import {
   computed,
   inject,
@@ -56,8 +57,10 @@ onMounted(() => {
  * Editor hooks and customizations                    *
  * -------------------------------------------------- */
 
+const parseWithMemo = memize(parse);
+
 function rowToTask(row: string): Item {
-  return parse(row);
+  return parseWithMemo(row);
 }
 
 const continueLists: ContinueListRule[] = [
