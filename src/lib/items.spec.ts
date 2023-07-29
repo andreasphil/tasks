@@ -169,5 +169,15 @@ describe("writable items", () => {
 
       expect(r.status).toBe("completed");
     });
+
+    it("mutates the due date of the original item", () => {
+      const r = parse("[ ] Task 1");
+
+      mutate(r, (item) => {
+        item.dueDate = new Date("2021-01-01");
+      });
+
+      expect(r.dueDate).toEqual(new Date("2021-01-01"));
+    });
   });
 });

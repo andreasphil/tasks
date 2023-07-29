@@ -210,7 +210,7 @@ const commands: Command[] = [
     action: () => updateDueDate(currentItemIndex.value, undefined),
   },
 
-  // Backups
+  // Page
   {
     id: "page:backup",
     name: "Download copy",
