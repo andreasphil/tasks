@@ -1,16 +1,16 @@
 import { mutate } from "@/lib/items";
-import { Page, getTitle } from "@/lib/page";
+import { getTitle, type Page } from "@/lib/page";
 import { parse } from "@/lib/parser";
 import { joinLines, splitLines } from "@/lib/text";
 import { usePages } from "@/stores/pages";
-import { MaybeRefOrGetter, computed, readonly, toValue } from "vue";
+import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
 
 export function usePage(id: MaybeRefOrGetter<string>) {
   const { pages, updatePage } = usePages();
 
   const page = computed<Page | undefined>(() => {
     const idVal = toValue(id);
-    return pages.find((i) => i.id === idVal);
+    return pages[idVal];
   });
 
   /* -------------------------------------------------- *

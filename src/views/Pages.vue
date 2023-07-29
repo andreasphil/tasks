@@ -10,7 +10,6 @@ import {
 } from "lucide-vue-next";
 import { inject, onBeforeUnmount, onMounted, toValue, watch } from "vue";
 import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
-import { useAsyncTask } from "vue-use-async-task";
 
 const router = useRouter();
 const route = useRoute();
@@ -19,24 +18,19 @@ const route = useRoute();
  * Pages                                              *
  * -------------------------------------------------- */
 
-const { pagesList, ...store } = usePages();
-const { run: fetchPages } = useAsyncTask(store.fetchPages);
-const { run: addPage } = useAsyncTask(store.addPage);
-const { run: removePage } = useAsyncTask(store.removePage);
+const { pagesList, addPage, removePage } = usePages();
 
-onMounted(() => fetchPages());
-
-async function goToNewPage() {
-  const [newPage] = await addPage("");
+function goToNewPage() {
+  const newPage = addPage("");
   if (newPage) router.push({ name: "Page", params: { id: newPage } });
 }
 
-async function beginRemovePage() {
+function beginRemovePage() {
   const confirmed = confirm("Are you sure you want to delete this page?");
   const pageId = route.params.id?.toString();
 
   if (confirmed && pageId) {
-    await removePage(pageId);
+    removePage(pageId);
     const nextPage = pagesList.value[0]?.id;
     if (nextPage) router.push({ name: "Page", params: { id: nextPage } });
     else router.push({ name: "Welcome" });

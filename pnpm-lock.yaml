@@ -41,9 +41,6 @@ dependencies:
   vue-tsc:
     specifier: ^1.8.6
     version: 1.8.6(typescript@5.1.6)
-  vue-use-async-task:
-    specifier: github:andreasphil/vue-use-async-task#v0.1.0
-    version: github.com/andreasphil/vue-use-async-task/eee7c1b4d5cd5e93d3f23c026325df75ec32a66a
 
 packages:
 
@@ -1002,12 +999,4 @@ packages:
     resolution: {tarball: https://codeload.github.com/andreasphil/fine/tar.gz/62e353a74677f5db2f34459d330adcaf2a238ef2}
     name: finecss
     version: 0.17.0
-    dev: false
-
-  github.com/andreasphil/vue-use-async-task/eee7c1b4d5cd5e93d3f23c026325df75ec32a66a:
-    resolution: {tarball: https://codeload.github.com/andreasphil/vue-use-async-task/tar.gz/eee7c1b4d5cd5e93d3f23c026325df75ec32a66a}
-    name: vue-use-async-task
-    version: 0.1.0
-    dependencies:
-      vue: 3.3.4
     dev: false

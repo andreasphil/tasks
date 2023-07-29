@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Item, TaskStatus } from "@/lib/parser";
+import type { Item, TaskStatus } from "@/lib/parser";
 import { computed } from "vue";
 
 const props = defineProps<{

@@ -1,13 +1,13 @@
 import { format } from "@/lib/date";
 import {
-  Item,
-  TaskStatus,
-  UncheckedItem,
   parse,
   stringify,
   taskStatuses,
+  type DeepWritable,
+  type Item,
+  type TaskStatus,
+  type UncheckedItem,
 } from "@/lib/parser";
-import { DeepWritable } from "@/lib/utils";
 
 /**
  * Special variant of the Item where all properties that can safely be changed

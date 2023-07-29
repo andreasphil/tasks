@@ -1,5 +1,3 @@
-<script setup lang="ts"></script>
-
 <template>
   <div :class="[$style.layout, { [$style.layoutWithHeader]: $slots.header }]">
     <aside v-if="$slots.sidebar" :class="$style.sidebar">

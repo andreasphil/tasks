@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VBackupDialog from "@/components/VBackupDialog.vue";
-import { Command, VBarContext } from "@/components/VBar.vue";
+import { VBarContext, type Command } from "@/components/VBar.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
 import VTextarea2 from "@/components/VTextarea2.vue";

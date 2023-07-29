@@ -1,59 +1,61 @@
-import { touch } from "@/lib/model";
-import { Page, getTitle } from "@/lib/page";
-import { createPage, deletePage, listPages, patchPage } from "@/lib/storage";
-import { MaybeRefOrGetter, computed, reactive, readonly, toValue } from "vue";
+import { createModel, getTitle, touch, type Page } from "@/lib/page";
+import { computed, reactive, readonly, watch } from "vue";
 
 type PageUpdate = Partial<Page>;
 
 function createPagesStore() {
-  const pages = reactive<Page[]>([]);
+  /* -------------------------------------------------- *
+   * Stored pages                                       *
+   * -------------------------------------------------- */
+
+  const pages = reactive<Record<string, Page>>({});
+
+  function restore() {
+    const saved = localStorage.getItem("pages");
+    if (!saved) return;
+
+    try {
+      Object.assign(pages, JSON.parse(saved));
+    } catch {}
+  }
+
+  function persist() {
+    localStorage.setItem("pages", JSON.stringify(pages));
+  }
+
+  watch(pages, persist, { deep: true });
+
+  /* -------------------------------------------------- *
+   * Managing pages                                     *
+   * -------------------------------------------------- */
 
   const list = computed<{ id: string; title: string }[]>(() =>
-    pages
+    Object.values(pages)
       .sort((a, b) => b.updatedAt - a.updatedAt)
       .map((i) => ({ id: i.id, title: getTitle(i) }))
   );
 
-  async function fetch(): Promise<void> {
-    const result = await listPages();
-    pages.splice(0, pages.length);
-    pages.push(...result);
-  }
-
-  async function add(text = ""): Promise<string> {
-    const page = await createPage({ text });
-    pages.push(page);
+  function add(text = ""): string {
+    const page = createModel({ text });
+    pages[page.id] = page;
     return page.id;
   }
 
-  async function remove(id: string) {
-    await deletePage(id);
-    const index = pages.findIndex((i) => i.id === id);
-    if (index >= 0) pages.splice(index, 1);
+  function remove(id: string): void {
+    delete pages[id];
   }
 
-  async function update(id: string, page: PageUpdate): Promise<void> {
-    const index = pages.findIndex((i) => i.id === id);
-    if (index < 0) return;
-
-    const updatedPage = { ...pages[index], ...page };
+  function update(id: string, page: PageUpdate): void {
+    if (!pages[id]) return;
+    const updatedPage = { ...pages[id], ...page };
     touch(updatedPage);
-
-    await patchPage(id, updatedPage);
-    pages[index] = updatedPage;
+    pages[id] = updatedPage;
   }
 
-  function listItem(id: MaybeRefOrGetter<string>) {
-    return computed(() => {
-      const idVal = toValue(id);
-      return list.value.find((i) => i.id === idVal);
-    });
-  }
+  restore();
 
   return () => ({
     addPage: add,
-    fetchPages: fetch,
-    listItem,
     pages: readonly(pages),
     pagesList: readonly(list),
     removePage: remove,
