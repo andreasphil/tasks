@@ -2,7 +2,7 @@
 import VDialog from "@/components/VDialog.vue";
 import { usePages } from "@/stores/pages";
 import { DownloadCloud, UploadCloud } from "lucide-vue-next";
-import { computed, onUnmounted, ref, watch } from "vue";
+import { computed } from "vue";
 
 const props = defineProps<{
   modelValue: boolean;
@@ -25,33 +25,45 @@ const localOpen = computed({
  * Page download                                      *
  * -------------------------------------------------- */
 
-const { exportPages } = usePages();
+const { exportPages, importPages } = usePages();
 
-const downloadUrl = ref<string | undefined>(undefined);
+const canAccessFiles = "showOpenFilePicker" in window;
 
-function createDownloadUrl(source: string | undefined) {
-  if (downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
+async function saveToFile() {
+  if (!("showSaveFilePicker" in window)) return;
 
-  if (!source) downloadUrl.value = undefined;
-  else {
-    const blob = new Blob([source], { type: "application/json" });
-    downloadUrl.value = URL.createObjectURL(blob);
+  try {
+    const handle = await window.showSaveFilePicker({
+      types: [{ accept: { "application/json": [".json"] } }],
+    });
+
+    const writable = await handle.createWritable();
+    await writable.write(exportPages());
+    await writable.close();
+
+    alert("Backup saved!");
+    localOpen.value = false;
+  } catch {
+    alert("Failed to save backup.");
   }
 }
 
-watch(
-  () => props.modelValue,
-  (is, was) => {
-    if (is && !was) createDownloadUrl(exportPages());
-    else if (!is && downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
-  },
-  { immediate: true }
-);
+async function openFromFile() {
+  if (!("showOpenFilePicker" in window)) return;
 
-onUnmounted(() => {
-  // Object URLs need to be cleaned up when no longer needed
-  if (downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
-});
+  return window
+    .showOpenFilePicker({
+      multiple: false,
+      types: [{ accept: { "application/json": [".json"] } }],
+    })
+    .then(([handle]) => handle.getFile())
+    .then((file) => file.text())
+    .then((text) => {
+      importPages(text);
+      localOpen.value = false;
+    })
+    .catch(() => alert("Failed to load backup."));
+}
 </script>
 
 <template>
@@ -62,17 +74,15 @@ onUnmounted(() => {
       Pages you added since the backup was created will not be affected.
     </p>
 
-    <div :class="$style.actions">
-      <a
-        :href="downloadUrl"
-        data-variant="muted"
-        download="textflow.json"
-        role="button"
-      >
-        <DownloadCloud />Download backup
-      </a>
+    <p :class="$style.error" v-if="!canAccessFiles">
+      Your browser does not support this feature.
+    </p>
 
-      <button data-variant="muted" disabled>
+    <div v-else :class="$style.actions">
+      <button @click="saveToFile" data-variant="muted">
+        <DownloadCloud />Download backup
+      </button>
+      <button @click="openFromFile" data-variant="muted">
         <UploadCloud />Restore backup
       </button>
     </div>
@@ -91,5 +101,13 @@ onUnmounted(() => {
 
 .actions * {
   flex: 1;
+}
+
+.error {
+  background: var(--red-50);
+  border-radius: var(--border-radius);
+  font-weight: var(--font-weight-medium);
+  color: var(--red-500);
+  padding: 0.5rem 0.75rem;
 }
 </style>

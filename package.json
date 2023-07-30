@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fontsource/ia-writer-quattro": "^5.0.5",
+    "@types/wicg-file-system-access": "^2020.9.6",
     "@vitejs/plugin-vue": "^4.2.3",
     "dayjs": "^1.11.9",
     "finecss": "github:andreasphil/fine#v0.17.0",
