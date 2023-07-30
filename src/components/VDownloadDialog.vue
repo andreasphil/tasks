@@ -34,7 +34,7 @@ watch(localOpen, async (is, was) => {
  * Page download                                      *
  * -------------------------------------------------- */
 
-const { title, text } = usePage(props.pageId);
+const { title, text } = usePage(() => props.pageId);
 
 const downloadUrl = ref<string | undefined>(undefined);
 
