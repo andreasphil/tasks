@@ -96,11 +96,7 @@ async function openFromFile() {
 <style module>
 .actions {
   display: flex;
-  gap: 0.5rem;
-}
-
-.actions * {
-  flex: 1;
+  gap: 0.25rem;
 }
 
 .error {
