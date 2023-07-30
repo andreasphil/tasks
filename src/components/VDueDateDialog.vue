@@ -67,7 +67,7 @@ function onCancel() {
     </label>
 
     <template #footer>
-      <button :class="$style.mrAuto" @click="onClear()" data-variant="muted">
+      <button class="mr-auto" @click="onClear()" data-variant="muted">
         <CalendarX2 />Clear
       </button>
 
@@ -76,9 +76,3 @@ function onCancel() {
     </template>
   </VDialog>
 </template>
-
-<style module>
-.mrAuto {
-  margin-right: auto;
-}
-</style>

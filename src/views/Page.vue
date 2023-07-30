@@ -11,6 +11,7 @@ import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
 import {
   Calendar,
+  CalendarSearch,
   CalendarX2,
   Check,
   CircleDashed,
@@ -200,19 +201,19 @@ const commands: Command[] = [
     action: () => updateDueDate(currentItemIndex.value, "next-week"),
   },
   {
+    id: "item:dueDate:custom",
+    name: "Custom",
+    alias: ["pick"],
+    groupName: "Due",
+    icon: CalendarSearch,
+    action: () => beginUpdateDueDate(),
+  },
+  {
     id: "item:dueDate:clear",
     name: "Clear",
     groupName: "Due",
     icon: CalendarX2,
     action: () => updateDueDate(currentItemIndex.value, undefined),
-  },
-  {
-    id: "item:dueDate:custom",
-    name: "Custom",
-    alias: ["pick"],
-    groupName: "Due",
-    icon: Calendar,
-    action: () => beginUpdateDueDate(),
   },
 
   // Status

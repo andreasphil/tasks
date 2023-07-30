@@ -14,14 +14,14 @@
     "@types/wicg-file-system-access": "^2020.9.6",
     "@vitejs/plugin-vue": "^4.2.3",
     "dayjs": "^1.11.9",
-    "finecss": "github:andreasphil/fine#v0.17.0",
+    "finecss": "github:andreasphil/fine#v0.19.0",
     "lucide-vue-next": "^0.257.0",
     "memize": "^2.1.0",
     "typescript": "^5.1.6",
-    "vite": "^4.4.6",
+    "vite": "^4.4.7",
     "vitest": "^0.32.4",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
-    "vue-tsc": "^1.8.6"
+    "vue-tsc": "^1.8.8"
   }
 }

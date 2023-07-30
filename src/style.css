@@ -3,14 +3,6 @@
 @import "@fontsource/ia-writer-quattro/700.css";
 
 /* -------------------------------------------------- *
- * Utilities                                          *
- * -------------------------------------------------- */
-
-.text-c-variant {
-  color: var(--c-fg-variant);
-}
-
-/* -------------------------------------------------- *
  * Fine customizations                                *
  * -------------------------------------------------- */
 
@@ -23,67 +15,7 @@
     --theme-tint: 43;
     --theme-primary: var(--theme-tint) var(--theme-sl);
     --font-size: 14px;
-    --font-size-small: 12px;
-    --font-size-h5: 1.125em; /* TODO: Scale automatically in Fine? */
   }
-}
-
-/* TODO: Move to Fine */
-dialog:focus-visible {
-  outline: none;
-}
-
-/* TODO: Move to Fine */
-label [data-hidden] + input {
-  margin-top: 0;
-}
-
-/* TODO: Move to Fine */
-nav a:has(svg) {
-  align-items: center;
-  display: flex;
-  gap: 0.375rem;
-}
-
-/* TODO: Move to Fine */
-:not([data-svg="false"]) svg {
-  flex: none;
-}
-
-/* TODO: Move to Fine */
-nav li hr {
-  margin: 0.5rem 0;
-}
-
-/* TODO: Move to Fine */
-[data-clamp] {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--clamp, 1);
-  overflow: hidden;
-}
-[data-clamp="1"] {
-  --clamp: 1;
-}
-[data-clamp="2"] {
-  --clamp: 2;
-}
-[data-clamp="3"] {
-  --clamp: 3;
-}
-
-/* TODO: Move to Fine */
-[role="button"] {
-  display: inline-flex;
-}
-
-nav a[data-active="true"] {
-  background: var(--c-surface-variant-bg);
-  text-decoration: none;
-}
-
-nav a {
-  text-decoration: none;
 }
 
 /* -------------------------------------------------- *
@@ -106,4 +38,31 @@ nav a {
 
 body {
   min-width: 640px;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a[data-active="true"] {
+  background: var(--c-surface-variant-bg);
+  text-decoration: none;
+}
+
+nav a:has(svg) {
+  align-items: center;
+  display: flex;
+  gap: 0.375rem;
+}
+
+/* -------------------------------------------------- *
+ * Utilities                                          *
+ * -------------------------------------------------- */
+
+.text-c-variant {
+  color: var(--c-fg-variant);
+}
+
+.mr-auto {
+  margin-right: auto;
 }
