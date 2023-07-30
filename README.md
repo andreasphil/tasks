@@ -12,7 +12,7 @@
 </a>
 </p>
 
-⚠️ Work in progress. Things are most certainly incomplete and/or broken, and will definitely change.
+> ⚠️ Work in progress. Things are most certainly incomplete and/or broken, and will definitely change.
 
 - ✅ Manage your tasks with a simple, text-based format
 - 🦦 Add sections, notes, due dates and tags
