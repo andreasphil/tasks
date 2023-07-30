@@ -72,7 +72,7 @@ function registerPages(pages: (typeof pagesList)["value"]) {
   cleanupPages = vbar?.registerCommand(...commands) ?? null;
 }
 
-watch(pagesList, (pages) => registerPages(pages));
+watch(pagesList, (pages) => registerPages(pages), { immediate: true });
 
 onBeforeUnmount(() => {
   cleanupPages?.();
