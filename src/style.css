@@ -103,3 +103,7 @@ nav a {
   --red-400: hsl(var(--red) / 0.7);
   --red-500: hsl(var(--red) / 1);
 }
+
+body {
+  min-width: 640px;
+}
