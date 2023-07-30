@@ -8,6 +8,8 @@ import { nextWeek, today, tomorrow } from "@/lib/date";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
+import { Heading1 } from "lucide-vue-next";
+import { StickyNote } from "lucide-vue-next";
 import {
   Calendar,
   CalendarX2,
@@ -77,21 +79,6 @@ const currentItemIndex = ref(0);
 
 const currentSelection = ref<[number, number]>([0, 0]);
 
-async function updateStatus(
-  index: number,
-  status: TaskStatus,
-  keepSelection = true
-) {
-  updateItem(index, (item) => {
-    item.status = status;
-  });
-
-  if (keepSelection) {
-    await nextTick();
-    textareaEl.value?.focus(...currentSelection.value);
-  }
-}
-
 async function updateDueDate(
   index: number,
   dueDate: Date | "today" | "tomorrow" | "next-week" | undefined,
@@ -119,6 +106,41 @@ async function updateDueDate(
   }
 }
 
+async function updateStatus(
+  index: number,
+  status: TaskStatus,
+  keepSelection = true
+) {
+  updateItem(index, (item) => {
+    if (item.type !== "task") item.type = "task";
+    item.status = status;
+  });
+
+  if (keepSelection) {
+    await nextTick();
+    textareaEl.value?.focus(...currentSelection.value);
+  }
+}
+
+async function updateType(
+  index: number,
+  type: Item["type"],
+  keepSelection = true
+) {
+  const lenBefore = text.value?.length ?? 0;
+
+  updateItem(index, (item) => {
+    item.type = type;
+  });
+
+  if (keepSelection) {
+    await nextTick();
+    const lenAfter = text.value?.length ?? 0;
+    const newSelection = currentSelection.value[0] + lenAfter - lenBefore;
+    textareaEl.value?.focus(newSelection);
+  }
+}
+
 /* -------------------------------------------------- *
  * Backups                                            *
  * -------------------------------------------------- */
@@ -138,7 +160,38 @@ const vbar = inject(VBarContext, null);
 let cleanup: (() => void) | null = null;
 
 const commands: Command[] = [
-  // Task status
+  // Due date
+  {
+    id: "item:dueDate:today",
+    name: "Today",
+    groupName: "Due",
+    icon: Calendar,
+    action: () => updateDueDate(currentItemIndex.value, "today"),
+  },
+  {
+    id: "item:dueDate:tomorrow",
+    name: "Tomorrow",
+    groupName: "Due",
+    icon: Calendar,
+    action: () => updateDueDate(currentItemIndex.value, "tomorrow"),
+  },
+  {
+    id: "item:dueDate:nextWeek",
+    name: "Next week",
+    alias: ["monday"],
+    groupName: "Due",
+    icon: Calendar,
+    action: () => updateDueDate(currentItemIndex.value, "next-week"),
+  },
+  {
+    id: "item:dueDate:clear",
+    name: "Clear",
+    groupName: "Due",
+    icon: CalendarX2,
+    action: () => updateDueDate(currentItemIndex.value, undefined),
+  },
+
+  // Status
   {
     id: "task:status:incomplete",
     name: "Incomplete",
@@ -180,34 +233,27 @@ const commands: Command[] = [
     action: () => updateStatus(currentItemIndex.value, "question"),
   },
 
-  // Due date
+  // Type
   {
-    id: "task:dueDate:today",
-    name: "Today",
-    groupName: "Set due date",
-    icon: Calendar,
-    action: () => updateDueDate(currentItemIndex.value, "today"),
+    id: "item:type:note",
+    name: "Note",
+    groupName: "Turn into",
+    icon: StickyNote,
+    action: () => updateType(currentItemIndex.value, "note"),
   },
   {
-    id: "task:dueDate:tomorrow",
-    name: "Tomorrow",
-    groupName: "Set due date",
-    icon: Calendar,
-    action: () => updateDueDate(currentItemIndex.value, "tomorrow"),
+    id: "item:type:heading",
+    name: "Heading",
+    groupName: "Turn into",
+    icon: Heading1,
+    action: () => updateType(currentItemIndex.value, "heading"),
   },
   {
-    id: "task:dueDate:nextWeek",
-    name: "Next week",
-    groupName: "Set due date",
-    icon: Calendar,
-    action: () => updateDueDate(currentItemIndex.value, "next-week"),
-  },
-  {
-    id: "task:dueDate:clear",
-    name: "Clear",
-    groupName: "Set due date",
-    icon: CalendarX2,
-    action: () => updateDueDate(currentItemIndex.value, undefined),
+    id: "item:type:task",
+    name: "Task",
+    groupName: "Turn into",
+    icon: Check,
+    action: () => updateType(currentItemIndex.value, "task"),
   },
 
   // Page
