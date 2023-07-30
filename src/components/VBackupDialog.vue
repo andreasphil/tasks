@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import VDialog from "@/components/VDialog.vue";
-import { usePage } from "@/stores/page";
-import { Download } from "lucide-vue-next";
-import { computed, nextTick, onUnmounted, ref, watch } from "vue";
+import { usePages } from "@/stores/pages";
+import { DownloadCloud, UploadCloud } from "lucide-vue-next";
+import { computed, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{
   modelValue: boolean;
-  pageId: string;
 }>();
 
 const emit = defineEmits<{
@@ -22,19 +21,11 @@ const localOpen = computed({
   set: (val) => emit("update:modelValue", val),
 });
 
-const confirmButtonEl = ref<HTMLButtonElement | null>(null);
-
-watch(localOpen, async (is, was) => {
-  if (!is || is === was) return;
-  await nextTick();
-  confirmButtonEl.value?.focus();
-});
-
 /* -------------------------------------------------- *
  * Page download                                      *
  * -------------------------------------------------- */
 
-const { title, text } = usePage(props.pageId);
+const { exportPages } = usePages();
 
 const downloadUrl = ref<string | undefined>(undefined);
 
@@ -43,7 +34,7 @@ function createDownloadUrl(source: string | undefined) {
 
   if (!source) downloadUrl.value = undefined;
   else {
-    const blob = new Blob([source], { type: "text/plain" });
+    const blob = new Blob([source], { type: "application/json" });
     downloadUrl.value = URL.createObjectURL(blob);
   }
 }
@@ -51,7 +42,7 @@ function createDownloadUrl(source: string | undefined) {
 watch(
   () => props.modelValue,
   (is, was) => {
-    if (is && !was) createDownloadUrl(text.value);
+    if (is && !was) createDownloadUrl(exportPages());
     else if (!is && downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
   },
   { immediate: true }
@@ -64,22 +55,41 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VDialog title="Download page" v-model="localOpen">
+  <VDialog title="Backup" v-model="localOpen">
     <p>
-      Press the download button below to save a copy of "{{ title }}" to your
-      disk.
+      Use the buttons below to download or restore a backup of all your pages.
+      If you restore a backup, pages that already exist will be overwritten.
+      Pages you added since the backup was created will not be affected.
     </p>
 
-    <template #footer>
-      <button @click="localOpen = false" data-variant="ghost">Close</button>
+    <div :class="$style.actions">
       <a
-        :download="`${title}.txt`"
         :href="downloadUrl"
-        ref="confirmButtonEl"
+        data-variant="muted"
+        download="textflow.json"
         role="button"
       >
-        <Download />Download
+        <DownloadCloud />Download backup
       </a>
+
+      <button data-variant="muted" disabled>
+        <UploadCloud />Restore backup
+      </button>
+    </div>
+
+    <template #footer>
+      <button @click="localOpen = false">Done</button>
     </template>
   </VDialog>
 </template>
+
+<style module>
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions * {
+  flex: 1;
+}
+</style>

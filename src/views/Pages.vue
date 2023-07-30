@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import VBackupDialog from "@/components/VBackupDialog.vue";
 import { VBarContext, type Command } from "@/components/VBar.vue";
 import VLayout from "@/components/VLayout.vue";
 import { usePages } from "@/stores/pages";
 import {
   Command as CommandIcon,
+  DownloadCloud,
   FileCheck2,
   Plus,
   Trash2,
 } from "lucide-vue-next";
-import { inject, onBeforeUnmount, onMounted, toValue, watch } from "vue";
+import { inject, onBeforeUnmount, onMounted, ref, toValue, watch } from "vue";
 import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
@@ -35,6 +37,16 @@ function beginRemovePage() {
     if (nextPage) router.push({ name: "Page", params: { id: nextPage } });
     else router.push({ name: "Welcome" });
   }
+}
+
+/* -------------------------------------------------- *
+ * Backups                                            *
+ * -------------------------------------------------- */
+
+const backupDialog = ref(false);
+
+function beginBackup() {
+  backupDialog.value = true;
 }
 
 /* -------------------------------------------------- *
@@ -84,6 +96,13 @@ const staticCommands: Command[] = [
     groupName: "Pages",
     icon: Trash2,
     action: beginRemovePage,
+  },
+  {
+    id: "pages:backup",
+    name: "Backup",
+    groupName: "Pages",
+    icon: DownloadCloud,
+    action: beginBackup,
   },
 ];
 
@@ -151,5 +170,7 @@ onBeforeUnmount(() => {
     </template>
 
     <RouterView />
+
+    <VBackupDialog v-model="backupDialog" />
   </VLayout>
 </template>

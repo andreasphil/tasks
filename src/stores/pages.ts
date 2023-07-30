@@ -52,10 +52,27 @@ function createPagesStore() {
     pages[id] = updatedPage;
   }
 
+  /* -------------------------------------------------- *
+   * Import and export                                  *
+   * -------------------------------------------------- */
+
+  function exportPages() {
+    return JSON.stringify(pages);
+  }
+
+  function importPages(data: string) {
+    try {
+      const parsed = JSON.parse(data);
+      Object.assign(pages, parsed);
+    } catch {}
+  }
+
   restore();
 
   return () => ({
     addPage: add,
+    exportPages,
+    importPages,
     pages: readonly(pages),
     pagesList: readonly(list),
     removePage: remove,
