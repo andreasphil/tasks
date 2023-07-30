@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VBackupDialog from "@/components/VBackupDialog.vue";
+import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import { VBarContext, type Command } from "@/components/VBar.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
@@ -142,13 +142,13 @@ async function updateType(
 }
 
 /* -------------------------------------------------- *
- * Backups                                            *
+ * Downloads                                          *
  * -------------------------------------------------- */
 
-const backupDialog = ref(false);
+const downloadDialog = ref(false);
 
-function beginBackup() {
-  backupDialog.value = true;
+function beginDownload() {
+  downloadDialog.value = true;
 }
 
 /* -------------------------------------------------- *
@@ -258,12 +258,12 @@ const commands: Command[] = [
 
   // Page
   {
-    id: "page:backup",
+    id: "page:download",
     name: "Download copy",
-    alias: ["backup", "save", "export"],
+    alias: ["save", "export"],
     groupName: "Page",
     icon: Download,
-    action: () => beginBackup(),
+    action: () => beginDownload(),
   },
 ];
 
@@ -299,7 +299,7 @@ onBeforeUnmount(() => {
     </template>
   </VTextarea2>
 
-  <VBackupDialog v-if="exists" v-model="backupDialog" :pageId="pageId" />
+  <VDownloadDialog v-if="exists" v-model="downloadDialog" :pageId="pageId" />
 </template>
 
 <style module>
