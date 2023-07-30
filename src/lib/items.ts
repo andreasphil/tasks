@@ -13,8 +13,8 @@ import {
  * Special variant of the Item where all properties that can safely be changed
  * via `asWritable` or `mutate` are writable.
  */
-export type WritableItem = Omit<Item, "dueDate" | "status"> &
-  DeepWritable<Pick<Item, "dueDate" | "status">>;
+export type WritableItem = Omit<Item, "dueDate" | "status" | "type"> &
+  DeepWritable<Pick<Item, "dueDate" | "status" | "type">>;
 
 function setStatus(item: UncheckedItem, newStatus: TaskStatus) {
   if (item.type !== "task") return;
@@ -59,6 +59,23 @@ function setDueDate(item: UncheckedItem, newDueDate?: Date) {
   Object.assign(item, parse(newRaw));
 }
 
+function setType(item: UncheckedItem, newType: UncheckedItem["type"]) {
+  if (item.type === newType) return;
+
+  let newRaw = item.raw;
+
+  // Normalize the type of the item by removing any type specific content
+  if (item.type === "task") newRaw = newRaw.replace(/^(\s*)\[.\] /, "$1");
+  else if (item.type === "heading") newRaw = newRaw.replace(/^# /, "");
+
+  // Add type specific content
+  if (newType === "task") newRaw = newRaw.replace(/^(\s*)/, "$1[ ] ");
+  else if (newType === "heading") newRaw = `# ${newRaw.trimStart()}`;
+
+  Object.assign(item, parse(newRaw));
+  item.status = newType === "task" ? "incomplete" : null;
+}
+
 /**
  * Returns a wrtiable proxy to the original item. This will allow changing some
  * of the properties of an item while keeping the data structure intact and
@@ -68,7 +85,9 @@ function setDueDate(item: UncheckedItem, newDueDate?: Date) {
 export function asWritable(item: Item): WritableItem {
   return new Proxy(structuredClone(item as UncheckedItem), {
     set: (target, property, value) => {
-      if (property === "dueDate") {
+      if (property === "type") {
+        setType(target, value);
+      } else if (property === "dueDate") {
         setDueDate(target, value);
       } else if (property === "status") {
         setStatus(target, value);

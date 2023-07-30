@@ -315,8 +315,7 @@ export function parse(input: string): Item {
 
   tokens = insertTextTokens(input, tokens);
 
-  // @ts-expect-error Complains about the missing status, but we'll add it later
-  // if needed.
+  // @ts-expect-error Complains about the missing status, we'll add that below
   const result: UncheckedItem = {
     type,
     raw: input,
@@ -327,6 +326,7 @@ export function parse(input: string): Item {
   };
 
   if (result.type === "task") result.status = status;
+  else result.status = null;
 
   return result as Item;
 }

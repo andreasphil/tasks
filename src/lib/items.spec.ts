@@ -1,8 +1,78 @@
-import { parse } from "@/lib/parser";
+import { Item, parse } from "@/lib/parser";
 import { describe, expect, it } from "vitest";
 import { asWritable, mutate } from "./items";
 
 describe("writable items", () => {
+  describe("set type", () => {
+    type Fixtures = Array<{
+      source: string;
+      changeTo: Item["type"];
+      expected: string;
+    }>;
+
+    it("changes the type of the item", () => {
+      const items: Fixtures = [
+        // Task conversion
+        { source: "[ ] Task 1", changeTo: "task", expected: "[ ] Task 1" },
+        { source: "[ ] Task 1", changeTo: "heading", expected: "# Task 1" },
+        { source: "[ ] Task 1", changeTo: "note", expected: "Task 1" },
+
+        // Heading conversion
+        { source: "# Heading 1", changeTo: "task", expected: "[ ] Heading 1" },
+        { source: "# Heading 1", changeTo: "heading", expected: "# Heading 1" },
+        { source: "# Heading 1", changeTo: "note", expected: "Heading 1" },
+
+        // Note conversion
+        { source: "Note 1", changeTo: "task", expected: "[ ] Note 1" },
+        { source: "Note 1", changeTo: "heading", expected: "# Note 1" },
+        { source: "Note 1", changeTo: "note", expected: "Note 1" },
+      ];
+
+      items.forEach(({ source, changeTo, expected }) => {
+        const r = parse(source);
+        const writable = asWritable(r);
+
+        writable.type = changeTo;
+        const newR = parse(expected);
+        expect(writable).toStrictEqual(newR);
+      });
+    });
+
+    it("removes whitespace when converting from a task to a heading", () => {
+      const items: Fixtures = [
+        { source: "    [ ] Task 1", changeTo: "heading", expected: "# Task 1" },
+        { source: "  Note 1", changeTo: "heading", expected: "# Note 1" },
+      ];
+
+      items.forEach(({ source, changeTo, expected }) => {
+        const r = parse(source);
+        const writable = asWritable(r);
+
+        writable.type = changeTo;
+        const newR = parse(expected);
+        expect(writable).toStrictEqual(newR);
+      });
+    });
+
+    it("retains whitespace when converting to a task", () => {
+      const r = parse("    Note 1");
+      const writable = asWritable(r);
+
+      writable.type = "task";
+      const newR = parse("    [ ] Note 1");
+      expect(writable).toStrictEqual(newR);
+    });
+
+    it("retains whitespace when converting to a note", () => {
+      const r = parse("    [ ] Task 1");
+      const writable = asWritable(r);
+
+      writable.type = "note";
+      const newR = parse("    Task 1");
+      expect(writable).toStrictEqual(newR);
+    });
+  });
+
   describe("set due date", () => {
     it("updates an existing due date at the end", () => {
       const r = parse("[ ] Task 1 ->2020-01-01");
@@ -160,14 +230,14 @@ describe("writable items", () => {
   });
 
   describe("mutating items", () => {
-    it("mutates the status of the original item", () => {
+    it("mutates the type of the original item", () => {
       const r = parse("[ ] Task 1");
 
       mutate(r, (item) => {
-        item.status = "completed";
+        item.type = "note";
       });
 
-      expect(r.status).toBe("completed");
+      expect(r.type).toBe("note");
     });
 
     it("mutates the due date of the original item", () => {
@@ -178,6 +248,16 @@ describe("writable items", () => {
       });
 
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
+    });
+
+    it("mutates the status of the original item", () => {
+      const r = parse("[ ] Task 1");
+
+      mutate(r, (item) => {
+        item.status = "completed";
+      });
+
+      expect(r.status).toBe("completed");
     });
   });
 });
