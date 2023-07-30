@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import { VBarContext, type Command } from "@/components/VBar.vue";
+import VDownloadDialog from "@/components/VDownloadDialog.vue";
+import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
 import VTextarea2 from "@/components/VTextarea2.vue";
@@ -8,8 +9,6 @@ import { nextWeek, today, tomorrow } from "@/lib/date";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
-import { Heading1 } from "lucide-vue-next";
-import { StickyNote } from "lucide-vue-next";
 import {
   Calendar,
   CalendarX2,
@@ -18,8 +17,10 @@ import {
   Construction,
   Download,
   FileX2,
+  Heading1,
   HelpCircle,
   Star,
+  StickyNote,
 } from "lucide-vue-next";
 import memize from "memize";
 import {
@@ -78,6 +79,21 @@ const continueLists: ContinueListRule[] = [
 const currentItemIndex = ref(0);
 
 const currentSelection = ref<[number, number]>([0, 0]);
+
+const dueDateDialog = ref(false);
+
+const dueDateDialogValue = ref<string>();
+
+function beginUpdateDueDate() {
+  dueDateDialog.value = true;
+}
+
+function setDueDateFromDialog() {
+  updateDueDate(
+    currentItemIndex.value,
+    dueDateDialogValue.value ? new Date(dueDateDialogValue.value) : undefined
+  );
+}
 
 async function updateDueDate(
   index: number,
@@ -190,6 +206,14 @@ const commands: Command[] = [
     icon: CalendarX2,
     action: () => updateDueDate(currentItemIndex.value, undefined),
   },
+  {
+    id: "item:dueDate:custom",
+    name: "Custom",
+    alias: ["pick"],
+    groupName: "Due",
+    icon: Calendar,
+    action: () => beginUpdateDueDate(),
+  },
 
   // Status
   {
@@ -300,6 +324,12 @@ onBeforeUnmount(() => {
   </VTextarea2>
 
   <VDownloadDialog v-if="exists" v-model="downloadDialog" :pageId="pageId" />
+
+  <VDueDateDialog
+    @confirmed="setDueDateFromDialog()"
+    v-model:selected-date="dueDateDialogValue"
+    v-model="dueDateDialog"
+  />
 </template>
 
 <style module>

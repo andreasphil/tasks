@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import VDialog from "@/components/VDialog.vue";
 import { usePages } from "@/stores/pages";
-import { DownloadCloud, UploadCloud } from "lucide-vue-next";
+import { Check, DownloadCloud, UploadCloud } from "lucide-vue-next";
 import { computed } from "vue";
 
 const props = defineProps<{
@@ -88,7 +88,7 @@ async function openFromFile() {
     </div>
 
     <template #footer>
-      <button @click="localOpen = false">Done</button>
+      <button @click="localOpen = false"><Check />Done</button>
     </template>
   </VDialog>
 </template>
