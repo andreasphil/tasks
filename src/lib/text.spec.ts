@@ -8,9 +8,11 @@ import {
   getSelectedLines,
   indent,
   joinLines,
+  mergeList,
   splitAt,
   splitLines,
   type ContinueListResult,
+  type ContinueListRule,
 } from "./text";
 
 describe("text", () => {
@@ -290,6 +292,45 @@ describe("text", () => {
         didEnd: false,
         current: "",
         next: "- Foo",
+      });
+    });
+  });
+
+  describe("merge list", () => {
+    const rules = Object.values(continueListRules);
+
+    it("merges the inserted text with the current line", () => {
+      expect(mergeList("- ", "- foo", rules)).toStrictEqual({
+        current: "- foo",
+        match: "- ",
+      });
+    });
+
+    it("doesn't merge when the current line has content other than the list marker", () => {
+      expect(mergeList("- foo", "- bar", rules)).toBeNull();
+    });
+
+    it("doesn't merge when the current line has no list marker", () => {
+      expect(mergeList("foo", "- bar", rules)).toBeNull();
+    });
+
+    it("doesn't merge when the inserted line has no list marker", () => {
+      expect(mergeList("- foo", "bar", rules)).toBeNull();
+    });
+
+    it("doesn't merge when the inserted line has a different type of list marker", () => {
+      expect(mergeList("- foo", "1. bar", rules)).toBeNull();
+    });
+
+    it("merges two different list markers if they're of the same type", () => {
+      const rule: ContinueListRule = {
+        pattern: /\t*\[.\] /,
+        next: (match) => match.replace(/\[.\]/, "[ ]"),
+      };
+
+      expect(mergeList("\t[ ] ", "\t[x] bar", [rule])).toEqual({
+        current: "\t[x] bar",
+        match: "\t[x] ",
       });
     });
   });

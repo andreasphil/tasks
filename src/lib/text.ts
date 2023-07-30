@@ -131,7 +131,7 @@ export type ContinueListResult = {
   current: string;
 } & (
   | {
-      /** Newly created line. */
+      /** Newly created line */
       next: string;
       /** List marker as returned by the matching rule */
       match: string;
@@ -150,7 +150,7 @@ export type ContinueListResult = {
       didEnd: true;
     }
   | {
-      /** Newly created line. */
+      /** Newly created line */
       next: string;
       /** Indicates that no rule has matched */
       didContinue: false;
@@ -158,6 +158,13 @@ export type ContinueListResult = {
       didEnd: false;
     }
 );
+
+export type MergeListResult = {
+  /** Updated input line */
+  current: string;
+  /** List marker as returned by the matching rule */
+  match: string;
+};
 
 /** Default rules for list continuation. */
 export const continueListRules: Record<string, ContinueListRule> = {
@@ -217,6 +224,29 @@ export function continueList(
   } else {
     return { current, next, didContinue: false, didEnd: false };
   }
+}
+
+export function mergeList(
+  line: string,
+  insert: string,
+  rules: ContinueListRule[]
+): MergeListResult | null {
+  let matchingPattern: RegExp | null = null;
+  let insertMatch: RegExpMatchArray | null = null;
+
+  // Find the first matching rule in the original line
+  for (let i = 0; i < rules.length && !matchingPattern; i++) {
+    const match = line.match(rules[i].pattern);
+
+    if (match && line.length === match[0].length) {
+      matchingPattern = rules[i].pattern;
+      insertMatch = insert.match(matchingPattern);
+    }
+  }
+
+  return matchingPattern && insertMatch
+    ? { current: line.replace(matchingPattern, insert), match: insertMatch[0] }
+    : null;
 }
 
 /* -------------------------------------------------- *

@@ -8,6 +8,7 @@ import {
   getSelectedLines,
   indent,
   joinLines,
+  mergeList,
   splitLines,
   type ContinueListRule,
   type IndentMode,
@@ -24,6 +25,7 @@ const props = withDefaults(
     cutFullLine?: boolean;
     dock?: boolean;
     insertTabs?: boolean;
+    mergeListsOnPaste?: boolean;
     modelValue: string;
     scrollBeyondLastLine?: boolean | number;
     spellcheck?: boolean;
@@ -36,6 +38,7 @@ const props = withDefaults(
     cutFullLine: true,
     dock: false,
     insertTabs: true,
+    mergeListsOnPaste: true,
     scrollBeyondLastLine: true,
     tabSize: 4,
   }
@@ -238,6 +241,28 @@ async function onCut(event: KeyboardEvent) {
   textareaEl.value.setSelectionRange(selectionStart, selectionStart);
 }
 
+async function onPaste(event: ClipboardEvent) {
+  const payload = event.clipboardData?.getData("text/plain");
+  if (!textareaEl.value || !payload || !props.continueLists) return;
+
+  const { selectionStart, selectionEnd } = textareaEl.value;
+  if (selectionStart !== selectionEnd) return;
+
+  const newRows = [...rows.value];
+  const [lineNr] = getSelectedLines(newRows, selectionStart);
+  const merge = mergeList(newRows[lineNr], payload, props.continueLists);
+  if (merge === null) return;
+
+  event.preventDefault();
+
+  newRows[lineNr] = merge.current;
+  setLocalModelValue(joinLines(newRows));
+
+  await nextTick();
+  const selection = selectionStart + merge.current.length - merge.match.length;
+  textareaEl.value.setSelectionRange(selection, selection);
+}
+
 /* -------------------------------------------------- *
  * DOM interactions                                   *
  * -------------------------------------------------- */
@@ -285,6 +310,7 @@ defineExpose({ focus });
       @keydown.tab.prevent="insertTabs ? onInsertTab($event) : undefined"
       @keyup="emitCurrentPosition()"
       @mouseup="emitCurrentPosition()"
+      @paste="mergeListsOnPaste ? onPaste($event) : undefined"
       ref="textareaEl"
     />
     <div :class="$style.output">
