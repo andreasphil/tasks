@@ -13,7 +13,7 @@
     --body-padding-y: 0rem;
     --nav-height: 4rem;
     --theme-tint: 43;
-    --theme-primary: var(--theme-tint) var(--theme-sl);
+    --theme-primary: var(--theme-tint) 90% 65%;
     --font-size: 14px;
   }
 }
@@ -25,15 +25,21 @@
 :root {
   --font-mono: "iA Writer Quattro", ui-monospace, monospace;
 
-  --theme-sl: 90% 65%;
-
-  --red: 350 var(--theme-sl);
+  --red: 350 90% 65%;
   --red-50: hsl(var(--red) / 0.075);
   --red-100: hsl(var(--red) / 0.18);
   --red-200: hsl(var(--red) / 0.4);
   --red-300: hsl(var(--red) / 0.6);
   --red-400: hsl(var(--red) / 0.7);
   --red-500: hsl(var(--red) / 1);
+
+  --indigo: 240 90% 70%;
+  --indigo-50: hsl(var(--indigo) / 0.075);
+  --indigo-100: hsl(var(--indigo) / 0.18);
+  --indigo-200: hsl(var(--indigo) / 0.4);
+  --indigo-300: hsl(var(--indigo) / 0.6);
+  --indigo-400: hsl(var(--indigo) / 0.7);
+  --indigo-500: hsl(var(--indigo) / 1);
 }
 
 body {

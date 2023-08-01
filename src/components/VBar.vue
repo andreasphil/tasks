@@ -84,6 +84,15 @@ onBeforeUnmount(() => {
 
 const commands = ref<Command[]>([]);
 
+const chords = computed<Map<string, Command>>(() =>
+  commands.value
+    .filter((c) => Boolean(c.chord))
+    .reduce(
+      (all, current) => all.set(current.chord!, current),
+      new Map<string, Command>()
+    )
+);
+
 function registerCommand(...toRegister: Command[]): () => void {
   const ids = toRegister.map((c) => c.id);
   removeCommand(...ids);
@@ -94,12 +103,43 @@ function registerCommand(...toRegister: Command[]): () => void {
 
 function removeCommand(...toRemove: string[]): void {
   commands.value = commands.value.filter((c) => !toRemove.includes(c.id));
+
+  if (mostRecent.value && toRemove.includes(mostRecent.value.id)) {
+    mostRecent.value = null;
+  }
 }
 
 function runCommand(command: Command) {
   command.action();
+  mostRecent.value = command;
   toggle(false);
 }
+
+/* -------------------------------------------------- *
+ * Repeatable commands                                *
+ * -------------------------------------------------- */
+
+const mostRecent = ref<Command | null>(null);
+
+function runMostRecent() {
+  if (mostRecent.value) runCommand(mostRecent.value);
+}
+
+function onRunMostRecent(e: KeyboardEvent) {
+  if (!(e.metaKey && e.key === ".")) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+  runMostRecent();
+}
+
+onMounted(() => {
+  addEventListener("keydown", onRunMostRecent);
+});
+
+onBeforeUnmount(() => {
+  removeEventListener("keydown", onRunMostRecent);
+});
 
 /* -------------------------------------------------- *
  * Searching and running                              *
@@ -112,7 +152,7 @@ const focusedResult = ref(0);
 const filteredCommands = computed(() => {
   if (!query.value) return [];
 
-  return commands.value
+  const result: Array<Command & { chordMatch?: true }> = commands.value
     .filter((command) => {
       return [command.name, ...(command.alias ?? []), command.groupName ?? ""]
         .join(" ")
@@ -120,6 +160,11 @@ const filteredCommands = computed(() => {
         .includes(query.value.toLowerCase());
     })
     .slice(0, props.limitResults);
+
+  const matchingChord = chords.value.get(query.value);
+  if (matchingChord) result.unshift({ ...matchingChord, chordMatch: true });
+
+  return result;
 });
 
 function moveFocusDown() {
@@ -158,6 +203,7 @@ export type Command = {
   id: string;
   name: string;
   alias?: string[];
+  chord?: string;
   groupName?: string;
   icon?: Component;
   action: () => void;
@@ -200,7 +246,11 @@ export const VBarContext: InjectionKey<{
       <ul v-if="filteredCommands?.length" :class="$style.resultsList">
         <li v-for="(c, i) in filteredCommands" :key="c.id">
           <button
-            :class="[$style.result, { [$style.focused]: i === focusedResult }]"
+            :class="{
+              [$style.result]: true,
+              [$style.focused]: i === focusedResult,
+              [$style.cordMatch]: c.chordMatch,
+            }"
             @click="runCommand(c)"
           >
             <component v-if="c.icon" :is="c.icon" />
@@ -209,6 +259,7 @@ export const VBarContext: InjectionKey<{
               <span :class="$style.groupName">&rsaquo;</span>
             </template>
             <span data-clamp :title="c.name">{{ c.name }}</span>
+            <span v-if="c.chord" :class="$style.chord">{{ c.chord }}</span>
           </button>
         </li>
       </ul>
@@ -253,10 +304,36 @@ export const VBarContext: InjectionKey<{
   --\$button-bg: var(--c-surface-variant-bg);
 }
 
+.result.cordMatch {
+  --\$button-bg: var(--indigo-50);
+  --\$button-fg: var(--indigo-500);
+  --\$button-hover-bg: var(--indigo-100);
+}
+
+.result.cordMatch .groupName {
+  color: var(--indigo-400);
+}
+
+.result.cordMatch .chord {
+  border-color: var(--indigo-200);
+  color: var(--indigo-400);
+}
+
 .groupName {
   color: var(--c-fg-variant);
   display: inline-block;
   flex: none;
   font-weight: var(--font-weight-normal);
+}
+
+.chord {
+  background: var(--c-surface-bg);
+  border-radius: var(--border-radius-small);
+  border: var(--border-width) solid var(--c-border);
+  color: var(--c-fg-variant);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-small);
+  margin-left: auto;
+  padding: 0 0.25rem;
 }
 </style>

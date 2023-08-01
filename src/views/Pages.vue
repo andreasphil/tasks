@@ -60,10 +60,11 @@ let cleanupPages: (() => void) | null = null;
 function registerPages(pages: (typeof pagesList)["value"]) {
   cleanupPages?.();
 
-  const commands = toValue(pages).map<Command>((page) => ({
+  const commands = toValue(pages).map<Command>((page, i) => ({
     id: `page:open-${page.id}`,
     name: page.title,
-    alias: ["open page"],
+    alias: ["page"],
+    chord: `g${i + 1}`,
     groupName: "Open",
     icon: FileCheck2,
     action: () => router.push({ name: "Page", params: { id: page.id } }),
@@ -84,7 +85,8 @@ const staticCommands: Command[] = [
   {
     id: "pages:new",
     name: "Add page",
-    alias: ["New page"],
+    alias: ["new"],
+    chord: "pn",
     groupName: "Pages",
     icon: Plus,
     action: goToNewPage,
@@ -92,7 +94,7 @@ const staticCommands: Command[] = [
   {
     id: "pages:delete",
     name: "Delete page",
-    alias: ["Remove page"],
+    alias: ["remove"],
     groupName: "Pages",
     icon: Trash2,
     action: beginRemovePage,
