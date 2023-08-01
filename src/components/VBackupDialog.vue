@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import VDialog from "@/components/VDialog.vue";
 import { usePages } from "@/stores/pages";
+import dayjs from "dayjs";
 import { Check, DownloadCloud, UploadCloud } from "lucide-vue-next";
 import { computed } from "vue";
 
@@ -35,6 +36,7 @@ async function saveToFile() {
   try {
     const handle = await window.showSaveFilePicker({
       types: [{ accept: { "application/json": [".json"] } }],
+      suggestedName: `textflow-${dayjs().format("YYYY-MM-DD")}.json`,
     });
 
     const writable = await handle.createWritable();
