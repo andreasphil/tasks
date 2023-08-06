@@ -56,28 +56,8 @@ const textareaEl = ref<null | HTMLTextAreaElement>(null);
  * Model value handling                               *
  * -------------------------------------------------- */
 
-// Note that this needs to be somewhat convoluted because we need a local copy
-// of the model that is updated immediately without waiting for Vue to go
-// through the entire reactivity cycle. This allows us to do string manipulation
-// on the value without losing caret position etc. The source of truth is still
-// the modelValue prop though, so we need to keep them in sync.
-// TODO: Verify if the above is still true
-
-const localModelValue = ref(props.modelValue);
-
-// Import changes to the modelValue = replace local value with the new value
-watch(
-  () => props.modelValue,
-  (next, previous) => {
-    if (next !== previous) localModelValue.value = next;
-  }
-);
-
-// Export changes to the modelValue = set local copy immediately and emit
-// event to parent
 function setLocalModelValue(value: string | string[]): void {
   const stringValue = Array.isArray(value) ? joinLines(value) : value;
-  localModelValue.value = stringValue;
   emit("update:modelValue", stringValue);
 }
 
@@ -86,7 +66,7 @@ function onInput(event: Event): void {
   setLocalModelValue(event.target.value);
 }
 
-const rows = computed(() => splitLines(localModelValue.value));
+const rows = computed(() => splitLines(props.modelValue));
 
 const rowsWithContext = computed(() =>
   rows.value.map((r, i) => ({
@@ -115,9 +95,12 @@ watchEffect(() => {
   if (textareaEl.value) determineEditorHeight();
 });
 
-watch(localModelValue, () => {
-  if (textareaEl.value) determineEditorHeight();
-});
+watch(
+  () => props.modelValue,
+  () => {
+    if (textareaEl.value) determineEditorHeight();
+  }
+);
 
 const overscroll = computed<string | undefined>(() => {
   if (props.scrollBeyondLastLine === true) return "18rem";
@@ -346,7 +329,7 @@ export type Context = {
     <textarea
       :class="$style.textarea"
       :spellcheck="spellcheck"
-      :value="localModelValue"
+      :value="props.modelValue"
       @input="onInput"
       @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
       @keydown.alt.up.prevent="allowFlipLines ? onFlip('up') : undefined"
