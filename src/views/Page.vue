@@ -4,7 +4,9 @@ import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
-import VTextarea2 from "@/components/VTextarea2.vue";
+import VTextarea2, {
+  type Context as TextareaContext,
+} from "@/components/VTextarea2.vue";
 import { nextWeek, today, tomorrow } from "@/lib/date";
 import { Item, TaskStatus, parse } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
@@ -50,11 +52,15 @@ const textareaEl = ref<InstanceType<typeof VTextarea2> | null>(null);
 
 watch(pageId, async () => {
   await nextTick();
-  textareaEl.value?.focus(0);
+  textareaEl.value?.withContext(({ focus }: TextareaContext) => {
+    focus({ to: "absolute", start: 0 });
+  });
 });
 
 onMounted(() => {
-  textareaEl.value?.focus(0);
+  textareaEl.value?.withContext(({ focus }: TextareaContext) => {
+    focus({ to: "absolute", start: 0 });
+  });
 });
 
 /* -------------------------------------------------- *
@@ -77,10 +83,6 @@ const continueLists: ContinueListRule[] = [
  * Interacting with items                             *
  * -------------------------------------------------- */
 
-const currentItemIndex = ref(0);
-
-const currentSelection = ref<[number, number]>([0, 0]);
-
 const dueDateDialog = ref(false);
 
 const dueDateDialogValue = ref<string>();
@@ -90,72 +92,67 @@ function beginUpdateDueDate() {
 }
 
 function setDueDateFromDialog() {
-  updateDueDate(
-    currentItemIndex.value,
-    dueDateDialogValue.value ? new Date(dueDateDialogValue.value) : undefined
-  );
+  const date = dueDateDialogValue.value
+    ? new Date(dueDateDialogValue.value)
+    : undefined;
+
+  updateDueDate(date);
 }
 
 async function updateDueDate(
-  index: number,
-  dueDate: Date | "today" | "tomorrow" | "next-week" | undefined,
-  keepSelection = true
+  dueDate: Date | "today" | "tomorrow" | "next-week" | undefined
 ) {
-  let effectiveDueDate: Date | undefined;
+  textareaEl.value?.withContext((ctx: TextareaContext) => {
+    let effectiveDueDate: Date | undefined;
 
-  if (dueDate === "today") {
-    effectiveDueDate = today();
-  } else if (dueDate === "tomorrow") {
-    effectiveDueDate = tomorrow();
-  } else if (dueDate === "next-week") {
-    effectiveDueDate = nextWeek();
-  } else {
-    effectiveDueDate = dueDate;
-  }
+    if (dueDate === "today") {
+      effectiveDueDate = today();
+    } else if (dueDate === "tomorrow") {
+      effectiveDueDate = tomorrow();
+    } else if (dueDate === "next-week") {
+      effectiveDueDate = nextWeek();
+    } else {
+      effectiveDueDate = dueDate;
+    }
 
-  updateItem(index, (item) => {
-    item.dueDate = effectiveDueDate;
+    updateItem(ctx.selectedLines[0], (item) => {
+      item.dueDate = effectiveDueDate;
+    });
+
+    ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
   });
-
-  if (keepSelection) {
-    await nextTick();
-    textareaEl.value?.focus(...currentSelection.value);
-  }
 }
 
 async function updateStatus(
-  index: number,
   status: TaskStatus,
+  index?: number,
   keepSelection = true
 ) {
-  updateItem(index, (item) => {
-    if (item.type !== "task") item.type = "task";
-    item.status = status;
-  });
+  textareaEl.value?.withContext((ctx: TextareaContext) => {
+    let effectiveIndex = index ?? ctx.selectedLines[0];
 
-  if (keepSelection) {
-    await nextTick();
-    textareaEl.value?.focus(...currentSelection.value);
-  }
+    updateItem(effectiveIndex, (item) => {
+      if (item.type !== "task") item.type = "task";
+      item.status = status;
+    });
+
+    if (keepSelection) {
+      ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
+    }
+  });
 }
 
-async function updateType(
-  index: number,
-  type: Item["type"],
-  keepSelection = true
-) {
-  const lenBefore = text.value?.length ?? 0;
+async function updateType(type: Item["type"]) {
+  textareaEl.value?.withContext((ctx: TextareaContext) => {
+    const lenBefore = text.value?.length ?? 0;
 
-  updateItem(index, (item) => {
-    item.type = type;
-  });
+    updateItem(ctx.selectedLines[0], (item) => {
+      item.type = type;
+    });
 
-  if (keepSelection) {
-    await nextTick();
     const lenAfter = text.value?.length ?? 0;
-    const newSelection = currentSelection.value[0] + lenAfter - lenBefore;
-    textareaEl.value?.focus(newSelection);
-  }
+    ctx.adjustSelection({ to: "relative", delta: lenAfter - lenBefore });
+  });
 }
 
 /* -------------------------------------------------- *
@@ -184,7 +181,7 @@ const commands: Command[] = [
     groupName: "Due",
     chord: "dut",
     icon: Calendar,
-    action: () => updateDueDate(currentItemIndex.value, "today"),
+    action: () => updateDueDate("today"),
   },
   {
     id: "item:dueDate:tomorrow",
@@ -192,7 +189,7 @@ const commands: Command[] = [
     chord: "dum",
     groupName: "Due",
     icon: Calendar,
-    action: () => updateDueDate(currentItemIndex.value, "tomorrow"),
+    action: () => updateDueDate("tomorrow"),
   },
   {
     id: "item:dueDate:nextWeek",
@@ -201,7 +198,7 @@ const commands: Command[] = [
     chord: "dun",
     groupName: "Due",
     icon: Calendar,
-    action: () => updateDueDate(currentItemIndex.value, "next-week"),
+    action: () => updateDueDate("next-week"),
   },
   {
     id: "item:dueDate:custom",
@@ -217,7 +214,7 @@ const commands: Command[] = [
     name: "Clear",
     groupName: "Due",
     icon: CalendarX2,
-    action: () => updateDueDate(currentItemIndex.value, undefined),
+    action: () => updateDueDate(undefined),
   },
 
   // Status
@@ -228,7 +225,7 @@ const commands: Command[] = [
     chord: "oo",
     groupName: "Set status",
     icon: CircleDashed,
-    action: () => updateStatus(currentItemIndex.value, "incomplete"),
+    action: () => updateStatus("incomplete"),
   },
   {
     id: "task:status:complete",
@@ -237,7 +234,7 @@ const commands: Command[] = [
     chord: "xx",
     groupName: "Set status",
     icon: Check,
-    action: () => updateStatus(currentItemIndex.value, "completed"),
+    action: () => updateStatus("completed"),
   },
   {
     id: "task:status:inProgress",
@@ -246,7 +243,7 @@ const commands: Command[] = [
     chord: "//",
     groupName: "Set status",
     icon: Construction,
-    action: () => updateStatus(currentItemIndex.value, "inProgress"),
+    action: () => updateStatus("inProgress"),
   },
   {
     id: "task:status:important",
@@ -254,7 +251,7 @@ const commands: Command[] = [
     groupName: "Set status",
     chord: "!!",
     icon: Star,
-    action: () => updateStatus(currentItemIndex.value, "important"),
+    action: () => updateStatus("important"),
   },
   {
     id: "task:status:question",
@@ -263,7 +260,7 @@ const commands: Command[] = [
     chord: "??",
     groupName: "Set status",
     icon: HelpCircle,
-    action: () => updateStatus(currentItemIndex.value, "question"),
+    action: () => updateStatus("question"),
   },
 
   // Type
@@ -273,7 +270,7 @@ const commands: Command[] = [
     groupName: "Turn into",
     chord: "tun",
     icon: StickyNote,
-    action: () => updateType(currentItemIndex.value, "note"),
+    action: () => updateType("note"),
   },
   {
     id: "item:type:heading",
@@ -282,7 +279,7 @@ const commands: Command[] = [
     alias: ["section"],
     chord: "tuh",
     icon: Heading1,
-    action: () => updateType(currentItemIndex.value, "heading"),
+    action: () => updateType("heading"),
   },
   {
     id: "item:type:task",
@@ -290,7 +287,7 @@ const commands: Command[] = [
     groupName: "Turn into",
     chord: "tut",
     icon: Check,
-    action: () => updateType(currentItemIndex.value, "task"),
+    action: () => updateType("task"),
   },
 
   // Page
@@ -322,8 +319,6 @@ onBeforeUnmount(() => {
     :context-provider="rowToTask"
     :continue-lists="continueLists"
     :spellcheck="false"
-    @update:current-line-index="currentItemIndex = $event"
-    @update:current-selection-range="currentSelection = $event"
     ref="textareaEl"
     v-model="text"
   >
@@ -331,7 +326,7 @@ onBeforeUnmount(() => {
       <VPageItem
         :as="index === 0 ? 'heading' : undefined"
         :item="context"
-        @update:status="updateStatus(index, $event, false)"
+        @update:status="updateStatus($event, index, false)"
       />
     </template>
   </VTextarea2>

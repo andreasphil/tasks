@@ -23,7 +23,6 @@ const props = withDefaults(
     contextProvider?: ContextProvider;
     continueLists?: false | ContinueListRule[];
     cutFullLine?: boolean;
-    dock?: boolean;
     insertTabs?: boolean;
     mergeListsOnPaste?: boolean;
     modelValue: string;
@@ -36,7 +35,6 @@ const props = withDefaults(
     contextProvider: (_: string) => ({} as RowContext),
     continueLists: () => Object.values(continueListRules),
     cutFullLine: true,
-    dock: false,
     insertTabs: true,
     mergeListsOnPaste: true,
     scrollBeyondLastLine: true,
@@ -46,8 +44,6 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
-  (e: "update:currentLineIndex", value: number): void;
-  (e: "update:currentSelectionRange", value: [number, number]): void;
 }>();
 
 defineSlots<{
@@ -62,9 +58,10 @@ const textareaEl = ref<null | HTMLTextAreaElement>(null);
 
 // Note that this needs to be somewhat convoluted because we need a local copy
 // of the model that is updated immediately without waiting for Vue to go
-// through the entire reactivity cycle. This allows us to to string manipulation
+// through the entire reactivity cycle. This allows us to do string manipulation
 // on the value without losing caret position etc. The source of truth is still
 // the modelValue prop though, so we need to keep them in sync.
+// TODO: Verify if the above is still true
 
 const localModelValue = ref(props.modelValue);
 
@@ -78,9 +75,10 @@ watch(
 
 // Export changes to the modelValue = set local copy immediately and emit
 // event to parent
-function setLocalModelValue(value: string): void {
-  localModelValue.value = value;
-  emit("update:modelValue", value);
+function setLocalModelValue(value: string | string[]): void {
+  const stringValue = Array.isArray(value) ? joinLines(value) : value;
+  localModelValue.value = stringValue;
+  emit("update:modelValue", stringValue);
 }
 
 function onInput(event: Event): void {
@@ -129,175 +127,222 @@ const overscroll = computed<string | undefined>(() => {
 });
 
 /* -------------------------------------------------- *
+ * Selection management                               *
+ * -------------------------------------------------- */
+
+async function adjustSelection(
+  opts: AdjustSelectionOpts,
+  tick = true
+): Promise<void> {
+  if (!textareaEl.value) return;
+  const { selectionStart, selectionEnd } = textareaEl.value;
+  if (tick) await nextTick();
+
+  // Set the selection to a new range, ignoring the current selection
+  if (opts.to === "absolute") {
+    textareaEl.value.setSelectionRange(opts.start, opts.end ?? opts.start);
+  }
+
+  // Shift the current selection by a delta. If `collapse` is true, the end of
+  // the selection will be moved to the start of the selection, even if a range
+  // was selected before.
+  else if (opts.to === "relative") {
+    const start = selectionStart + opts.delta;
+    const end = opts.collapse ? start : selectionEnd + opts.delta;
+    textareaEl.value.setSelectionRange(start, end);
+  }
+
+  // Sets the selection to the start of the specified line
+  else if (opts.to === "startOfLine") {
+    const [start] = getRangeFromSelectedLines(rows.value, opts.startOf);
+    textareaEl.value.setSelectionRange(start, start);
+  }
+
+  // Sets the selection to the end of the specified line
+  else if (opts.to === "endOfLine") {
+    const [, end] = getRangeFromSelectedLines(rows.value, opts.endOf);
+    textareaEl.value.setSelectionRange(end, end);
+  }
+
+  // Sets the selection to a range spanning the specified lines
+  else if (opts.to === "lines") {
+    const [s, e] = getRangeFromSelectedLines(rows.value, opts.start, opts.end);
+    textareaEl.value.setSelectionRange(s, e);
+  }
+}
+
+/* -------------------------------------------------- *
  * Tab handling                                       *
  * -------------------------------------------------- */
 
-async function onInsertTab(event: KeyboardEvent): Promise<void> {
-  if (!textareaEl.value) return;
-
+function onInsertTab(event: KeyboardEvent): void {
   const newRows = [...rows.value];
-  const { selectionStart, selectionEnd } = textareaEl.value;
-  const [from, to] = getSelectedLines(newRows, selectionStart, selectionEnd);
   const mode: IndentMode = event.shiftKey ? "outdent" : "indent";
 
-  const indented = indent(newRows.slice(from, to + 1), mode);
-  newRows.splice(from, to - from + 1, ...indented);
-  setLocalModelValue(joinLines(newRows));
+  withContext(({ adjustSelection, selectedLines }) => {
+    const [from, to] = selectedLines;
 
-  await nextTick();
+    const toIndent = newRows.slice(from, to + 1);
+    const indented = indent(toIndent, mode);
 
-  if (from === to && mode === "indent") {
-    const start = selectionStart + 1;
-    textareaEl.value.setSelectionRange(start, start);
-  } else if (from === to && mode === "outdent") {
-    const [minStart] = getRangeFromSelectedLines(newRows, from, to);
-    const start = Math.max(minStart, selectionStart - 1);
-    textareaEl.value.setSelectionRange(start, start);
-  } else {
-    const [start, end] = getRangeFromSelectedLines(newRows, from, to);
-    textareaEl.value.setSelectionRange(start, end);
-  }
+    // Nothing to do if nothing has changed
+    if (toIndent.every((r, i) => r === indented[i])) return;
+
+    newRows.splice(from, to - from + 1, ...indented);
+    setLocalModelValue(newRows);
+
+    if (from === to) {
+      adjustSelection({ to: "relative", delta: mode === "indent" ? 1 : -1 });
+    } else {
+      adjustSelection({ to: "lines", start: from, end: to });
+    }
+  });
 }
 
 /* -------------------------------------------------- *
  * List continuation                                  *
  * -------------------------------------------------- */
 
-async function onContinueList(): Promise<void> {
-  if (!textareaEl.value) return;
-
+function onContinueList(): void {
   const newRows = [...rows.value];
-  const { selectionStart } = textareaEl.value;
-  const [lineNr] = getSelectedLines(newRows, selectionStart);
-  const rules = Array.isArray(props.continueLists) ? props.continueLists : [];
-  const cursorInLine = getCursorInLine(props.modelValue, selectionStart);
+  const rules = props.continueLists ? props.continueLists : [];
 
-  const continued = continueList(newRows[lineNr], rules, cursorInLine);
-  newRows.splice(lineNr, 1, continued.current);
-  if (continued.next !== null) newRows.splice(lineNr + 1, 0, continued.next);
-  setLocalModelValue(joinLines(newRows));
+  withContext(({ selectionStart, selectedLines, adjustSelection }) => {
+    const [lineNr] = selectedLines;
+    const cursorInLine = getCursorInLine(props.modelValue, selectionStart);
 
-  await nextTick();
+    const continued = continueList(newRows[lineNr], rules, cursorInLine);
+    newRows.splice(lineNr, 1, continued.current);
+    if (continued.next !== null) newRows.splice(lineNr + 1, 0, continued.next);
+    setLocalModelValue(newRows);
 
-  let start = selectionStart + 1;
-  if ("didContinue" in continued && continued.didContinue) {
-    start += continued.match.length;
-  } else if ("didEnd" in continued && continued.didEnd) {
-    start = selectionStart - continued.match.length;
-  }
-  textareaEl.value?.setSelectionRange(start, start);
+    if ("didContinue" in continued && continued.didContinue) {
+      adjustSelection({ to: "relative", delta: continued.match.length + 1 });
+    } else if ("didEnd" in continued && continued.didEnd) {
+      adjustSelection({ to: "startOfLine", startOf: lineNr });
+    } else {
+      adjustSelection({ to: "relative", delta: 1 });
+    }
+  });
 }
 
 /* -------------------------------------------------- *
  * Flipping lines                                     *
  * -------------------------------------------------- */
 
-async function onFlip(direction: "up" | "down") {
-  if (!textareaEl.value) return;
-
+function onFlip(direction: "up" | "down"): void {
   const newRows = [...rows.value];
-  const { selectionStart, selectionEnd } = textareaEl.value;
-  const [from, endLineNr] = getSelectedLines(
-    newRows,
-    selectionStart,
-    selectionEnd
-  );
-  const to = direction === "up" ? from - 1 : from + 1;
 
-  if (from !== endLineNr || to < 0 || to >= newRows.length) return;
+  withContext(({ selectedLines, adjustSelection }) => {
+    const [lineNr, endLineNr] = selectedLines;
+    const to = direction === "up" ? lineNr - 1 : lineNr + 1;
 
-  const [flippedFrom, flippedTo] = flip(newRows[from], newRows[to]);
-  newRows[from] = flippedFrom;
-  newRows[to] = flippedTo;
-  setLocalModelValue(joinLines(newRows));
+    if (lineNr !== endLineNr || to < 0 || to >= newRows.length) return;
 
-  await nextTick();
+    const [flippedFrom, flippedTo] = flip(newRows[lineNr], newRows[to]);
+    newRows[lineNr] = flippedFrom;
+    newRows[to] = flippedTo;
+    setLocalModelValue(newRows);
 
-  const [selUp, selDown] = getRangeFromSelectedLines(newRows, from, to);
-  if (direction === "up") textareaEl.value.setSelectionRange(selUp, selUp);
-  else textareaEl.value.setSelectionRange(selDown, selDown);
+    adjustSelection({ to: "endOfLine", endOf: to });
+  });
 }
 
 /* -------------------------------------------------- *
  * Cutting and pasting                                *
  * -------------------------------------------------- */
 
-async function onCut(event: KeyboardEvent) {
-  if (!textareaEl.value) return;
-
-  const { selectionStart, selectionEnd } = textareaEl.value;
-  if (selectionStart !== selectionEnd) return;
-
-  event.preventDefault();
-
+function onCut(event: KeyboardEvent): void {
   const newRows = [...rows.value];
-  const [lineNr] = getSelectedLines(newRows, selectionStart);
 
-  await navigator.clipboard.writeText(newRows[lineNr]);
-  newRows.splice(lineNr, 1);
-  setLocalModelValue(joinLines(newRows));
+  withContext(async ({ selectedLines, adjustSelection }) => {
+    const [lineNr, endLineNr] = selectedLines;
+    if (lineNr !== endLineNr) return;
 
-  await nextTick();
-  textareaEl.value.setSelectionRange(selectionStart, selectionStart);
+    event.preventDefault();
+
+    await navigator.clipboard.writeText(newRows[lineNr]);
+    newRows.splice(lineNr, 1);
+    setLocalModelValue(newRows);
+
+    const newLinNr = Math.min(lineNr, newRows.length - 1);
+    adjustSelection({ to: "startOfLine", startOf: newLinNr });
+  });
 }
 
-async function onPaste(event: ClipboardEvent) {
+function onPaste(event: ClipboardEvent): void {
   const payload = event.clipboardData?.getData("text/plain");
-  if (!textareaEl.value || !payload || !props.continueLists) return;
-
-  const { selectionStart, selectionEnd } = textareaEl.value;
-  if (selectionStart !== selectionEnd) return;
-
   const newRows = [...rows.value];
-  const [lineNr] = getSelectedLines(newRows, selectionStart);
-  const merge = mergeList(newRows[lineNr], payload, props.continueLists);
-  if (merge === null) return;
 
-  event.preventDefault();
+  withContext(({ selectedLines, adjustSelection }) => {
+    if (!payload || !props.continueLists) return;
 
-  newRows[lineNr] = merge.current;
-  setLocalModelValue(joinLines(newRows));
+    const [lineNr, endLineNr] = selectedLines;
+    if (lineNr !== endLineNr) return;
 
-  await nextTick();
-  const selection = selectionStart + merge.current.length - merge.match.length;
-  textareaEl.value.setSelectionRange(selection, selection);
-}
+    const merge = mergeList(newRows[lineNr], payload, props.continueLists);
+    if (merge === null) return;
 
-/* -------------------------------------------------- *
- * DOM interactions                                   *
- * -------------------------------------------------- */
+    event.preventDefault();
 
-function emitCurrentPosition(): void {
-  if (!textareaEl.value) return;
+    newRows[lineNr] = merge.current;
+    setLocalModelValue(newRows);
 
-  const { selectionStart, selectionEnd } = textareaEl.value;
-  emit("update:currentSelectionRange", [selectionStart, selectionEnd]);
-
-  const [lineNr] = getSelectedLines(rows.value, selectionStart);
-  emit("update:currentLineIndex", lineNr);
-}
-
-async function focus(from?: number, to?: number): Promise<void> {
-  textareaEl.value?.focus();
-
-  if (typeof from === "number") {
-    await nextTick();
-    textareaEl.value?.setSelectionRange(from, to ?? from);
-    emitCurrentPosition();
-  } else {
-    emitCurrentPosition();
-  }
+    adjustSelection({
+      to: "relative",
+      delta: merge.current.length - merge.match.length,
+      collapse: true,
+    });
+  });
 }
 
 /* -------------------------------------------------- *
  * Public interface                                   *
  * -------------------------------------------------- */
 
-defineExpose({ focus });
+function focus(selection?: AdjustSelectionOpts): void {
+  textareaEl.value?.focus();
+  if (selection) adjustSelection(selection);
+}
+
+async function withContext(
+  callback: (ctx: Context) => void | Promise<void>
+): Promise<void> {
+  if (!textareaEl.value) return;
+
+  const { selectionStart, selectionEnd } = textareaEl.value;
+
+  await callback({
+    adjustSelection,
+    focus,
+    selectedLines: getSelectedLines(rows.value, selectionStart, selectionEnd),
+    selectionEnd,
+    selectionStart,
+  });
+}
+
+defineExpose({ withContext });
+</script>
+
+<script lang="ts">
+export type AdjustSelectionOpts =
+  | { to: "absolute"; start: number; end?: number }
+  | { to: "relative"; delta: number; collapse?: boolean }
+  | { to: "startOfLine"; startOf: number }
+  | { to: "endOfLine"; endOf: number }
+  | { to: "lines"; start: number; end: number };
+
+export type Context = {
+  adjustSelection: (opts: AdjustSelectionOpts, tick?: boolean) => Promise<void>;
+  focus: (selection?: AdjustSelectionOpts) => void;
+  selectedLines: [number, number];
+  selectionStart: number;
+  selectionEnd: number;
+};
 </script>
 
 <template>
-  <div :class="[$style.wrapper, { [$style.dock]: dock }]" @click="focus()">
+  <div :class="$style.wrapper" @click="focus()">
     <textarea
       :class="$style.textarea"
       :spellcheck="spellcheck"
@@ -308,8 +353,6 @@ defineExpose({ focus });
       @keydown.enter.prevent="continueLists ? onContinueList() : undefined"
       @keydown.meta.x="cutFullLine ? onCut($event) : undefined"
       @keydown.tab.prevent="insertTabs ? onInsertTab($event) : undefined"
-      @keyup="emitCurrentPosition()"
-      @mouseup="emitCurrentPosition()"
       @paste="mergeListsOnPaste ? onPaste($event) : undefined"
       ref="textareaEl"
     />
@@ -370,10 +413,5 @@ defineExpose({ focus });
 
 .row {
   min-height: 1lh;
-}
-
-.dock {
-  height: 100%;
-  width: 100%;
 }
 </style>
