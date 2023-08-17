@@ -152,12 +152,15 @@ const focusedResult = ref(0);
 const filteredCommands = computed(() => {
   if (!query.value) return [];
 
+  const queryTokens = query.value.toLowerCase().split(" ");
+
   const result: Array<Command & { chordMatch?: true }> = commands.value
-    .filter((command) => {
-      return [command.name, ...(command.alias ?? []), command.groupName ?? ""]
+    .filter((i) => {
+      const commandStr = [i.name, ...(i.alias ?? []), i.groupName ?? ""]
         .join(" ")
-        .toLowerCase()
-        .includes(query.value.toLowerCase());
+        .toLowerCase();
+
+      return queryTokens.every((token) => commandStr.includes(token));
     })
     .slice(0, props.limitResults);
 
