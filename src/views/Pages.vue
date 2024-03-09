@@ -2,6 +2,7 @@
 import VBackupDialog from "@/components/VBackupDialog.vue";
 import { VBarContext, type VBarCommand } from "@/components/VBar.vue";
 import VLayout from "@/components/VLayout.vue";
+import VRouterLink from "@/components/VRouterLink.vue";
 import { usePages } from "@/stores/pages";
 import {
   Command,
@@ -11,7 +12,7 @@ import {
   Trash2,
 } from "lucide-vue-next";
 import { inject, onBeforeUnmount, onMounted, ref, toValue, watch } from "vue";
-import { RouterLink, RouterView, useRoute, useRouter } from "vue-router";
+import { RouterView, useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
 const route = useRoute();
@@ -151,21 +152,10 @@ onBeforeUnmount(() => {
             <hr />
           </li>
           <li v-for="page in pagesList">
-            <RouterLink
-              :to="{ name: 'Page', params: { id: page.id } }"
-              custom
-              v-slot="{ isExactActive, href, navigate }"
-            >
-              <a
-                :data-active="isExactActive"
-                :href="href"
-                :title="page.title"
-                @click="navigate"
-              >
+            <VRouterLink :to="{ name: 'Page', params: { id: page.id } }">
                 <FileCheck2 />
                 <span data-clamp>{{ page.title }}</span>
-              </a>
-            </RouterLink>
+            </VRouterLink>
           </li>
         </ul>
       </nav>
