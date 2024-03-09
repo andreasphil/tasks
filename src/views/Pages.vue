@@ -63,7 +63,7 @@ function registerPages(pages: (typeof pagesList)["value"]) {
   cleanupPages?.();
 
   const commands = toValue(pages).map<VBarCommand>((page, i) => ({
-    id: `page:open-${page.id}`,
+    id: `page:open:${page.id}`,
     name: page.title,
     alias: ["page"],
     chord: `g${i + 1}`,
@@ -107,6 +107,14 @@ const staticCommands: VBarCommand[] = [
     groupName: "Pages",
     icon: DownloadCloud,
     action: beginBackup,
+  },
+  {
+    id: "open:today",
+    name: "Today",
+    chord: "gt",
+    groupName: "Open",
+    icon: Sparkles,
+    action: () => router.push({ name: "Today" }),
   },
 ];
 
