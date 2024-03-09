@@ -8,7 +8,7 @@ import VTextarea2, {
   type EditingContext as TextareaContext,
 } from "@/components/VTextarea2.vue";
 import { nextWeek, today, tomorrow } from "@/lib/date";
-import { Item, TaskStatus, parseWithMemo } from "@/lib/parser";
+import { Item, TaskStatus, parseWithMemo as rowToTask } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
 import {
@@ -65,10 +65,6 @@ onMounted(() => {
 /* -------------------------------------------------- *
  * Editor hooks and customizations                    *
  * -------------------------------------------------- */
-
-function rowToTask(row: string): Item {
-  return parseWithMemo(row);
-}
 
 const continueLists: ContinueListRule[] = [
   { pattern: /\t*\[-] /, next: "same" },

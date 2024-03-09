@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import VPageItem from "@/components/VPageItem.vue";
 import VTextarea2 from "@/components/VTextarea2.vue";
-import { Item, parseWithMemo } from "@/lib/parser";
+import { parseWithMemo as rowToTask } from "@/lib/parser";
 import { useTodayPage } from "@/stores/todayPage";
 
 /* -------------------------------------------------- *
@@ -9,14 +9,6 @@ import { useTodayPage } from "@/stores/todayPage";
  * -------------------------------------------------- */
 
 const { text } = useTodayPage();
-
-/* -------------------------------------------------- *
- * Editor hooks and customizations                    *
- * -------------------------------------------------- */
-
-function rowToTask(row: string): Item {
-  return parseWithMemo(row);
-}
 </script>
 
 <template>
