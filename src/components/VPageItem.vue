@@ -167,6 +167,7 @@ const todayOrOverdue = computed(() => {
   border-radius: var(--border-radius-small);
   color: var(--c-fg-variant);
   position: relative;
+  white-space: nowrap;
 }
 
 .dueDate::after {
@@ -192,6 +193,7 @@ const todayOrOverdue = computed(() => {
   border-radius: var(--border-radius-small);
   color: var(--c-fg-variant);
   position: relative;
+  white-space: nowrap;
 }
 
 .tag::after {
