@@ -13,10 +13,10 @@ const { text } = useTodayPage();
 
 <template>
   <VTextarea2
-    :class="$style.editor"
     :context-provider="rowToTask"
     :model-value="text"
     :spellcheck="false"
+    class="mono"
     readonly
     ref="textareaEl"
   >
@@ -25,13 +25,3 @@ const { text } = useTodayPage();
     </template>
   </VTextarea2>
 </template>
-
-<style module>
-.editor {
-  caret-color: var(--c-fg);
-  font-family: var(--font-mono);
-  margin: auto;
-  max-width: 50rem;
-  min-height: 100%;
-}
-</style>

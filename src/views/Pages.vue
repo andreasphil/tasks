@@ -144,6 +144,7 @@ onBeforeUnmount(() => {
     <template #sidebar>
       <nav>
         <strong>Textflow</strong>
+        <!-- Static contents -->
         <ul>
           <li>
             <a href="#" @click.prevent="vbar?.open()" class="text-c-variant">
@@ -160,6 +161,8 @@ onBeforeUnmount(() => {
           <li>
             <hr />
           </li>
+
+          <!-- Smart pages -->
           <li>
             <VRouterLink :to="{ name: 'Today' }">
               <Sparkles />
@@ -169,6 +172,8 @@ onBeforeUnmount(() => {
           <li>
             <hr />
           </li>
+
+          <!-- User pages -->
           <li v-for="page in pagesList">
             <VRouterLink :to="{ name: 'Page', params: { id: page.id } }">
               <FileCheck2 />

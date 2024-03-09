@@ -4,9 +4,11 @@
       <slot name="sidebar" />
     </aside>
 
-    <main :class="$style.content">
-      <slot />
-    </main>
+    <div :class="$style.content">
+      <main :class="$style.main">
+        <slot />
+      </main>
+    </div>
   </div>
 </template>
 
@@ -30,5 +32,11 @@
   flex: 1 1 auto;
   padding: 2rem;
   overflow: auto;
+}
+
+.main {
+  margin: auto;
+  max-width: 50rem;
+  min-height: 100%;
 }
 </style>

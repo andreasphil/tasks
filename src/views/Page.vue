@@ -308,7 +308,7 @@ onBeforeUnmount(() => {
 
   <VTextarea2
     v-else-if="text !== undefined"
-    :class="$style.editor"
+    :class="[$style.editor, 'mono']"
     :context-provider="rowToTask"
     :continue-lists="continueLists"
     :spellcheck="false"
@@ -335,10 +335,6 @@ onBeforeUnmount(() => {
 
 <style module>
 .editor {
-  caret-color: var(--c-fg);
-  font-family: var(--font-mono);
-  margin: auto;
-  max-width: 50rem;
-  min-height: 100%;
+  caret-color: var(--primary);
 }
 </style>

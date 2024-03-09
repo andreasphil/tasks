@@ -23,6 +23,7 @@
 
 :root {
   --font-mono: "Fira Code Variable", ui-monospace, monospace;
+  --font-size-mono: 0.95em;
 
   --red: 350 90% 65%;
   --red-50: hsl(var(--red) / 0.075);
@@ -70,4 +71,9 @@ nav a:has(svg) {
 
 .mr-auto {
   margin-right: auto;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-mono);
 }
