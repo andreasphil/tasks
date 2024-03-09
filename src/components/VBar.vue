@@ -252,7 +252,7 @@ export const VBarContext: InjectionKey<{
             :class="{
               [$style.result]: true,
               [$style.focused]: i === focusedResult,
-              [$style.cordMatch]: c.chordMatch,
+              [$style.chordMatch]: c.chordMatch,
             }"
             @click="runCommand(c)"
           >
@@ -307,17 +307,17 @@ export const VBarContext: InjectionKey<{
   --\$button-bg: var(--c-surface-variant-bg);
 }
 
-.result.cordMatch {
+.result.chordMatch {
   --\$button-bg: var(--indigo-50);
   --\$button-fg: var(--indigo-500);
   --\$button-hover-bg: var(--indigo-100);
 }
 
-.result.cordMatch .groupName {
+.result.chordMatch .groupName {
   color: var(--indigo-400);
 }
 
-.result.cordMatch .chord {
+.result.chordMatch .chord {
   border-color: var(--indigo-200);
   color: var(--indigo-400);
 }
