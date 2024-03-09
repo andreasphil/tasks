@@ -13,6 +13,7 @@ export function useTodayPage() {
 
   const pagesWithItems = computed<Array<Page & { items: Item[] }>>(() =>
     Object.values(pages)
+      .map((page) => ({ ...page, text: page.text.replace(/\t/g, "") }))
       .map((page) => ({ ...page, items: parseManyWithMemo(page.text) }))
       .sort((a, b) => b.updatedAt - a.updatedAt)
   );
