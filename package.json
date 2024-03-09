@@ -10,18 +10,18 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@fontsource/ia-writer-quattro": "^5.0.5",
-    "@types/wicg-file-system-access": "^2020.9.6",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "dayjs": "^1.11.9",
+    "@fontsource/ia-writer-quattro": "^5.0.7",
+    "@types/wicg-file-system-access": "^2023.10.4",
+    "@vitejs/plugin-vue": "^4.6.2",
+    "dayjs": "^1.11.10",
     "finecss": "github:andreasphil/fine#v0.19.0",
     "lucide-vue-next": "^0.257.0",
     "memize": "^2.1.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.7",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.5",
     "vitest": "^0.32.4",
-    "vue": "^3.3.4",
-    "vue-router": "^4.2.4",
-    "vue-tsc": "^1.8.8"
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "vue-tsc": "^1.8.27"
   }
 }
