@@ -9,6 +9,7 @@ import {
   DownloadCloud,
   FileCheck2,
   Plus,
+  Sparkles,
   Trash2,
 } from "lucide-vue-next";
 import { inject, onBeforeUnmount, onMounted, ref, toValue, watch } from "vue";
@@ -151,10 +152,19 @@ onBeforeUnmount(() => {
           <li>
             <hr />
           </li>
+          <li>
+            <VRouterLink :to="{ name: 'Today' }">
+              <Sparkles />
+              Today
+            </VRouterLink>
+          </li>
+          <li>
+            <hr />
+          </li>
           <li v-for="page in pagesList">
             <VRouterLink :to="{ name: 'Page', params: { id: page.id } }">
-                <FileCheck2 />
-                <span data-clamp>{{ page.title }}</span>
+              <FileCheck2 />
+              <span data-clamp>{{ page.title }}</span>
             </VRouterLink>
           </li>
         </ul>
