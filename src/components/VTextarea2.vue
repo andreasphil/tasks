@@ -335,8 +335,8 @@ export type EditingContext = {
   >
     <textarea
       :class="$style.textarea"
-      :readonly
-      :spellcheck
+      :readonly="readonly"
+      :spellcheck="spellcheck"
       :value="props.modelValue"
       @input="onInput"
       @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
