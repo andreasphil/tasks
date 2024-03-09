@@ -34,5 +34,5 @@ export type Page = Model<{
 
 export function getTitle(page: Page): string {
   const [firstLine] = page.text.trim().split("\n");
-  return firstLine || "Untitled";
+  return firstLine.trim() || "Untitled";
 }
