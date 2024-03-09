@@ -26,6 +26,7 @@ const props = withDefaults(
     insertTabs?: boolean;
     mergeListsOnPaste?: boolean;
     modelValue: string;
+    readonly?: boolean;
     scrollBeyondLastLine?: boolean | number;
     spellcheck?: boolean;
     tabSize?: number;
@@ -37,7 +38,9 @@ const props = withDefaults(
     cutFullLine: true,
     insertTabs: true,
     mergeListsOnPaste: true,
+    readonly: false,
     scrollBeyondLastLine: true,
+    spellcheck: true,
     tabSize: 4,
   }
 );
@@ -289,9 +292,10 @@ function focus(selection?: AdjustSelectionOpts): void {
 }
 
 async function withContext(
-  callback: (ctx: Context) => void | Promise<void>
+  callback: (ctx: EditingContext) => void | Promise<void>,
+  options: { ignoreReadonly?: boolean } = { ignoreReadonly: false }
 ): Promise<void> {
-  if (!textareaEl.value) return;
+  if (!textareaEl.value || (props.readonly && !options.ignoreReadonly)) return;
 
   const { selectionStart, selectionEnd } = textareaEl.value;
 
@@ -315,10 +319,10 @@ export type AdjustSelectionOpts =
   | { to: "endOfLine"; endOf: number }
   | { to: "lines"; start: number; end: number };
 
-export type Context = {
+export type EditingContext = {
   adjustSelection: (opts: AdjustSelectionOpts, tick?: boolean) => Promise<void>;
   focus: (selection?: AdjustSelectionOpts) => void;
-  selectedLines: [number, number];
+  selectedLines: [from: number, to: number];
   selectionStart: number;
   selectionEnd: number;
 };
@@ -328,7 +332,8 @@ export type Context = {
   <div :class="$style.wrapper" @click="focus()">
     <textarea
       :class="$style.textarea"
-      :spellcheck="spellcheck"
+      :readonly
+      :spellcheck
       :value="props.modelValue"
       @input="onInput"
       @keydown.alt.down.prevent="allowFlipLines ? onFlip('down') : undefined"
