@@ -10,7 +10,7 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@fontsource/ia-writer-quattro": "^5.0.7",
+    "@fontsource-variable/fira-code": "^5.0.17",
     "@types/wicg-file-system-access": "^2023.10.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "dayjs": "^1.11.10",

@@ -1,6 +1,5 @@
 @import "finecss/dist/index.min.css" layer(fine);
-@import "@fontsource/ia-writer-quattro/400.css";
-@import "@fontsource/ia-writer-quattro/700.css";
+@import "@fontsource-variable/fira-code";
 
 /* -------------------------------------------------- *
  * Fine customizations                                *
@@ -23,7 +22,7 @@
  * -------------------------------------------------- */
 
 :root {
-  --font-mono: "iA Writer Quattro", ui-monospace, monospace;
+  --font-mono: "Fira Code Variable", ui-monospace, monospace;
 
   --red: 350 90% 65%;
   --red-50: hsl(var(--red) / 0.075);

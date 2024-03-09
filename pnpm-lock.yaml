@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@fontsource/ia-writer-quattro':
-    specifier: ^5.0.7
-    version: 5.0.7
+  '@fontsource-variable/fira-code':
+    specifier: ^5.0.17
+    version: 5.0.17
   '@types/wicg-file-system-access':
     specifier: ^2023.10.5
     version: 2023.10.5
@@ -281,8 +281,8 @@ packages:
     dev: false
     optional: true
 
-  /@fontsource/ia-writer-quattro@5.0.7:
-    resolution: {integrity: sha512-o8O9dUKcAKpwlKF2mk0sfuneu0NRN6AYGIXdSPNv6iIIJ6E2ne8MchwIIY0uR6ER4m/mseLtq+IosXH86/J3zw==}
+  /@fontsource-variable/fira-code@5.0.17:
+    resolution: {integrity: sha512-TAzV74e3Tt6a7/cjxh1Jdly+Yrlc7AlSIMlzmtMUeDNQ0OcrYrcejkVRSRfGMjM+AuUhLw/PLoGV8fXj6pev5w==}
     dev: false
 
   /@jest/schemas@29.6.3:
