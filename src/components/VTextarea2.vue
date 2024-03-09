@@ -329,7 +329,10 @@ export type EditingContext = {
 </script>
 
 <template>
-  <div :class="$style.wrapper" @click="focus()">
+  <div
+    :class="{ [$style.wrapper]: true, [$style.wrapperReadonly]: readonly }"
+    @click="focus()"
+  >
     <textarea
       :class="$style.textarea"
       :readonly
@@ -364,6 +367,10 @@ export type EditingContext = {
   padding-bottom: v-bind(overscroll);
   position: relative;
   tab-size: v-bind(tabSize);
+}
+
+.wrapperReadonly {
+  cursor: unset;
 }
 
 :where(.textarea) {
