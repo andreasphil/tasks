@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import VBackupDialog from "@/components/VBackupDialog.vue";
-import { VBarContext, type Command } from "@/components/VBar.vue";
+import { VBarContext, type VBarCommand } from "@/components/VBar.vue";
 import VLayout from "@/components/VLayout.vue";
 import { usePages } from "@/stores/pages";
 import {
-  Command as CommandIcon,
+  Command,
   DownloadCloud,
   FileCheck2,
   Plus,
@@ -60,7 +60,7 @@ let cleanupPages: (() => void) | null = null;
 function registerPages(pages: (typeof pagesList)["value"]) {
   cleanupPages?.();
 
-  const commands = toValue(pages).map<Command>((page, i) => ({
+  const commands = toValue(pages).map<VBarCommand>((page, i) => ({
     id: `page:open-${page.id}`,
     name: page.title,
     alias: ["page"],
@@ -81,7 +81,7 @@ onBeforeUnmount(() => {
 
 let cleanupStaticCommands: (() => void) | null = null;
 
-const staticCommands: Command[] = [
+const staticCommands: VBarCommand[] = [
   {
     id: "pages:new",
     name: "Add page",
@@ -137,7 +137,7 @@ onBeforeUnmount(() => {
         <ul>
           <li>
             <a href="#" @click.prevent="vbar?.open()" class="text-c-variant">
-              <CommandIcon />
+              <Command />
               Go to anything
             </a>
           </li>

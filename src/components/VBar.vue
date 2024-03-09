@@ -82,18 +82,18 @@ onBeforeUnmount(() => {
  * Command registration                               *
  * -------------------------------------------------- */
 
-const commands = ref<Command[]>([]);
+const commands = ref<VBarCommand[]>([]);
 
-const chords = computed<Map<string, Command>>(() =>
+const chords = computed<Map<string, VBarCommand>>(() =>
   commands.value
     .filter((c) => Boolean(c.chord))
     .reduce(
       (all, current) => all.set(current.chord!, current),
-      new Map<string, Command>()
+      new Map<string, VBarCommand>()
     )
 );
 
-function registerCommand(...toRegister: Command[]): () => void {
+function registerCommand(...toRegister: VBarCommand[]): () => void {
   const ids = toRegister.map((c) => c.id);
   removeCommand(...ids);
   commands.value = [...commands.value, ...toRegister];
@@ -109,7 +109,7 @@ function removeCommand(...toRemove: string[]): void {
   }
 }
 
-function runCommand(command: Command) {
+function runCommand(command: VBarCommand) {
   command.action();
   mostRecent.value = command;
   toggle(false);
@@ -119,7 +119,7 @@ function runCommand(command: Command) {
  * Repeatable commands                                *
  * -------------------------------------------------- */
 
-const mostRecent = ref<Command | null>(null);
+const mostRecent = ref<VBarCommand | null>(null);
 
 function runMostRecent() {
   if (mostRecent.value) runCommand(mostRecent.value);
@@ -154,7 +154,7 @@ const filteredCommands = computed(() => {
 
   const queryTokens = query.value.toLowerCase().split(" ");
 
-  const result: Array<Command & { chordMatch?: true }> = commands.value
+  const result: Array<VBarCommand & { chordMatch?: true }> = commands.value
     .filter((i) => {
       const commandStr = [i.name, ...(i.alias ?? []), i.groupName ?? ""]
         .join(" ")
@@ -202,7 +202,7 @@ export type KeyboardShortcut = Partial<
   Pick<KeyboardEvent, "key" | "metaKey" | "altKey" | "ctrlKey" | "shiftKey">
 >;
 
-export type Command = {
+export type VBarCommand = {
   id: string;
   name: string;
   alias?: string[];
@@ -213,7 +213,7 @@ export type Command = {
 };
 
 export const VBarContext: InjectionKey<{
-  registerCommand: (...toRegister: Command[]) => () => void;
+  registerCommand: (...toRegister: VBarCommand[]) => () => void;
   removeCommand: (...toRemove: string[]) => void;
   open: () => void;
 }> = Symbol();

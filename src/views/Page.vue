@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VBarContext, type Command } from "@/components/VBar.vue";
+import { VBarContext, type VBarCommand } from "@/components/VBar.vue";
 import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VEmpty from "@/components/VEmpty.vue";
@@ -173,7 +173,7 @@ const vbar = inject(VBarContext, null);
 
 let cleanup: (() => void) | null = null;
 
-const commands: Command[] = [
+const commands: VBarCommand[] = [
   // Due date
   {
     id: "item:dueDate:today",
