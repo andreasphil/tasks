@@ -29,6 +29,9 @@
  * to contain tags and due dates.
  */
 
+import { splitLines } from "@/lib/text";
+import memize from "memize";
+
 /* -------------------------------------------------- *
  * Types                                              *
  * -------------------------------------------------- */
@@ -257,6 +260,7 @@ function insertTextTokens(original: string, tokens: Token[]): Token[] {
  * Parser                                             *
  * -------------------------------------------------- */
 
+/** Parses a single item from the specified input. */
 export function parse(input: string): Item {
   let token = null;
 
@@ -330,6 +334,25 @@ export function parse(input: string): Item {
 
   return result as Item;
 }
+
+/** Globally memoized version of the individual item parser. */
+export const parseWithMemo = memize(parse);
+
+/* -------------------------------------------------- *
+ * Batch parsing                                      *
+ * -------------------------------------------------- */
+
+/**
+ * Parses a list of items. If the input is a string, the string is split into
+ * lines. If the input is provided as an array, each item in the array is
+ * treated as an individual item.
+ */
+export function parseMany(input: string | string[]) {
+  const lines = Array.isArray(input) ? input : splitLines(input);
+  return lines.map((line) => parseWithMemo(line));
+}
+
+export const parseManyWithMemo = memize(parseMany);
 
 /* -------------------------------------------------- *
  * Stringifier                                        *

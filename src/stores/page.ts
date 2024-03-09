@@ -1,6 +1,6 @@
 import { mutate } from "@/lib/items";
 import { getTitle, type Page } from "@/lib/page";
-import { parse } from "@/lib/parser";
+import { parseWithMemo } from "@/lib/parser";
 import { joinLines, splitLines } from "@/lib/text";
 import { usePages } from "@/stores/pages";
 import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
@@ -45,7 +45,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     const lines = splitLines(text.value ?? "");
     if (index >= lines.length) return;
 
-    const item = parse(lines[index]);
+    const item = parseWithMemo(lines[index]);
     mutate(item, factory);
     lines[index] = item.raw;
 

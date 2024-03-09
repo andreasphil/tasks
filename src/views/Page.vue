@@ -5,10 +5,10 @@ import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
 import VTextarea2, {
-  type Context as TextareaContext,
+  type EditingContext as TextareaContext,
 } from "@/components/VTextarea2.vue";
 import { nextWeek, today, tomorrow } from "@/lib/date";
-import { Item, TaskStatus, parse } from "@/lib/parser";
+import { Item, TaskStatus, parseWithMemo } from "@/lib/parser";
 import { continueListRules, type ContinueListRule } from "@/lib/text";
 import { usePage } from "@/stores/page";
 import {
@@ -25,7 +25,6 @@ import {
   Star,
   StickyNote,
 } from "lucide-vue-next";
-import memize from "memize";
 import {
   computed,
   inject,
@@ -66,8 +65,6 @@ onMounted(() => {
 /* -------------------------------------------------- *
  * Editor hooks and customizations                    *
  * -------------------------------------------------- */
-
-const parseWithMemo = memize(parse);
 
 function rowToTask(row: string): Item {
   return parseWithMemo(row);
