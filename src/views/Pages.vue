@@ -5,6 +5,7 @@ import VLayout from "@/components/VLayout.vue";
 import VRouterLink from "@/components/VRouterLink.vue";
 import { usePages } from "@/stores/pages";
 import {
+  Bookmark,
   Command,
   DownloadCloud,
   FileCheck2,
@@ -116,6 +117,14 @@ const staticCommands: VBarCommand[] = [
     icon: Sparkles,
     action: () => router.push({ name: "Today" }),
   },
+  {
+    id: "open:tags",
+    name: "Tags",
+    chord: "g#",
+    groupName: "Open",
+    icon: Bookmark,
+    action: () => router.push({ name: "Tags" }),
+  },
 ];
 
 onMounted(() => {
@@ -167,6 +176,12 @@ onBeforeUnmount(() => {
             <VRouterLink :to="{ name: 'Today' }">
               <Sparkles />
               Today
+            </VRouterLink>
+          </li>
+          <li>
+            <VRouterLink :to="{ name: 'Tags' }">
+              <Bookmark />
+              Tags
             </VRouterLink>
           </li>
           <li>
