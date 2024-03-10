@@ -18,7 +18,7 @@ export function useTodayPage() {
       .sort((a, b) => b.updatedAt - a.updatedAt)
   );
 
-  const text = computed<string>(() => {
+  const text = computed<string | undefined>(() => {
     let pageText = pagesWithItems.value.reduce<string>((buffer, page) => {
       const eod = getToday().getTime();
 
@@ -32,10 +32,7 @@ export function useTodayPage() {
       return buffer;
     }, "Today\n");
 
-    if (pageText === "Today\n")
-      pageText += "\nWell done! You completed all of today's tasks. 🌞";
-
-    return pageText;
+    return pageText === "Today\n" ? undefined : pageText;
   });
 
   return {
