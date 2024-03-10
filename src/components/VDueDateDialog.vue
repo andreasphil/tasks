@@ -56,6 +56,7 @@ function onCancel() {
   <VDialog
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
+    title="Set due date"
   >
     <label>
       Finish this task by...
