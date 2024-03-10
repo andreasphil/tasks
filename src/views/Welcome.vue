@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import VEmpty from "@/components/VEmpty.vue";
 import { Sticker } from "lucide-vue-next";
 </script>
 
 <template>
-  <VEmpty :icon="Sticker" text="Welcome to Textflow!" />
+  <div data-with-fallback="emtpy">
+    <div />
+    <div data-when="empty">
+      <Sticker />
+      <p>Welcome to textflow!</p>
+    </div>
+  </div>
 </template>

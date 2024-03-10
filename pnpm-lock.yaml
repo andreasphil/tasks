@@ -18,8 +18,8 @@ dependencies:
     specifier: ^1.11.10
     version: 1.11.10
   finecss:
-    specifier: github:andreasphil/fine#v0.19.0
-    version: github.com/andreasphil/fine/fc1d76be93f6b41eb2138b332220f13f8971fa09
+    specifier: github:andreasphil/fine#v0.24.0
+    version: github.com/andreasphil/fine/e2317c55aa34ce552e60eece452f3974ee0e1439
   lucide-vue-next:
     specifier: ^0.354.0
     version: 0.354.0(vue@3.4.21)
@@ -1240,8 +1240,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
-  github.com/andreasphil/fine/fc1d76be93f6b41eb2138b332220f13f8971fa09:
-    resolution: {tarball: https://codeload.github.com/andreasphil/fine/tar.gz/fc1d76be93f6b41eb2138b332220f13f8971fa09}
+  github.com/andreasphil/fine/e2317c55aa34ce552e60eece452f3974ee0e1439:
+    resolution: {tarball: https://codeload.github.com/andreasphil/fine/tar.gz/e2317c55aa34ce552e60eece452f3974ee0e1439}
     name: finecss
-    version: 0.19.0
+    version: 0.24.0
     dev: false

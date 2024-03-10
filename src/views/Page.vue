@@ -2,7 +2,6 @@
 import { VBarContext, type VBarCommand } from "@/components/VBar.vue";
 import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import VDueDateDialog from "@/components/VDueDateDialog.vue";
-import VEmpty from "@/components/VEmpty.vue";
 import VPageItem from "@/components/VPageItem.vue";
 import VTextarea2, {
   type EditingContext as TextareaContext,
@@ -19,7 +18,7 @@ import {
   CircleDashed,
   Construction,
   Download,
-  FileX2,
+  Frown,
   Heading1,
   HelpCircle,
   Star,
@@ -304,25 +303,32 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <VEmpty v-if="!exists" :icon="FileX2" text="This page doesn't exist." />
+  <div data-with-fallback>
+    <div>
+      <VTextarea2
+        v-if="text !== undefined"
+        :class="[$style.editor, 'mono']"
+        :context-provider="rowToTask"
+        :continue-lists="continueLists"
+        :spellcheck="false"
+        ref="textareaEl"
+        v-model="text"
+      >
+        <template #row="{ context, index }">
+          <VPageItem
+            :as="index === 0 ? 'heading' : undefined"
+            :item="context"
+            @update:status="updateStatus($event, index, false)"
+          />
+        </template>
+      </VTextarea2>
+    </div>
 
-  <VTextarea2
-    v-else-if="text !== undefined"
-    :class="[$style.editor, 'mono']"
-    :context-provider="rowToTask"
-    :continue-lists="continueLists"
-    :spellcheck="false"
-    ref="textareaEl"
-    v-model="text"
-  >
-    <template #row="{ context, index }">
-      <VPageItem
-        :as="index === 0 ? 'heading' : undefined"
-        :item="context"
-        @update:status="updateStatus($event, index, false)"
-      />
-    </template>
-  </VTextarea2>
+    <div data-when="empty">
+      <Frown />
+      <p>This page doesn't exist.</p>
+    </div>
+  </div>
 
   <VDownloadDialog v-if="exists" v-model="downloadDialog" :pageId="pageId" />
 

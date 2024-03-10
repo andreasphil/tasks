@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import VEmpty from "@/components/VEmpty.vue";
 import { Frown } from "lucide-vue-next";
 import {
   computed,
@@ -244,9 +243,9 @@ export const VBarContext: InjectionKey<{
       </label>
     </header>
 
-    <div :class="$style.body">
+    <div :class="$style.body" data-with-fallback>
       <!-- Commands list -->
-      <ul v-if="filteredCommands?.length" :class="$style.resultsList">
+      <ul :class="$style.resultsList">
         <li v-for="(c, i) in filteredCommands" :key="c.id">
           <button
             :class="{
@@ -267,8 +266,10 @@ export const VBarContext: InjectionKey<{
         </li>
       </ul>
 
-      <!-- Empty state -->
-      <VEmpty v-else-if="query" :icon="Frown" />
+      <div v-if="query" data-when="empty">
+        <Frown />
+        <p>Sorry, couldn't find anything.</p>
+      </div>
     </div>
   </dialog>
 </template>
@@ -279,15 +280,18 @@ export const VBarContext: InjectionKey<{
   width: 100%;
 }
 
-.body:not(:empty) {
-  margin-top: 0.625rem;
+.body {
   max-height: calc(80dvh - 12rem);
   overflow: auto;
 }
 
+.body > * {
+  margin-top: 0.625rem;
+}
+
 .resultsList {
   list-style-type: none;
-  margin: 0;
+  margin: 0.625rem 0 0 0;
   padding: 0;
 }
 
@@ -334,8 +338,8 @@ export const VBarContext: InjectionKey<{
   border-radius: var(--border-radius-small);
   border: var(--border-width) solid var(--c-border);
   color: var(--c-fg-variant);
-  font-family: var(--font-mono);
-  font-size: var(--font-size-small);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-mono);
   margin-left: auto;
   padding: 0 0.25rem;
 }

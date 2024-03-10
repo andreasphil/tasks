@@ -14,7 +14,7 @@
     "@types/wicg-file-system-access": "^2023.10.5",
     "@vitejs/plugin-vue": "^5.0.4",
     "dayjs": "^1.11.10",
-    "finecss": "github:andreasphil/fine#v0.19.0",
+    "finecss": "github:andreasphil/fine#v0.24.0",
     "lucide-vue-next": "^0.354.0",
     "memize": "^2.1.0",
     "typescript": "^5.4.2",

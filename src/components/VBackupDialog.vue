@@ -76,17 +76,17 @@ async function openFromFile() {
       Pages you added since the backup was created will not be affected.
     </p>
 
-    <p :class="$style.error" v-if="!canAccessFiles">
-      Your browser does not support this feature.
-    </p>
+    <div :data-with-fallback="canAccessFiles ? '' : 'error'">
+      <div :class="$style.actions">
+        <button @click="saveToFile" data-variant="muted">
+          <DownloadCloud />Download backup
+        </button>
+        <button @click="openFromFile" data-variant="muted">
+          <UploadCloud />Restore backup
+        </button>
+      </div>
 
-    <div v-else :class="$style.actions">
-      <button @click="saveToFile" data-variant="muted">
-        <DownloadCloud />Download backup
-      </button>
-      <button @click="openFromFile" data-variant="muted">
-        <UploadCloud />Restore backup
-      </button>
+      <div data-when="error">Your browser does not support this feature.</div>
     </div>
 
     <template #footer>
@@ -99,13 +99,5 @@ async function openFromFile() {
 .actions {
   display: flex;
   gap: 0.25rem;
-}
-
-.error {
-  background: var(--red-50);
-  border-radius: var(--border-radius);
-  font-weight: var(--font-weight-medium);
-  color: var(--red-500);
-  padding: 0.5rem 0.75rem;
 }
 </style>
