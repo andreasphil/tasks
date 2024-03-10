@@ -307,7 +307,7 @@ onBeforeUnmount(() => {
     <div>
       <VTextarea2
         v-if="text !== undefined"
-        :class="[$style.editor, 'mono']"
+        :class="[$style.editor, 'text-mono']"
         :context-provider="rowToTask"
         :continue-lists="continueLists"
         :spellcheck="false"

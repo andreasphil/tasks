@@ -10,6 +10,8 @@
     --body-width: auto;
     --body-padding-x: 0rem;
     --body-padding-y: 0rem;
+    --font-family-mono: "Fira Code Variable", ui-monospace, monospace;
+    --font-size-mono: 0.95em;
     --nav-height: 4rem;
     --theme-tint: 43;
     --theme-primary: var(--theme-tint) 90% 65%;
@@ -22,9 +24,6 @@
  * -------------------------------------------------- */
 
 :root {
-  --font-family-mono: "Fira Code Variable", ui-monospace, monospace;
-  --font-size-mono: 0.95em;
-
   --red: 350 90% 65%;
   --red-50: hsl(var(--red) / 0.075);
   --red-100: hsl(var(--red) / 0.18);
@@ -73,7 +72,7 @@ nav a:has(svg) {
   margin-right: auto;
 }
 
-.mono {
+.text-mono {
   font-family: var(--font-family-mono);
   font-size: var(--font-size-mono);
 }

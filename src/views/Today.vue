@@ -16,7 +16,7 @@ const { text } = useTodayPage();
     :context-provider="rowToTask"
     :model-value="text"
     :spellcheck="false"
-    class="mono"
+    class="text-mono"
     readonly
     ref="textareaEl"
   >
