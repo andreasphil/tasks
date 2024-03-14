@@ -382,6 +382,7 @@ export type EditingContext = {
 .output {
   background: inherit;
   font: inherit;
+  overflow: hidden;
   white-space: pre-wrap;
 }
 
