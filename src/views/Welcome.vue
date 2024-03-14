@@ -7,7 +7,7 @@ import { Sticker } from "lucide-vue-next";
     <div />
     <div data-when="empty">
       <Sticker />
-      <p>Welcome to textflow!</p>
+      <p>Welcome to Textflow!</p>
     </div>
   </div>
 </template>
