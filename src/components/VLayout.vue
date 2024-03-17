@@ -21,11 +21,13 @@
 
 .sidebar {
   background-color: var(--c-surface-bg);
-  border-right: var(--border-width) solid var(--c-border-variant);
   flex: 0 0 auto;
   overflow: auto;
-  padding: 2rem;
+  padding: 1rem 1.5rem;
   width: 18rem;
+  margin: 1rem;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-elevation-medium);
 }
 
 .content {
