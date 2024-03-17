@@ -1,11 +1,11 @@
-@import "finecss/dist/index.min.css" layer(fine);
+@import "@andreasphil/design-system/dist/index.min.css" layer(theme);
 @import "@fontsource-variable/fira-code";
 
 /* -------------------------------------------------- *
- * Fine customizations                                *
+ * Theme customizations                                *
  * -------------------------------------------------- */
 
-@layer fine {
+@layer theme {
   :root {
     --body-padding-x: 0rem;
     --body-padding-y: 0rem;
