@@ -36,7 +36,7 @@ async function saveToFile() {
   try {
     const handle = await window.showSaveFilePicker({
       types: [{ accept: { "application/json": [".json"] } }],
-      suggestedName: `textflow-${dayjs().format("YYYY-MM-DD")}.json`,
+      suggestedName: `tasks-${dayjs().format("YYYY-MM-DD")}.json`,
     });
 
     const writable = await handle.createWritable();

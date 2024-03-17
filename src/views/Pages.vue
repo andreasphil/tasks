@@ -152,7 +152,8 @@ onBeforeUnmount(() => {
 
     <template #sidebar>
       <nav>
-        <strong>Textflow</strong>
+        <strong>Tasks</strong>
+
         <!-- Static contents -->
         <ul>
           <li>
@@ -184,7 +185,7 @@ onBeforeUnmount(() => {
               Tags
             </VRouterLink>
           </li>
-          <li>
+          <li v-if="pagesList.length">
             <hr />
           </li>
 

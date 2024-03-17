@@ -1,5 +1,5 @@
 <h1 align="center">
-  Textflow 🌺
+  Tasks 🌺
 </h1>
 
 <p align="center">
@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-<a href="https://app.netlify.com/sites/textflow-app/deploys">
+<a href="https://app.netlify.com/sites/andreasphil-tasks/deploys">
    <img src="https://api.netlify.com/api/v1/badges/508e3f7f-df54-4326-bb55-4b4cae9a7dd2/deploy-status" alt="Netlify Status" />
 </a>
 </p>
@@ -22,7 +22,7 @@
 
 ## How to use
 
-Find the app at <https://textflow.a13i.dev>.
+Find the app at <https://tasks.a13i.dev>.
 
 Here's an example:
 
@@ -67,7 +67,7 @@ Deployment should work out of the box when linking the repository to a project o
 
 ## Credits
 
-Apart from the open source packages listed in [package.json](package.json), Textflow uses:
+Apart from the open source packages listed in [package.json](package.json), this app uses:
 
 - Favicons generated with [IconKitchen](https://icon.kitchen)
 - Inspiration from [Bullet Journal](https://bulletjournal.com), [TaskTXT](https://tasktxt.com), and [[x]it!](https://xit.jotaen.net)
