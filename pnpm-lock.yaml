@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@andreasphil/design-system':
-    specifier: github:andreasphil/design-system#v0.25.0
-    version: github.com/andreasphil/design-system/3ff93c44ac886af1c3a42d2e19c546d1682d4290
+    specifier: github:andreasphil/design-system#v0.26.0
+    version: github.com/andreasphil/design-system/bb0fbfd7755a07f23ea777e37333335f11f90d7b
   '@fontsource-variable/fira-code':
     specifier: ^5.0.17
     version: 5.0.17
@@ -1229,8 +1229,8 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
-  github.com/andreasphil/design-system/3ff93c44ac886af1c3a42d2e19c546d1682d4290:
-    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/3ff93c44ac886af1c3a42d2e19c546d1682d4290}
+  github.com/andreasphil/design-system/bb0fbfd7755a07f23ea777e37333335f11f90d7b:
+    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/bb0fbfd7755a07f23ea777e37333335f11f90d7b}
     name: '@andreasphil/design-system'
-    version: 0.25.0
+    version: 0.26.0
     dev: false
