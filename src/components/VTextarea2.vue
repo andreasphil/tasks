@@ -59,7 +59,7 @@ const textareaEl = ref<null | HTMLTextAreaElement>(null);
  * Model value handling                               *
  * -------------------------------------------------- */
 
-function setLocalModelValue(value: string | string[]): void {
+function setLocalModelValue(value: string): void {
   const stringValue = Array.isArray(value) ? joinLines(value) : value;
   emit("update:modelValue", stringValue);
 }
@@ -175,7 +175,7 @@ function onInsertTab(event: KeyboardEvent): void {
     if (toIndent.every((r, i) => r === indented[i])) return;
 
     newRows.splice(from, to - from + 1, ...indented);
-    setLocalModelValue(newRows);
+    setLocalModelValue(joinLines(newRows));
 
     if (from === to) {
       adjustSelection({ to: "relative", delta: mode === "indent" ? 1 : -1 });
@@ -200,7 +200,7 @@ function onContinueList(): void {
     const continued = continueList(newRows[lineNr], rules, cursorInLine);
     newRows.splice(lineNr, 1, continued.current);
     if (continued.next !== null) newRows.splice(lineNr + 1, 0, continued.next);
-    setLocalModelValue(newRows);
+    setLocalModelValue(joinLines(newRows));
 
     if ("didContinue" in continued && continued.didContinue) {
       adjustSelection({ to: "relative", delta: continued.match.length + 1 });
@@ -228,7 +228,7 @@ function onFlip(direction: "up" | "down"): void {
     const [flippedFrom, flippedTo] = flip(newRows[lineNr], newRows[to]);
     newRows[lineNr] = flippedFrom;
     newRows[to] = flippedTo;
-    setLocalModelValue(newRows);
+    setLocalModelValue(joinLines(newRows));
 
     adjustSelection({ to: "endOfLine", endOf: to });
   });
@@ -249,7 +249,7 @@ function onCut(event: KeyboardEvent): void {
 
     await navigator.clipboard.writeText(newRows[lineNr]);
     newRows.splice(lineNr, 1);
-    setLocalModelValue(newRows);
+    setLocalModelValue(joinLines(newRows));
 
     const newLinNr = Math.min(lineNr, newRows.length - 1);
     adjustSelection({ to: "startOfLine", startOf: newLinNr });
@@ -272,7 +272,7 @@ function onPaste(event: ClipboardEvent): void {
     event.preventDefault();
 
     newRows[lineNr] = merge.current;
-    setLocalModelValue(newRows);
+    setLocalModelValue(joinLines(newRows));
 
     adjustSelection({
       to: "relative",
