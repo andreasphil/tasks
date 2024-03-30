@@ -9,6 +9,7 @@ import {
   ref,
   watch,
   type Component,
+  inject,
 } from "vue";
 
 const props = withDefaults(
@@ -216,6 +217,10 @@ export const VBarContext: InjectionKey<{
   removeCommand: (...toRemove: string[]) => void;
   open: () => void;
 }> = Symbol();
+
+export function useVbar() {
+  return inject(VBarContext, null);
+}
 </script>
 
 <template>

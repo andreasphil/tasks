@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VBarContext, type VBarCommand } from "@/components/VBar.vue";
+import { useVbar, type VBarCommand } from "@/components/VBar.vue";
 import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VPageItem from "@/components/VPageItem.vue";
@@ -26,7 +26,6 @@ import {
 } from "lucide-vue-next";
 import {
   computed,
-  inject,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -161,7 +160,7 @@ function beginDownload() {
  * Command bar integration                            *
  * -------------------------------------------------- */
 
-const vbar = inject(VBarContext, null);
+const vbar = useVbar();
 
 let cleanup: (() => void) | null = null;
 

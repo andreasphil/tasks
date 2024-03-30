@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import VBackupDialog from "@/components/VBackupDialog.vue";
-import { VBarContext, type VBarCommand } from "@/components/VBar.vue";
+import { useVbar, type VBarCommand } from "@/components/VBar.vue";
 import VLayout from "@/components/VLayout.vue";
 import VRouterLink from "@/components/VRouterLink.vue";
 import { usePages } from "@/stores/pages";
@@ -13,7 +13,7 @@ import {
   Sparkles,
   Trash2,
 } from "lucide-vue-next";
-import { inject, onBeforeUnmount, onMounted, ref, toValue, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, toValue, watch } from "vue";
 import { RouterView, useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
@@ -56,7 +56,7 @@ function beginBackup() {
  * Command bar integration                            *
  * -------------------------------------------------- */
 
-const vbar = inject(VBarContext, null);
+const vbar = useVbar();
 
 let cleanupPages: (() => void) | null = null;
 
