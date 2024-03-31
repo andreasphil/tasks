@@ -7,19 +7,43 @@ import Welcome from "@/views/Welcome.vue";
 import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", name: "Home", redirect: { name: "Welcome" } },
+  {
+    path: "/",
+    name: "Home",
+    redirect: { name: "Welcome" },
+  },
   {
     path: "/pages",
     name: "Pages",
     component: Pages,
     children: [
-      { path: "", name: "Welcome", component: Welcome },
-      { path: "today", name: "Today", component: Today },
-      { path: "tags", name: "Tags", component: Tags },
-      { path: ":id", name: "Page", component: Page },
+      {
+        path: "",
+        name: "Welcome",
+        component: Welcome,
+      },
+      {
+        path: "today",
+        name: "Today",
+        component: Today,
+      },
+      {
+        path: "tags",
+        name: "Tags",
+        component: Tags,
+      },
+      {
+        path: ":id",
+        name: "Page",
+        component: Page,
+      },
     ],
   },
-  { path: "/:catchAll(.*)*", name: "NotFound", component: NotFound },
+  {
+    path: "/:catchAll(.*)*",
+    name: "NotFound",
+    component: NotFound,
+  },
 ];
 
 const history = createWebHashHistory();

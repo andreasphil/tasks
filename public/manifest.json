@@ -1,7 +1,6 @@
 {
   "name": "Tasks",
   "display": "standalone",
-  "theme_color": "hsl(43 90% 65%)",
   "icons": [
     { "src": "/favicon.ico", "type": "image/x-icon", "sizes": "16x16 32x32" },
     { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
