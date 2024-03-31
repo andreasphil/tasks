@@ -3,13 +3,16 @@ import { useVbar, type VBarCommand } from "@/components/VBar.vue";
 import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VPageItem from "@/components/VPageItem.vue";
-import VTextarea2, {
-  type EditingContext as TextareaContext,
-} from "@/components/VTextarea2.vue";
 import { nextWeek, today, tomorrow } from "@/lib/date";
-import { Item, TaskStatus, parseWithMemo as rowToTask } from "@/lib/parser";
-import { continueListRules, type ContinueListRule } from "@/lib/text";
+import { Item, parseWithMemo as rowToTask, TaskStatus } from "@/lib/parser";
 import { usePage } from "@/stores/page";
+import VueTextarea2, {
+  type EditingContext as TextareaContext,
+} from "@andreasphil/vue-textarea2";
+import {
+  continueListRules,
+  type ContinueListRule,
+} from "@andreasphil/vue-textarea2/text";
 import {
   Calendar,
   CalendarSearch,
@@ -45,7 +48,7 @@ const pageId = computed(() => route.params.id?.toString());
 const { exists, text, updateItem } = usePage(() => pageId.value);
 
 // @ts-expect-error Vue types seem to be buggy here
-const textareaEl = ref<InstanceType<typeof VTextarea2> | null>(null);
+const textareaEl = ref<InstanceType<typeof VueTextarea2> | null>(null);
 
 watch(pageId, async () => {
   await nextTick();
@@ -304,7 +307,7 @@ onBeforeUnmount(() => {
 <template>
   <div data-with-fallback>
     <div>
-      <VTextarea2
+      <VueTextarea2
         v-if="text !== undefined"
         :class="[$style.editor, 'text-mono']"
         :context-provider="rowToTask"
@@ -320,7 +323,7 @@ onBeforeUnmount(() => {
             @update:status="updateStatus($event, index, false)"
           />
         </template>
-      </VTextarea2>
+      </VueTextarea2>
     </div>
 
     <div data-when="empty">

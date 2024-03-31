@@ -8,6 +8,9 @@ dependencies:
   '@andreasphil/design-system':
     specifier: github:andreasphil/design-system#v0.26.0
     version: github.com/andreasphil/design-system/bb0fbfd7755a07f23ea777e37333335f11f90d7b
+  '@andreasphil/vue-textarea2':
+    specifier: github:andreasphil/vue-textarea2#v0.2.0
+    version: github.com/andreasphil/vue-textarea2/6b106cd063b986d2427ed6752a2ef16a100db0a2(typescript@5.4.2)
   '@fontsource-variable/fira-code':
     specifier: ^5.0.17
     version: 5.0.17
@@ -1233,4 +1236,15 @@ packages:
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/bb0fbfd7755a07f23ea777e37333335f11f90d7b}
     name: '@andreasphil/design-system'
     version: 0.26.0
+    dev: false
+
+  github.com/andreasphil/vue-textarea2/6b106cd063b986d2427ed6752a2ef16a100db0a2(typescript@5.4.2):
+    resolution: {tarball: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/6b106cd063b986d2427ed6752a2ef16a100db0a2}
+    id: github.com/andreasphil/vue-textarea2/6b106cd063b986d2427ed6752a2ef16a100db0a2
+    name: '@andreasphil/vue-textarea2'
+    version: 0.2.0
+    dependencies:
+      vue: 3.4.21(typescript@5.4.2)
+    transitivePeerDependencies:
+      - typescript
     dev: false

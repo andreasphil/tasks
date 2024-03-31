@@ -29,7 +29,7 @@
  * to contain tags and due dates.
  */
 
-import { splitLines } from "@/lib/text";
+import { splitLines } from "@andreasphil/vue-textarea2/text";
 import memize from "memize";
 
 /* -------------------------------------------------- *

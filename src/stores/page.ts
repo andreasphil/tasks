@@ -1,8 +1,8 @@
 import { mutate } from "@/lib/items";
 import { getTitle, type Page } from "@/lib/page";
 import { parse } from "@/lib/parser";
-import { joinLines, splitLines } from "@/lib/text";
 import { usePages } from "@/stores/pages";
+import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
 import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
 
 export function usePage(id: MaybeRefOrGetter<string>) {
