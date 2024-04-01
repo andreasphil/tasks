@@ -20,7 +20,7 @@
 - ⚡️ PWA & offline ready (coming soon!)
 - 🤝 Zero tracking and no data ever leaves the browser
 
-## How to use
+## Usage
 
 Find the app at <https://tasks.a13i.dev>.
 
