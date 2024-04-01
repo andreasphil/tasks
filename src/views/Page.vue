@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useVbar, type VBarCommand } from "@/components/VBar.vue";
 import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VPageItem from "@/components/VPageItem.vue";
 import { nextWeek, today, tomorrow } from "@/lib/date";
 import { Item, parseWithMemo as rowToTask, TaskStatus } from "@/lib/parser";
 import { usePage } from "@/stores/page";
+import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
 import VueTextarea2, {
   type EditingContext as TextareaContext,
 } from "@andreasphil/vue-textarea2";
@@ -163,11 +163,11 @@ function beginDownload() {
  * Command bar integration                            *
  * -------------------------------------------------- */
 
-const vbar = useVbar();
+const cmdBar = useCommandBar();
 
 let cleanup: (() => void) | null = null;
 
-const commands: VBarCommand[] = [
+const commands: Command[] = [
   // Due date
   {
     id: "item:dueDate:today",
@@ -296,7 +296,7 @@ const commands: VBarCommand[] = [
 ];
 
 onMounted(() => {
-  cleanup = vbar?.registerCommand(...commands) ?? null;
+  cleanup = cmdBar?.registerCommand(...commands) ?? null;
 });
 
 onBeforeUnmount(() => {

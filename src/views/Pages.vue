@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import VBackupDialog from "@/components/VBackupDialog.vue";
-import { useVbar, type VBarCommand } from "@/components/VBar.vue";
 import VLayout from "@/components/VLayout.vue";
 import VRouterLink from "@/components/VRouterLink.vue";
 import { usePages } from "@/stores/pages";
+import {
+  useCommandBar,
+  type Command as CommandBarCommand,
+} from "@andreasphil/vue-command-bar";
 import {
   Bookmark,
   Command,
@@ -56,14 +59,14 @@ function beginBackup() {
  * Command bar integration                            *
  * -------------------------------------------------- */
 
-const vbar = useVbar();
+const cmdBar = useCommandBar();
 
 let cleanupPages: (() => void) | null = null;
 
 function registerPages(pages: (typeof pagesList)["value"]) {
   cleanupPages?.();
 
-  const commands = toValue(pages).map<VBarCommand>((page, i) => ({
+  const commands = toValue(pages).map<CommandBarCommand>((page, i) => ({
     id: `page:open:${page.id}`,
     name: page.title,
     alias: ["page"],
@@ -73,7 +76,7 @@ function registerPages(pages: (typeof pagesList)["value"]) {
     action: () => router.push({ name: "Page", params: { id: page.id } }),
   }));
 
-  cleanupPages = vbar?.registerCommand(...commands) ?? null;
+  cleanupPages = cmdBar?.registerCommand(...commands) ?? null;
 }
 
 watch(pagesList, (pages) => registerPages(pages), { immediate: true });
@@ -84,7 +87,7 @@ onBeforeUnmount(() => {
 
 let cleanupStaticCommands: (() => void) | null = null;
 
-const staticCommands: VBarCommand[] = [
+const staticCommands: CommandBarCommand[] = [
   {
     id: "pages:new",
     name: "Add page",
@@ -128,7 +131,7 @@ const staticCommands: VBarCommand[] = [
 ];
 
 onMounted(() => {
-  cleanupStaticCommands = vbar?.registerCommand(...staticCommands) ?? null;
+  cleanupStaticCommands = cmdBar?.registerCommand(...staticCommands) ?? null;
 });
 
 onBeforeUnmount(() => {
@@ -157,7 +160,7 @@ onBeforeUnmount(() => {
         <!-- Static contents -->
         <ul>
           <li>
-            <a href="#" @click.prevent="vbar?.open()" class="text-c-variant">
+            <a href="#" @click.prevent="cmdBar?.open()" class="text-c-variant">
               <Command />
               Go to anything
             </a>

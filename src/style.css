@@ -1,4 +1,6 @@
 @import "@andreasphil/design-system/style.css" layer(theme);
+@import "@andreasphil/vue-command-bar/style.css";
+@import "@andreasphil/vue-textarea2/style.css";
 @import "@fontsource-variable/fira-code";
 
 /* -------------------------------------------------- *

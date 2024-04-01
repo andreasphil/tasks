@@ -8,6 +8,9 @@ dependencies:
   '@andreasphil/design-system':
     specifier: github:andreasphil/design-system#v0.27.0
     version: github.com/andreasphil/design-system/c6a6a52d5fb4665f91c093d4ee6874e1f29acaf5
+  '@andreasphil/vue-command-bar':
+    specifier: github:andreasphil/vue-command-bar
+    version: github.com/andreasphil/vue-command-bar/93fa9ebfcf996850055669d3de1351f37c64ed68(typescript@5.4.2)
   '@andreasphil/vue-textarea2':
     specifier: github:andreasphil/vue-textarea2#v0.2.0
     version: github.com/andreasphil/vue-textarea2/6b106cd063b986d2427ed6752a2ef16a100db0a2(typescript@5.4.2)
@@ -1232,10 +1235,28 @@ packages:
     engines: {node: '>=12.20'}
     dev: false
 
+  github.com/andreasphil/design-system/bb0fbfd7755a07f23ea777e37333335f11f90d7b:
+    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/bb0fbfd7755a07f23ea777e37333335f11f90d7b}
+    name: '@andreasphil/design-system'
+    version: 0.26.0
+    dev: false
+
   github.com/andreasphil/design-system/c6a6a52d5fb4665f91c093d4ee6874e1f29acaf5:
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/c6a6a52d5fb4665f91c093d4ee6874e1f29acaf5}
     name: '@andreasphil/design-system'
     version: 0.27.0
+    dev: false
+
+  github.com/andreasphil/vue-command-bar/93fa9ebfcf996850055669d3de1351f37c64ed68(typescript@5.4.2):
+    resolution: {tarball: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/93fa9ebfcf996850055669d3de1351f37c64ed68}
+    id: github.com/andreasphil/vue-command-bar/93fa9ebfcf996850055669d3de1351f37c64ed68
+    name: '@andreasphil/vue-command-bar'
+    version: 0.1.0
+    dependencies:
+      '@andreasphil/design-system': github.com/andreasphil/design-system/bb0fbfd7755a07f23ea777e37333335f11f90d7b
+      vue: 3.4.21(typescript@5.4.2)
+    transitivePeerDependencies:
+      - typescript
     dev: false
 
   github.com/andreasphil/vue-textarea2/6b106cd063b986d2427ed6752a2ef16a100db0a2(typescript@5.4.2):

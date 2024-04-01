@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import VBar from "@/components/VBar.vue";
 import { useThemeColor } from "@andreasphil/design-system";
+import VueCommandBar from "@andreasphil/vue-command-bar";
+import { Frown } from "lucide-vue-next";
 import { onMounted } from "vue";
 import { RouterView } from "vue-router";
 
@@ -10,7 +11,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <VBar>
+  <VueCommandBar>
     <RouterView />
-  </VBar>
+
+    <template #empty>
+      <Frown />
+      <p>Sorry, couldn't find anything.</p>
+    </template>
+  </VueCommandBar>
 </template>
