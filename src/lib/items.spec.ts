@@ -326,6 +326,22 @@ describe("writable items", () => {
       expect(compare(b, a)).toBe(0);
     });
 
+    it("sorts by status before due date when both have due dates", () => {
+      const a = parse("[x] Task 1 ->2023-01-01");
+      const b = parse("[ ] Task 2 ->2024-01-01");
+
+      expect(compare(a, b)).toBeGreaterThan(0);
+      expect(compare(b, a)).toBeLessThan(0);
+    });
+
+    it("sorts by status before due date when only one has a due date", () => {
+      const a = parse("[x] Task 1 ->2023-01-01");
+      const b = parse("[ ] Task 2");
+
+      expect(compare(a, b)).toBeGreaterThan(0);
+      expect(compare(b, a)).toBeLessThan(0);
+    });
+
     it("sorts by due date when both have due dates", () => {
       const a = parse("[ ] Task 1 ->2021-01-01");
       const b = parse("[ ] Task 2 ->2022-01-01");

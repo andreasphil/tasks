@@ -135,9 +135,9 @@ const statusWeights: Record<TaskStatus, number> = {
  *    their order.
  * 2. When comparing sections or notes with tasks, the order should also stay
  *    the same.
- * 3. Tasks are first sorted by their due dates (ascending; tasks with due
- *    dates should come before tasks without due dates), then status (important,
- *    in progress, open, question, done). Tasks with the same due date or
+ * 3. Tasks are first sorted by their status (important, in progress, open,
+ *    question, done), then due dates (ascending; tasks with due dates should
+ *    come before tasks without due dates). Tasks with the same due date or
  *    status should not change their order.
  * 4. To accomodate nested tasks, white space at the beginning of the line
  *    always takes precedence over all other criteria. Tasks with different
@@ -146,6 +146,10 @@ const statusWeights: Record<TaskStatus, number> = {
  *    items, as those nested items need to be moved together with their parent
  *    item. If you need to sort an entire page, use `sort(page)`.
  * 5. The order of items and blank lines should not change.
+ *
+ * Note that this function is only suitable for comparing two individual items.
+ * It should not be used for sorting an entire page as it will mess up the
+ * nesting of tasks. To sort a page, use `page.ts@sort()` instead.
  *
  * @param a
  * @param b
@@ -159,6 +163,11 @@ export function compare(a: Item, b: Item): number {
   const bIndent = b.raw.match(/^\s*/)?.[0] ?? "";
   if (aIndent !== bIndent) return 0;
 
+  // Sort by status
+  if (a.status !== b.status) {
+    return statusWeights[b.status] - statusWeights[a.status];
+  }
+
   // Sort by due date
   if (a.dueDate && !b.dueDate) return -1;
   else if (b.dueDate && !a.dueDate) return 1;
@@ -169,6 +178,6 @@ export function compare(a: Item, b: Item): number {
     if (diff !== 0) return diff;
   }
 
-  // Sort by status
-  return statusWeights[b.status] - statusWeights[a.status];
+  // Default: keep the order
+  return 0;
 }
