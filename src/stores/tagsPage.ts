@@ -1,3 +1,4 @@
+import { compare } from "@/lib/items";
 import { Page } from "@/lib/page";
 import { Item, parseManyWithMemo } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
@@ -24,6 +25,9 @@ export function useTagsPage() {
         item.tags.forEach((tag) => {
           if (!tagMap[tag]) tagMap[tag] = [];
           tagMap[tag].push(item);
+
+          // TODO: This is not very efficient, maybe improve at some point
+          tagMap[tag].sort(compare)
         });
 
         return tagMap;

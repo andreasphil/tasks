@@ -1,4 +1,5 @@
 import { today as getToday } from "@/lib/date";
+import { compare } from "@/lib/items";
 import { Page, getTitle } from "@/lib/page";
 import { Item, parseManyWithMemo } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
@@ -24,6 +25,7 @@ export function useTodayPage() {
 
       const dueItems = page.items
         .filter(({ dueDate }) => dueDate && (dueDate as Date).getTime() <= eod)
+        .sort((a, b) => compare(a, b))
         .map(({ raw }) => raw)
         .join("\n");
 
