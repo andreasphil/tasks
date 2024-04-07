@@ -21,7 +21,13 @@ import dayjs from "dayjs";
 export type WritableItem = Omit<Item, "dueDate" | "status" | "type"> &
   DeepWritable<Pick<Item, "dueDate" | "status" | "type">>;
 
-function setStatus(item: UncheckedItem, newStatus: TaskStatus) {
+/**
+ * Change the status of the specified item. This will mutate the item.
+ *
+ * @param item The item to change
+ * @param newStatus The next status of the item
+ */
+function setStatus(item: UncheckedItem, newStatus: TaskStatus): void {
   if (item.type !== "task") return;
 
   item.status = newStatus;
@@ -36,7 +42,14 @@ function setStatus(item: UncheckedItem, newStatus: TaskStatus) {
   item.raw = stringify(item);
 }
 
-function setDueDate(item: UncheckedItem, newDueDate?: Date) {
+/**
+ * Change the due date of the specified item. This will mutate the item.
+ *
+ * @param item The item to change
+ * @param newDueDate The next due date of the item. Will remove an existing due
+ *  date then set to undefined.
+ */
+function setDueDate(item: UncheckedItem, newDueDate?: Date): void {
   const hasDueDate = item.dueDate !== undefined;
   let newRaw = item.raw;
   const newDueDateStr = newDueDate ? format(newDueDate, "YYYY-MM-DD") : "";
@@ -64,7 +77,13 @@ function setDueDate(item: UncheckedItem, newDueDate?: Date) {
   Object.assign(item, parse(newRaw));
 }
 
-function setType(item: UncheckedItem, newType: UncheckedItem["type"]) {
+/**
+ * Change the status of the specified item. This will mutate the item.
+ *
+ * @param item The item to change
+ * @param newType The next type of the item
+ */
+function setType(item: UncheckedItem, newType: UncheckedItem["type"]): void {
   if (item.type === newType) return;
 
   let newRaw = item.raw;
@@ -86,6 +105,10 @@ function setType(item: UncheckedItem, newType: UncheckedItem["type"]) {
  * of the properties of an item while keeping the data structure intact and
  * consistent, i.e. all tokens, raw value, and dependencies between properties
  * of the item will also be updated to match the new value of the property.
+ *
+ * @param item The item that should be changed.
+ * @returns A writable proxy to the original item. Note that this is not a
+ *  copy. Any changes made to the writable item will change the original item.
  */
 export function asWritable(item: Item): WritableItem {
   return new Proxy(structuredClone(item as UncheckedItem), {
@@ -109,8 +132,14 @@ export function asWritable(item: Item): WritableItem {
 /**
  * Allows you to change an item in place by writing all changes you make in the
  * `factory` callback back into the item.
+ *
+ * @param item The item that should be mutated.
+ * @param factory A function making the changes to the item.
  */
-export function mutate(item: Item, factory: (item: WritableItem) => void) {
+export function mutate(
+  item: Item,
+  factory: (item: WritableItem) => void
+): void {
   const w = asWritable(item);
   factory(w);
   Object.assign(item, w);
