@@ -24,12 +24,12 @@ describe("parser", () => {
     });
 
     it("finds a due date", () => {
-      const r = parse("# Heading ->2021-01-01");
+      const r = parse("# Heading @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
     it("finds a due date and tags", () => {
-      const r = parse("# Heading #tag1 ->2021-01-01");
+      const r = parse("# Heading #tag1 @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
       expect(r.tags).toEqual(["tag1"]);
     });
@@ -102,17 +102,17 @@ describe("parser", () => {
     });
 
     it("finds a due date", () => {
-      const r = parse("[ ] Task 1 ->2021-01-01");
+      const r = parse("[ ] Task 1 @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
     it("ignores an invalid due date", () => {
-      const r = parse("[ ] Task 1 ->2021-01-32");
+      const r = parse("[ ] Task 1 @2021-01-32");
       expect(r.dueDate).toBeUndefined();
     })
 
     it("finds a due date and tags", () => {
-      const r = parse("[ ] Task 1 #tag1 ->2021-01-01 text #tag2");
+      const r = parse("[ ] Task 1 #tag1 @2021-01-01 text #tag2");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
@@ -182,17 +182,17 @@ describe("parser", () => {
     });
 
     it("finds a due date", () => {
-      const r = parse("This is a note. ->2021-01-01");
+      const r = parse("This is a note. @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
     it("ignores any additional due dates", () => {
-      const r = parse("This is a note. ->2021-01-01 ->2021-01-02");
+      const r = parse("This is a note. @2021-01-01 @2021-01-02");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
     it("finds a due date and tags", () => {
-      const r = parse("This is a note. #tag1 ->2021-01-01 #tag2");
+      const r = parse("This is a note. #tag1 @2021-01-01 #tag2");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
@@ -242,13 +242,13 @@ describe("parser", () => {
     });
 
     it("returns a due date token", () => {
-      const r = parse("[ ] Task with due date ->2021-01-01 continued");
+      const r = parse("[ ] Task with due date @2021-01-01 continued");
       expect(r.tokens[2]).toEqual({
         type: "dueDate",
         text: "2021-01-01",
-        match: "->2021-01-01",
+        match: "@2021-01-01",
         matchStart: 23,
-        matchLength: 12,
+        matchLength: 11,
       });
     });
 
@@ -312,7 +312,7 @@ describe("parser", () => {
     });
 
     it("returns text tokens the the start", () => {
-      const r = parse("Note with #tag1 and ->2021-01-01");
+      const r = parse("Note with #tag1 and @2021-01-01");
       expect(r.tokens[0]).toEqual({
         type: "text",
         text: "Note with ",
@@ -323,7 +323,7 @@ describe("parser", () => {
     });
 
     it("returns text tokens between other tokens", () => {
-      const r = parse("[ ] Task with #tag1 and ->2021-01-01");
+      const r = parse("[ ] Task with #tag1 and @2021-01-01");
       expect(r.tokens[1]).toEqual({
         type: "text",
         text: " Task with ",
@@ -356,17 +356,17 @@ describe("parser", () => {
 describe("stringifier", () => {
   [
     "  [ ] Task 1",
-    "[ ] Task 1 ->2021-01-01",
+    "[ ] Task 1 @2021-01-01",
     "[ ] Task 1 # Not a heading",
-    "[ ] Task 1 #tag1 ->2021-01-01 text #tag2",
+    "[ ] Task 1 #tag1 @2021-01-01 text #tag2",
     "[ ] Task 1 #tag1 #tag1",
     "[ ] Task 1 #tag1 continued text #tag2",
     "[ ] Task 1 #tag1",
     "[ ] Task 1 https://example.com",
     "[ ] Task 1",
-    "[ ] Task with #tag1 and ->2021-01-01",
+    "[ ] Task with #tag1 and @2021-01-01",
     "[ ] Task with #tag1 continued",
-    "[ ] Task with due date ->2021-01-01 continued",
+    "[ ] Task with due date @2021-01-01 continued",
     "[ ] Task with tag #tag1 continued",
     "[ ] Task with tags #tag1 #tag1 continued",
     "[-] This is a note.",
@@ -376,19 +376,19 @@ describe("stringifier", () => {
     "[x] Completed task",
     "[x] Task 1",
     "\t[ ] Task 1",
-    "# Heading ->2021-01-01",
+    "# Heading @2021-01-01",
     "# Heading [ ] heading",
-    "# Heading #tag1 ->2021-01-01",
+    "# Heading #tag1 @2021-01-01",
     "# Heading #tag1 #tag1",
     "# Heading #tag1",
     "# Heading https://example.com",
     "# Heading",
-    "Note with #tag1 and ->2021-01-01",
-    "This is a note. ->2021-01-01 ->2021-01-02",
-    "This is a note. ->2021-01-01",
+    "Note with #tag1 and @2021-01-01",
+    "This is a note. @2021-01-01 @2021-01-02",
+    "This is a note. @2021-01-01",
     "This is a note. [ ] Not a task",
     "This is a note. # Not a heading",
-    "This is a note. #tag1 ->2021-01-01 #tag2",
+    "This is a note. #tag1 @2021-01-01 #tag2",
     "This is a note. #tag1 #tag1",
     "This is a note. #tag1 continued #tag2",
     "This is a note. #tag1",

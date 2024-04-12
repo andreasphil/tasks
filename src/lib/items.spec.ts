@@ -78,24 +78,24 @@ describe("writable items", () => {
 
   describe("set due date", () => {
     it("updates an existing due date at the end", () => {
-      const r = parse("[ ] Task 1 ->2020-01-01");
+      const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
       expect(writable.dueDate).toEqual(new Date("2020-01-01"));
 
       writable.dueDate = new Date("2021-01-02");
-      const newR = parse("[ ] Task 1 ->2021-01-02");
+      const newR = parse("[ ] Task 1 @2021-01-02");
       expect(writable).toStrictEqual(newR);
     });
 
     it("updates an existing due date in between", () => {
-      const r = parse("[ ] Task 1 ->2020-01-01 some more text");
+      const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
       expect(writable.dueDate).toEqual(new Date("2020-01-01"));
 
       writable.dueDate = new Date("2021-01-02");
-      const newR = parse("[ ] Task 1 ->2021-01-02 some more text");
+      const newR = parse("[ ] Task 1 @2021-01-02 some more text");
       expect(writable).toStrictEqual(newR);
     });
 
@@ -106,7 +106,7 @@ describe("writable items", () => {
       expect(writable.dueDate).toBeUndefined();
 
       writable.dueDate = new Date("2021-01-02");
-      const newR = parse("[ ] Task 1 ->2021-01-02");
+      const newR = parse("[ ] Task 1 @2021-01-02");
       expect(writable).toStrictEqual(newR);
     });
 
@@ -117,7 +117,7 @@ describe("writable items", () => {
       expect(writable.dueDate).toBeUndefined();
 
       writable.dueDate = new Date("2021-01-02");
-      const newR = parse("[ ] Task 1 #tag ->2021-01-02");
+      const newR = parse("[ ] Task 1 #tag @2021-01-02");
       expect(writable).toStrictEqual(newR);
     });
 
@@ -128,12 +128,12 @@ describe("writable items", () => {
       expect(writable.dueDate).toBeUndefined();
 
       writable.dueDate = new Date("2021-01-02");
-      const newR = parse("[ ] Task 1 ->2021-01-02");
+      const newR = parse("[ ] Task 1 @2021-01-02");
       expect(writable).toStrictEqual(newR);
     });
 
     it("removes an existing due date at the end", () => {
-      const r = parse("[ ] Task 1 ->2020-01-01");
+      const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
       expect(writable.dueDate).toEqual(new Date("2020-01-01"));
@@ -144,7 +144,7 @@ describe("writable items", () => {
     });
 
     it("removes an existing due date in between", () => {
-      const r = parse("[ ] Task 1 ->2020-01-01 some more text");
+      const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
       expect(writable.dueDate).toEqual(new Date("2020-01-01"));
@@ -330,15 +330,15 @@ describe("writable items", () => {
     });
 
     it("sorts by status before due date when both have due dates", () => {
-      const a = parse("[x] Task 1 ->2023-01-01");
-      const b = parse("[ ] Task 2 ->2024-01-01");
+      const a = parse("[x] Task 1 @2023-01-01");
+      const b = parse("[ ] Task 2 @2024-01-01");
 
       expect(compare(a, b)).toBeGreaterThan(0);
       expect(compare(b, a)).toBeLessThan(0);
     });
 
     it("sorts by status before due date when only one has a due date", () => {
-      const a = parse("[x] Task 1 ->2023-01-01");
+      const a = parse("[x] Task 1 @2023-01-01");
       const b = parse("[ ] Task 2");
 
       expect(compare(a, b)).toBeGreaterThan(0);
@@ -346,23 +346,23 @@ describe("writable items", () => {
     });
 
     it("sorts by due date when both have due dates", () => {
-      const a = parse("[ ] Task 1 ->2021-01-01");
-      const b = parse("[ ] Task 2 ->2022-01-01");
+      const a = parse("[ ] Task 1 @2021-01-01");
+      const b = parse("[ ] Task 2 @2022-01-01");
 
       expect(compare(a, b)).toBeLessThan(0);
       expect(compare(b, a)).toBeGreaterThan(0);
     });
 
     it("sorts by status when both have identical due dates", () => {
-      const a = parse("[ ] Task 1 ->2021-01-01");
-      const b = parse("[x] Task 2 ->2021-01-01");
+      const a = parse("[ ] Task 1 @2021-01-01");
+      const b = parse("[x] Task 2 @2021-01-01");
 
       expect(compare(a, b)).toBeLessThan(0);
       expect(compare(b, a)).toBeGreaterThan(0);
     });
 
     it("sorts by due date when only one has a due date", () => {
-      const a = parse("[ ] Task 1 ->2021-01-01");
+      const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2");
 
       expect(compare(a, b)).toBeLessThan(0);
@@ -370,16 +370,16 @@ describe("writable items", () => {
     });
 
     it("keeps the order for equal due dates", () => {
-      const a = parse("[ ] Task 1 ->2021-01-01");
-      const b = parse("[ ] Task 2 ->2021-01-01");
+      const a = parse("[ ] Task 1 @2021-01-01");
+      const b = parse("[ ] Task 2 @2021-01-01");
 
       expect(compare(a, b)).toBe(0);
       expect(compare(b, a)).toBe(0);
     });
 
     it("keeps the order for equal due dates and status", () => {
-      const a = parse("[ ] Task 1 ->2021-01-01");
-      const b = parse("[ ] Task 2 ->2021-01-01");
+      const a = parse("[ ] Task 1 @2021-01-01");
+      const b = parse("[ ] Task 2 @2021-01-01");
 
       expect(compare(a, b)).toBe(0);
       expect(compare(b, a)).toBe(0);
@@ -473,8 +473,8 @@ describe("writable items", () => {
       expect(compare(a, b)).toBe(0);
       expect(compare(b, a)).toBe(0);
 
-      const c = parse("\t[ ] Task 1 ->2021-01-01");
-      const d = parse("\t\t[ ] Task 2 ->2022-01-01");
+      const c = parse("\t[ ] Task 1 @2021-01-01");
+      const d = parse("\t\t[ ] Task 2 @2022-01-01");
       expect(compare(c, d)).toBe(0);
       expect(compare(d, c)).toBe(0);
     });
@@ -487,14 +487,6 @@ describe("writable items", () => {
         parse(""),
         parse("[ ] Task 2"),
       ];
-
-      console.log(
-        [...items].sort((a, b) => {
-          const result = compare(a, b);
-          console.log({ a: a.raw, b: b.raw, result });
-          return result;
-        })
-      );
 
       expect([...items].sort(compare)).toStrictEqual(items);
     });

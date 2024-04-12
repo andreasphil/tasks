@@ -44,7 +44,7 @@ One exception is the first line, which is the title of the page.
 Sections are a great way to group tasks and notes.
 
 [ ] Tasks can have #tags
-[ ] ...and due dates ->2021-12-31
+[ ] ...and due dates @2021-12-31
 [ ] Add an URL anywhere and it will turn into a link: https://example.com
 ```
 

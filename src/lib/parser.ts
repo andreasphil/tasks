@@ -19,7 +19,7 @@
  * text of the task can contain tags and a due date:
  *
  * - Tags: #tag1 #tag2 (tags can be any letter, number, or underscore)
- * - Due date: ->2021-01-01
+ * - Due date: @2021-01-01
  *
  * Besides tasks, lists can also contain notes and sections. Sections are started
  * by headings, which are lines that start with a single #.
@@ -124,7 +124,7 @@ const regexes = {
     `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`
   ),
   // Due date
-  dueDate: /->(?<dueDate>\d{4}-\d{2}-\d{2})/,
+  dueDate: /@(?<dueDate>\d{4}-\d{2}-\d{2})/,
   // Tags
   tags: /#(?<tag>\w+)/g,
   // Links
