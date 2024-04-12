@@ -13,7 +13,7 @@ import {
   DownloadCloud,
   FileCheck2,
   Plus,
-  Sparkles,
+  Star,
   Trash2,
 } from "lucide-vue-next";
 import { onBeforeUnmount, onMounted, ref, toValue, watch } from "vue";
@@ -117,7 +117,7 @@ const staticCommands: CommandBarCommand[] = [
     name: "Today",
     chord: "gt",
     groupName: "Open",
-    icon: Sparkles,
+    icon: Star,
     action: () => router.push({ name: "Today" }),
   },
   {
@@ -178,7 +178,7 @@ onBeforeUnmount(() => {
           <!-- Smart pages -->
           <li>
             <VRouterLink :to="{ name: 'Today' }">
-              <Sparkles />
+              <Star />
               Today
             </VRouterLink>
           </li>
