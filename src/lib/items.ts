@@ -91,6 +91,7 @@ function setType(item: UncheckedItem, newType: UncheckedItem["type"]): void {
   // Normalize the type of the item by removing any type specific content
   if (item.type === "task") newRaw = newRaw.replace(/^(\s*)\[.\] /, "$1");
   else if (item.type === "heading") newRaw = newRaw.replace(/^# /, "");
+  else if (item.type === "note") newRaw = newRaw.replace(/^(\s*)\[-\] /, "$1");
 
   // Add type specific content
   if (newType === "task") newRaw = newRaw.replace(/^(\s*)/, "$1[ ] ");
