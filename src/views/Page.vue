@@ -68,8 +68,8 @@ onMounted(() => {
  * -------------------------------------------------- */
 
 const continueLists: ContinueListRule[] = [
-  { pattern: /\t*\[-] /, next: "same" },
-  { pattern: /\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
+  { pattern: /^\t*\[-] /, next: "same" },
+  { pattern: /^\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
   ...Object.values(continueListRules),
 ];
 
