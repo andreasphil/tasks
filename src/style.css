@@ -34,14 +34,6 @@
   --red-300: hsl(var(--red) / 0.6);
   --red-400: hsl(var(--red) / 0.7);
   --red-500: hsl(var(--red) / 1);
-
-  --indigo: 240 90% 70%;
-  --indigo-50: hsl(var(--indigo) / 0.075);
-  --indigo-100: hsl(var(--indigo) / 0.18);
-  --indigo-200: hsl(var(--indigo) / 0.4);
-  --indigo-300: hsl(var(--indigo) / 0.6);
-  --indigo-400: hsl(var(--indigo) / 0.7);
-  --indigo-500: hsl(var(--indigo) / 1);
 }
 
 body {

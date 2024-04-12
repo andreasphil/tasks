@@ -105,8 +105,7 @@ const todayOrOverdue = computed(() => {
  * -------------------------------------------------- */
 
 .item {
-  --item-neutral-30: hsl(var(--theme-tint) 15% 4% / 0.03);
-
+  --item-neutral-bg: hsl(var(--theme-tint) 15% 65% / 0.075);
   border-radius: var(--border-radius-small);
 }
 
@@ -171,7 +170,7 @@ const todayOrOverdue = computed(() => {
 }
 
 .dueDate::after {
-  background-color: var(--item-neutral-30);
+  background-color: var(--item-neutral-bg);
   border-radius: inherit;
   bottom: 0px;
   content: "";
@@ -197,7 +196,7 @@ const todayOrOverdue = computed(() => {
 }
 
 .tag::after {
-  background-color: var(--item-neutral-30);
+  background-color: var(--item-neutral-bg);
   border-radius: inherit;
   bottom: 0px;
   content: "";
