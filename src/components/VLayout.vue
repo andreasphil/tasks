@@ -20,20 +20,21 @@
 }
 
 .sidebar {
-  background-color: var(--c-surface-bg);
   flex: 0 0 auto;
   overflow: auto;
-  padding: 1rem 1.5rem;
+  padding: 4rem 1rem 4rem 3rem;
   width: 18rem;
-  margin: 1rem;
-  border-radius: var(--border-radius-large);
-  box-shadow: var(--shadow-elevation-medium);
 }
 
 .content {
+  background: var(--c-surface-bg);
+  border-top-left-radius: var(--border-radius-large);
+  border-top-right-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-elevation-high);
   flex: 1 1 auto;
-  padding: 2rem;
+  margin: 2rem 2rem 0;
   overflow: auto;
+  padding: 2rem;
 }
 
 .main {
