@@ -1,5 +1,5 @@
 <template>
-  <div :class="[$style.layout, { [$style.layoutWithHeader]: $slots.header }]">
+  <div :class="$style.layout">
     <aside v-if="$slots.sidebar" :class="$style.sidebar">
       <slot name="sidebar" />
     </aside>
