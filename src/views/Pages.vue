@@ -74,6 +74,7 @@ function registerPages(pages: (typeof pagesList)["value"]) {
     groupName: "Open",
     icon: FileCheck2,
     action: () => router.push({ name: "Page", params: { id: page.id } }),
+    weight: 10,
   }));
 
   cleanupPages = cmdBar?.registerCommand(...commands) ?? null;
