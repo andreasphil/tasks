@@ -1,5 +1,5 @@
 import { compare } from "@/lib/items";
-import { Page } from "@/lib/page";
+import { Page, compareByTitle } from "@/lib/page";
 import { Item, parseManyWithMemo } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
 import { computed } from "vue";
@@ -15,7 +15,7 @@ export function useTagsPage() {
     Object.values(pages)
       .map((page) => ({ ...page, text: page.text.replace(/\t/g, "") }))
       .map((page) => ({ ...page, items: parseManyWithMemo(page.text) }))
-      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .sort(compareByTitle)
   );
 
   const tags = computed<Record<string, Item[]>>(() =>
@@ -27,7 +27,7 @@ export function useTagsPage() {
           tagMap[tag].push(item);
 
           // TODO: This is not very efficient, maybe improve at some point
-          tagMap[tag].sort((a, b) => compare(a, b));
+          tagMap[tag].sort(compare);
         });
 
         return tagMap;

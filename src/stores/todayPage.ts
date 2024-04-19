@@ -1,6 +1,6 @@
 import { today as getToday } from "@/lib/date";
 import { compare } from "@/lib/items";
-import { Page, getTitle } from "@/lib/page";
+import { Page, compareByTitle, getTitle } from "@/lib/page";
 import { Item, parseManyWithMemo } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
 import { computed } from "vue";
@@ -16,7 +16,7 @@ export function useTodayPage() {
     Object.values(pages)
       .map((page) => ({ ...page, text: page.text.replace(/\t/g, "") }))
       .map((page) => ({ ...page, items: parseManyWithMemo(page.text) }))
-      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .sort(compareByTitle)
   );
 
   const text = computed<string | undefined>(() => {
@@ -25,7 +25,7 @@ export function useTodayPage() {
 
       const dueItems = page.items
         .filter(({ dueDate }) => dueDate && (dueDate as Date).getTime() <= eod)
-        .sort((a, b) => compare(a, b))
+        .sort(compare)
         .map(({ raw }) => raw)
         .join("\n");
 

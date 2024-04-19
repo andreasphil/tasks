@@ -1,4 +1,10 @@
-import { createModel, getTitle, touch, type Page } from "@/lib/page";
+import {
+  compareByTitle,
+  createModel,
+  getTitle,
+  touch,
+  type Page,
+} from "@/lib/page";
 import { computed, reactive, readonly, watch } from "vue";
 
 type PageUpdate = Partial<Page>;
@@ -31,7 +37,7 @@ function createPagesStore() {
 
   const list = computed<{ id: string; title: string }[]>(() =>
     Object.values(pages)
-      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .sort(compareByTitle)
       .map((i) => ({ id: i.id, title: getTitle(i) }))
   );
 

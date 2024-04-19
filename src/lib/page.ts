@@ -36,3 +36,12 @@ export function getTitle(page: Page): string {
   const [firstLine] = page.text.trim().split("\n");
   return firstLine.trim() || "Untitled";
 }
+
+export function compareByTitle(a: Page, b: Page) {
+  const aTitle = getTitle(a);
+  const bTitle = getTitle(b);
+
+  if (aTitle === bTitle) return 0;
+  else if (aTitle < bTitle) return -1;
+  else return 1;
+}
