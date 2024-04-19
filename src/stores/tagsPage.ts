@@ -27,7 +27,7 @@ export function useTagsPage() {
           tagMap[tag].push(item);
 
           // TODO: This is not very efficient, maybe improve at some point
-          tagMap[tag].sort(compare)
+          tagMap[tag].sort((a, b) => compare(a, b));
         });
 
         return tagMap;
