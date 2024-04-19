@@ -141,18 +141,6 @@ onBeforeUnmount(() => {
 
 <template>
   <VLayout>
-    <template #header>
-      <button
-        data-variant="muted"
-        title="Delete page"
-        type="button"
-        @click="beginRemovePage()"
-      >
-        <Trash2 />
-        <span data-hidden>Delete page</span>
-      </button>
-    </template>
-
     <template #sidebar>
       <nav>
         <strong>Tasks</strong>

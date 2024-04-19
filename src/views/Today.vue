@@ -13,14 +13,14 @@ const { text } = useTodayPage();
 </script>
 
 <template>
-  <div data-with-fallback>
+  <article data-with-fallback>
     <div>
       <VueTextarea2
         v-if="text"
         :context-provider="rowToTask"
         :model-value="text"
         :spellcheck="false"
-        class="text-mono"
+        :class="[$style.editor, 'text-mono']"
         readonly
         ref="textareaEl"
       >
@@ -37,5 +37,13 @@ const { text } = useTodayPage();
       <TreePalm />
       <p>Well done! You finished all of today's tasks.</p>
     </div>
-  </div>
+  </article>
 </template>
+
+<style module>
+.editor {
+  caret-color: var(--primary);
+  margin: auto;
+  max-width: 50rem;
+}
+</style>

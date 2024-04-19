@@ -312,7 +312,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div data-with-fallback>
+  <article data-with-fallback>
     <div>
       <VueTextarea2
         v-if="text !== undefined"
@@ -338,7 +338,7 @@ onBeforeUnmount(() => {
       <Frown />
       <p>This page doesn't exist.</p>
     </div>
-  </div>
+  </article>
 
   <VDownloadDialog v-if="exists" v-model="downloadDialog" :pageId="pageId" />
 
@@ -352,5 +352,7 @@ onBeforeUnmount(() => {
 <style module>
 .editor {
   caret-color: var(--primary);
+  margin: auto;
+  max-width: 50rem;
 }
 </style>

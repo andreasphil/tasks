@@ -13,14 +13,14 @@ const { text } = useTagsPage();
 </script>
 
 <template>
-  <div data-with-fallback>
+  <article data-with-fallback>
     <div>
       <VueTextarea2
         v-if="text"
         :context-provider="rowToTask"
         :model-value="text"
         :spellcheck="false"
-        class="text-mono"
+        :class="[$style.editor, 'text-mono']"
         readonly
         ref="textareaEl"
       >
@@ -37,5 +37,13 @@ const { text } = useTagsPage();
       <BookmarkX />
       <p>Looks like you haven't tagged any items.</p>
     </div>
-  </div>
+  </article>
 </template>
+
+<style module>
+.editor {
+  caret-color: var(--primary);
+  margin: auto;
+  max-width: 50rem;
+}
+</style>

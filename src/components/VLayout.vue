@@ -5,7 +5,7 @@
     </aside>
 
     <div :class="$style.content">
-      <main :class="$style.main">
+      <main>
         <slot />
       </main>
     </div>
@@ -27,19 +27,14 @@
 }
 
 .content {
-  background: var(--c-surface-bg);
-  border-top-left-radius: var(--border-radius-large);
-  border-top-right-radius: var(--border-radius-large);
-  box-shadow: var(--shadow-elevation-high);
   flex: 1 1 auto;
-  margin: 2rem 2rem 0;
+  padding: 0 2rem;
   overflow: auto;
-  padding: 2rem;
 }
+</style>
 
-.main {
-  margin: auto;
-  max-width: 50rem;
-  min-height: 100%;
+<style scoped>
+:deep(article) {
+  min-height: calc(100dvh - calc(2 * var(--block-spacing-y)));
 }
 </style>
