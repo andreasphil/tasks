@@ -29,7 +29,6 @@
  * to contain tags and due dates.
  */
 
-import { splitLines } from "@andreasphil/vue-textarea2/text";
 import memize from "memize";
 
 /* -------------------------------------------------- *
@@ -337,22 +336,6 @@ export function parse(input: string): Item {
 
 /** Globally memoized version of the individual item parser. */
 export const parseWithMemo = memize(parse);
-
-/* -------------------------------------------------- *
- * Batch parsing                                      *
- * -------------------------------------------------- */
-
-/**
- * Parses a list of items. If the input is a string, the string is split into
- * lines. If the input is provided as an array, each item in the array is
- * treated as an individual item.
- */
-export function parseMany(input: string | string[]) {
-  const lines = Array.isArray(input) ? input : splitLines(input);
-  return lines.map((line) => parseWithMemo(line));
-}
-
-export const parseManyWithMemo = memize(parseMany);
 
 /* -------------------------------------------------- *
  * Stringifier                                        *

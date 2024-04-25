@@ -2,7 +2,7 @@ import { parse, type Item } from "@/lib/parser";
 import { describe, expect, it } from "vitest";
 import { asWritable, compare, mutate } from "./item";
 
-describe("writable items", () => {
+describe("item", () => {
   describe("set type", () => {
     type Fixtures = Array<{
       source: string;

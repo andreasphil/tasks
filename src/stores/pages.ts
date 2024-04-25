@@ -1,3 +1,4 @@
+import { mutate } from "@/lib/item";
 import {
   compareByTitle,
   createModel,
@@ -5,6 +6,8 @@ import {
   touch,
   type Page,
 } from "@/lib/page";
+import { parse } from "@/lib/parser";
+import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
 import { computed, reactive, readonly, watch } from "vue";
 
 type PageUpdate = Partial<Page>;
@@ -29,7 +32,7 @@ function createPagesStore() {
     localStorage.setItem("pages", JSON.stringify(pages));
   }
 
-  watch(pages, persist, { deep: true });
+  watch(pages, () => persist(), { deep: true });
 
   /* -------------------------------------------------- *
    * Managing pages                                     *
@@ -59,6 +62,25 @@ function createPagesStore() {
   }
 
   /* -------------------------------------------------- *
+   * Managing items                                     *
+   * -------------------------------------------------- */
+
+  function updateItem(
+    id: string,
+    index: number,
+    factory: Parameters<typeof mutate>[1]
+  ) {
+    const lines = splitLines(pages[id]?.text ?? "");
+    if (index >= lines.length) return;
+
+    const item = parse(lines[index]);
+    mutate(item, factory);
+    lines[index] = item.raw;
+
+    update(id, { text: joinLines(lines) });
+  }
+
+  /* -------------------------------------------------- *
    * Import and export                                  *
    * -------------------------------------------------- */
 
@@ -82,6 +104,7 @@ function createPagesStore() {
     pages: readonly(pages),
     pagesList: readonly(list),
     removePage: remove,
+    updateItem,
     updatePage: update,
   });
 }

@@ -1,7 +1,8 @@
 import { compare } from "@/lib/item";
 import { compareByTitle, getTitle, type Page } from "@/lib/page";
-import { parseManyWithMemo, type Item } from "@/lib/parser";
+import { parseWithMemo, type Item } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
+import { splitLines } from "@andreasphil/vue-textarea2/text";
 import dayjs from "dayjs";
 import { computed } from "vue";
 
@@ -14,9 +15,12 @@ export function useTodayPage() {
 
   const pagesWithItems = computed<Array<Page & { items: Item[] }>>(() =>
     Object.values(pages)
-      .map((page) => ({ ...page, text: page.text.replace(/\t/g, "") }))
-      .map((page) => ({ ...page, items: parseManyWithMemo(page.text) }))
       .sort(compareByTitle)
+      .map((page) => ({ ...page, text: page.text.replace(/\t/g, "") }))
+      .map((page) => ({
+        ...page,
+        items: splitLines(page.text).map((line) => parseWithMemo(line)),
+      }))
   );
 
   const text = computed<string | undefined>(() => {
