@@ -5,7 +5,7 @@ import { Ghost } from "lucide-vue-next";
 
 <template>
   <Layout>
-    <div data-with-fallback="emtpy">
+    <div data-with-fallback="emtpy" :class="$style.notFound">
       <div />
       <div data-when="empty">
         <Ghost />
@@ -15,3 +15,9 @@ import { Ghost } from "lucide-vue-next";
     </div>
   </Layout>
 </template>
+
+<style module>
+.notFound {
+  margin: 2rem 0;
+}
+</style>

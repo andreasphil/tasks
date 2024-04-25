@@ -1,6 +1,6 @@
 import { compare } from "@/lib/item";
-import { Page, compareByTitle } from "@/lib/page";
-import { Item, parseManyWithMemo } from "@/lib/parser";
+import { compareByTitle, type Page } from "@/lib/page";
+import { parseManyWithMemo, type Item } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
 import { computed } from "vue";
 

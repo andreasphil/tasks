@@ -23,7 +23,7 @@ import {
   CircleDashed,
   Construction,
   Download,
-  Frown,
+  Ghost,
   Heading1,
   HelpCircle,
   Star,
@@ -337,7 +337,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div data-when="empty">
-      <Frown />
+      <Ghost />
       <p>This page doesn't exist.</p>
     </div>
   </article>
