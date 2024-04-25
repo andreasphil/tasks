@@ -13,6 +13,7 @@ import {
   continueListRules,
   type ContinueListRule,
 } from "@andreasphil/vue-textarea2/text";
+import dayjs from "dayjs";
 import {
   Calendar,
   CalendarSearch,
@@ -100,11 +101,11 @@ async function updateDueDate(
     let effectiveDueDate: Date | undefined;
 
     if (dueDate === "today") {
-      effectiveDueDate = today();
+      effectiveDueDate = dayjs().endOf("day").toDate();
     } else if (dueDate === "tomorrow") {
-      effectiveDueDate = tomorrow();
+      effectiveDueDate = dayjs().add(1, "day").endOf("day").toDate();
     } else if (dueDate === "next-week") {
-      effectiveDueDate = nextWeek();
+      effectiveDueDate = dayjs().add(1, "week").startOf("week").toDate();
     } else {
       effectiveDueDate = dueDate;
     }

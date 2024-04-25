@@ -3,6 +3,7 @@ import { compare } from "@/lib/items";
 import { Page, compareByTitle, getTitle } from "@/lib/page";
 import { Item, parseManyWithMemo } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
+import dayjs from "dayjs";
 import { computed } from "vue";
 
 export function useTodayPage() {
@@ -21,7 +22,7 @@ export function useTodayPage() {
 
   const text = computed<string | undefined>(() => {
     let pageText = pagesWithItems.value.reduce<string>((buffer, page) => {
-      const eod = getToday().getTime();
+      const eod = dayjs().endOf("day").valueOf();
 
       const dueItems = page.items
         .filter(({ dueDate }) => dueDate && (dueDate as Date).getTime() <= eod)
