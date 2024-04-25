@@ -119,10 +119,10 @@ const todayOrOverdue = computed(() => {
 
 .task {
   font: inherit;
-}
 
-.task.completed {
-  color: var(--c-fg-variant);
+  &.completed {
+    color: var(--c-fg-variant);
+  }
 }
 
 .note {
@@ -142,24 +142,24 @@ const todayOrOverdue = computed(() => {
   pointer-events: initial;
   transition: var(--transition);
   transition-property: background-color;
-}
 
-.status:hover {
-  background: var(--c-surface-variant-bg);
-}
+  &:hover {
+    background: var(--c-surface-variant-bg);
+  }
 
-.status.important {
-  color: var(--red-500);
-  font-weight: var(--font-weight-bold);
-}
+  &.important {
+    color: var(--red-500);
+    font-weight: var(--font-weight-bold);
 
-.status.important:hover {
-  background: var(--red-50);
-}
+    &:hover {
+      background: var(--red-50);
+    }
+  }
 
-.status.inProgress,
-.status.question {
-  font-weight: var(--font-weight-bold);
+  &.inProgress,
+  &.question {
+    font-weight: var(--font-weight-bold);
+  }
 }
 
 .dueDate {
@@ -167,25 +167,25 @@ const todayOrOverdue = computed(() => {
   color: var(--c-fg-variant);
   position: relative;
   white-space: nowrap;
-}
 
-.dueDate::after {
-  background-color: var(--item-neutral-bg);
-  border-radius: inherit;
-  bottom: 0px;
-  content: "";
-  left: -2px;
-  position: absolute;
-  right: -2px;
-  top: 0px;
-}
+  &::after {
+    background-color: var(--item-neutral-bg);
+    border-radius: inherit;
+    bottom: 0px;
+    content: "";
+    left: -2px;
+    position: absolute;
+    right: -2px;
+    top: 0px;
+  }
 
-.dueDate.today {
-  color: var(--red-500);
-}
+  &.today {
+    color: var(--red-500);
 
-.dueDate.today::after {
-  background-color: var(--red-50);
+    &::after {
+      background-color: var(--red-50);
+    }
+  }
 }
 
 .tag {
@@ -193,17 +193,17 @@ const todayOrOverdue = computed(() => {
   color: var(--c-fg-variant);
   position: relative;
   white-space: nowrap;
-}
 
-.tag::after {
-  background-color: var(--item-neutral-bg);
-  border-radius: inherit;
-  bottom: 0px;
-  content: "";
-  left: -2px;
-  position: absolute;
-  right: -2px;
-  top: 0px;
+  &::after {
+    background-color: var(--item-neutral-bg);
+    border-radius: inherit;
+    bottom: 0px;
+    content: "";
+    left: -2px;
+    position: absolute;
+    right: -2px;
+    top: 0px;
+  }
 }
 
 .link {
@@ -212,7 +212,6 @@ const todayOrOverdue = computed(() => {
   pointer-events: initial;
   text-decoration-color: var(--primary);
   text-decoration-thickness: var(--border-width);
-  text-decoration: underline;
   text-underline-offset: 0.125rem;
 }
 </style>

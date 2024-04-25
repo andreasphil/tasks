@@ -42,17 +42,11 @@ body {
 
 nav a {
   text-decoration: none;
-}
 
-nav a[data-active="true"] {
-  background: var(--c-surface-variant-bg);
-  text-decoration: none;
-}
-
-nav a:has(svg) {
-  align-items: center;
-  display: flex;
-  gap: 0.375rem;
+  &[data-active="true"] {
+    background: var(--c-surface-variant-bg);
+    text-decoration: none;
+  }
 }
 
 /* -------------------------------------------------- *
@@ -61,10 +55,6 @@ nav a:has(svg) {
 
 .text-c-variant {
   color: var(--c-fg-variant);
-}
-
-.mr-auto {
-  margin-right: auto;
 }
 
 .text-mono {

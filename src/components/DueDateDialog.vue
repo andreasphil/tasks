@@ -68,7 +68,11 @@ function onCancel() {
     </label>
 
     <template #footer>
-      <button class="mr-auto" @click="onClear()" data-variant="muted">
+      <button
+        :class="$style.clearButton"
+        @click="onClear()"
+        data-variant="muted"
+      >
         <CalendarX2 />Clear
       </button>
 
@@ -77,3 +81,9 @@ function onCancel() {
     </template>
   </Dialog>
 </template>
+
+<style module>
+.clearButton {
+  margin-right: auto;
+}
+</style>
