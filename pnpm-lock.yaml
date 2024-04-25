@@ -20,12 +20,6 @@ importers:
       '@fontsource-variable/fira-code':
         specifier: ^5.0.18
         version: 5.0.18
-      '@types/wicg-file-system-access':
-        specifier: ^2023.10.5
-        version: 2023.10.5
-      '@vitejs/plugin-vue':
-        specifier: ^5.0.4
-        version: 5.0.4(vite@5.2.10)(vue@3.4.25(typescript@5.4.5))
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
@@ -35,6 +29,19 @@ importers:
       memize:
         specifier: ^2.1.0
         version: 2.1.0
+      vue:
+        specifier: ^3.4.25
+        version: 3.4.25(typescript@5.4.5)
+      vue-router:
+        specifier: ^4.3.2
+        version: 4.3.2(vue@3.4.25(typescript@5.4.5))
+    devDependencies:
+      '@types/wicg-file-system-access':
+        specifier: ^2023.10.5
+        version: 2023.10.5
+      '@vitejs/plugin-vue':
+        specifier: ^5.0.4
+        version: 5.0.4(vite@5.2.10)(vue@3.4.25(typescript@5.4.5))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -44,12 +51,6 @@ importers:
       vitest:
         specifier: ^1.5.2
         version: 1.5.2
-      vue:
-        specifier: ^3.4.25
-        version: 3.4.25(typescript@5.4.5)
-      vue-router:
-        specifier: ^4.3.2
-        version: 4.3.2(vue@3.4.25(typescript@5.4.5))
       vue-tsc:
         specifier: ^2.0.14
         version: 2.0.14(typescript@5.4.5)

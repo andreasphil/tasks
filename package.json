@@ -14,16 +14,18 @@
     "@andreasphil/vue-command-bar": "github:andreasphil/vue-command-bar#v0.2.0",
     "@andreasphil/vue-textarea2": "github:andreasphil/vue-textarea2#v0.3.0",
     "@fontsource-variable/fira-code": "^5.0.18",
-    "@types/wicg-file-system-access": "^2023.10.5",
-    "@vitejs/plugin-vue": "^5.0.4",
     "dayjs": "^1.11.10",
     "lucide-vue-next": "^0.373.0",
     "memize": "^2.1.0",
+    "vue": "^3.4.25",
+    "vue-router": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/wicg-file-system-access": "^2023.10.5",
+    "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.4.5",
     "vite": "^5.2.10",
     "vitest": "^1.5.2",
-    "vue": "^3.4.25",
-    "vue-router": "^4.3.2",
     "vue-tsc": "^2.0.14"
   }
 }
