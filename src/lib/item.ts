@@ -1,4 +1,3 @@
-import { format } from "@/lib/date";
 import {
   parse,
   stringify,
@@ -25,16 +24,16 @@ export type WritableItem = Omit<Item, "dueDate" | "status" | "type"> &
  * Change the status of the specified item. This will mutate the item.
  *
  * @param item The item to change
- * @param newStatus The next status of the item
+ * @param status The next status of the item
  */
-function setStatus(item: UncheckedItem, newStatus: TaskStatus): void {
+function setStatus(item: UncheckedItem, status: TaskStatus): void {
   if (item.type !== "task") return;
 
-  item.status = newStatus;
+  item.status = status;
 
   const statusToken = item.tokens.find((i) => i.type === "status");
   if (statusToken) {
-    const statusChar = taskStatuses[newStatus];
+    const statusChar = taskStatuses[status];
     statusToken.match = statusToken.match.replace(/\[.\]/, `[${statusChar}]`);
     statusToken.text = statusChar;
   }
@@ -46,29 +45,29 @@ function setStatus(item: UncheckedItem, newStatus: TaskStatus): void {
  * Change the due date of the specified item. This will mutate the item.
  *
  * @param item The item to change
- * @param newDueDate The next due date of the item. Will remove an existing due
+ * @param date The next due date of the item. Will remove an existing due
  *  date then set to undefined.
  */
-function setDueDate(item: UncheckedItem, newDueDate?: Date): void {
+function setDueDate(item: UncheckedItem, date?: Date): void {
   const hasDueDate = item.dueDate !== undefined;
   let newRaw = item.raw;
-  const newDueDateStr = newDueDate ? format(newDueDate, "YYYY-MM-DD") : "";
+  const newDueDateStr = date ? dayjs(date).format("YYYY-MM-DD") : "";
 
   // 1. No due date before, no due date after @ skip
-  if (!hasDueDate && !newDueDate) return;
+  if (!hasDueDate && !date) return;
   // 2. No due date before, due date after @ add
-  else if (!hasDueDate && newDueDate) {
+  else if (!hasDueDate && date) {
     newRaw = item.raw.replace(/ ?$/, ` @${newDueDateStr}`);
   }
   // 3. Due date before, no due date after @ remove
-  else if (hasDueDate && !newDueDate) {
+  else if (hasDueDate && !date) {
     const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
     if (!dueDateToken) return;
     const exp = new RegExp(`\\s?@${dueDateToken.text}`);
     newRaw = newRaw.replace(exp, "");
   }
   // 4. Due date before, due date after @ update
-  else if (hasDueDate && newDueDate) {
+  else if (hasDueDate && date) {
     const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
     if (!dueDateToken) return;
     newRaw = newRaw.replace(`@${dueDateToken.text}`, `@${newDueDateStr}`);
@@ -81,10 +80,10 @@ function setDueDate(item: UncheckedItem, newDueDate?: Date): void {
  * Change the status of the specified item. This will mutate the item.
  *
  * @param item The item to change
- * @param newType The next type of the item
+ * @param type The next type of the item
  */
-function setType(item: UncheckedItem, newType: UncheckedItem["type"]): void {
-  if (item.type === newType) return;
+function setType(item: UncheckedItem, type: UncheckedItem["type"]): void {
+  if (item.type === type) return;
 
   let newRaw = item.raw;
 
@@ -94,11 +93,11 @@ function setType(item: UncheckedItem, newType: UncheckedItem["type"]): void {
   else if (item.type === "note") newRaw = newRaw.replace(/^(\s*)\[-\] /, "$1");
 
   // Add type specific content
-  if (newType === "task") newRaw = newRaw.replace(/^(\s*)/, "$1[ ] ");
-  else if (newType === "heading") newRaw = `# ${newRaw.trimStart()}`;
+  if (type === "task") newRaw = newRaw.replace(/^(\s*)/, "$1[ ] ");
+  else if (type === "heading") newRaw = `# ${newRaw.trimStart()}`;
 
   Object.assign(item, parse(newRaw));
-  item.status = newType === "task" ? "incomplete" : null;
+  item.status = type === "task" ? "incomplete" : null;
 }
 
 /**

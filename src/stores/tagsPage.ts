@@ -1,4 +1,4 @@
-import { compare } from "@/lib/items";
+import { compare } from "@/lib/item";
 import { Page, compareByTitle } from "@/lib/page";
 import { Item, parseManyWithMemo } from "@/lib/parser";
 import { usePages } from "@/stores/pages";

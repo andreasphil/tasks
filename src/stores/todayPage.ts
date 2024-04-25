@@ -1,5 +1,4 @@
-import { today as getToday } from "@/lib/date";
-import { compare } from "@/lib/items";
+import { compare } from "@/lib/item";
 import { Page, compareByTitle, getTitle } from "@/lib/page";
 import { Item, parseManyWithMemo } from "@/lib/parser";
 import { usePages } from "@/stores/pages";

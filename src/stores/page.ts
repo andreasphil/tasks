@@ -1,4 +1,4 @@
-import { mutate } from "@/lib/items";
+import { mutate } from "@/lib/item";
 import { getTitle, type Page } from "@/lib/page";
 import { parse } from "@/lib/parser";
 import { usePages } from "@/stores/pages";

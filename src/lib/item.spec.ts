@@ -1,6 +1,6 @@
 import { Item, parse } from "@/lib/parser";
 import { describe, expect, it } from "vitest";
-import { asWritable, compare, mutate } from "./items";
+import { asWritable, compare, mutate } from "./item";
 
 describe("writable items", () => {
   describe("set type", () => {
