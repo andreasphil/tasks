@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VDialog from "@/components/VDialog.vue";
+import Dialog from "@/components/Dialog.vue";
 import { usePages } from "@/stores/pages";
 import dayjs from "dayjs";
 import { Check, DownloadCloud, UploadCloud } from "lucide-vue-next";
@@ -69,7 +69,7 @@ async function openFromFile() {
 </script>
 
 <template>
-  <VDialog title="Backup" v-model="localOpen">
+  <Dialog title="Backup" v-model="localOpen">
     <p>
       Use the buttons below to download or restore a backup of all your pages.
       If you restore a backup, pages that already exist will be overwritten.
@@ -92,7 +92,7 @@ async function openFromFile() {
     <template #footer>
       <button @click="localOpen = false"><Check />Done</button>
     </template>
-  </VDialog>
+  </Dialog>
 </template>
 
 <style module>

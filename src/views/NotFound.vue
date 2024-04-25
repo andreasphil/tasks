@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import VLayout from "@/components/VLayout.vue";
+import Layout from "@/components/Layout.vue";
 import { Ghost } from "lucide-vue-next";
 </script>
 
 <template>
-  <VLayout>
+  <Layout>
     <div data-with-fallback="emtpy">
       <div />
       <div data-when="empty">
@@ -13,5 +13,5 @@ import { Ghost } from "lucide-vue-next";
         <RouterLink :to="{ name: 'Home' }">Take me back</RouterLink>
       </div>
     </div>
-  </VLayout>
+  </Layout>
 </template>

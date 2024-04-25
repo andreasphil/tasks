@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VDialog from "@/components/VDialog.vue";
+import Dialog from "@/components/Dialog.vue";
 import { CalendarCheck, CalendarX2 } from "lucide-vue-next";
 import { computed, watch } from "vue";
 
@@ -53,7 +53,7 @@ function onCancel() {
 </script>
 
 <template>
-  <VDialog
+  <Dialog
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
     title="Set due date"
@@ -75,5 +75,5 @@ function onCancel() {
       <button data-variant="ghost" @click="onCancel()">Cancel</button>
       <button @click="onConfirm()"><CalendarCheck />Done</button>
     </template>
-  </VDialog>
+  </Dialog>
 </template>

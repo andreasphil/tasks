@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import VDialog from "@/components/VDialog.vue";
+import Dialog from "@/components/Dialog.vue";
 import { usePage } from "@/stores/page";
 import { Download } from "lucide-vue-next";
 import { computed, nextTick, onUnmounted, ref, watch } from "vue";
@@ -64,7 +64,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VDialog title="Download page" v-model="localOpen">
+  <Dialog title="Download page" v-model="localOpen">
     <p>
       Press the download button below to save a copy of "{{ title }}" to your
       disk.
@@ -81,5 +81,5 @@ onUnmounted(() => {
         <Download />Download
       </a>
     </template>
-  </VDialog>
+  </Dialog>
 </template>

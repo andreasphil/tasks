@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import VPageItem from "@/components/VPageItem.vue";
+import Item from "@/components/Item.vue";
 import VueTextarea2 from "@andreasphil/vue-textarea2";
 import { parseWithMemo as rowToTask } from "@/lib/parser";
 import { useTodayPage } from "@/stores/todayPage";
@@ -25,7 +25,7 @@ const { text } = useTodayPage();
         ref="textareaEl"
       >
         <template #row="{ context, index }">
-          <VPageItem
+          <Item
             :as="index === 0 ? 'heading' : undefined"
             :item="context"
           />

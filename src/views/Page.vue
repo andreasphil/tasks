@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import VDownloadDialog from "@/components/VDownloadDialog.vue";
-import VDueDateDialog from "@/components/VDueDateDialog.vue";
-import VPageItem from "@/components/VPageItem.vue";
+import DownloadDialog from "@/components/DownloadDialog.vue";
+import DueDateDialog from "@/components/DueDateDialog.vue";
+import { default as PageItem } from "@/components/Item.vue";
 import {
   parseWithMemo as rowToTask,
   type Item,
@@ -327,7 +327,7 @@ onBeforeUnmount(() => {
         v-model="text"
       >
         <template #row="{ context, index }">
-          <VPageItem
+          <PageItem
             :as="index === 0 ? 'heading' : undefined"
             :item="context"
             @update:status="updateStatus($event, index, false)"
@@ -342,9 +342,9 @@ onBeforeUnmount(() => {
     </div>
   </article>
 
-  <VDownloadDialog v-if="exists" v-model="downloadDialog" :pageId="pageId" />
+  <DownloadDialog v-if="exists" v-model="downloadDialog" :pageId="pageId" />
 
-  <VDueDateDialog
+  <DueDateDialog
     @confirmed="setDueDateFromDialog()"
     v-model:selected-date="dueDateDialogValue"
     v-model="dueDateDialog"

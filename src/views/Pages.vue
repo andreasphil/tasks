@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import VBackupDialog from "@/components/VBackupDialog.vue";
-import VLayout from "@/components/VLayout.vue";
-import VRouterLink from "@/components/VRouterLink.vue";
+import BackupDialog from "@/components/BackupDialog.vue";
+import Layout from "@/components/Layout.vue";
+import RouterLink from "@/components/RouterLink.vue";
 import { usePages } from "@/stores/pages";
 import {
   useCommandBar,
@@ -141,7 +141,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <VLayout>
+  <Layout>
     <template #sidebar>
       <nav>
         <strong>Tasks</strong>
@@ -166,16 +166,16 @@ onBeforeUnmount(() => {
 
           <!-- Smart pages -->
           <li>
-            <VRouterLink :to="{ name: 'Today' }">
+            <RouterLink :to="{ name: 'Today' }">
               <Star />
               Today
-            </VRouterLink>
+            </RouterLink>
           </li>
           <li>
-            <VRouterLink :to="{ name: 'Tags' }">
+            <RouterLink :to="{ name: 'Tags' }">
               <Bookmark />
               Tags
-            </VRouterLink>
+            </RouterLink>
           </li>
           <li v-if="pagesList.length">
             <hr />
@@ -183,10 +183,10 @@ onBeforeUnmount(() => {
 
           <!-- User pages -->
           <li v-for="page in pagesList">
-            <VRouterLink :to="{ name: 'Page', params: { id: page.id } }">
+            <RouterLink :to="{ name: 'Page', params: { id: page.id } }">
               <FileCheck2 />
               <span data-clamp>{{ page.title }}</span>
-            </VRouterLink>
+            </RouterLink>
           </li>
         </ul>
       </nav>
@@ -194,6 +194,6 @@ onBeforeUnmount(() => {
 
     <RouterView />
 
-    <VBackupDialog v-model="backupDialog" />
-  </VLayout>
+    <BackupDialog v-model="backupDialog" />
+  </Layout>
 </template>
