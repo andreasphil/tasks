@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouteLocationRaw, RouterLink } from "vue-router";
+import { RouterLink, type RouteLocationRaw } from "vue-router";
 
 defineProps<{ to: RouteLocationRaw }>();
 </script>

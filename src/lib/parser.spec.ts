@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parse, stringify } from "./parser"; // TODO: Use path alias
+import { parse, stringify } from "./parser";
 
 describe("parser", () => {
   describe("headings", () => {
@@ -109,7 +109,7 @@ describe("parser", () => {
     it("ignores an invalid due date", () => {
       const r = parse("[ ] Task 1 @2021-01-32");
       expect(r.dueDate).toBeUndefined();
-    })
+    });
 
     it("finds a due date and tags", () => {
       const r = parse("[ ] Task 1 #tag1 @2021-01-01 text #tag2");

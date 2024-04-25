@@ -1,4 +1,4 @@
-import { Item, parse } from "@/lib/parser";
+import { parse, type Item } from "@/lib/parser";
 import { describe, expect, it } from "vitest";
 import { asWritable, compare, mutate } from "./item";
 

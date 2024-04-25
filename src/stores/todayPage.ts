@@ -1,6 +1,6 @@
 import { compare } from "@/lib/item";
-import { Page, compareByTitle, getTitle } from "@/lib/page";
-import { Item, parseManyWithMemo } from "@/lib/parser";
+import { compareByTitle, getTitle, type Page } from "@/lib/page";
+import { parseManyWithMemo, type Item } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
 import dayjs from "dayjs";
 import { computed } from "vue";

@@ -2,13 +2,14 @@
 import VDownloadDialog from "@/components/VDownloadDialog.vue";
 import VDueDateDialog from "@/components/VDueDateDialog.vue";
 import VPageItem from "@/components/VPageItem.vue";
-import { nextWeek, today, tomorrow } from "@/lib/date";
-import { Item, parseWithMemo as rowToTask, TaskStatus } from "@/lib/parser";
+import {
+  parseWithMemo as rowToTask,
+  type Item,
+  type TaskStatus,
+} from "@/lib/parser";
 import { usePage } from "@/stores/page";
 import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
-import VueTextarea2, {
-  type EditingContext as TextareaContext,
-} from "@andreasphil/vue-textarea2";
+import VueTextarea2, { type EditingContext } from "@andreasphil/vue-textarea2";
 import {
   continueListRules,
   type ContinueListRule,
@@ -53,13 +54,13 @@ const textareaEl = ref<InstanceType<typeof VueTextarea2> | null>(null);
 
 watch(pageId, async () => {
   await nextTick();
-  textareaEl.value?.withContext(({ focus }: TextareaContext) => {
+  textareaEl.value?.withContext(({ focus }: EditingContext) => {
     focus({ to: "absolute", start: 0 });
   });
 });
 
 onMounted(() => {
-  textareaEl.value?.withContext(({ focus }: TextareaContext) => {
+  textareaEl.value?.withContext(({ focus }: EditingContext) => {
     focus({ to: "absolute", start: 0 });
   });
 });
@@ -97,7 +98,7 @@ function setDueDateFromDialog() {
 async function updateDueDate(
   dueDate: Date | "today" | "tomorrow" | "next-week" | undefined
 ) {
-  textareaEl.value?.withContext((ctx: TextareaContext) => {
+  textareaEl.value?.withContext((ctx: EditingContext) => {
     let effectiveDueDate: Date | undefined;
 
     if (dueDate === "today") {
@@ -123,7 +124,7 @@ async function updateStatus(
   index?: number,
   keepSelection = true
 ) {
-  textareaEl.value?.withContext((ctx: TextareaContext) => {
+  textareaEl.value?.withContext((ctx: EditingContext) => {
     let effectiveIndex = index ?? ctx.selectedLines[0];
 
     updateItem(effectiveIndex, (item) => {
@@ -138,7 +139,7 @@ async function updateStatus(
 }
 
 async function updateType(type: Item["type"]) {
-  textareaEl.value?.withContext((ctx: TextareaContext) => {
+  textareaEl.value?.withContext((ctx: EditingContext) => {
     const lenBefore = text.value?.length ?? 0;
 
     updateItem(ctx.selectedLines[0], (item) => {

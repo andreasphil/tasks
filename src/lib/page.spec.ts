@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { Page, compareByTitle, createModel, getTitle } from "./page";
+import { compareByTitle, createModel, getTitle, type Page } from "./page";
 
 describe("getTitle", () => {
   it("returns the title of the page", () => {
