@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Item from "@/components/Item.vue";
-import VueTextarea2 from "@andreasphil/vue-textarea2";
+import Textarea2 from "@andreasphil/vue-textarea2";
 import { parseWithMemo as rowToTask } from "@/lib/parser";
 import { useTodayPage } from "@/stores/todayPage";
 import { TreePalm } from "lucide-vue-next";
@@ -15,7 +15,7 @@ const { text } = useTodayPage();
 <template>
   <article data-with-fallback>
     <div>
-      <VueTextarea2
+      <Textarea2
         v-if="text"
         :context-provider="rowToTask"
         :model-value="text"
@@ -30,7 +30,7 @@ const { text } = useTodayPage();
             :item="context"
           />
         </template>
-      </VueTextarea2>
+      </Textarea2>
     </div>
 
     <div data-when="empty">

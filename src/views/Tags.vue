@@ -2,7 +2,7 @@
 import Item from "@/components/Item.vue";
 import { parseWithMemo as rowToTask } from "@/lib/parser";
 import { useTagsPage } from "@/stores/tagsPage";
-import VueTextarea2 from "@andreasphil/vue-textarea2";
+import Textarea2 from "@andreasphil/vue-textarea2";
 import { BookmarkX } from "lucide-vue-next";
 
 /* -------------------------------------------------- *
@@ -15,7 +15,7 @@ const { text } = useTagsPage();
 <template>
   <article data-with-fallback>
     <div>
-      <VueTextarea2
+      <Textarea2
         v-if="text"
         :context-provider="rowToTask"
         :model-value="text"
@@ -30,7 +30,7 @@ const { text } = useTagsPage();
             :item="context"
           />
         </template>
-      </VueTextarea2>
+      </Textarea2>
     </div>
 
     <div data-when="empty">

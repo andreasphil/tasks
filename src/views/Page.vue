@@ -9,7 +9,7 @@ import {
 } from "@/lib/parser";
 import { usePage } from "@/stores/page";
 import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
-import VueTextarea2, { type EditingContext } from "@andreasphil/vue-textarea2";
+import Textarea2, { type EditingContext } from "@andreasphil/vue-textarea2";
 import {
   continueListRules,
   type ContinueListRule,
@@ -50,7 +50,7 @@ const pageId = computed(() => route.params.id?.toString());
 const { exists, text, updateItem } = usePage(() => pageId.value);
 
 // @ts-expect-error Vue types seem to be buggy here
-const textareaEl = ref<InstanceType<typeof VueTextarea2> | null>(null);
+const textareaEl = ref<InstanceType<typeof Textarea2> | null>(null);
 
 watch(pageId, async () => {
   await nextTick();
@@ -316,11 +316,12 @@ onBeforeUnmount(() => {
 <template>
   <article data-with-fallback>
     <div>
-      <VueTextarea2
+      <Textarea2
         v-if="text !== undefined"
         :class="[$style.editor, 'text-mono']"
         :context-provider="rowToTask"
         :continue-lists="continueLists"
+        :delete-line="false"
         :spellcheck="false"
         @keydown.@.stop.prevent="pickDueDate()"
         ref="textareaEl"
@@ -333,7 +334,7 @@ onBeforeUnmount(() => {
             @update:status="updateStatus($event, index, false)"
           />
         </template>
-      </VueTextarea2>
+      </Textarea2>
     </div>
 
     <div data-when="empty">
