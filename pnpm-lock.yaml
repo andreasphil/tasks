@@ -20,6 +20,9 @@ importers:
       '@fontsource-variable/fira-code':
         specifier: ^5.0.18
         version: 5.0.18
+      browser-fs-access:
+        specifier: ^0.35.0
+        version: 0.35.0
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
@@ -428,6 +431,9 @@ packages:
 
   brace-expansion@2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
+
+  browser-fs-access@0.35.0:
+    resolution: {integrity: sha512-sLoadumpRfsjprP8XzVjpQc0jK8yqHBx0PtUTGYj2fftT+P/t+uyDAQdMgGAPKD011in/O+YYGh7fIs0oG/viw==}
 
   cac@6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
@@ -1094,6 +1100,8 @@ snapshots:
   brace-expansion@2.0.1:
     dependencies:
       balanced-match: 1.0.2
+
+  browser-fs-access@0.35.0: {}
 
   cac@6.7.14: {}
 

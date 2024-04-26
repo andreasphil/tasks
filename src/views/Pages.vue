@@ -109,6 +109,7 @@ const staticCommands: CommandBarCommand[] = [
   {
     id: "pages:backup",
     name: "Backup",
+    alias: ["import", "export"],
     groupName: "Pages",
     icon: DownloadCloud,
     action: beginBackup,

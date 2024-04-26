@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
 import { usePages } from "@/stores/pages";
+import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
 import { Check, DownloadCloud, UploadCloud } from "lucide-vue-next";
 import { computed } from "vue";
@@ -28,20 +29,13 @@ const localOpen = computed({
 
 const { exportPages, importPages } = usePages();
 
-const canAccessFiles = "showOpenFilePicker" in window;
-
 async function saveToFile() {
-  if (!("showSaveFilePicker" in window)) return;
-
   try {
-    const handle = await window.showSaveFilePicker({
-      types: [{ accept: { "application/json": [".json"] } }],
-      suggestedName: `tasks-${dayjs().format("YYYY-MM-DD")}.json`,
+    await fileSave(new Blob([exportPages()], { type: "application/json" }), {
+      mimeTypes: ["application/json"],
+      extensions: [".json"],
+      fileName: `tasks-${dayjs().format("YYYY-MM-DD")}.json`,
     });
-
-    const writable = await handle.createWritable();
-    await writable.write(exportPages());
-    await writable.close();
 
     alert("Backup saved!");
     localOpen.value = false;
@@ -51,20 +45,18 @@ async function saveToFile() {
 }
 
 async function openFromFile() {
-  if (!("showOpenFilePicker" in window)) return;
-
-  return window
-    .showOpenFilePicker({
+  try {
+    const text = await fileOpen({
       multiple: false,
-      types: [{ accept: { "application/json": [".json"] } }],
-    })
-    .then(([handle]) => handle.getFile())
-    .then((file) => file.text())
-    .then((text) => {
-      importPages(text);
-      localOpen.value = false;
-    })
-    .catch(() => alert("Failed to load backup."));
+      mimeTypes: ["application/json"],
+      extensions: [".json"],
+    }).then((blob) => blob.text());
+
+    importPages(text);
+    localOpen.value = false;
+  } catch {
+    alert("Failed to load backup.");
+  }
 }
 </script>
 
@@ -76,17 +68,13 @@ async function openFromFile() {
       Pages you added since the backup was created will not be affected.
     </p>
 
-    <div :data-with-fallback="canAccessFiles ? '' : 'error'">
-      <div :class="$style.actions">
-        <button @click="saveToFile" data-variant="muted">
-          <DownloadCloud />Download backup
-        </button>
-        <button @click="openFromFile" data-variant="muted">
-          <UploadCloud />Restore backup
-        </button>
-      </div>
-
-      <div data-when="error">Your browser does not support this feature.</div>
+    <div :class="$style.actions">
+      <button @click="saveToFile" data-variant="muted">
+        <DownloadCloud />Download backup
+      </button>
+      <button @click="openFromFile" data-variant="muted">
+        <UploadCloud />Restore backup
+      </button>
     </div>
 
     <template #footer>
