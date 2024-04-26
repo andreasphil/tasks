@@ -321,7 +321,6 @@ onBeforeUnmount(() => {
         :class="[$style.editor, 'text-mono']"
         :context-provider="rowToTask"
         :continue-lists="continueLists"
-        :delete-line="false"
         :spellcheck="false"
         @keydown.@.stop.prevent="pickDueDate()"
         ref="textareaEl"

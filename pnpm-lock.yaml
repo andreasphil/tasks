@@ -12,8 +12,8 @@ importers:
         specifier: github:andreasphil/design-system#v0.29.0
         version: https://codeload.github.com/andreasphil/design-system/tar.gz/f2e5859549c858b98769d3954583790511a5b6aa
       '@andreasphil/vue-command-bar':
-        specifier: github:andreasphil/vue-command-bar#v0.2.0
-        version: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/720c7d21fff117b534d4fd8d56177e3bb022e87a(typescript@5.4.5)
+        specifier: github:andreasphil/vue-command-bar#v0.3.0
+        version: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43(typescript@5.4.5)
       '@andreasphil/vue-textarea2':
         specifier: github:andreasphil/vue-textarea2#v0.3.0
         version: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8efb5f63e3c1746d99c482f14d058f5459132982(typescript@5.4.5)
@@ -65,9 +65,9 @@ packages:
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/f2e5859549c858b98769d3954583790511a5b6aa}
     version: 0.29.0
 
-  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/720c7d21fff117b534d4fd8d56177e3bb022e87a':
-    resolution: {tarball: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/720c7d21fff117b534d4fd8d56177e3bb022e87a}
-    version: 0.2.0
+  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43':
+    resolution: {tarball: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43}
+    version: 0.3.0
 
   '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8efb5f63e3c1746d99c482f14d058f5459132982':
     resolution: {tarball: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8efb5f63e3c1746d99c482f14d058f5459132982}
@@ -794,7 +794,7 @@ snapshots:
 
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/f2e5859549c858b98769d3954583790511a5b6aa': {}
 
-  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/720c7d21fff117b534d4fd8d56177e3bb022e87a(typescript@5.4.5)':
+  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43(typescript@5.4.5)':
     dependencies:
       '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/7ba4d149c9693829daa7c1a9d7ddab40968d513e
       vue: 3.4.25(typescript@5.4.5)
