@@ -1,11 +1,5 @@
 import { mutate } from "@/lib/item";
-import {
-  compareByTitle,
-  createModel,
-  getTitle,
-  touch,
-  type Page,
-} from "@/lib/page";
+import { compareByTitle, createModel, getTitle, type Page } from "@/lib/page";
 import { parse } from "@/lib/parser";
 import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
 import { computed, reactive, readonly, watch } from "vue";
@@ -57,7 +51,6 @@ function createPagesStore() {
   function update(id: string, page: PageUpdate): void {
     if (!pages[id]) return;
     const updatedPage = { ...pages[id], ...page };
-    touch(updatedPage);
     pages[id] = updatedPage;
   }
 

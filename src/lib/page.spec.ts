@@ -27,9 +27,9 @@ describe("page", () => {
   describe("compareByTitle", () => {
     it("sorts alphabetically", () => {
       const pages: Page[] = [
-        { id: "1", createdAt: 0, updatedAt: 0, text: "B" },
-        { id: "2", createdAt: 0, updatedAt: 0, text: "C" },
-        { id: "3", createdAt: 0, updatedAt: 0, text: "A" },
+        { id: "1", text: "B" },
+        { id: "2", text: "C" },
+        { id: "3", text: "A" },
       ];
 
       const sorted = pages.sort(compareByTitle).map((page) => page.text);
@@ -38,9 +38,9 @@ describe("page", () => {
 
     it("does not change the order if titles are the same", () => {
       const pages: Page[] = [
-        { id: "1", createdAt: 0, updatedAt: 0, text: "A" },
-        { id: "2", createdAt: 0, updatedAt: 0, text: "A" },
-        { id: "3", createdAt: 0, updatedAt: 0, text: "A" },
+        { id: "1", text: "A" },
+        { id: "2", text: "A" },
+        { id: "3", text: "A" },
       ];
 
       const sorted = pages.sort(compareByTitle).map((page) => page.id);

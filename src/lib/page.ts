@@ -4,8 +4,6 @@
 
 export type Model<T = any> = {
   id: string;
-  createdAt: number;
-  updatedAt: number;
 } & T;
 
 export function uid(): string {
@@ -15,13 +13,8 @@ export function uid(): string {
 }
 
 export function createModel<T>(init: T): Model<T> {
-  const now = new Date().getTime();
   init = structuredClone(init);
-  return { id: uid(), createdAt: now, updatedAt: now, ...init };
-}
-
-export function touch(model: Model): void {
-  model.updatedAt = new Date().getTime();
+  return { id: uid(), ...init };
 }
 
 /* -------------------------------------------------- *
