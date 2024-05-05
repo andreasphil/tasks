@@ -1,12 +1,16 @@
 import { parse } from "@/lib/parser";
-import { afterEach, describe, expect, test } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { usePages } from "./structuredPages";
+import { nextTick } from "vue";
 
 describe("pages store", () => {
   afterEach(() => {
     // Reset the store to its initial state after each run
     const { pages, removePage } = usePages();
     Object.keys(pages).forEach((id) => removePage(id));
+
+    // Reset stubs
+    vi.unstubAllGlobals();
   });
 
   test("returns an empty list of pages", () => {
@@ -103,5 +107,85 @@ describe("pages store", () => {
     const { removePage } = usePages();
 
     expect(() => removePage("foo")).not.toThrow();
+  });
+
+  test("persists modifications in local storage", async () => {
+    const getItem = vi.fn();
+    const setItem = vi.fn();
+    vi.stubGlobal("localStorage", { ...localStorage, getItem, setItem });
+    const { createPage, updatePage, removePage } = usePages();
+
+    const id = createPage([parse("Page 1")]);
+    await nextTick();
+    expect(setItem).toHaveBeenCalledWith(
+      "pages",
+      JSON.stringify([{ id: id, text: "Page 1" }])
+    );
+
+    updatePage(id, { items: [parse("Page 1.2")] });
+    await nextTick();
+    expect(setItem).toHaveBeenCalledWith(
+      "pages",
+      JSON.stringify([{ id: id, text: "Page 1.2" }])
+    );
+
+    removePage(id);
+    await nextTick();
+    expect(setItem).toHaveBeenCalledWith("pages", JSON.stringify([]));
+  });
+
+  test.todo("restores previous pages from local storage", () => {
+    // TODO: Not sure how to test this ...
+  });
+
+  test.todo("doesn't break when local storage has an invalid value", () => {
+    // TODO: Not sure how to test this ...
+  });
+
+  test.todo("doesn't break when local storage is empty", () => {
+    // TODO: Not sure how to test this ...
+  });
+
+  test("imports the serialized version of a page", () => {
+    const { pages, importBackup } = usePages();
+
+    importBackup('[{ "id": "foo", "text": "Page 1" }]');
+
+    expect(pages["foo"]).toBeTruthy();
+  });
+
+  test("does not remove existing pages not included in the backup", () => {
+    const { pages, importBackup, createPage } = usePages();
+
+    const id = createPage([parse("Page 2")]);
+    importBackup('[{ "id": "foo", "text": "Page 1" }]');
+
+    expect(pages[id]).toBeTruthy();
+    expect(pages["foo"]).toBeTruthy();
+  });
+
+  test("does not modify existing page contents when importing", () => {
+    const { pages, importBackup, createPage } = usePages();
+
+    const id = createPage([parse("Page 1")]);
+    importBackup('[{ "id": "foo", "text": "Page 1" }]');
+
+    expect(pages[id].items[0].raw).toBe("Page 1");
+    expect(pages["foo"]).toBeTruthy();
+  });
+
+  test("throws an error when attempting to import an invalid backup", () => {
+    const { importBackup } = usePages();
+
+    expect(() => importBackup("🐸")).toThrow();
+  });
+
+  test("exports a serialized version of the current pages", () => {
+    const { createPage, exportBackup } = usePages();
+
+    const id = createPage([parse("Page 1")]);
+    const backup = exportBackup();
+
+    expect(backup).toBe(JSON.stringify([{ id, text: "Page 1" }]));
   });
 });

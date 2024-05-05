@@ -1,11 +1,15 @@
-import { type Item } from "@/lib/parser";
+import { parse, type Item } from "@/lib/parser";
 import {
   compareByTitle,
   createModel,
   getTitle,
+  type Model,
   type Page,
 } from "@/lib/structuredPage";
-import { computed, reactive, readonly } from "vue";
+import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
+import { computed, reactive, readonly, watch } from "vue";
+
+type SerializedPage = Model<{ text: string }>;
 
 function createPagesStore() {
   const pages = reactive<Record<string, Page>>({});
@@ -36,8 +40,61 @@ function createPagesStore() {
     delete pages[id];
   }
 
+  /* -------------------------------------------------- *
+   * Persisting                                         *
+   * -------------------------------------------------- */
+
+  function loadFromStorage() {
+    const saved = localStorage.getItem("pages");
+    if (!saved) return;
+
+    try {
+      importBackup(saved);
+    } catch (e) {
+      console.error("Failed to restore pages from backup:", e);
+    }
+  }
+
+  function saveToStorage() {
+    localStorage.setItem("pages", exportBackup());
+  }
+
+  watch(pages, () => saveToStorage(), { deep: true });
+
+  loadFromStorage();
+
+  /* -------------------------------------------------- *
+   * Import and export                                  *
+   * -------------------------------------------------- */
+
+  /**
+   * Imports the pages included in the backup. The backup is expected to
+   * correspond to the type `SerializedPage[]`, as stringified JSON.
+   */
+  function importBackup(serializedPages: string) {
+    const textPages: SerializedPage[] = JSON.parse(serializedPages) ?? [];
+    textPages.forEach(({ id, text }) => {
+      pages[id] = { id, items: splitLines(text).map((line) => parse(line)) };
+    });
+  }
+
+  /**
+   * Exports the pages currently in the list. The backup will correspond to
+   * the type `SerializedPage[]`, as stringified JSON.
+   */
+  function exportBackup(): string {
+    const textPages: SerializedPage[] = Object.values(pages).map((page) => ({
+      id: page.id,
+      text: joinLines(page.items.map((item) => item.raw)),
+    }));
+
+    return JSON.stringify(textPages);
+  }
+
   return () => ({
     createPage: create,
+    exportBackup,
+    importBackup,
     pageList: readonly(list),
     pages: readonly(pages),
     removePage: remove,
