@@ -22,13 +22,13 @@
 .sidebar {
   flex: 0 0 auto;
   overflow: auto;
-  padding: 4rem 1rem 4rem 3rem;
-  width: 18rem;
+  padding: 4rem 1rem 4rem 2rem;
+  width: 16rem;
 }
 
 .content {
   flex: 1 1 auto;
-  padding: 0 2rem;
+  padding: 0 2rem 0 1rem;
   overflow: auto;
 }
 </style>
