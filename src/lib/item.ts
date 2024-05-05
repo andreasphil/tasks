@@ -53,20 +53,20 @@ function setDueDate(item: UncheckedItem, date?: Date): void {
   let newRaw = item.raw;
   const newDueDateStr = date ? dayjs(date).format("YYYY-MM-DD") : "";
 
-  // 1. No due date before, no due date after @ skip
+  // 1. No due date before, no due date after = skip
   if (!hasDueDate && !date) return;
-  // 2. No due date before, due date after @ add
+  // 2. No due date before, due date after = add
   else if (!hasDueDate && date) {
     newRaw = item.raw.replace(/ ?$/, ` @${newDueDateStr}`);
   }
-  // 3. Due date before, no due date after @ remove
+  // 3. Due date before, no due date after = remove
   else if (hasDueDate && !date) {
     const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
     if (!dueDateToken) return;
     const exp = new RegExp(`\\s?@${dueDateToken.text}`);
     newRaw = newRaw.replace(exp, "");
   }
-  // 4. Due date before, due date after @ update
+  // 4. Due date before, due date after = update
   else if (hasDueDate && date) {
     const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
     if (!dueDateToken) return;
