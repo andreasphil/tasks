@@ -75,6 +75,7 @@ describe("pages store", () => {
     updatePage(id, { items: [parse("Page 1.1")] });
 
     expect(pages[id].items[0].raw).toBe("Page 1.1");
+    expect(pages[id].items).toHaveLength(1);
   });
 
   test("doesn't crash when attempting to update a non-existent ID", () => {
