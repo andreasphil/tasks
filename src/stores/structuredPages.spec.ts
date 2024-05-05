@@ -1,7 +1,7 @@
 import { parse } from "@/lib/parser";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { usePages } from "./structuredPages";
 import { nextTick } from "vue";
+import { usePages } from "./structuredPages";
 
 describe("pages store", () => {
   afterEach(() => {
@@ -91,6 +91,37 @@ describe("pages store", () => {
     updatePage("foo", { items: [parse("Page 1.1")] });
 
     expect(Object.values(pages)).toHaveLength(0);
+  });
+
+  test("updates an item", () => {
+    const { pages, createPage, updateOnPage } = usePages();
+
+    const id = createPage([parse("Page 1"), parse("[ ] Task")]);
+    updateOnPage(id, 1, (item) => {
+      item.status = "completed";
+    });
+
+    expect(pages[id].items[1].raw).toBe("[x] Task");
+  });
+
+  test("doesn't crash when attempting to update on a non-existent page", () => {
+    const { updateOnPage } = usePages();
+
+    expect(() => updateOnPage("foo", 1, () => {})).not.toThrow();
+  });
+
+  test("doesn't add an item when attempting to update a non-existing item", () => {
+    const { pages, createPage, updateOnPage } = usePages();
+
+    const id = createPage([parse("Page 1")]);
+
+    expect(() =>
+      updateOnPage(id, 5, (item) => {
+        item.status = "completed";
+      })
+    ).not.toThrow();
+
+    expect(pages[id].items).toHaveLength(1);
   });
 
   test("removes a page", () => {
