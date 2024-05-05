@@ -1,4 +1,5 @@
 import { Item } from "@/lib/parser";
+import { DeepReadonly } from "vue";
 
 /* -------------------------------------------------- *
  * Base model                                         *
@@ -27,12 +28,15 @@ export type Page = Model<{
   items: Item[];
 }>;
 
-export function getTitle(page: Page): string {
+export function getTitle(page: Page | DeepReadonly<Page>): string {
   const firstItem = page.items.find((i) => Boolean(i.raw));
   return firstItem?.text?.trim() || "Untitled";
 }
 
-export function compareByTitle(a: Page, b: Page): number {
+export function compareByTitle(
+  a: Page | DeepReadonly<Page>,
+  b: Page | DeepReadonly<Page>
+): number {
   const aTitle = getTitle(a);
   const bTitle = getTitle(b);
 
