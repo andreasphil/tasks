@@ -70,7 +70,7 @@ function registerPages(pages: (typeof pagesList)["value"]) {
     id: `page:open:${page.id}`,
     name: page.title,
     alias: ["page"],
-    chord: `g${i + 1}`,
+    chord: (i + 1).toString(),
     groupName: "Open",
     icon: FileCheck2,
     action: () => router.push({ name: "Page", params: { id: page.id } }),
