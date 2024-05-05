@@ -1,5 +1,5 @@
 import { parse, type Item } from "@/lib/parser";
-import { describe, expect, it } from "vitest";
+import { describe, expect, test } from "vitest";
 import { asWritable, compare, mutate } from "./item";
 
 describe("item", () => {
@@ -10,7 +10,7 @@ describe("item", () => {
       expected: string;
     }>;
 
-    it("changes the type of the item", () => {
+    test("changes the type of the item", () => {
       const items: Fixtures = [
         // Task conversion
         { source: "[ ] Task 1", changeTo: "task", expected: "[ ] Task 1" },
@@ -41,7 +41,7 @@ describe("item", () => {
       });
     });
 
-    it("removes whitespace when converting from a task to a heading", () => {
+    test("removes whitespace when converting from a task to a heading", () => {
       const items: Fixtures = [
         { source: "    [ ] Task 1", changeTo: "heading", expected: "# Task 1" },
         { source: "  Note 1", changeTo: "heading", expected: "# Note 1" },
@@ -57,7 +57,7 @@ describe("item", () => {
       });
     });
 
-    it("retains whitespace when converting to a task", () => {
+    test("retains whitespace when converting to a task", () => {
       const r = parse("    Note 1");
       const writable = asWritable(r);
 
@@ -66,7 +66,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("retains whitespace when converting to a note", () => {
+    test("retains whitespace when converting to a note", () => {
       const r = parse("    [ ] Task 1");
       const writable = asWritable(r);
 
@@ -77,7 +77,7 @@ describe("item", () => {
   });
 
   describe("set due date", () => {
-    it("updates an existing due date at the end", () => {
+    test("updates an existing due date at the end", () => {
       const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
@@ -88,7 +88,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("updates an existing due date in between", () => {
+    test("updates an existing due date in between", () => {
       const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
@@ -99,7 +99,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("adds a new due date", () => {
+    test("adds a new due date", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
@@ -110,7 +110,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("adds a new due date after a non-text token", () => {
+    test("adds a new due date after a non-text token", () => {
       const r = parse("[ ] Task 1 #tag");
       const writable = asWritable(r);
 
@@ -121,7 +121,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("doesn't add double whitespace when adding a due date", () => {
+    test("doesn't add double whitespace when adding a due date", () => {
       const r = parse("[ ] Task 1 ");
       const writable = asWritable(r);
 
@@ -132,7 +132,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("removes an existing due date at the end", () => {
+    test("removes an existing due date at the end", () => {
       const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
@@ -143,7 +143,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("removes an existing due date in between", () => {
+    test("removes an existing due date in between", () => {
       const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
@@ -156,7 +156,7 @@ describe("item", () => {
   });
 
   describe("set status", () => {
-    it("changes the status to completed", () => {
+    test("changes the status to completed", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
@@ -167,7 +167,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("changes the status to in progress", () => {
+    test("changes the status to in progress", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
@@ -178,7 +178,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("changes the status to question", () => {
+    test("changes the status to question", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
@@ -189,7 +189,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("changes the status to incomplete", () => {
+    test("changes the status to incomplete", () => {
       const r = parse("[x] Task 1");
       const writable = asWritable(r);
 
@@ -200,7 +200,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("retains spaces when changing the status", () => {
+    test("retains spaces when changing the status", () => {
       const r = parse("    [ ] Task 1");
       const writable = asWritable(r);
 
@@ -211,7 +211,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("retains tabs then changing the status", () => {
+    test("retains tabs then changing the status", () => {
       const r = parse("\t\t[ ] Task 1");
       const writable = asWritable(r);
 
@@ -222,7 +222,7 @@ describe("item", () => {
       expect(writable).toStrictEqual(newR);
     });
 
-    it("doesn't change items that aren't tasks", () => {
+    test("doesn't change items that aren't tasks", () => {
       const r = parse("Not a task");
       const writable = asWritable(r);
 
@@ -233,7 +233,7 @@ describe("item", () => {
   });
 
   describe("mutating items", () => {
-    it("mutates the type of the original item", () => {
+    test("mutates the type of the original item", () => {
       const r = parse("[ ] Task 1");
 
       mutate(r, (item) => {
@@ -243,7 +243,7 @@ describe("item", () => {
       expect(r.type).toBe("note");
     });
 
-    it("mutates the due date of the original item", () => {
+    test("mutates the due date of the original item", () => {
       const r = parse("[ ] Task 1");
 
       mutate(r, (item) => {
@@ -253,7 +253,7 @@ describe("item", () => {
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
-    it("mutates the status of the original item", () => {
+    test("mutates the status of the original item", () => {
       const r = parse("[ ] Task 1");
 
       mutate(r, (item) => {
@@ -265,7 +265,7 @@ describe("item", () => {
   });
 
   describe("comparing items", () => {
-    it("keeps the order of notes", () => {
+    test("keeps the order of notes", () => {
       const a = parse("Note 1");
       const b = parse("Note 2");
 
@@ -273,7 +273,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order of sections", () => {
+    test("keeps the order of sections", () => {
       const a = parse("# Section 1");
       const b = parse("# Section 2");
 
@@ -281,7 +281,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order of notes and sections", () => {
+    test("keeps the order of notes and sections", () => {
       const a = parse("Note 1");
       const b = parse("# Section 1");
 
@@ -289,7 +289,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order of notes and tasks", () => {
+    test("keeps the order of notes and tasks", () => {
       const a = parse("Note 1");
       const b = parse("[ ] Task 1");
 
@@ -297,7 +297,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order of sections and tasks", () => {
+    test("keeps the order of sections and tasks", () => {
       const a = parse("# Section 1");
       const b = parse("[ ] Task 1");
 
@@ -305,7 +305,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order of notes and blank lines", () => {
+    test("keeps the order of notes and blank lines", () => {
       const a = parse("Note 1");
       const b = parse("");
 
@@ -313,7 +313,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order of sections and blank lines", () => {
+    test("keeps the order of sections and blank lines", () => {
       const a = parse("# Section 1");
       const b = parse("");
 
@@ -321,7 +321,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order of tasks and blank lines", () => {
+    test("keeps the order of tasks and blank lines", () => {
       const a = parse("[ ] Task 1");
       const b = parse("");
 
@@ -329,7 +329,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("sorts by status before due date when both have due dates", () => {
+    test("sorts by status before due date when both have due dates", () => {
       const a = parse("[x] Task 1 @2023-01-01");
       const b = parse("[ ] Task 2 @2024-01-01");
 
@@ -337,7 +337,7 @@ describe("item", () => {
       expect(compare(b, a)).toBeLessThan(0);
     });
 
-    it("sorts by status before due date when only one has a due date", () => {
+    test("sorts by status before due date when only one has a due date", () => {
       const a = parse("[x] Task 1 @2023-01-01");
       const b = parse("[ ] Task 2");
 
@@ -345,7 +345,7 @@ describe("item", () => {
       expect(compare(b, a)).toBeLessThan(0);
     });
 
-    it("sorts by due date when both have due dates", () => {
+    test("sorts by due date when both have due dates", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2 @2022-01-01");
 
@@ -353,7 +353,7 @@ describe("item", () => {
       expect(compare(b, a)).toBeGreaterThan(0);
     });
 
-    it("sorts by status when both have identical due dates", () => {
+    test("sorts by status when both have identical due dates", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[x] Task 2 @2021-01-01");
 
@@ -361,7 +361,7 @@ describe("item", () => {
       expect(compare(b, a)).toBeGreaterThan(0);
     });
 
-    it("sorts by due date when only one has a due date", () => {
+    test("sorts by due date when only one has a due date", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2");
 
@@ -369,7 +369,7 @@ describe("item", () => {
       expect(compare(b, a)).toBeGreaterThan(0);
     });
 
-    it("keeps the order for equal due dates", () => {
+    test("keeps the order for equal due dates", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2 @2021-01-01");
 
@@ -377,7 +377,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("keeps the order for equal due dates and status", () => {
+    test("keeps the order for equal due dates and status", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2 @2021-01-01");
 
@@ -385,7 +385,7 @@ describe("item", () => {
       expect(compare(b, a)).toBe(0);
     });
 
-    it("sorts by status", () => {
+    test("sorts by status", () => {
       const incomplete = parse("[ ] Task 1");
       const completed = parse("[x] Task 2");
       const inProgress = parse("[/] Task 3");
@@ -440,7 +440,7 @@ describe("item", () => {
       });
     });
 
-    it("keeps the order for equal status", () => {
+    test("keeps the order for equal status", () => {
       const a = parse("[ ] Task 1");
       const b = parse("[ ] Task 2");
       expect(compare(a, b)).toBe(0);
@@ -467,7 +467,7 @@ describe("item", () => {
       expect(compare(j, i)).toBe(0);
     });
 
-    it("keeps the order when the leading whitespace is different", () => {
+    test("keeps the order when the leading whitespace is different", () => {
       const a = parse("\t[ ] Task 1");
       const b = parse("\t\t[*] Task 2");
       expect(compare(a, b)).toBe(0);
@@ -479,7 +479,7 @@ describe("item", () => {
       expect(compare(d, c)).toBe(0);
     });
 
-    it("does not change how items are grouped into paragraphs", () => {
+    test("does not change how items are grouped into paragraphs", () => {
       const items = [
         parse("Title"),
         parse(""),

@@ -1,225 +1,225 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, test } from "vitest";
 import { parse, stringify } from "./parser";
 
 describe("parser", () => {
   describe("headings", () => {
-    it("correctly identifies headings", () => {
+    test("correctly identifies headings", () => {
       const r = parse("# Heading");
       expect(r.type).toBe("heading");
     });
 
-    it("finds a single tag", () => {
+    test("finds a single tag", () => {
       const r = parse("# Heading #tag1");
       expect(r.tags).toEqual(["tag1"]);
     });
 
-    it("finds multiple tags", () => {
+    test("finds multiple tags", () => {
       const r = parse("# Heading #tag1 #tag2");
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
 
-    it("ignores duplicate tags", () => {
+    test("ignores duplicate tags", () => {
       const r = parse("# Heading #tag1 #tag1");
       expect(r.tags).toEqual(["tag1"]);
     });
 
-    it("finds a due date", () => {
+    test("finds a due date", () => {
       const r = parse("# Heading @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
-    it("finds a due date and tags", () => {
+    test("finds a due date and tags", () => {
       const r = parse("# Heading #tag1 @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
       expect(r.tags).toEqual(["tag1"]);
     });
 
-    it("ignores '[ ]' in the middle of a heading", () => {
+    test("ignores '[ ]' in the middle of a heading", () => {
       const r = parse("# Heading [ ] heading");
       expect(r.type).not.toBe("task");
     });
 
-    it("finds an url", () => {
+    test("finds an url", () => {
       const r = parse("# Heading https://example.com");
       expect(r.tokens[2].type).toBe("link");
     });
 
-    it("reads the url correctly", () => {
+    test("reads the url correctly", () => {
       const r = parse("# Heading https://example.com");
       expect(r.tokens[2].text).toBe("https://example.com");
     });
   });
 
   describe("tasks", () => {
-    it("correctly identifies tasks", () => {
+    test("correctly identifies tasks", () => {
       const r = parse("[ ] Task 1");
       expect(r.type).toBe("task");
     });
 
-    it("identifies incomplete tasks", () => {
+    test("identifies incomplete tasks", () => {
       const r = parse("[ ] Task 1");
       if (r.type !== "task") throw new Error("Expected task");
       expect(r.status).toBe("incomplete");
     });
 
-    it("identifies completed tasks", () => {
+    test("identifies completed tasks", () => {
       const r = parse("[x] Task 1");
       if (r.type !== "task") throw new Error("Expected task");
       expect(r.status).toBe("completed");
     });
 
-    it("identifies in-progress tasks", () => {
+    test("identifies in-progress tasks", () => {
       const r = parse("[/] Task 1");
       if (r.type !== "task") throw new Error("Expected task");
       expect(r.status).toBe("inProgress");
     });
 
-    it("identifies important tasks", () => {
+    test("identifies important tasks", () => {
       const r = parse("[*] Task 1");
       if (r.type !== "task") throw new Error("Expected task");
       expect(r.status).toBe("important");
     });
 
-    it("identifies question tasks", () => {
+    test("identifies question tasks", () => {
       const r = parse("[?] Task 1");
       if (r.type !== "task") throw new Error("Expected task");
       expect(r.status).toBe("question");
     });
 
-    it("finds a single tag", () => {
+    test("finds a single tag", () => {
       const r = parse("[ ] Task 1 #tag1");
       expect(r.tags).toEqual(["tag1"]);
     });
 
-    it("finds multiple tags", () => {
+    test("finds multiple tags", () => {
       const r = parse("[ ] Task 1 #tag1 continued text #tag2");
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
 
-    it("ignores duplicate tags", () => {
+    test("ignores duplicate tags", () => {
       const r = parse("[ ] Task 1 #tag1 #tag1");
       expect(r.tags).toEqual(["tag1"]);
     });
 
-    it("finds a due date", () => {
+    test("finds a due date", () => {
       const r = parse("[ ] Task 1 @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
-    it("ignores an invalid due date", () => {
+    test("ignores an invalid due date", () => {
       const r = parse("[ ] Task 1 @2021-01-32");
       expect(r.dueDate).toBeUndefined();
     });
 
-    it("finds a due date and tags", () => {
+    test("finds a due date and tags", () => {
       const r = parse("[ ] Task 1 #tag1 @2021-01-01 text #tag2");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
 
-    it("identifies tasks indented with spaces", () => {
+    test("identifies tasks indented with spaces", () => {
       const r = parse("  [ ] Task 1");
       expect(r.type).toBe("task");
     });
 
-    it("identifies tasks indented with tabs", () => {
+    test("identifies tasks indented with tabs", () => {
       const r = parse("\t[ ] Task 1");
       expect(r.type).toBe("task");
     });
 
-    it("ignores indentation with spaces", () => {
+    test("ignores indentation with spaces", () => {
       const r = parse("  [ ] Task 1");
       expect(r.tokens[0].match).toBe("  ");
       expect(r.tokens[1].match.trim()).toBe(r.tokens[1].match);
     });
 
-    it("ignores indentation with tabs", () => {
+    test("ignores indentation with tabs", () => {
       const r = parse("\t[ ] Task 1");
       expect(r.tokens[0].match).toBe("\t");
       expect(r.tokens[1].match.trim()).toBe(r.tokens[1].match);
     });
 
-    it("ignores '#' in the middle of a task", () => {
+    test("ignores '#' in the middle of a task", () => {
       const r = parse("[ ] Task 1 # Not a heading");
       expect(r.tags).toEqual([]);
     });
 
-    it("finds an url", () => {
+    test("finds an url", () => {
       const r = parse("[ ] Task 1 https://example.com");
       expect(r.tokens[2].type).toBe("link");
     });
 
-    it("reads the url correctly", () => {
+    test("reads the url correctly", () => {
       const r = parse("[ ] Task 1 https://example.com");
       expect(r.tokens[2].text).toBe("https://example.com");
     });
   });
 
   describe("notes", () => {
-    it("correctly identifies notes in tasks", () => {
+    test("correctly identifies notes in tasks", () => {
       const r = parse("[-] This is a note.");
       expect(r.type).toBe("note");
     });
 
-    it("correctly identifies notes", () => {
+    test("correctly identifies notes", () => {
       const r = parse("This is a note.");
       expect(r.type).toBe("note");
     });
 
-    it("finds a single tag", () => {
+    test("finds a single tag", () => {
       const r = parse("This is a note. #tag1");
       expect(r.tags).toEqual(["tag1"]);
     });
 
-    it("finds multiple tags", () => {
+    test("finds multiple tags", () => {
       const r = parse("This is a note. #tag1 continued #tag2");
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
 
-    it("ignores duplicate tags", () => {
+    test("ignores duplicate tags", () => {
       const r = parse("This is a note. #tag1 #tag1");
       expect(r.tags).toEqual(["tag1"]);
     });
 
-    it("finds a due date", () => {
+    test("finds a due date", () => {
       const r = parse("This is a note. @2021-01-01");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
-    it("ignores any additional due dates", () => {
+    test("ignores any additional due dates", () => {
       const r = parse("This is a note. @2021-01-01 @2021-01-02");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
-    it("finds a due date and tags", () => {
+    test("finds a due date and tags", () => {
       const r = parse("This is a note. #tag1 @2021-01-01 #tag2");
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
       expect(r.tags).toEqual(["tag1", "tag2"]);
     });
 
-    it("ignores '#' in the middle of a note", () => {
+    test("ignores '#' in the middle of a note", () => {
       const r = parse("This is a note. # Not a heading");
       expect(r.tags).toEqual([]);
     });
 
-    it("ignores '[ ]' in the middle of a note", () => {
+    test("ignores '[ ]' in the middle of a note", () => {
       const r = parse("This is a note. [ ] Not a task");
       expect(r.type).not.toBe("task");
     });
 
-    it("finds an url", () => {
+    test("finds an url", () => {
       const r = parse("This is a note. https://example.com");
       expect(r.tokens[1].type).toBe("link");
     });
 
-    it("reads the url correctly", () => {
+    test("reads the url correctly", () => {
       const r = parse("This is a note. https://example.com");
       expect(r.tokens[1].text).toBe("https://example.com");
     });
   });
 
   describe("tokens", () => {
-    it("returns a heading section token", () => {
+    test("returns a heading section token", () => {
       const r = parse("# Heading");
       expect(r.tokens[0]).toEqual({
         type: "headingMarker",
@@ -230,7 +230,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns a task status token", () => {
+    test("returns a task status token", () => {
       const r = parse("[x] Completed task");
       expect(r.tokens[0]).toEqual({
         type: "status",
@@ -241,7 +241,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns a due date token", () => {
+    test("returns a due date token", () => {
       const r = parse("[ ] Task with due date @2021-01-01 continued");
       expect(r.tokens[2]).toEqual({
         type: "dueDate",
@@ -252,7 +252,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns a tag token", () => {
+    test("returns a tag token", () => {
       const r = parse("[ ] Task with tag #tag1 continued");
       expect(r.tokens[2]).toEqual({
         type: "tag",
@@ -263,7 +263,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns multiple tag tokens", () => {
+    test("returns multiple tag tokens", () => {
       const r = parse("[ ] Task with tags #tag1 #tag2 continued");
 
       expect(r.tokens[2]).toEqual({
@@ -282,7 +282,7 @@ describe("parser", () => {
       });
     });
 
-    it("also returns duplicate tag tokens", () => {
+    test("also returns duplicate tag tokens", () => {
       const r = parse("[ ] Task with tags #tag1 #tag1 continued");
       expect(r.tokens[2]).toEqual({
         type: "tag",
@@ -300,7 +300,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns text tokens if there's nothing but text", () => {
+    test("returns text tokens if there's nothing but text", () => {
       const r = parse("This is a note.");
       expect(r.tokens[0]).toEqual({
         type: "text",
@@ -311,7 +311,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns text tokens the the start", () => {
+    test("returns text tokens the the start", () => {
       const r = parse("Note with #tag1 and @2021-01-01");
       expect(r.tokens[0]).toEqual({
         type: "text",
@@ -322,7 +322,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns text tokens between other tokens", () => {
+    test("returns text tokens between other tokens", () => {
       const r = parse("[ ] Task with #tag1 and @2021-01-01");
       expect(r.tokens[1]).toEqual({
         type: "text",
@@ -340,7 +340,7 @@ describe("parser", () => {
       });
     });
 
-    it("returns text tokens at the end", () => {
+    test("returns text tokens at the end", () => {
       const r = parse("[ ] Task with #tag1 continued");
       expect(r.tokens[3]).toEqual({
         type: "text",
@@ -395,7 +395,7 @@ describe("stringifier", () => {
     "This is a note. https://example.com",
     "This is a note.",
   ].forEach((input) => {
-    it(`produces identical input and output for "${input}"`, () => {
+    test(`produces identical input and output for "${input}"`, () => {
       expect(stringify(parse(input))).toEqual(input);
     });
   });
