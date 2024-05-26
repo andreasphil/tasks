@@ -1,10 +1,12 @@
+import { mutate } from "@/lib/item";
+import { parseWithMemo } from "@/lib/parser";
 import { getTitle } from "@/lib/structuredPage";
 import { usePages } from "@/stores/structuredPages";
-import { joinLines } from "@andreasphil/vue-textarea2/text";
+import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
 import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
 
 export function usePage(id: MaybeRefOrGetter<string>) {
-  const { pages } = usePages();
+  const { pages, updatePage, updateOnPage } = usePages();
 
   const page = computed(() => {
     const idVal = toValue(id);
@@ -30,8 +32,10 @@ export function usePage(id: MaybeRefOrGetter<string>) {
       const rawItems = page.value?.items.map((item) => item.raw);
       return rawItems ? joinLines(rawItems) : undefined;
     },
-    set() {
-      // TODO: Update page based on text changes
+    set(value) {
+      if (!page.value) return;
+      const items = splitLines(value ?? "").map((line) => parseWithMemo(line));
+      updatePage(toValue(id), { items });
     },
   });
 
@@ -39,12 +43,18 @@ export function usePage(id: MaybeRefOrGetter<string>) {
    * Parsed content                                     *
    * -------------------------------------------------- */
 
-  // TODO: Update page based on individual item changes
+  function updateItem(
+    index: number,
+    factory: Parameters<typeof mutate>[1]
+  ): void {
+    updateOnPage(toValue(id), index, factory);
+  }
 
   return {
     page: readonly(page),
     pageExists: readonly(exists),
-    pageText: readonly(text),
+    pageText: text,
     pageTitle: readonly(title),
+    updateOnPage: updateItem,
   };
 }
