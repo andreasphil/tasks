@@ -47,6 +47,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     index: number,
     factory: Parameters<typeof mutate>[1]
   ): void {
+    if (!page.value) return;
     updateOnPage(toValue(id), index, factory);
   }
 

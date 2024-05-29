@@ -1,7 +1,14 @@
 import { parse } from "@/lib/parser";
-import { describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { usePage } from "./structuredPage";
 import { ref } from "vue";
+
+const mocks = vi.hoisted(() => {
+  return {
+    updatePage: vi.fn(),
+    updateOnPage: vi.fn(),
+  };
+});
 
 vi.mock("@/stores/structuredPages", () => ({
   usePages: () => ({
@@ -10,10 +17,16 @@ vi.mock("@/stores/structuredPages", () => ({
       bar: { id: "bar", items: [parse("Page 2"), parse("[ ] Task")] },
       baz: { id: "bar", items: [] },
     },
+    updatePage: mocks.updatePage,
+    updateOnPage: mocks.updateOnPage,
   }),
 }));
 
 describe("page store", () => {
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   test("returns the page with the ID", () => {
     const { page } = usePage("foo");
     expect(page.value).toBeTruthy();
@@ -102,19 +115,45 @@ describe("page store", () => {
     expect(pageText.value).toBeUndefined();
   });
 
-  test.todo("replaces the page content based on text changes", () => {});
+  test("replaces the page content based on text changes", () => {
+    const { pageText } = usePage("foo");
 
-  test.todo("does nothing when changing text of a non-existent page", () => {});
+    pageText.value = "Page 2\n\n[ ] Foo";
 
-  test.todo("updates an item on the page", () => {});
+    expect(mocks.updatePage).toHaveBeenCalledWith("foo", {
+      items: [parse("Page 2"), parse(""), parse("[ ] Foo")],
+    });
+  });
 
-  test.todo(
-    "does nothing when updating an item on a non-existent page",
-    () => {}
-  );
+  test("does nothing when changing text of a non-existent page", () => {
+    const { pageText } = usePage("🐸");
 
-  test.todo(
-    "does nothing when updating an item that doesn't exist on the page",
-    () => {}
-  );
+    pageText.value = "This should not work";
+
+    expect(mocks.updatePage).not.toHaveBeenCalled();
+  });
+
+  test("updates an item on the page", () => {
+    const { updateOnPage } = usePage("foo");
+
+    updateOnPage(0, (item) => {
+      item.type = "note";
+    });
+
+    expect(mocks.updateOnPage).toHaveBeenCalledWith(
+      "foo",
+      0,
+      expect.any(Function)
+    );
+  });
+
+  test("does nothing when updating an item on a non-existent page", () => {
+    const { updateOnPage } = usePage("🐸");
+
+    updateOnPage(0, (item) => {
+      item.type = "note";
+    });
+
+    expect(mocks.updateOnPage).not.toHaveBeenCalled();
+  });
 });
