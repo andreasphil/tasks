@@ -7,7 +7,7 @@ import {
   type Item,
   type TaskStatus,
 } from "@/lib/parser";
-import { usePage } from "@/stores/page";
+import { usePage } from "@/stores/structuredPage";
 import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
 import Textarea2, { type EditingContext } from "@andreasphil/vue-textarea2";
 import {
@@ -47,7 +47,7 @@ const route = useRoute();
 
 const pageId = computed(() => route.params.id?.toString());
 
-const { exists, text, updateItem } = usePage(() => pageId.value);
+const { pageExists, pageText, updateOnPage } = usePage(() => pageId.value);
 
 // @ts-expect-error Vue types seem to be buggy here
 const textareaEl = ref<InstanceType<typeof Textarea2> | null>(null);
@@ -111,7 +111,7 @@ async function updateDueDate(
       effectiveDueDate = dueDate;
     }
 
-    updateItem(ctx.selectedLines[0], (item) => {
+    updateOnPage(ctx.selectedLines[0], (item) => {
       item.dueDate = effectiveDueDate;
     });
 
@@ -127,7 +127,7 @@ async function updateStatus(
   textareaEl.value?.withContext((ctx: EditingContext) => {
     let effectiveIndex = index ?? ctx.selectedLines[0];
 
-    updateItem(effectiveIndex, (item) => {
+    updateOnPage(effectiveIndex, (item) => {
       if (item.type !== "task") item.type = "task";
       item.status = status;
     });
@@ -140,13 +140,13 @@ async function updateStatus(
 
 async function updateType(type: Item["type"]) {
   textareaEl.value?.withContext((ctx: EditingContext) => {
-    const lenBefore = text.value?.length ?? 0;
+    const lenBefore = pageText.value?.length ?? 0;
 
-    updateItem(ctx.selectedLines[0], (item) => {
+    updateOnPage(ctx.selectedLines[0], (item) => {
       item.type = type;
     });
 
-    const lenAfter = text.value?.length ?? 0;
+    const lenAfter = pageText.value?.length ?? 0;
     ctx.adjustSelection({ to: "relative", delta: lenAfter - lenBefore });
   });
 }
@@ -317,14 +317,14 @@ onBeforeUnmount(() => {
   <article data-with-fallback>
     <div>
       <Textarea2
-        v-if="text !== undefined"
+        v-if="pageText !== undefined"
         :class="[$style.editor, 'text-mono']"
         :context-provider="rowToTask"
         :continue-lists="continueLists"
         :spellcheck="false"
         @keydown.@.stop.prevent="pickDueDate()"
         ref="textareaEl"
-        v-model="text"
+        v-model="pageText"
       >
         <template #row="{ context, index }">
           <PageItem
@@ -342,7 +342,7 @@ onBeforeUnmount(() => {
     </div>
   </article>
 
-  <DownloadDialog v-if="exists" v-model="downloadDialog" :pageId="pageId" />
+  <DownloadDialog v-if="pageExists" v-model="downloadDialog" :pageId="pageId" />
 
   <DueDateDialog
     @confirmed="setDueDateFromDialog()"

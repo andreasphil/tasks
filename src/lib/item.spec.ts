@@ -233,30 +233,30 @@ describe("item", () => {
   });
 
   describe("mutating items", () => {
-    test("mutates the type of the original item", () => {
-      const r = parse("[ ] Task 1");
+    test("mutates the type of the item", () => {
+      let r = parse("[ ] Task 1");
 
-      mutate(r, (item) => {
+      r = mutate(r, (item) => {
         item.type = "note";
       });
 
       expect(r.type).toBe("note");
     });
 
-    test("mutates the due date of the original item", () => {
-      const r = parse("[ ] Task 1");
+    test("mutates the due date of the item", () => {
+      let r = parse("[ ] Task 1");
 
-      mutate(r, (item) => {
+      r = mutate(r, (item) => {
         item.dueDate = new Date("2021-01-01");
       });
 
       expect(r.dueDate).toEqual(new Date("2021-01-01"));
     });
 
-    test("mutates the status of the original item", () => {
-      const r = parse("[ ] Task 1");
+    test("mutates the status of the item", () => {
+      let r = parse("[ ] Task 1");
 
-      mutate(r, (item) => {
+      r = mutate(r, (item) => {
         item.status = "completed";
       });
 

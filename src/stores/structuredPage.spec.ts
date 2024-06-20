@@ -6,7 +6,6 @@ import { ref } from "vue";
 const mocks = vi.hoisted(() => {
   return {
     updatePage: vi.fn(),
-    updateOnPage: vi.fn(),
   };
 });
 
@@ -18,7 +17,6 @@ vi.mock("@/stores/structuredPages", () => ({
       baz: { id: "bar", items: [] },
     },
     updatePage: mocks.updatePage,
-    updateOnPage: mocks.updateOnPage,
   }),
 }));
 
@@ -136,15 +134,13 @@ describe("page store", () => {
   test("updates an item on the page", () => {
     const { updateOnPage } = usePage("foo");
 
-    updateOnPage(0, (item) => {
+    updateOnPage(1, (item) => {
       item.type = "note";
     });
 
-    expect(mocks.updateOnPage).toHaveBeenCalledWith(
-      "foo",
-      0,
-      expect.any(Function)
-    );
+    expect(mocks.updatePage).toHaveBeenCalledWith("foo", {
+      items: expect.arrayContaining([parse("Task")]),
+    });
   });
 
   test("does nothing when updating an item on a non-existent page", () => {
@@ -154,6 +150,6 @@ describe("page store", () => {
       item.type = "note";
     });
 
-    expect(mocks.updateOnPage).not.toHaveBeenCalled();
+    expect(mocks.updatePage).not.toHaveBeenCalled();
   });
 });

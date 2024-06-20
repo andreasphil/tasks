@@ -3,10 +3,10 @@ import { parseWithMemo } from "@/lib/parser";
 import { getTitle } from "@/lib/structuredPage";
 import { usePages } from "@/stores/structuredPages";
 import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
-import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
+import { computed, readonly, toValue, unref, type MaybeRefOrGetter } from "vue";
 
 export function usePage(id: MaybeRefOrGetter<string>) {
-  const { pages, updatePage, updateOnPage } = usePages();
+  const { pages, updatePage } = usePages();
 
   const page = computed(() => {
     const idVal = toValue(id);
@@ -48,7 +48,9 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     factory: Parameters<typeof mutate>[1]
   ): void {
     if (!page.value) return;
-    updateOnPage(toValue(id), index, factory);
+    const newItems = [...page.value.items];
+    newItems[index] = mutate(newItems[index], factory);
+    updatePage(toValue(id), { items: newItems });
   }
 
   return {

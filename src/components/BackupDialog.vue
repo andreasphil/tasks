@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
-import { usePages } from "@/stores/pages";
+import { usePages } from "@/stores/structuredPages";
 import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
 import { Check, DownloadCloud, UploadCloud } from "lucide-vue-next";
@@ -27,11 +27,11 @@ const localOpen = computed({
  * Page download                                      *
  * -------------------------------------------------- */
 
-const { exportPages, importPages } = usePages();
+const { importBackup, exportBackup } = usePages();
 
 async function saveToFile() {
   try {
-    await fileSave(new Blob([exportPages()], { type: "application/json" }), {
+    await fileSave(new Blob([exportBackup()], { type: "application/json" }), {
       mimeTypes: ["application/json"],
       extensions: [".json"],
       fileName: `tasks-${dayjs().format("YYYY-MM-DD")}.json`,
@@ -52,7 +52,7 @@ async function openFromFile() {
       extensions: [".json"],
     }).then((blob) => blob.text());
 
-    importPages(text);
+    importBackup(text);
     localOpen.value = false;
   } catch {
     alert("Failed to load backup.");

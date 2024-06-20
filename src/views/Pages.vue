@@ -2,7 +2,7 @@
 import BackupDialog from "@/components/BackupDialog.vue";
 import Layout from "@/components/Layout.vue";
 import RouterLink from "@/components/RouterLink.vue";
-import { usePages } from "@/stores/pages";
+import { usePages } from "@/stores/structuredPages";
 import {
   useCommandBar,
   type Command as CommandBarCommand,
@@ -26,10 +26,10 @@ const route = useRoute();
  * Pages                                              *
  * -------------------------------------------------- */
 
-const { pagesList, addPage, removePage } = usePages();
+const { pageList, createPage, removePage } = usePages();
 
 function goToNewPage() {
-  const newPage = addPage("");
+  const newPage = createPage();
   if (newPage) router.push({ name: "Page", params: { id: newPage } });
 }
 
@@ -39,7 +39,7 @@ function beginRemovePage() {
 
   if (confirmed && pageId) {
     removePage(pageId);
-    const nextPage = pagesList.value[0]?.id;
+    const nextPage = pageList.value[0]?.id;
     if (nextPage) router.push({ name: "Page", params: { id: nextPage } });
     else router.push({ name: "Welcome" });
   }
@@ -63,7 +63,7 @@ const cmdBar = useCommandBar();
 
 let cleanupPages: (() => void) | null = null;
 
-function registerPages(pages: (typeof pagesList)["value"]) {
+function registerPages(pages: (typeof pageList)["value"]) {
   cleanupPages?.();
 
   const commands = toValue(pages).map<CommandBarCommand>((page, i) => ({
@@ -80,7 +80,7 @@ function registerPages(pages: (typeof pagesList)["value"]) {
   cleanupPages = cmdBar?.registerCommand(...commands) ?? null;
 }
 
-watch(pagesList, (pages) => registerPages(pages), { immediate: true });
+watch(pageList, (pages) => registerPages(pages), { immediate: true });
 
 onBeforeUnmount(() => {
   cleanupPages?.();
@@ -178,12 +178,12 @@ onBeforeUnmount(() => {
               Tags
             </RouterLink>
           </li>
-          <li v-if="pagesList.length">
+          <li v-if="pageList.length">
             <hr />
           </li>
 
           <!-- User pages -->
-          <li v-for="page in pagesList">
+          <li v-for="page in pageList">
             <RouterLink :to="{ name: 'Page', params: { id: page.id } }">
               <FileCheck2 />
               <span data-clamp>{{ page.title }}</span>

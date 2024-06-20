@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
-import { usePage } from "@/stores/page";
+import { usePage } from "@/stores/structuredPage";
 import { Download } from "lucide-vue-next";
 import { computed, nextTick, onUnmounted, ref, watch } from "vue";
 
@@ -34,7 +34,7 @@ watch(localOpen, async (is, was) => {
  * Page download                                      *
  * -------------------------------------------------- */
 
-const { title, text } = usePage(() => props.pageId);
+const { pageTitle, pageText } = usePage(() => props.pageId);
 
 const downloadUrl = ref<string | undefined>(undefined);
 
@@ -51,7 +51,7 @@ function createDownloadUrl(source: string | undefined) {
 watch(
   () => props.modelValue,
   (is, was) => {
-    if (is && !was) createDownloadUrl(text.value);
+    if (is && !was) createDownloadUrl(pageText.value);
     else if (!is && downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
   },
   { immediate: true }
@@ -66,14 +66,14 @@ onUnmounted(() => {
 <template>
   <Dialog title="Download page" v-model="localOpen">
     <p>
-      Press the download button below to save a copy of "{{ title }}" to your
+      Press the download button below to save a copy of "{{ pageTitle }}" to your
       disk.
     </p>
 
     <template #footer>
       <button @click="localOpen = false" data-variant="ghost">Close</button>
       <a
-        :download="`${title}.txt`"
+        :download="`${pageTitle}.txt`"
         :href="downloadUrl"
         ref="confirmButtonEl"
         role="button"

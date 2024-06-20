@@ -111,7 +111,7 @@ function setType(item: UncheckedItem, type: UncheckedItem["type"]): void {
  *  copy. Any changes made to the writable item will change the original item.
  */
 export function asWritable(item: Item): WritableItem {
-  return new Proxy(structuredClone(item as UncheckedItem), {
+  return new Proxy(item as UncheckedItem, {
     set: (target, property, value) => {
       if (property === "type") {
         setType(target, value);
@@ -139,10 +139,10 @@ export function asWritable(item: Item): WritableItem {
 export function mutate(
   item: Item,
   factory: (item: WritableItem) => void
-): void {
-  const w = asWritable(item);
-  factory(w);
-  Object.assign(item, w);
+): Item {
+  const mutatedItem = asWritable({ ...item });
+  factory(mutatedItem);
+  return mutatedItem as Item;
 }
 
 /* -------------------------------------------------- *

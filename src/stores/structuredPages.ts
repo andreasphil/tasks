@@ -1,4 +1,3 @@
-import { mutate } from "@/lib/item";
 import { parse, type Item } from "@/lib/parser";
 import {
   compareByTitle,
@@ -8,7 +7,7 @@ import {
   type Page,
 } from "@/lib/structuredPage";
 import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
-import { computed, reactive, readonly, toRaw, watch } from "vue";
+import { computed, reactive, readonly, watch } from "vue";
 
 type SerializedPage = Model<{ text: string }>;
 
@@ -35,17 +34,6 @@ function createPagesStore() {
     if (!pages[id]) return;
     const updatedPage = { ...pages[id], ...page };
     pages[id] = updatedPage;
-  }
-
-  function updateOnPage(
-    id: string,
-    itemIndex: number,
-    factory: Parameters<typeof mutate>[1]
-  ) {
-    const item = pages[id]?.items[itemIndex];
-    if (!item) return;
-
-    mutate(toRaw(item), factory);
   }
 
   function remove(id: string) {
@@ -107,10 +95,9 @@ function createPagesStore() {
     createPage: create,
     exportBackup,
     importBackup,
-    pageList: readonly(list),
-    pages: readonly(pages),
+    pageList: list,
+    pages,
     removePage: remove,
-    updateOnPage,
     updatePage: update,
   });
 }
