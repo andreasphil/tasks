@@ -1,7 +1,7 @@
 import { parse } from "@/lib/parser";
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { nextTick } from "vue";
-import { usePages } from "./structuredPages";
+import { usePages } from "./pages";
 
 describe("pages store", () => {
   afterEach(() => {

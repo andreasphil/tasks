@@ -1,6 +1,6 @@
 import { parse } from "@/lib/parser";
 import { afterEach, describe, expect, test, vi } from "vitest";
-import { usePage } from "./structuredPage";
+import { usePage } from "./page";
 import { ref } from "vue";
 
 const mocks = vi.hoisted(() => {
@@ -9,7 +9,7 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-vi.mock("@/stores/structuredPages", () => ({
+vi.mock("@/stores/pages", () => ({
   usePages: () => ({
     pages: {
       foo: { id: "foo", items: [parse("Page 1"), parse("[ ] Task")] },

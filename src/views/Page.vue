@@ -7,7 +7,7 @@ import {
   type Item,
   type TaskStatus,
 } from "@/lib/parser";
-import { usePage } from "@/stores/structuredPage";
+import { usePage } from "@/stores/page";
 import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
 import Textarea2, { type EditingContext } from "@andreasphil/vue-textarea2";
 import {

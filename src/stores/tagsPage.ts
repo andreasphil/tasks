@@ -1,6 +1,6 @@
 import { compare } from "@/lib/item";
 import { type Item } from "@/lib/parser";
-import { usePages } from "@/stores/structuredPages";
+import { usePages } from "@/stores/pages";
 import { computed } from "vue";
 
 export function useTagsPage() {

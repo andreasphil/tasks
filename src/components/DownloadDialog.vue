@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
-import { usePage } from "@/stores/structuredPage";
+import { usePage } from "@/stores/page";
 import { Download } from "lucide-vue-next";
 import { computed, nextTick, onUnmounted, ref, watch } from "vue";
 

@@ -2,7 +2,7 @@
 import BackupDialog from "@/components/BackupDialog.vue";
 import Layout from "@/components/Layout.vue";
 import RouterLink from "@/components/RouterLink.vue";
-import { usePages } from "@/stores/structuredPages";
+import { usePages } from "@/stores/pages";
 import {
   useCommandBar,
   type Command as CommandBarCommand,

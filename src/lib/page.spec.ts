@@ -1,11 +1,6 @@
 import { parse } from "@/lib/parser";
 import { describe, expect, test } from "vitest";
-import {
-  compareByTitle,
-  createModel,
-  getTitle,
-  type Page,
-} from "./structuredPage";
+import { compareByTitle, createModel, getTitle, type Page } from "./page";
 
 describe("page", () => {
   describe("getTitle", () => {

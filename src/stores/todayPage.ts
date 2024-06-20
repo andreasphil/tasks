@@ -1,6 +1,6 @@
 import { compare } from "@/lib/item";
-import { compareByTitle, getTitle } from "@/lib/structuredPage";
-import { usePages } from "@/stores/structuredPages";
+import { compareByTitle, getTitle } from "@/lib/page";
+import { usePages } from "@/stores/pages";
 import dayjs from "dayjs";
 import { computed } from "vue";
 

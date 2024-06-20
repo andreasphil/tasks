@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
-import { usePages } from "@/stores/structuredPages";
+import { usePages } from "@/stores/pages";
 import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
 import { Check, DownloadCloud, UploadCloud } from "lucide-vue-next";

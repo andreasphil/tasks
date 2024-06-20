@@ -1,9 +1,9 @@
 import { mutate } from "@/lib/item";
+import { getTitle } from "@/lib/page";
 import { parseWithMemo } from "@/lib/parser";
-import { getTitle } from "@/lib/structuredPage";
-import { usePages } from "@/stores/structuredPages";
+import { usePages } from "@/stores/pages";
 import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
-import { computed, readonly, toValue, unref, type MaybeRefOrGetter } from "vue";
+import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
 
 export function usePage(id: MaybeRefOrGetter<string>) {
   const { pages, updatePage } = usePages();
