@@ -3,7 +3,7 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { nextTick } from "vue";
 import { usePages } from "./pages";
 
-describe("pages store", () => {
+describe("usePages", () => {
   afterEach(() => {
     // Reset the store to its initial state after each run
     const { pages, removePage } = usePages();

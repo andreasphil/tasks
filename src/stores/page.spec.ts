@@ -20,7 +20,7 @@ vi.mock("@/stores/pages", () => ({
   }),
 }));
 
-describe("page store", () => {
+describe("usePage", () => {
   afterEach(() => {
     vi.resetAllMocks();
   });
