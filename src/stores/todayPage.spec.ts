@@ -11,9 +11,7 @@ import {
 import { useTodayPage } from "./todayPage";
 
 const mocks = vi.hoisted(() => {
-  return {
-    updatePage: vi.fn(),
-  };
+  return { updatePage: vi.fn() };
 });
 
 vi.mock("@/stores/pages", () => ({
@@ -74,8 +72,8 @@ describe("useTodayPage", () => {
   });
 
   test("returns an empty page if no tasks are due today", () => {
-    vi.setSystemTime("2023-01-01")
-    const {text} = useTodayPage()
-    expect(text.value).toBeFalsy()
+    vi.setSystemTime("2023-01-01");
+    const { text } = useTodayPage();
+    expect(text.value).toBeFalsy();
   });
 });
