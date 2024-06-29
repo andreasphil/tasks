@@ -192,7 +192,7 @@ const statusWeights: Record<TaskStatus, number> = {
  *
  * Note that this function is only suitable for comparing two individual items.
  * It should not be used for sorting an entire page as it will mess up the
- * nesting of tasks. To sort a page, use `page.ts@sort()` instead.
+ * nesting of tasks.
  *
  * @param a
  * @param b
