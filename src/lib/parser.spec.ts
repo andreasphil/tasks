@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { parse, stringify } from "./parser";
 
-describe("parser", () => {
+describe("parse", () => {
   describe("headings", () => {
     test("correctly identifies headings", () => {
       const r = parse("# Heading");
@@ -353,7 +353,7 @@ describe("parser", () => {
   });
 });
 
-describe("stringifier", () => {
+describe("stringify", () => {
   [
     "  [ ] Task 1",
     "[ ] Task 1 @2021-01-01",

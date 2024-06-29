@@ -101,6 +101,20 @@ function setType(item: UncheckedItem, type: UncheckedItem["type"]): void {
 }
 
 /**
+ * Creates a depp copy of the item.
+ *
+ * @param item The item to clone
+ * @returns Cloned item
+ */
+function clone(item: Item): Item {
+  return {
+    ...item,
+    tokens: [...item.tokens.map((token) => ({ ...token }))],
+    tags: [...item.tags],
+  };
+}
+
+/**
  * Returns a wrtiable proxy to the original item. This will allow changing some
  * of the properties of an item while keeping the data structure intact and
  * consistent, i.e. all tokens, raw value, and dependencies between properties
@@ -140,7 +154,7 @@ export function mutate(
   item: Item,
   factory: (item: WritableItem) => void
 ): Item {
-  const mutatedItem = asWritable({ ...item });
+  const mutatedItem = asWritable(clone(item));
   factory(mutatedItem);
   return mutatedItem as Item;
 }

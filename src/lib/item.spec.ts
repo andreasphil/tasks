@@ -262,6 +262,18 @@ describe("item", () => {
 
       expect(r.status).toBe("completed");
     });
+
+    test("creates a deep copy of the original item", () => {
+      const original = parse("[ ] Task");
+
+      const mutated = mutate(original, (i) => {
+        i.status = "completed";
+      });
+
+      // Only need to check array and object type contents because they're references
+      expect(original.tokens).not.toBe(mutated.tokens);
+      expect(original.tags).not.toBe(mutated.tags);
+    });
   });
 
   describe("comparing items", () => {
