@@ -95,7 +95,7 @@ function setDueDateFromDialog() {
   updateDueDate(date);
 }
 
-async function updateDueDate(
+function updateDueDate(
   dueDate: Date | "today" | "tomorrow" | "next-week" | undefined
 ) {
   textareaEl.value?.withContext((ctx: EditingContext) => {
@@ -119,7 +119,7 @@ async function updateDueDate(
   });
 }
 
-async function updateStatus(
+function updateStatus(
   status: TaskStatus,
   index?: number,
   keepSelection = true
@@ -138,7 +138,7 @@ async function updateStatus(
   });
 }
 
-async function updateType(type: Item["type"]) {
+function updateType(type: Item["type"]) {
   textareaEl.value?.withContext((ctx: EditingContext) => {
     const lenBefore = pageText.value?.length ?? 0;
 
