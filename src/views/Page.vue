@@ -161,17 +161,13 @@ function beginDownload() {
   downloadDialog.value = true;
 }
 
-/* -------------------------------------------------- *
+/* -------------------------------------------------- *@
  * Command bar integration                            *
  * -------------------------------------------------- */
 
 const cmdBar = useCommandBar();
 
 let cleanup: (() => void) | null = null;
-
-function pickDueDate() {
-  cmdBar.open("@");
-}
 
 const commands: Command[] = [
   // Due date
@@ -322,7 +318,6 @@ onBeforeUnmount(() => {
         :context-provider="rowToTask"
         :continue-lists="continueLists"
         :spellcheck="false"
-        @keydown.@.stop.prevent="pickDueDate()"
         ref="textareaEl"
         v-model="pageText"
       >
