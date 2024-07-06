@@ -70,8 +70,8 @@ const drag = reactive<{
 
 function setDragFrom(
   value: boolean,
-  item?: number | null = null,
-  from?: TaskStatus | null = null
+  item: number | null = null,
+  from: TaskStatus | null = null
 ) {
   drag.active = value;
 
@@ -115,7 +115,6 @@ function updateStatus() {
 
         <div data-when="empty">
           <component :is="column.icon" />
-          No tasks
         </div>
       </div>
 
@@ -145,18 +144,6 @@ function updateStatus() {
   margin: 0 -2rem 0 0;
   overflow: auto;
   padding: 4rem 2rem 4rem 1rem;
-  position: relative;
-
-  &::before {
-    background: linear-gradient(to right, var(--c-bg), transparent);
-    bottom: 0;
-    content: "";
-    position: fixed;
-    top: 0;
-    transform: translateX(-100%);
-    width: 1rem;
-    z-index: 1;
-  }
 }
 
 .column {
@@ -167,6 +154,7 @@ function updateStatus() {
   -webkit-backdrop-filter: blur(6px);
   align-items: center;
   background: color-mix(in srgb, var(--c-surface-variant-bg), transparent 25%);
+  backdrop-filter: blur(6px);
   border-radius: var(--border-radius-large);
   border: var(--border-width-large) dashed var(--c-border);
   color: var(--c-fg-variant);
@@ -174,7 +162,6 @@ function updateStatus() {
   flex-direction: column;
   gap: 0.5rem;
   inset: -0.5rem;
-  justify-content: center;
   padding: 1rem;
   position: absolute;
   transition: var(--transition);

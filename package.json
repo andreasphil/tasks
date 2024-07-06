@@ -16,18 +16,18 @@
     "@fontsource-variable/fira-code": "^5.0.18",
     "browser-fs-access": "^0.35.0",
     "dayjs": "^1.11.11",
-    "lucide-vue-next": "^0.395.0",
+    "lucide-vue-next": "^0.400.0",
     "memize": "^2.1.0",
-    "vue": "^3.4.29",
-    "vue-router": "^4.3.3"
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
     "@types/wicg-file-system-access": "^2023.10.5",
     "@vitejs/plugin-vue": "^5.0.5",
     "jsdom": "^24.1.0",
-    "typescript": "^5.4.5",
-    "vite": "^5.3.1",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.3",
     "vitest": "^1.6.0",
-    "vue-tsc": "^2.0.21"
+    "vue-tsc": "^2.0.26"
   }
 }
