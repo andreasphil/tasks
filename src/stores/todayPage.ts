@@ -33,7 +33,7 @@ export function useTodayPage() {
     factory: Parameters<typeof mutate>[1]
   ): void {
     const updateFn = items.value?.at(index)?.[1];
-    if (updateFn) updateFn(factory);
+    updateFn?.(factory);
   }
 
   /**

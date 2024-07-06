@@ -1,9 +1,9 @@
 import { compare, mutate } from "@/lib/item";
-import { parse, type Item } from "@/lib/parser";
-import { usePages } from "@/stores/pages";
+import { TaskStatus, type Item } from "@/lib/parser";
 import { computed } from "vue";
+import { usePages } from "./pages";
 
-export function useTagsPage() {
+export function useStatusPage() {
   const { pages, updatePage } = usePages();
 
   /* -------------------------------------------------- *
@@ -22,12 +22,11 @@ export function useTagsPage() {
     };
   }
 
-  function updateItem(
-    index: number,
-    factory: Parameters<typeof mutate>[1]
-  ): void {
-    const updateFn = items.value?.at(index)?.update;
-    updateFn?.(factory);
+  function updateItem(index: number, from: TaskStatus, to: TaskStatus): void {
+    const updateFn = items.value.get(from)?.at(index)?.update;
+    updateFn?.((item) => {
+      item.status = to;
+    });
   }
 
   /**
@@ -36,8 +35,13 @@ export function useTagsPage() {
    * item. The function is optional and doesn't exist for items that can't
    * be updated.
    */
-  const items = computed<UpdateableItem[] | undefined>(() => {
-    let buffer: UpdateableItem[] = [parse("Tags")];
+  const items = computed(() => {
+    const buffer = new Map<TaskStatus, UpdateableItem[]>();
+    buffer.set("completed", []);
+    buffer.set("important", []);
+    buffer.set("incomplete", []);
+    buffer.set("inProgress", []);
+    buffer.set("question", []);
 
     Object.values(pages)
       // Get items with update function from all pages
@@ -49,40 +53,22 @@ export function useTagsPage() {
         }))
       )
 
-      // Remove items that don't have tags
-      .filter((item) => item.tags?.length > 0)
+      // Remove items other than tasks
+      .filter((item) => item.type === "task" && item.status !== null)
 
-      // Group by tag
+      // Group by status
       .reduce((all, item) => {
-        item.tags.forEach((tag) => {
-          if (!all.has(tag)) all.set(tag, []);
-          all.get(tag)!.push(item);
-          all.get(tag)!.sort(compare);
-        });
+        all.get(item.status!)!.push(item);
+        all.get(item.status!)!.sort(compare);
         return all;
-      }, new Map<string, UpdateableItem[]>())
+      }, buffer);
 
-      // Create tag sections
-      .forEach((items, tag) => {
-        const heading: UpdateableItem[] = [
-          parse(""),
-          parse(`# Tagged "#${tag}"`),
-          parse(""),
-        ];
-
-        buffer.push(...heading, ...items);
-      });
-
-    return buffer.length > 1 ? buffer : undefined;
+    return buffer;
   });
 
   /* -------------------------------------------------- *
    * Page text                                          *
    * -------------------------------------------------- */
 
-  const text = computed<string | undefined>(() =>
-    items.value?.map((item) => item.raw).join("\n")
-  );
-
-  return { text, updateOnPage: updateItem };
+  return { items, updateOnPage: updateItem };
 }
