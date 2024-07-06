@@ -1,46 +1,88 @@
-import { compare } from "@/lib/item";
-import { type Item } from "@/lib/parser";
+import { compare, mutate } from "@/lib/item";
+import { parse, type Item } from "@/lib/parser";
 import { usePages } from "@/stores/pages";
 import { computed } from "vue";
 
 export function useTagsPage() {
-  const { pages } = usePages();
+  const { pages, updatePage } = usePages();
+
+  /* -------------------------------------------------- *
+   * Items                                              *
+   * -------------------------------------------------- */
+
+  type UpdateFn = (factory: Parameters<typeof mutate>[1]) => void;
+  type UpdateableItem = Item & { update?: UpdateFn };
+
+  function updateFn(page: string, index: number): UpdateFn {
+    return (factory) => {
+      if (!pages[page]) return;
+      const newItems = [...pages[page].items];
+      newItems[index] = mutate(newItems[index], factory);
+      updatePage(page, { items: newItems });
+    };
+  }
+
+  function updateItem(
+    index: number,
+    factory: Parameters<typeof mutate>[1]
+  ): void {
+    const updateFn = items.value?.at(index)?.update;
+    if (updateFn) updateFn(factory);
+  }
+
+  /**
+   * The list of items on this page, where each item also has a function to
+   * update the item. The function keeps track of the page and index of the
+   * item. The function is optional and doesn't exist for items that can't
+   * be updated.
+   */
+  const items = computed<UpdateableItem[] | undefined>(() => {
+    let buffer: UpdateableItem[] = [parse("Tags")];
+
+    Object.values(pages)
+      // Get items with update function from all pages
+      .flatMap((page) =>
+        page.items.map((item, i) => ({
+          ...item,
+          raw: item.raw.replace(/^\t+/, ""),
+          update: updateFn(page.id, i),
+        }))
+      )
+
+      // Remove items that don't have tags
+      .filter((item) => item.tags?.length > 0)
+
+      // Group by tag
+      .reduce((all, item) => {
+        item.tags.forEach((tag) => {
+          if (!all.has(tag)) all.set(tag, []);
+          all.get(tag)!.push(item);
+          all.get(tag)!.sort(compare);
+        });
+        return all;
+      }, new Map<string, UpdateableItem[]>())
+
+      // Create tag sections
+      .forEach((items, tag) => {
+        const heading: UpdateableItem[] = [
+          parse(""),
+          parse(`# Tagged "#${tag}"`),
+          parse(""),
+        ];
+
+        buffer.push(...heading, ...items);
+      });
+
+    return buffer.length > 1 ? buffer : undefined;
+  });
 
   /* -------------------------------------------------- *
    * Tags page generation                               *
    * -------------------------------------------------- */
 
-  const tags = computed<Record<string, Item[]>>(() =>
-    Object.values(pages)
-      .flatMap(({ items }) => items)
-      .reduce<Record<string, Item[]>>((tagMap, item) => {
-        item.tags.forEach((tag) => {
-          if (!tagMap[tag]) tagMap[tag] = [];
-          tagMap[tag].push(item);
-
-          // TODO: This is not very efficient, maybe improve at some point
-          tagMap[tag].sort(compare);
-        });
-
-        return tagMap;
-      }, {})
+  const text = computed<string | undefined>(() =>
+    items.value?.map((item) => item.raw).join("\n")
   );
 
-  const text = computed<string | undefined>(() => {
-    let pageText = Object.entries(tags.value)
-      .filter(([, items]) => items?.length)
-      .reduce<string>((buffer, [tag, items]) => {
-        const taggedItems = items
-          .map(({ raw }) => raw.replace(/^\t+/, ""))
-          .join("\n");
-
-        buffer += `\n# Tagged "#${tag}"\n\n${taggedItems}\n`;
-
-        return buffer;
-      }, "Tags\n");
-
-    return pageText === "Tags\n" ? undefined : pageText;
-  });
-
-  return { text };
+  return { text, updateOnPage: updateItem };
 }

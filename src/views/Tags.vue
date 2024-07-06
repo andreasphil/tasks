@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Item from "@/components/Item.vue";
-import { parseWithMemo as rowToTask } from "@/lib/parser";
+import { parseWithMemo as rowToTask, type TaskStatus } from "@/lib/parser";
 import { useTagsPage } from "@/stores/tagsPage";
 import Textarea2 from "@andreasphil/vue-textarea2";
 import { BookmarkX } from "lucide-vue-next";
@@ -9,7 +9,18 @@ import { BookmarkX } from "lucide-vue-next";
  * Current page                                       *
  * -------------------------------------------------- */
 
-const { text } = useTagsPage();
+const { text, updateOnPage } = useTagsPage();
+
+/* -------------------------------------------------- *
+ * Interacting with items                             *
+ * -------------------------------------------------- */
+
+function updateStatus(status: TaskStatus, index: number) {
+  updateOnPage(index, (item) => {
+    if (item.type !== "task") item.type = "task";
+    item.status = status;
+  });
+}
 </script>
 
 <template>
@@ -28,6 +39,7 @@ const { text } = useTagsPage();
           <Item
             :as="index === 0 ? 'heading' : undefined"
             :item="context"
+            @update:status="updateStatus($event, index)"
           />
         </template>
       </Textarea2>
