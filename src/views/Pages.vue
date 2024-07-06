@@ -12,6 +12,7 @@ import {
   Command,
   DownloadCloud,
   FileCheck2,
+  KanbanSquare,
   Plus,
   Star,
   Trash2,
@@ -123,6 +124,14 @@ const staticCommands: CommandBarCommand[] = [
     action: () => router.push({ name: "Today" }),
   },
   {
+    id: "open:board",
+    name: "Board",
+    chord: "gb",
+    groupName: "Open",
+    icon: KanbanSquare,
+    action: () => router.push({ name: "Board" }),
+  },
+  {
     id: "open:tags",
     name: "Tags",
     chord: "g#",
@@ -170,6 +179,12 @@ onBeforeUnmount(() => {
             <RouterLink :to="{ name: 'Today' }">
               <Star />
               Today
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'Board' }">
+              <KanbanSquare />
+              Board
             </RouterLink>
           </li>
           <li>
