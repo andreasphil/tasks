@@ -5,12 +5,12 @@ exports[`useTodayPage > returns tasks due today grouped by page 1`] = `
 
 # Page 1
 
+[*] With indent @2024-01-01
 [ ] Overdue @2023-12-01
 [ ] Due today @2024-01-01
 
 # Page 2
 
 [ ] Due today @2024-01-01
-[x] Overdue but completed @2023-11-01
-"
+[x] Overdue completed @2023-11-01"
 `;

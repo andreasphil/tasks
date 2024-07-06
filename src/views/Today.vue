@@ -1,15 +1,26 @@
 <script lang="ts" setup>
 import Item from "@/components/Item.vue";
-import Textarea2 from "@andreasphil/vue-textarea2";
-import { parseWithMemo as rowToTask } from "@/lib/parser";
+import { parseWithMemo as rowToTask, type TaskStatus } from "@/lib/parser";
 import { useTodayPage } from "@/stores/todayPage";
+import Textarea2 from "@andreasphil/vue-textarea2";
 import { TreePalm } from "lucide-vue-next";
 
 /* -------------------------------------------------- *
  * Current page                                       *
  * -------------------------------------------------- */
 
-const { text } = useTodayPage();
+const { text, updateOnPage } = useTodayPage();
+
+/* -------------------------------------------------- *
+ * Interacting with items                             *
+ * -------------------------------------------------- */
+
+function updateStatus(status: TaskStatus, index: number) {
+  updateOnPage(index, (item) => {
+    if (item.type !== "task") item.type = "task";
+    item.status = status;
+  });
+}
 </script>
 
 <template>
@@ -28,6 +39,7 @@ const { text } = useTodayPage();
           <Item
             :as="index === 0 ? 'heading' : undefined"
             :item="context"
+            @update:status="updateStatus($event, index)"
           />
         </template>
       </Textarea2>

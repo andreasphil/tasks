@@ -3,6 +3,7 @@ import {
   afterAll,
   afterEach,
   beforeAll,
+  beforeEach,
   describe,
   expect,
   test,
@@ -25,6 +26,7 @@ vi.mock("@/stores/pages", () => ({
           "[ ] Overdue @2023-12-01",
           "[ ] Due in the future @2024-02-01",
           "[ ] No due date",
+          "\t[*] With indent @2024-01-01",
         ].map(parse),
       },
 
@@ -33,7 +35,7 @@ vi.mock("@/stores/pages", () => ({
         items: [
           "Page 2",
           "[ ] Due today @2024-01-01",
-          "[x] Overdue but completed @2023-11-01",
+          "[x] Overdue completed @2023-11-01",
           "[ ] Due in the future @2024-03-01",
           "[ ] No due date",
         ].map(parse),
@@ -55,7 +57,10 @@ vi.mock("@/stores/pages", () => ({
 describe("useTodayPage", () => {
   beforeAll(() => {
     vi.useFakeTimers();
-    vi.setSystemTime(new Date(2024, 0, 1));
+  });
+
+  beforeEach(() => {
+    vi.setSystemTime("2024-01-01");
   });
 
   afterEach(() => {
@@ -75,5 +80,47 @@ describe("useTodayPage", () => {
     vi.setSystemTime("2023-01-01");
     const { text } = useTodayPage();
     expect(text.value).toBeFalsy();
+  });
+
+  test("updates an item on the page", () => {
+    const { updateOnPage } = useTodayPage();
+
+    updateOnPage(4, (item) => {
+      item.status = "inProgress";
+    });
+
+    expect(mocks.updatePage).toHaveBeenNthCalledWith(
+      1,
+      "foo",
+      expect.objectContaining({
+        items: [
+          expect.objectContaining({ raw: "Page 1" }),
+          expect.objectContaining({ raw: "[ ] Due today @2024-01-01" }),
+          expect.objectContaining({ raw: "[ ] Overdue @2023-12-01" }),
+          expect.objectContaining({ raw: "[ ] Due in the future @2024-02-01" }),
+          expect.objectContaining({ raw: "[ ] No due date" }),
+          expect.objectContaining({ raw: "\t[/] With indent @2024-01-01" }),
+        ],
+      })
+    );
+
+    updateOnPage(10, (item) => {
+      item.status = "completed";
+      item.dueDate = new Date(2023, 0, 1);
+    });
+
+    expect(mocks.updatePage).toHaveBeenNthCalledWith(
+      2,
+      "bar",
+      expect.objectContaining({
+        items: [
+          expect.objectContaining({ raw: "Page 2" }),
+          expect.objectContaining({ raw: "[x] Due today @2023-01-01" }),
+          expect.objectContaining({ raw: "[x] Overdue completed @2023-11-01" }),
+          expect.objectContaining({ raw: "[ ] Due in the future @2024-03-01" }),
+          expect.objectContaining({ raw: "[ ] No due date" }),
+        ],
+      })
+    );
   });
 });
