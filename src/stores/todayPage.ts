@@ -62,7 +62,7 @@ export function useTodayPage() {
         .forEach((item) => dueItems.push(item));
 
       if (dueItems.length) {
-        let heading: UpdateableItem[] = [
+        const heading: UpdateableItem[] = [
           [parse("")],
           [parse(`# ${getTitle(page)}`)],
           [parse("")],
@@ -83,8 +83,5 @@ export function useTodayPage() {
     items.value?.map(([item]) => item.raw).join("\n")
   );
 
-  return {
-    text,
-    updateOnPage: updateItem,
-  };
+  return { text, updateOnPage: updateItem };
 }
