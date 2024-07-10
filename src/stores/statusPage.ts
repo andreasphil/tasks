@@ -1,7 +1,12 @@
 import { compare, mutate } from "@/lib/item";
+import { getTitle } from "@/lib/page";
 import { TaskStatus, type Item } from "@/lib/parser";
 import { computed } from "vue";
 import { usePages } from "./pages";
+
+export type StatusPageItem = Item & {
+  pageName: string;
+};
 
 export function useStatusPage() {
   const { pages, updatePage } = usePages();
@@ -11,7 +16,7 @@ export function useStatusPage() {
    * -------------------------------------------------- */
 
   type UpdateFn = (factory: Parameters<typeof mutate>[1]) => void;
-  type UpdateableItem = Item & { update?: UpdateFn };
+  type UpdateableItem = StatusPageItem & { update?: UpdateFn };
 
   function updateFn(page: string, index: number): UpdateFn {
     return (factory) => {
@@ -49,6 +54,7 @@ export function useStatusPage() {
         page.items.map((item, i) => ({
           ...item,
           raw: item.raw.replace(/^\t+/, ""),
+          pageName: getTitle(page),
           update: updateFn(page.id, i),
         }))
       )

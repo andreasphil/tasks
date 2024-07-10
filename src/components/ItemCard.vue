@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { default as PageItem } from "@/components/Item.vue";
 import { type Item } from "@/lib/parser";
+import { StatusPageItem } from "@/stores/statusPage";
 import { computed } from "vue";
 
 const props = defineProps<{
-  item: Item;
+  item: StatusPageItem;
 }>();
 
 defineEmits<{
@@ -25,6 +26,10 @@ const cardRepresentation = computed<Item>(() => {
     draggable="true"
   >
     <PageItem :item="cardRepresentation" />
+
+    <span v-if="item.pageName" :class="$style.pageName">{{
+      item.pageName
+    }}</span>
   </li>
 </template>
 
@@ -44,5 +49,12 @@ const cardRepresentation = computed<Item>(() => {
     border-color: var(--primary);
     cursor: grab;
   }
+}
+
+.pageName {
+  color: var(--c-fg-variant);
+  display: block;
+  font-size: var(--font-size-small);
+  margin-top: 0.5rem;
 }
 </style>
