@@ -98,13 +98,13 @@ function updateStatus() {
 
 <template>
   <div :class="$style.board">
-    <section v-for="column in columns" :class="$style.column">
-      <h2 :class="$style.columnHeading">
-        <component :is="column.icon" />
-        {{ column.name }}
-      </h2>
+    <h2 v-for="column in columns" :class="$style.columnHeading">
+      <component :is="column.icon" />
+      {{ column.name }}
+    </h2>
 
-      <div data-with-fallback>
+    <div v-for="column in columns" :class="$style.column">
+      <div data-with-fallback :class="$style.columnContent">
         <ul :class="$style.cards">
           <ItemCard
             v-for="(item, i) in column.items"
@@ -120,48 +120,72 @@ function updateStatus() {
 
       <div
         v-if="drag.active && drag.from !== column.status"
+        @dragenter.prevent="setDragTo(column.status)"
+        @dragover.prevent
+        @drop="updateStatus()"
         :class="[
           $style.columnDroptarget,
           { [$style.dragover]: drag.to === column.status },
         ]"
-        @dragenter.prevent="setDragTo(column.status)"
-        @dragover.prevent
-        @drop="updateStatus()"
       >
         <component :is="column.icon" />
         Change to "{{ column.name }}"
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
 <style module>
 .board {
   display: grid;
-  gap: 1.75rem;
-  grid-template-columns: repeat(5, minmax(15rem, 1fr));
+  grid-template-columns: repeat(5, minmax(16rem, 1fr));
+  grid-template-rows: min-content 1fr;
   height: 100dvh;
   margin: 0 -2rem 0 0;
   overflow: auto;
-  padding: 4rem 2rem 4rem 1rem;
+  padding: 4rem 0.75rem 0 0.5rem;
 }
 
 .column {
+  overflow: hidden;
   position: relative;
 }
 
-.columnDroptarget {
-  -webkit-backdrop-filter: blur(6px);
+.columnHeading {
   align-items: center;
+  display: flex;
+  font-size: var(--font-size);
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0 1.25rem 0.75rem 0.5rem;
+}
+
+.columnContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  overflow: auto;
+  padding: 0.25rem 1.25rem 2rem 0.5rem;
+}
+
+.cards {
+  display: contents;
+}
+
+.columnDroptarget {
+  -webkit-backdrop-filter: blur(4px);
+  align-items: center;
+  backdrop-filter: blur(4px);
   background: color-mix(in srgb, var(--c-surface-variant-bg), transparent 25%);
-  backdrop-filter: blur(6px);
   border-radius: var(--border-radius-large);
   border: var(--border-width-large) dashed var(--c-border);
   color: var(--c-fg-variant);
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  inset: -0.5rem;
+  inset: 0 0.75rem 1.5rem 0;
+  justify-content: center;
   padding: 1rem;
   position: absolute;
   transition: var(--transition);
@@ -172,21 +196,5 @@ function updateStatus() {
     border-color: var(--primary);
     color: var(--primary);
   }
-}
-
-.columnHeading {
-  align-items: center;
-  display: flex;
-  font-size: var(--font-size);
-  gap: 0.375rem;
-  margin: 0 0 1rem;
-}
-
-.cards {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin: 0;
-  padding: 0;
 }
 </style>
