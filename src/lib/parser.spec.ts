@@ -300,6 +300,17 @@ describe("parse", () => {
       });
     });
 
+    test("returns a link token", () => {
+      const r = parse("[ ] Task with a link http://example.com");
+      expect(r.tokens.at(-1)).toEqual({
+        type: "link",
+        text: "http://example.com",
+        match: "http://example.com",
+        matchStart: 21,
+        matchLength: 18,
+      });
+    });
+
     test("returns text tokens if there's nothing but text", () => {
       const r = parse("This is a note.");
       expect(r.tokens[0]).toEqual({

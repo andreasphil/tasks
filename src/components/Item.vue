@@ -94,7 +94,7 @@ const todayOrOverdue = computed(() => {
         >{{ token.match }}</a
       >
 
-      <template v-else>{{ token.match }}</template>
+      <template v-else>{{ token.text }}</template>
     </template>
   </component>
 </template>
