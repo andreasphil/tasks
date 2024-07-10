@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ItemCard from "@/components/ItemCard.vue";
-import type { Item, TaskStatus } from "@/lib/parser";
-import { useStatusPage } from "@/stores/statusPage";
+import type { TaskStatus } from "@/lib/parser";
+import { useStatusPage, type StatusPageItem } from "@/stores/statusPage";
 import {
   Check,
   CircleDashed,
@@ -22,7 +22,7 @@ const columns = computed<
     name: string;
     icon: Component;
     status: TaskStatus;
-    items: Item[];
+    items: StatusPageItem[];
   }>
 >(() => [
   {
@@ -98,12 +98,16 @@ function updateStatus() {
 
 <template>
   <div :class="$style.board">
-    <h2 v-for="column in columns" :class="$style.columnHeading">
+    <h2
+      v-for="column in columns"
+      :class="$style.columnHeading"
+      :key="column.status"
+    >
       <component :is="column.icon" />
       {{ column.name }}
     </h2>
 
-    <div v-for="column in columns" :class="$style.column">
+    <div v-for="column in columns" :class="$style.column" :key="column.status">
       <div data-with-fallback :class="$style.columnContent">
         <ul :class="$style.cards">
           <ItemCard
