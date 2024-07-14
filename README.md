@@ -16,6 +16,7 @@
 
 - ✅ Manage your tasks with a simple, text-based format
 - 🦦 Add sections, notes, due dates and tags
+- 🏄‍♂️ Board view for easy status tracking
 - 🚀 Minimal UI and efficient, keyboard-driven UX
 - ⚡️ PWA & offline ready (coming soon!)
 - 🤝 Zero tracking and no data ever leaves the browser
