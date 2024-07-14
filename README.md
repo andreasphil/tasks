@@ -67,9 +67,6 @@ Deployment should work out of the box when linking the repository to a project o
 
 ## Credits
 
-Apart from the open source packages listed in [package.json](package.json), this app uses:
-
-- Favicons generated with [IconKitchen](https://icon.kitchen)
-- Inspiration from [Bullet Journal](https://bulletjournal.com), [TaskTXT](https://tasktxt.com), and [[x]it!](https://xit.jotaen.net)
+Apart from the open source packages listed in [package.json](package.json), Tasks was inspired by [Bullet Journal](https://bulletjournal.com), [TaskTXT](https://tasktxt.com), and [[x]it!](https://xit.jotaen.net).
 
 Thanks 🙏
