@@ -270,8 +270,8 @@ const commands: Command[] = [
   // Status
   {
     id: "task:status:incomplete",
-    name: "Incomplete",
-    alias: ["todo"],
+    name: "To do",
+    alias: ["incomplete", "open", "todo"],
     chord: "o",
     groupName: "Set status",
     icon: CircleDashed,
@@ -279,8 +279,8 @@ const commands: Command[] = [
   },
   {
     id: "task:status:complete",
-    name: "Complete",
-    alias: ["done"],
+    name: "Done",
+    alias: ["complete"],
     chord: "x",
     groupName: "Set status",
     icon: Check,
@@ -305,8 +305,8 @@ const commands: Command[] = [
   },
   {
     id: "task:status:question",
-    name: "Question",
-    alias: ["waiting"],
+    name: "Waiting",
+    alias: ["question"],
     chord: "?",
     groupName: "Set status",
     icon: HelpCircle,

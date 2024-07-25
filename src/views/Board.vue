@@ -26,7 +26,7 @@ const columns = computed<
   }>
 >(() => [
   {
-    name: "To Do",
+    name: "To do",
     icon: CircleDashed,
     status: "incomplete",
     items: items.value.get("incomplete") ?? [],
@@ -38,7 +38,7 @@ const columns = computed<
     items: items.value.get("important") ?? [],
   },
   {
-    name: "In Progress",
+    name: "In progress",
     icon: Construction,
     status: "inProgress",
     items: items.value.get("inProgress") ?? [],
@@ -162,6 +162,7 @@ function updateStatus() {
   gap: 0.375rem;
   margin: 0;
   padding: 0 1.25rem 0rem 0.5rem;
+  text-transform: capitalize;
 }
 
 .columnContent {
