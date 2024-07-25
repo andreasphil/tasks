@@ -26,6 +26,7 @@ import {
   Ghost,
   Heading1,
   HelpCircle,
+  Hourglass,
   Star,
   StickyNote,
 } from "lucide-vue-next";
@@ -96,7 +97,7 @@ function setDueDateFromDialog() {
 }
 
 function updateDueDate(
-  dueDate: Date | "today" | "tomorrow" | "next-week" | undefined
+  dueDate: Date | "today" | "tomorrow" | "next-week" | "end-of-week" | undefined
 ) {
   textareaEl.value?.withContext((ctx: EditingContext) => {
     let effectiveDueDate: Date | undefined;
@@ -107,6 +108,8 @@ function updateDueDate(
       effectiveDueDate = dayjs().add(1, "day").endOf("day").toDate();
     } else if (dueDate === "next-week") {
       effectiveDueDate = dayjs().add(1, "week").startOf("week").toDate();
+    } else if (dueDate === "end-of-week") {
+      effectiveDueDate = dayjs().weekday(4).toDate();
     } else {
       effectiveDueDate = dueDate;
     }
@@ -116,6 +119,25 @@ function updateDueDate(
     });
 
     ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
+  });
+}
+
+function postpone(time: "1d" | "1w") {
+  textareaEl.value?.withContext((ctx: EditingContext) => {
+    updateOnPage(ctx.selectedLines[0], (item) => {
+      const base = (item.dueDate as Date) ?? new Date();
+      let effectiveDueDate: Date | undefined;
+
+      if (time === "1d") {
+        effectiveDueDate = dayjs(base).add(1, "day").toDate();
+      } else if (time === "1w") {
+        effectiveDueDate = dayjs(base).add(1, "week").toDate();
+      }
+
+      item.dueDate = effectiveDueDate;
+
+      ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
+    });
   });
 }
 
@@ -199,6 +221,15 @@ const commands: Command[] = [
     action: () => updateDueDate("next-week"),
   },
   {
+    id: "item:dueDate:endOfWeek",
+    name: "End of week",
+    alias: ["@", "eow", "friday"],
+    chord: "@e",
+    groupName: "Due",
+    icon: Calendar,
+    action: () => updateDueDate("end-of-week"),
+  },
+  {
     id: "item:dueDate:custom",
     name: "Custom",
     alias: ["@"],
@@ -214,6 +245,26 @@ const commands: Command[] = [
     groupName: "Due",
     icon: CalendarX2,
     action: () => updateDueDate(undefined),
+  },
+
+  // Postponing
+  {
+    id: "item:postpone:1d",
+    name: "1 day",
+    alias: ["due", "+"],
+    chord: "+d",
+    groupName: "Postpone",
+    icon: Hourglass,
+    action: () => postpone("1d"),
+  },
+  {
+    id: "item:postpone:1w",
+    name: "1 week",
+    alias: ["due", "+"],
+    chord: "+w",
+    groupName: "Postpone",
+    icon: Hourglass,
+    action: () => postpone("1w"),
   },
 
   // Status
