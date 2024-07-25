@@ -135,9 +135,9 @@ function postpone(time: "1d" | "1w") {
       }
 
       item.dueDate = effectiveDueDate;
-
-      ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
     });
+
+    ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
   });
 }
 
