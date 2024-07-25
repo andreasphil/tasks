@@ -3,6 +3,7 @@ import { default as PageItem } from "@/components/Item.vue";
 import { type Item } from "@/lib/parser";
 import { StatusPageItem } from "@/stores/statusPage";
 import { computed } from "vue";
+import { RouterLink } from "vue-router";
 
 const props = defineProps<{
   item: StatusPageItem;
@@ -27,9 +28,13 @@ const cardRepresentation = computed<Item>(() => {
   >
     <PageItem :item="cardRepresentation" />
 
-    <span v-if="item.pageName" :class="$style.pageName">{{
-      item.pageName
-    }}</span>
+    <RouterLink
+      v-if="item.pageName"
+      :class="$style.pageName"
+      :to="{ name: 'Page', params: { id: item.pageId } }"
+    >
+      {{ item.pageName }}
+    </RouterLink>
   </li>
 </template>
 
@@ -52,9 +57,16 @@ const cardRepresentation = computed<Item>(() => {
 }
 
 .pageName {
+  all: unset;
   color: var(--c-fg-variant);
-  display: block;
+  cursor: pointer;
+  display: inline-block;
   font-size: var(--font-size-small);
   margin-top: 0.5rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 </style>

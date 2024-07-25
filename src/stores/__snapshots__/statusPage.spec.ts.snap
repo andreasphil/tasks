@@ -5,6 +5,7 @@ Map {
   "completed" => [
     {
       "dueDate": undefined,
+      "pageId": "foo",
       "pageName": "Page 1",
       "raw": "[x] Completed from Page 1",
       "status": "completed",
@@ -31,6 +32,7 @@ Map {
     },
     {
       "dueDate": undefined,
+      "pageId": "bar",
       "pageName": "Page 2",
       "raw": "[x] Completed from Page 2",
       "status": "completed",
@@ -59,6 +61,7 @@ Map {
   "important" => [
     {
       "dueDate": undefined,
+      "pageId": "foo",
       "pageName": "Page 1",
       "raw": "[*] Important from Page 1",
       "status": "important",
@@ -85,6 +88,7 @@ Map {
     },
     {
       "dueDate": undefined,
+      "pageId": "bar",
       "pageName": "Page 2",
       "raw": "[*] Important from Page 2",
       "status": "important",
@@ -113,6 +117,7 @@ Map {
   "incomplete" => [
     {
       "dueDate": undefined,
+      "pageId": "foo",
       "pageName": "Page 1",
       "raw": "[ ] Open from Page 1",
       "status": "incomplete",
@@ -139,6 +144,7 @@ Map {
     },
     {
       "dueDate": undefined,
+      "pageId": "bar",
       "pageName": "Page 2",
       "raw": "[ ] Open from Page 2",
       "status": "incomplete",
@@ -167,6 +173,7 @@ Map {
   "inProgress" => [
     {
       "dueDate": undefined,
+      "pageId": "foo",
       "pageName": "Page 1",
       "raw": "[/] In progress from Page 1",
       "status": "inProgress",
@@ -193,6 +200,7 @@ Map {
     },
     {
       "dueDate": undefined,
+      "pageId": "bar",
       "pageName": "Page 2",
       "raw": "[/] In progress from Page 2",
       "status": "inProgress",
@@ -221,6 +229,7 @@ Map {
   "question" => [
     {
       "dueDate": undefined,
+      "pageId": "foo",
       "pageName": "Page 1",
       "raw": "[?] Blocked from Page 1",
       "status": "question",
@@ -247,6 +256,7 @@ Map {
     },
     {
       "dueDate": undefined,
+      "pageId": "bar",
       "pageName": "Page 2",
       "raw": "[?] Blocked from Page 2",
       "status": "question",
