@@ -10,24 +10,24 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@andreasphil/design-system": "github:andreasphil/design-system#v0.29.0",
+    "@andreasphil/design-system": "github:andreasphil/design-system#v0.32.0",
     "@andreasphil/vue-command-bar": "github:andreasphil/vue-command-bar#v0.3.0",
     "@andreasphil/vue-textarea2": "github:andreasphil/vue-textarea2#v0.3.0",
     "@fontsource-variable/fira-code": "^5.0.18",
     "browser-fs-access": "^0.35.0",
-    "dayjs": "^1.11.11",
-    "lucide-vue-next": "^0.400.0",
+    "dayjs": "^1.11.12",
+    "lucide-vue-next": "^0.416.0",
     "memize": "^2.1.0",
-    "vue": "^3.4.31",
+    "vue": "^3.4.34",
     "vue-router": "^4.4.0"
   },
   "devDependencies": {
     "@types/wicg-file-system-access": "^2023.10.5",
-    "@vitejs/plugin-vue": "^5.0.5",
-    "jsdom": "^24.1.0",
-    "typescript": "^5.5.3",
-    "vite": "^5.3.3",
-    "vitest": "^1.6.0",
-    "vue-tsc": "^2.0.26"
+    "@vitejs/plugin-vue": "^5.1.0",
+    "jsdom": "^24.1.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5",
+    "vitest": "^2.0.4",
+    "vue-tsc": "^2.0.29"
   }
 }
