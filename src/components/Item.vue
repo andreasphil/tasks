@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getDateHint } from "@/lib/date";
 import type { Item, TaskStatus } from "@/lib/parser";
 import { computed } from "vue";
 
@@ -49,6 +50,11 @@ const todayOrOverdue = computed(() => {
   today.setHours(23, 59, 59);
   return props.item.dueDate && new Date(props.item.dueDate as Date) <= today;
 });
+
+const dueDateHint = computed(() => {
+  if (!props.item.dueDate) return undefined;
+  return getDateHint(props.item.dueDate as Date);
+});
 </script>
 
 <template>
@@ -77,6 +83,7 @@ const todayOrOverdue = computed(() => {
           $style.dueDate,
           { [$style.today]: todayOrOverdue && item.status !== 'completed' },
         ]"
+        :data-tooltip="dueDateHint"
         >{{ token.match }}</span
       >
 
@@ -165,10 +172,11 @@ const todayOrOverdue = computed(() => {
 .dueDate {
   border-radius: var(--border-radius-small);
   color: var(--c-fg-variant);
+  pointer-events: initial;
   position: relative;
   white-space: nowrap;
 
-  &::after {
+  &::before {
     background-color: var(--item-neutral-bg);
     border-radius: inherit;
     bottom: 0px;
@@ -182,7 +190,7 @@ const todayOrOverdue = computed(() => {
   &.today {
     color: var(--red-500);
 
-    &::after {
+    &::before {
       background-color: var(--red-50);
     }
   }

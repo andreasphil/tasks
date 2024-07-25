@@ -161,7 +161,7 @@ function updateStatus() {
   font-size: var(--font-size);
   gap: 0.375rem;
   margin: 0;
-  padding: 0 1.25rem 0.75rem 0.5rem;
+  padding: 0 1.25rem 0rem 0.5rem;
 }
 
 .columnContent {
@@ -170,7 +170,7 @@ function updateStatus() {
   gap: 0.75rem;
   height: 100%;
   overflow: auto;
-  padding: 0.25rem 1.25rem 2rem 0.5rem;
+  padding: 1rem 1.25rem 2rem 0.5rem;
 }
 
 .cards {

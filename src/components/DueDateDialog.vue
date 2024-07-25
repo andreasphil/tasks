@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
+import { getDateHint } from "@/lib/date";
 import { CalendarCheck, CalendarX2 } from "lucide-vue-next";
 import { computed, watch } from "vue";
 
@@ -30,6 +31,14 @@ watch(
     if (is && !was) localSelectedDate.value = undefined;
   }
 );
+
+const dueDateHint = computed(() => {
+  if (!props.selectedDate) {
+    return "No date selected";
+  }
+
+  return getDateHint(props.selectedDate);
+});
 
 /* -------------------------------------------------- *
  * Visibility                                         *
@@ -65,6 +74,7 @@ function onCancel() {
         v-model="localSelectedDate"
         @keydown.enter.stop.prevent="onConfirm()"
       />
+      <small>{{ dueDateHint }}</small>
     </label>
 
     <template #footer>
