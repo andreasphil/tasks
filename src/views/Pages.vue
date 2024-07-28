@@ -3,6 +3,7 @@ import BackupDialog from "@/components/BackupDialog.vue";
 import Layout from "@/components/Layout.vue";
 import RouterLink from "@/components/RouterLink.vue";
 import { usePages } from "@/stores/pages";
+import { useTodayCount } from "@/stores/todayCount";
 import {
   useCommandBar,
   type Command as CommandBarCommand,
@@ -17,7 +18,14 @@ import {
   Star,
   Trash2,
 } from "lucide-vue-next";
-import { onBeforeUnmount, onMounted, ref, toValue, watch } from "vue";
+import {
+  onBeforeUnmount,
+  onMounted,
+  onUnmounted,
+  ref,
+  toValue,
+  watch,
+} from "vue";
 import { RouterView, useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
@@ -148,6 +156,26 @@ onMounted(() => {
 onBeforeUnmount(() => {
   cleanupStaticCommands?.();
 });
+
+/* -------------------------------------------------- *
+ * Badging integration                                *
+ * -------------------------------------------------- */
+
+const todayCount = useTodayCount();
+
+watch(
+  todayCount,
+  (count) => {
+    console.log(count, navigator.setAppBadge);
+    if (count <= 0) navigator.clearAppBadge?.();
+    else navigator.setAppBadge?.(count);
+  },
+  { immediate: true }
+);
+
+onUnmounted(() => {
+  navigator.clearAppBadge?.();
+});
 </script>
 
 <template>
@@ -179,6 +207,9 @@ onBeforeUnmount(() => {
             <RouterLink :to="{ name: 'Today' }">
               <Star />
               Today
+              <span v-if="todayCount > 0" :class="$style.todayBadge">{{
+                todayCount
+              }}</span>
             </RouterLink>
           </li>
           <li>
@@ -213,3 +244,14 @@ onBeforeUnmount(() => {
     <BackupDialog v-model="backupDialog" />
   </Layout>
 </template>
+
+<style module>
+.todayBadge {
+  background: var(--primary);
+  border-radius: var(--border-radius-large);
+  color: var(--on-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  padding: 0 0.5rem;
+}
+</style>
