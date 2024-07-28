@@ -8,8 +8,10 @@ import {
   type TaskStatus,
 } from "@/lib/parser";
 import { usePage } from "@/stores/page";
+import { useTags } from "@/stores/tags";
 import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
 import Textarea2, {
+  AutoCompleteCommand,
   type AutoComplete,
   type EditingContext,
 } from "@andreasphil/vue-textarea2";
@@ -19,6 +21,7 @@ import {
 } from "@andreasphil/vue-textarea2/text";
 import dayjs from "dayjs";
 import {
+  Bookmark,
   Calendar,
   CalendarSearch,
   CalendarX2,
@@ -180,53 +183,69 @@ function updateType(type: Item["type"]) {
  * Autocomplete                                       *
  * -------------------------------------------------- */
 
-const completions: AutoComplete[] = [
-  {
-    id: "dueDate",
-    trigger: "@",
-    commands: [
-      {
-        id: "today",
-        name: "Today",
-        icon: Calendar,
-        initial: true,
-        value: () => dayjs().format("@YYYY-MM-DD"),
+const dueDateCompletions: AutoComplete = {
+  id: "dueDate",
+  trigger: "@",
+  commands: [
+    {
+      id: "today",
+      name: "Today",
+      icon: Calendar,
+      initial: true,
+      value: () => dayjs().format("@YYYY-MM-DD"),
+    },
+    {
+      id: "tomorrow",
+      name: "Tomorrow",
+      icon: Calendar,
+      initial: true,
+      value: () => dayjs().add(1, "day").format("@YYYY-MM-DD"),
+    },
+    {
+      id: "next-week",
+      name: "Next week",
+      icon: Calendar,
+      initial: true,
+      value: () => dayjs().add(1, "week").startOf("week").format("@YYYY-MM-DD"),
+    },
+    {
+      id: "end-of-week",
+      name: "End of week",
+      icon: Calendar,
+      initial: true,
+      value: () => dayjs().weekday(4).format("@YYYY-MM-DD"),
+    },
+    {
+      id: "custom",
+      name: "Custom",
+      icon: CalendarSearch,
+      initial: true,
+      value: () => {
+        beginUpdateDueDate();
+        return undefined;
       },
-      {
-        id: "tomorrow",
-        name: "Tomorrow",
-        icon: Calendar,
-        initial: true,
-        value: () => dayjs().add(1, "day").format("@YYYY-MM-DD"),
-      },
-      {
-        id: "next-week",
-        name: "Next week",
-        icon: Calendar,
-        initial: true,
-        value: () =>
-          dayjs().add(1, "week").startOf("week").format("@YYYY-MM-DD"),
-      },
-      {
-        id: "end-of-week",
-        name: "End of week",
-        icon: Calendar,
-        initial: true,
-        value: () => dayjs().weekday(4).format("@YYYY-MM-DD"),
-      },
-      {
-        id: "custom",
-        name: "Custom",
-        icon: CalendarSearch,
-        initial: true,
-        value: () => {
-          beginUpdateDueDate();
-          return undefined;
-        },
-      },
-    ],
-  },
-];
+    },
+  ],
+};
+
+const { tags } = useTags();
+
+const tagCompletions = computed<AutoComplete>(() => {
+  const tagCommands: AutoCompleteCommand[] = tags.value.map((t, i) => ({
+    id: t,
+    name: t,
+    value: `#${t}`,
+    initial: i < 5,
+    icon: Bookmark,
+  }));
+
+  return { id: "tags", trigger: "#", commands: tagCommands };
+});
+
+const completions = computed<AutoComplete[]>(() => [
+  dueDateCompletions,
+  tagCompletions.value,
+]);
 
 /* -------------------------------------------------- *
  * Downloads                                          *
