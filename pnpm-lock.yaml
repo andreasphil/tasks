@@ -9,14 +9,14 @@ importers:
   .:
     dependencies:
       '@andreasphil/design-system':
-        specifier: github:andreasphil/design-system#v0.32.0
-        version: https://codeload.github.com/andreasphil/design-system/tar.gz/841b1045a6f2cced2dc0919f4611f12a6c7dcaaf
+        specifier: github:andreasphil/design-system#v0.33.0
+        version: https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece
       '@andreasphil/vue-command-bar':
         specifier: github:andreasphil/vue-command-bar#v0.3.0
         version: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43(typescript@5.5.4)
       '@andreasphil/vue-textarea2':
-        specifier: github:andreasphil/vue-textarea2#v0.3.0
-        version: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8efb5f63e3c1746d99c482f14d058f5459132982(typescript@5.5.4)
+        specifier: github:andreasphil/vue-textarea2#v0.4.0
+        version: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed(typescript@5.5.4)
       '@fontsource-variable/fira-code':
         specifier: ^5.0.18
         version: 5.0.18
@@ -71,17 +71,17 @@ packages:
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/7ba4d149c9693829daa7c1a9d7ddab40968d513e}
     version: 0.28.0
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/841b1045a6f2cced2dc0919f4611f12a6c7dcaaf':
-    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/841b1045a6f2cced2dc0919f4611f12a6c7dcaaf}
-    version: 0.32.0
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece':
+    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece}
+    version: 0.33.0
 
   '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43':
     resolution: {tarball: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43}
     version: 0.3.0
 
-  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8efb5f63e3c1746d99c482f14d058f5459132982':
-    resolution: {tarball: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8efb5f63e3c1746d99c482f14d058f5459132982}
-    version: 0.3.0
+  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed':
+    resolution: {tarball: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed}
+    version: 0.4.0
 
   '@babel/helper-string-parser@7.22.5':
     resolution: {integrity: sha512-mM4COjgZox8U+JcXQwPijIZLElkgEpO5rsERVDJTc2qfCDfERyob6k5WegS14SX18IIjv+XD+GrqNumY5JRCDw==}
@@ -933,7 +933,7 @@ snapshots:
 
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/7ba4d149c9693829daa7c1a9d7ddab40968d513e': {}
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/841b1045a6f2cced2dc0919f4611f12a6c7dcaaf': {}
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece': {}
 
   '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43(typescript@5.5.4)':
     dependencies:
@@ -942,7 +942,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8efb5f63e3c1746d99c482f14d058f5459132982(typescript@5.5.4)':
+  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed(typescript@5.5.4)':
     dependencies:
       vue: 3.4.34(typescript@5.5.4)
     transitivePeerDependencies:

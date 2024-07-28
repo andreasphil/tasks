@@ -11,9 +11,9 @@
     "typecheck": "vue-tsc"
   },
   "dependencies": {
-    "@andreasphil/design-system": "github:andreasphil/design-system#v0.32.0",
+    "@andreasphil/design-system": "github:andreasphil/design-system#v0.33.0",
     "@andreasphil/vue-command-bar": "github:andreasphil/vue-command-bar#v0.3.0",
-    "@andreasphil/vue-textarea2": "github:andreasphil/vue-textarea2#v0.3.0",
+    "@andreasphil/vue-textarea2": "github:andreasphil/vue-textarea2#v0.4.0",
     "@fontsource-variable/fira-code": "^5.0.18",
     "browser-fs-access": "^0.35.0",
     "dayjs": "^1.11.12",

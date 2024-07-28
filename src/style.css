@@ -39,13 +39,13 @@ body {
   min-width: 640px;
 }
 
-nav a {
-  text-decoration: none;
+nav a:hover {
+  background: var(--c-surface-variant-bg);
+  color: var(--c-fg);
+}
 
-  &[data-active="true"] {
-    background: var(--c-surface-variant-bg);
-    text-decoration: none;
-  }
+[data-tooltip]::after {
+  font-family: var(--font-family);
 }
 
 /* -------------------------------------------------- *

@@ -9,7 +9,10 @@ import {
 } from "@/lib/parser";
 import { usePage } from "@/stores/page";
 import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
-import Textarea2, { type EditingContext } from "@andreasphil/vue-textarea2";
+import Textarea2, {
+  type AutoComplete,
+  type EditingContext,
+} from "@andreasphil/vue-textarea2";
 import {
   continueListRules,
   type ContinueListRule,
@@ -172,6 +175,58 @@ function updateType(type: Item["type"]) {
     ctx.adjustSelection({ to: "relative", delta: lenAfter - lenBefore });
   });
 }
+
+/* -------------------------------------------------- *
+ * Autocomplete                                       *
+ * -------------------------------------------------- */
+
+const completions: AutoComplete[] = [
+  {
+    id: "dueDate",
+    trigger: "@",
+    commands: [
+      {
+        id: "today",
+        name: "Today",
+        icon: Calendar,
+        initial: true,
+        value: () => dayjs().format("@YYYY-MM-DD"),
+      },
+      {
+        id: "tomorrow",
+        name: "Tomorrow",
+        icon: Calendar,
+        initial: true,
+        value: () => dayjs().add(1, "day").format("@YYYY-MM-DD"),
+      },
+      {
+        id: "next-week",
+        name: "Next week",
+        icon: Calendar,
+        initial: true,
+        value: () =>
+          dayjs().add(1, "week").startOf("week").format("@YYYY-MM-DD"),
+      },
+      {
+        id: "end-of-week",
+        name: "End of week",
+        icon: Calendar,
+        initial: true,
+        value: () => dayjs().weekday(4).format("@YYYY-MM-DD"),
+      },
+      {
+        id: "custom",
+        name: "Custom",
+        icon: CalendarSearch,
+        initial: true,
+        value: () => {
+          beginUpdateDueDate();
+          return undefined;
+        },
+      },
+    ],
+  },
+];
 
 /* -------------------------------------------------- *
  * Downloads                                          *
@@ -365,6 +420,7 @@ onBeforeUnmount(() => {
     <div>
       <Textarea2
         v-if="pageText !== undefined"
+        :autocomplete="completions"
         :class="[$style.editor, 'text-mono']"
         :context-provider="rowToTask"
         :continue-lists="continueLists"
@@ -402,5 +458,11 @@ onBeforeUnmount(() => {
   caret-color: var(--primary);
   margin: auto;
   max-width: 50rem;
+
+  menu {
+    margin: 0.25rem 0 0 0;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+  }
 }
 </style>
