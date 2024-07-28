@@ -46,7 +46,7 @@ describe("tags", () => {
   });
 
   test("returns the list of tags sorted by number of occurences", () => {
-    const { tags } = useTags();
+    const tags = useTags();
     expect(tags.value).toEqual(["tag2", "tag1", "tag3"]);
   });
 });

@@ -21,5 +21,5 @@ export function useTags() {
     return sorted;
   });
 
-  return { tags: readonly(tags) };
+  return readonly(tags);
 }

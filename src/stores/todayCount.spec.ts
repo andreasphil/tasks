@@ -1,5 +1,13 @@
 import { parse } from "@/lib/parser";
-import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  describe,
+  expect,
+  test,
+  vi,
+} from "vitest";
 import { useTodayCount } from "./todayCount";
 
 vi.mock("@/stores/pages", () => ({
@@ -46,9 +54,12 @@ describe("useTodayPage", () => {
     vi.setSystemTime("2024-01-01");
   });
 
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   afterAll(() => {
     vi.useRealTimers();
-    vi.resetAllMocks();
   });
 
   test("returns the number of tasks due today", () => {

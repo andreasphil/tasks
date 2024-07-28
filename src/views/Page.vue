@@ -228,7 +228,7 @@ const dueDateCompletions: AutoComplete = {
   ],
 };
 
-const { tags } = useTags();
+const tags = useTags();
 
 const tagCompletions = computed<AutoComplete>(() => {
   const tagCommands: AutoCompleteCommand[] = tags.value.map((t, i) => ({
