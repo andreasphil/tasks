@@ -78,22 +78,12 @@ function onCancel() {
     </label>
 
     <template #footer>
-      <button
-        :class="$style.clearButton"
-        @click="onClear()"
-        data-variant="muted"
-      >
+      <button @click="onClear()" data-variant="muted">
         <CalendarX2 />Clear
       </button>
-
+      <div></div>
       <button data-variant="ghost" @click="onCancel()">Cancel</button>
       <button @click="onConfirm()"><CalendarCheck />Done</button>
     </template>
   </Dialog>
 </template>
-
-<style module>
-.clearButton {
-  margin-right: auto;
-}
-</style>

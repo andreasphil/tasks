@@ -440,10 +440,10 @@ onBeforeUnmount(() => {
       <Textarea2
         v-if="pageText !== undefined"
         :autocomplete="completions"
-        :class="[$style.editor, 'text-mono']"
         :context-provider="rowToTask"
         :continue-lists="continueLists"
         :spellcheck="false"
+        class="editor text-mono"
         ref="textareaEl"
         v-model="pageText"
       >
@@ -471,17 +471,3 @@ onBeforeUnmount(() => {
     v-model="dueDateDialog"
   />
 </template>
-
-<style module>
-.editor {
-  caret-color: var(--primary);
-  margin: auto;
-  max-width: 50rem;
-
-  menu {
-    margin: 0.25rem 0 0 0;
-    font-family: var(--font-family);
-    font-size: var(--font-size);
-  }
-}
-</style>

@@ -1,6 +1,6 @@
 import App from "@/App.vue";
+import "@/assets/style.css";
 import { router } from "@/router";
-import "@/style.css";
 import dayjs from "dayjs";
 import "dayjs/locale/de";
 import weekday from "dayjs/plugin/weekday";

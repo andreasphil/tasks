@@ -31,7 +31,7 @@ function updateStatus(status: TaskStatus, index: number) {
         :context-provider="rowToTask"
         :model-value="text"
         :spellcheck="false"
-        :class="[$style.editor, 'text-mono']"
+        class="editor text-mono"
         readonly
         ref="textareaEl"
       >
@@ -51,11 +51,3 @@ function updateStatus(status: TaskStatus, index: number) {
     </div>
   </article>
 </template>
-
-<style module>
-.editor {
-  caret-color: var(--primary);
-  margin: auto;
-  max-width: 50rem;
-}
-</style>

@@ -12,11 +12,11 @@ importers:
         specifier: github:andreasphil/design-system#v0.33.0
         version: https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece
       '@andreasphil/vue-command-bar':
-        specifier: github:andreasphil/vue-command-bar#v0.3.0
-        version: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43(typescript@5.5.4)
+        specifier: github:andreasphil/vue-command-bar#v0.4.0
+        version: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/d0247db08f511cc1b7d6ef7c987b5f01627eb2f6(typescript@5.5.4)
       '@andreasphil/vue-textarea2':
-        specifier: github:andreasphil/vue-textarea2#v0.4.0
-        version: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed(typescript@5.5.4)
+        specifier: github:andreasphil/vue-textarea2#v0.5.0
+        version: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc(typescript@5.5.4)
       '@fontsource-variable/fira-code':
         specifier: ^5.0.18
         version: 5.0.18
@@ -27,8 +27,8 @@ importers:
         specifier: ^1.11.12
         version: 1.11.12
       lucide-vue-next:
-        specifier: ^0.416.0
-        version: 0.416.0(vue@3.4.34(typescript@5.5.4))
+        specifier: ^0.417.0
+        version: 0.417.0(vue@3.4.34(typescript@5.5.4))
       memize:
         specifier: ^2.1.0
         version: 2.1.0
@@ -43,8 +43,8 @@ importers:
         specifier: ^2023.10.5
         version: 2023.10.5
       '@vitejs/plugin-vue':
-        specifier: ^5.1.0
-        version: 5.1.0(vite@5.3.5)(vue@3.4.34(typescript@5.5.4))
+        specifier: ^5.1.1
+        version: 5.1.1(vite@5.3.5)(vue@3.4.34(typescript@5.5.4))
       jsdom:
         specifier: ^24.1.1
         version: 24.1.1
@@ -67,21 +67,17 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/7ba4d149c9693829daa7c1a9d7ddab40968d513e':
-    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/7ba4d149c9693829daa7c1a9d7ddab40968d513e}
-    version: 0.28.0
-
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece':
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece}
     version: 0.33.0
 
-  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43':
-    resolution: {tarball: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43}
-    version: 0.3.0
-
-  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed':
-    resolution: {tarball: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed}
+  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/d0247db08f511cc1b7d6ef7c987b5f01627eb2f6':
+    resolution: {tarball: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/d0247db08f511cc1b7d6ef7c987b5f01627eb2f6}
     version: 0.4.0
+
+  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc':
+    resolution: {tarball: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc}
+    version: 0.5.0
 
   '@babel/helper-string-parser@7.22.5':
     resolution: {integrity: sha512-mM4COjgZox8U+JcXQwPijIZLElkgEpO5rsERVDJTc2qfCDfERyob6k5WegS14SX18IIjv+XD+GrqNumY5JRCDw==}
@@ -345,8 +341,8 @@ packages:
   '@types/wicg-file-system-access@2023.10.5':
     resolution: {integrity: sha512-e9kZO9kCdLqT2h9Tw38oGv9UNzBBWaR1MzuAavxPcsV/7FJ3tWbU6RI3uB+yKIDPGLkGVbplS52ub0AcRLvrhA==}
 
-  '@vitejs/plugin-vue@5.1.0':
-    resolution: {integrity: sha512-QMRxARyrdiwi1mj3AW4fLByoHTavreXq0itdEW696EihXglf1MB3D4C2gBvE0jMPH29ZjC3iK8aIaUMLf4EOGA==}
+  '@vitejs/plugin-vue@5.1.1':
+    resolution: {integrity: sha512-sDckXxlHpMsjRQbAH9WanangrfrblsOd3pNifePs+FOHjJg1jfWq5L/P0PsBRndEt3nmdUnmvieP8ULDeX5AvA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
@@ -605,8 +601,8 @@ packages:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
 
-  lucide-vue-next@0.416.0:
-    resolution: {integrity: sha512-oNjClUpOTRhLGN0UDvtjGAWBJzYj+rJPr3DxR5aXd2eD6tIuEuF7iaofkvT220VGXAVoXKCqmgk826OJ1M6T6A==}
+  lucide-vue-next@0.417.0:
+    resolution: {integrity: sha512-uIoSKLovPHcv2QCLJLZMh7XrBvbPvOwWCyldvOKvAF/3Mbez0isAY/j1WlBnO2Nu2FUNQex6eHXbPtou55H23Q==}
     peerDependencies:
       vue: '>=3.0.1'
 
@@ -931,18 +927,16 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/7ba4d149c9693829daa7c1a9d7ddab40968d513e': {}
-
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece': {}
 
-  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/f92788eee3107acb75b82c3c74d6f0ef16453f43(typescript@5.5.4)':
+  '@andreasphil/vue-command-bar@https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/d0247db08f511cc1b7d6ef7c987b5f01627eb2f6(typescript@5.5.4)':
     dependencies:
-      '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/7ba4d149c9693829daa7c1a9d7ddab40968d513e
+      '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece
       vue: 3.4.34(typescript@5.5.4)
     transitivePeerDependencies:
       - typescript
 
-  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/48e1e6cadf7835039728d029828debe25663f2ed(typescript@5.5.4)':
+  '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc(typescript@5.5.4)':
     dependencies:
       vue: 3.4.34(typescript@5.5.4)
     transitivePeerDependencies:
@@ -1102,7 +1096,7 @@ snapshots:
 
   '@types/wicg-file-system-access@2023.10.5': {}
 
-  '@vitejs/plugin-vue@5.1.0(vite@5.3.5)(vue@3.4.34(typescript@5.5.4))':
+  '@vitejs/plugin-vue@5.1.1(vite@5.3.5)(vue@3.4.34(typescript@5.5.4))':
     dependencies:
       vite: 5.3.5
       vue: 3.4.34(typescript@5.5.4)
@@ -1439,7 +1433,7 @@ snapshots:
     dependencies:
       yallist: 4.0.0
 
-  lucide-vue-next@0.416.0(vue@3.4.34(typescript@5.5.4)):
+  lucide-vue-next@0.417.0(vue@3.4.34(typescript@5.5.4)):
     dependencies:
       vue: 3.4.34(typescript@5.5.4)
 

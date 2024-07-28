@@ -49,6 +49,22 @@ nav a:hover {
 }
 
 /* -------------------------------------------------- *
+ * Textarea2                                          *
+ * -------------------------------------------------- */
+
+.editor {
+  caret-color: var(--primary);
+  margin: auto;
+  max-width: 50rem;
+
+  menu {
+    margin: 0.25rem 0 0 0;
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+  }
+}
+
+/* -------------------------------------------------- *
  * Utilities                                          *
  * -------------------------------------------------- */
 
