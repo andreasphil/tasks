@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@andreasphil/design-system':
-        specifier: github:andreasphil/design-system#v0.33.0
-        version: https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece
+        specifier: github:andreasphil/design-system#v0.34.0
+        version: https://codeload.github.com/andreasphil/design-system/tar.gz/1344629cc921bdbaa5e8a997bf14ddfae03dae91
       '@andreasphil/vue-command-bar':
         specifier: github:andreasphil/vue-command-bar#v0.4.0
         version: https://codeload.github.com/andreasphil/vue-command-bar/tar.gz/d0247db08f511cc1b7d6ef7c987b5f01627eb2f6(typescript@5.5.4)
@@ -66,6 +66,10 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/1344629cc921bdbaa5e8a997bf14ddfae03dae91':
+    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/1344629cc921bdbaa5e8a997bf14ddfae03dae91}
+    version: 0.34.0
 
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece':
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece}
@@ -926,6 +930,8 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
+
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/1344629cc921bdbaa5e8a997bf14ddfae03dae91': {}
 
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/d72a8d52d8e8bc2c572a508453e6ee757f40eece': {}
 

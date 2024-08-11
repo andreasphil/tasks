@@ -53,13 +53,14 @@ Most actions such as creating or removing pages, converting between different ty
 
 ## Development
 
-The site is a [Vue 3](https://vuejs.org) app built with [Vite](https://vitejs.dev). Packages are managed by [pnpm](https://pnpm.io). Tests are powered by [Vitest](https://vitest.dev). The following commands are available for developing and running the app:
+Tasks is a [Vue 3](https://vuejs.org) app built with [Vite](https://vitejs.dev). Packages are managed by [pnpm](https://pnpm.io). Tests are powered by [Vitest](https://vitest.dev). The following commands are available:
 
 ```sh
-pnpm run dev       # Start development server
-pnpm run build     # Create a production bundle
-pnpm run preview   # Serve the production bundle locally
-pnpm run test      # Run tests
+pnpm dev          # Start development server
+pnpm test         # Run tests once
+pnpm test:watch   # Run tests in watch mode
+pnpm typecheck    # Typecheck
+pnpm build        # Bundle for production
 ```
 
 ## Deployment
@@ -68,6 +69,6 @@ Deployment should work out of the box when linking the repository to a project o
 
 ## Credits
 
-Apart from the open source packages listed in [package.json](package.json), Tasks was inspired by [Bullet Journal](https://bulletjournal.com), [TaskTXT](https://tasktxt.com), and [[x]it!](https://xit.jotaen.net).
+This app uses a number of open source packages listed in [package.json](package.json). It was inspired by [Bullet Journal](https://bulletjournal.com), [TaskTXT](https://tasktxt.com), and [[x]it!](https://xit.jotaen.net).
 
 Thanks 🙏
