@@ -20,6 +20,7 @@ import {
   Trash2,
 } from "lucide-static";
 import {
+  computed,
   onBeforeUnmount,
   onMounted,
   onUnmounted,
@@ -54,6 +55,18 @@ function beginRemovePage() {
     else router.push({ name: "Welcome" });
   }
 }
+
+const pageSidebarItems = computed(() =>
+  pageList.value.map((page) => {
+    const icon = page.title.match(/\p{Emoji_Presentation}\S*/u)?.[0];
+
+    const title = icon
+      ? page.title.replace(icon, "").trim() || "Untitled"
+      : page.title;
+
+    return { ...page, icon, title };
+  })
+);
 
 /* -------------------------------------------------- *
  * Backups                                            *
@@ -225,14 +238,21 @@ onUnmounted(() => {
               Tags
             </RouterLink>
           </li>
-          <li v-if="pageList.length">
+          <li v-if="pageSidebarItems.length">
             <hr />
           </li>
 
           <!-- User pages -->
-          <li v-for="page in pageList">
+          <li v-for="page in pageSidebarItems">
             <RouterLink :to="{ name: 'Page', params: { id: page.id } }">
-              <span v-html="FileCheck2" />
+              <span
+                v-if="page.icon"
+                :class="$style.pageIcon"
+                :data-icon="page.icon"
+              >
+                {{ page.icon }}
+              </span>
+              <span v-else v-html="FileCheck2" />
               <span data-clamp>{{ page.title }}</span>
             </RouterLink>
           </li>
@@ -254,5 +274,28 @@ onUnmounted(() => {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
   padding: 0 0.5rem;
+}
+
+.pageIcon {
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+
+  &::after {
+    content: attr(data-icon);
+    filter: blur(8px) saturate(1.5) brightness(1);
+    font-size: inherit;
+    inset: 0;
+    line-height: inherit;
+    opacity: 0.75;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .pageIcon::after {
+    filter: blur(8px) saturate(1.5) brightness(0.75);
+  }
 }
 </style>
