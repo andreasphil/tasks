@@ -5,9 +5,10 @@ import RouterLink from "@/components/RouterLink.vue";
 import { usePages } from "@/stores/pages";
 import { useTodayCount } from "@/stores/todayCount";
 import {
-  useCommandBar,
+  CommandBar,
+  renderSvgFromString,
   type Command as CommandBarCommand,
-} from "@andreasphil/vue-command-bar";
+} from "@andreasphil/command-bar";
 import {
   Bookmark,
   Command,
@@ -17,7 +18,7 @@ import {
   Plus,
   Star,
   Trash2,
-} from "lucide-vue-next";
+} from "lucide-static";
 import {
   onBeforeUnmount,
   onMounted,
@@ -68,7 +69,7 @@ function beginBackup() {
  * Command bar integration                            *
  * -------------------------------------------------- */
 
-const cmdBar = useCommandBar();
+const cmdBar = CommandBar.instance;
 
 let cleanupPages: (() => void) | null = null;
 
@@ -81,7 +82,7 @@ function registerPages(pages: (typeof pageList)["value"]) {
     alias: ["page"],
     chord: (i + 1).toString(),
     groupName: "Open",
-    icon: FileCheck2,
+    icon: renderSvgFromString(FileCheck2),
     action: () => router.push({ name: "Page", params: { id: page.id } }),
     weight: 10,
   }));
@@ -104,7 +105,7 @@ const staticCommands: CommandBarCommand[] = [
     alias: ["new"],
     chord: "pn",
     groupName: "Pages",
-    icon: Plus,
+    icon: renderSvgFromString(Plus),
     action: goToNewPage,
   },
   {
@@ -112,7 +113,7 @@ const staticCommands: CommandBarCommand[] = [
     name: "Delete page",
     alias: ["remove"],
     groupName: "Pages",
-    icon: Trash2,
+    icon: renderSvgFromString(Trash2),
     action: beginRemovePage,
   },
   {
@@ -120,7 +121,7 @@ const staticCommands: CommandBarCommand[] = [
     name: "Backup",
     alias: ["import", "export"],
     groupName: "Pages",
-    icon: DownloadCloud,
+    icon: renderSvgFromString(DownloadCloud),
     action: beginBackup,
   },
   {
@@ -128,7 +129,7 @@ const staticCommands: CommandBarCommand[] = [
     name: "Today",
     chord: "gt",
     groupName: "Open",
-    icon: Star,
+    icon: renderSvgFromString(Star),
     action: () => router.push({ name: "Today" }),
   },
   {
@@ -136,7 +137,7 @@ const staticCommands: CommandBarCommand[] = [
     name: "Board",
     chord: "gb",
     groupName: "Open",
-    icon: KanbanSquare,
+    icon: renderSvgFromString(KanbanSquare),
     action: () => router.push({ name: "Board" }),
   },
   {
@@ -144,7 +145,7 @@ const staticCommands: CommandBarCommand[] = [
     name: "Tags",
     chord: "g#",
     groupName: "Open",
-    icon: Bookmark,
+    icon: renderSvgFromString(Bookmark),
     action: () => router.push({ name: "Tags" }),
   },
 ];
@@ -188,13 +189,13 @@ onUnmounted(() => {
         <ul>
           <li>
             <a href="#" @click.prevent="cmdBar?.open()" class="text-c-variant">
-              <Command />
+              <span v-html="Command" />
               Go to anything
             </a>
           </li>
           <li>
             <a href="#" @click.prevent="goToNewPage()" class="text-c-variant">
-              <Plus />
+              <span v-html="Plus" />
               Add page...
             </a>
           </li>
@@ -205,7 +206,7 @@ onUnmounted(() => {
           <!-- Smart pages -->
           <li>
             <RouterLink :to="{ name: 'Today' }">
-              <Star />
+              <span v-html="Star" />
               Today
               <span v-if="todayCount > 0" :class="$style.todayBadge">{{
                 todayCount
@@ -214,13 +215,13 @@ onUnmounted(() => {
           </li>
           <li>
             <RouterLink :to="{ name: 'Board' }">
-              <KanbanSquare />
+              <span v-html="KanbanSquare" />
               Board
             </RouterLink>
           </li>
           <li>
             <RouterLink :to="{ name: 'Tags' }">
-              <Bookmark />
+              <span v-html="Bookmark" />
               Tags
             </RouterLink>
           </li>
@@ -231,7 +232,7 @@ onUnmounted(() => {
           <!-- User pages -->
           <li v-for="page in pageList">
             <RouterLink :to="{ name: 'Page', params: { id: page.id } }">
-              <FileCheck2 />
+              <span v-html="FileCheck2" />
               <span data-clamp>{{ page.title }}</span>
             </RouterLink>
           </li>

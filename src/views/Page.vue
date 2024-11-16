@@ -9,7 +9,11 @@ import {
 } from "@/lib/parser";
 import { usePage } from "@/stores/page";
 import { useTags } from "@/stores/tags";
-import { useCommandBar, type Command } from "@andreasphil/vue-command-bar";
+import {
+  CommandBar,
+  renderSvgFromString,
+  type Command,
+} from "@andreasphil/command-bar";
 import Textarea2, {
   AutoCompleteCommand,
   type AutoComplete,
@@ -35,7 +39,7 @@ import {
   Hourglass,
   Star,
   StickyNote,
-} from "lucide-vue-next";
+} from "lucide-static";
 import {
   computed,
   nextTick,
@@ -190,35 +194,35 @@ const dueDateCompletions: AutoComplete = {
     {
       id: "today",
       name: "Today",
-      icon: Calendar,
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().format("@YYYY-MM-DD"),
     },
     {
       id: "tomorrow",
       name: "Tomorrow",
-      icon: Calendar,
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().add(1, "day").format("@YYYY-MM-DD"),
     },
     {
       id: "next-week",
       name: "Next week",
-      icon: Calendar,
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().add(1, "week").startOf("week").format("@YYYY-MM-DD"),
     },
     {
       id: "end-of-week",
       name: "End of week",
-      icon: Calendar,
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().weekday(4).format("@YYYY-MM-DD"),
     },
     {
       id: "custom",
       name: "Custom",
-      icon: CalendarSearch,
+      icon: renderSvgFromString(CalendarSearch),
       initial: true,
       value: () => {
         beginUpdateDueDate();
@@ -236,7 +240,7 @@ const tagCompletions = computed<AutoComplete>(() => {
     name: t,
     value: `#${t}`,
     initial: i < 5,
-    icon: Bookmark,
+    icon: renderSvgFromString(Bookmark),
   }));
 
   return { id: "tags", trigger: "#", commands: tagCommands };
@@ -261,8 +265,6 @@ function beginDownload() {
  * Command bar integration                            *
  * -------------------------------------------------- */
 
-const cmdBar = useCommandBar();
-
 let cleanup: (() => void) | null = null;
 
 const commands: Command[] = [
@@ -273,7 +275,7 @@ const commands: Command[] = [
     alias: ["@"],
     groupName: "Due",
     chord: "@t",
-    icon: Calendar,
+    icon: renderSvgFromString(Calendar),
     action: () => updateDueDate("today"),
   },
   {
@@ -282,7 +284,7 @@ const commands: Command[] = [
     alias: ["@"],
     chord: "@m",
     groupName: "Due",
-    icon: Calendar,
+    icon: renderSvgFromString(Calendar),
     action: () => updateDueDate("tomorrow"),
   },
   {
@@ -291,7 +293,7 @@ const commands: Command[] = [
     alias: ["@", "monday"],
     chord: "@n",
     groupName: "Due",
-    icon: Calendar,
+    icon: renderSvgFromString(Calendar),
     action: () => updateDueDate("next-week"),
   },
   {
@@ -300,7 +302,7 @@ const commands: Command[] = [
     alias: ["@", "eow", "friday"],
     chord: "@e",
     groupName: "Due",
-    icon: Calendar,
+    icon: renderSvgFromString(Calendar),
     action: () => updateDueDate("end-of-week"),
   },
   {
@@ -309,7 +311,7 @@ const commands: Command[] = [
     alias: ["@"],
     chord: "@@",
     groupName: "Due",
-    icon: CalendarSearch,
+    icon: renderSvgFromString(CalendarSearch),
     action: () => beginUpdateDueDate(),
   },
   {
@@ -317,7 +319,7 @@ const commands: Command[] = [
     name: "Clear",
     alias: ["@"],
     groupName: "Due",
-    icon: CalendarX2,
+    icon: renderSvgFromString(CalendarX2),
     action: () => updateDueDate(undefined),
   },
 
@@ -328,7 +330,7 @@ const commands: Command[] = [
     alias: ["due", "+"],
     chord: "+d",
     groupName: "Postpone",
-    icon: Hourglass,
+    icon: renderSvgFromString(Hourglass),
     action: () => postpone("1d"),
   },
   {
@@ -337,7 +339,7 @@ const commands: Command[] = [
     alias: ["due", "+"],
     chord: "+w",
     groupName: "Postpone",
-    icon: Hourglass,
+    icon: renderSvgFromString(Hourglass),
     action: () => postpone("1w"),
   },
 
@@ -348,7 +350,7 @@ const commands: Command[] = [
     alias: ["incomplete", "open", "todo"],
     chord: "o",
     groupName: "Set status",
-    icon: CircleDashed,
+    icon: renderSvgFromString(CircleDashed),
     action: () => updateStatus("incomplete"),
   },
   {
@@ -357,7 +359,7 @@ const commands: Command[] = [
     alias: ["complete"],
     chord: "x",
     groupName: "Set status",
-    icon: Check,
+    icon: renderSvgFromString(Check),
     action: () => updateStatus("completed"),
   },
   {
@@ -366,7 +368,7 @@ const commands: Command[] = [
     alias: ["doing"],
     chord: "/",
     groupName: "Set status",
-    icon: Construction,
+    icon: renderSvgFromString(Construction),
     action: () => updateStatus("inProgress"),
   },
   {
@@ -374,7 +376,7 @@ const commands: Command[] = [
     name: "Important",
     groupName: "Set status",
     chord: "*",
-    icon: Star,
+    icon: renderSvgFromString(Star),
     action: () => updateStatus("important"),
   },
   {
@@ -383,7 +385,7 @@ const commands: Command[] = [
     alias: ["question"],
     chord: "?",
     groupName: "Set status",
-    icon: HelpCircle,
+    icon: renderSvgFromString(HelpCircle),
     action: () => updateStatus("question"),
   },
 
@@ -393,7 +395,7 @@ const commands: Command[] = [
     name: "Note",
     groupName: "Turn into",
     chord: "tun",
-    icon: StickyNote,
+    icon: renderSvgFromString(StickyNote),
     action: () => updateType("note"),
   },
   {
@@ -402,7 +404,7 @@ const commands: Command[] = [
     groupName: "Turn into",
     alias: ["section"],
     chord: "tuh",
-    icon: Heading1,
+    icon: renderSvgFromString(Heading1),
     action: () => updateType("heading"),
   },
   {
@@ -410,7 +412,7 @@ const commands: Command[] = [
     name: "Task",
     groupName: "Turn into",
     chord: "tut",
-    icon: Check,
+    icon: renderSvgFromString(Check),
     action: () => updateType("task"),
   },
 
@@ -420,13 +422,13 @@ const commands: Command[] = [
     name: "Download copy",
     alias: ["save", "export"],
     groupName: "Page",
-    icon: Download,
+    icon: renderSvgFromString(Download),
     action: () => beginDownload(),
   },
 ];
 
 onMounted(() => {
-  cleanup = cmdBar?.registerCommand(...commands) ?? null;
+  cleanup = CommandBar.instance?.registerCommand(...commands) ?? null;
 });
 
 onBeforeUnmount(() => {
@@ -458,7 +460,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div data-when="empty">
-      <Ghost />
+      <span v-html="Ghost" />
       <p>This page doesn't exist.</p>
     </div>
   </article>

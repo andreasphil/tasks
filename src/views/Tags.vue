@@ -3,7 +3,7 @@ import Item from "@/components/Item.vue";
 import { parseWithMemo as rowToTask, type TaskStatus } from "@/lib/parser";
 import { useTagsPage } from "@/stores/tagsPage";
 import Textarea2 from "@andreasphil/vue-textarea2";
-import { BookmarkX } from "lucide-vue-next";
+import { BookmarkX } from "lucide-static";
 
 /* -------------------------------------------------- *
  * Current page                                       *
@@ -46,7 +46,7 @@ function updateStatus(status: TaskStatus, index: number) {
     </div>
 
     <div data-when="empty">
-      <BookmarkX />
+      <span v-html="BookmarkX" />
       <p>Looks like you haven't tagged any items.</p>
     </div>
   </article>

@@ -12,13 +12,13 @@
     "typecheck": "vue-tsc"
   },
   "dependencies": {
-    "@andreasphil/design-system": "github:andreasphil/design-system#v0.34.0",
-    "@andreasphil/vue-command-bar": "github:andreasphil/vue-command-bar#v0.4.0",
+    "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.2.0",
+    "@andreasphil/design-system": "github:andreasphil/design-system#v0.37.0",
     "@andreasphil/vue-textarea2": "github:andreasphil/vue-textarea2#v0.5.0",
     "@fontsource-variable/fira-code": "^5.0.18",
     "browser-fs-access": "^0.35.0",
     "dayjs": "^1.11.12",
-    "lucide-vue-next": "^0.417.0",
+    "lucide-static": "^0.460.0",
     "memize": "^2.1.0",
     "vue": "^3.4.34",
     "vue-router": "^4.4.0"
@@ -32,5 +32,5 @@
     "vitest": "^2.0.4",
     "vue-tsc": "^2.0.29"
   },
-  "packageManager": "pnpm@9.5.0+sha512.140036830124618d624a2187b50d04289d5a087f326c9edfc0ccd733d76c4f52c3a313d4fc148794a2a9d81553016004e6742e8cf850670268a7387fc220c903"
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
 }

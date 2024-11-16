@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
 import { usePage } from "@/stores/page";
-import { Download } from "lucide-vue-next";
+import { Download } from "lucide-static";
 import { computed, nextTick, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{
@@ -66,8 +66,8 @@ onUnmounted(() => {
 <template>
   <Dialog title="Download page" v-model="localOpen">
     <p>
-      Press the download button below to save a copy of "{{ pageTitle }}" to your
-      disk.
+      Press the download button below to save a copy of "{{ pageTitle }}" to
+      your disk.
     </p>
 
     <template #footer>
@@ -78,7 +78,7 @@ onUnmounted(() => {
         ref="confirmButtonEl"
         role="button"
       >
-        <Download />Download
+        <span v-html="Download" />Download
       </a>
     </template>
   </Dialog>

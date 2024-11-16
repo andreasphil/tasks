@@ -1,5 +1,5 @@
 @import "@andreasphil/design-system/style.css" layer(theme);
-@import "@andreasphil/vue-command-bar/style.css";
+@import "@andreasphil/command-bar/style.css";
 @import "@andreasphil/vue-textarea2/style.css";
 @import "@fontsource-variable/fira-code";
 
@@ -16,8 +16,8 @@
     --font-size-mono: 0.95em;
     --font-size: 14px;
     --on-primary: var(--neutral-700);
-    --theme-primary: var(--theme-tint) 90% 65%;
-    --theme-tint: 43;
+    --theme-primary: 85% 0.14 var(--theme-tint);
+    --theme-tint: 87;
   }
 }
 

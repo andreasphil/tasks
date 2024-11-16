@@ -8,8 +8,8 @@ import {
   Construction,
   HelpCircle,
   Star,
-} from "lucide-vue-next";
-import { computed, reactive, type Component } from "vue";
+} from "lucide-static";
+import { computed, reactive } from "vue";
 
 const { items, updateOnPage } = useStatusPage();
 
@@ -20,7 +20,7 @@ const { items, updateOnPage } = useStatusPage();
 const columns = computed<
   Array<{
     name: string;
-    icon: Component;
+    icon: string;
     status: TaskStatus;
     items: StatusPageItem[];
   }>
@@ -103,7 +103,7 @@ function updateStatus() {
       :class="$style.columnHeading"
       :key="column.status"
     >
-      <component :is="column.icon" />
+      <span v-html="column.icon" />
       {{ column.name }}
     </h2>
 
@@ -118,7 +118,7 @@ function updateStatus() {
         </ul>
 
         <div data-when="empty">
-          <component :is="column.icon" />
+          <span v-html="column.icon" />
         </div>
       </div>
 
@@ -132,7 +132,7 @@ function updateStatus() {
           { [$style.dragover]: drag.to === column.status },
         ]"
       >
-        <component :is="column.icon" />
+        <span v-html="column.icon" />
         Change to "{{ column.name }}"
       </div>
     </div>

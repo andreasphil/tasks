@@ -3,7 +3,7 @@ import Item from "@/components/Item.vue";
 import { parseWithMemo as rowToTask, type TaskStatus } from "@/lib/parser";
 import { useTodayPage } from "@/stores/todayPage";
 import Textarea2 from "@andreasphil/vue-textarea2";
-import { TreePalm } from "lucide-vue-next";
+import { TreePalm } from "lucide-static";
 
 /* -------------------------------------------------- *
  * Current page                                       *
@@ -46,7 +46,7 @@ function updateStatus(status: TaskStatus, index: number) {
     </div>
 
     <div data-when="empty">
-      <TreePalm />
+      <span v-html="TreePalm" />
       <p>Well done! You finished all of today's tasks.</p>
     </div>
   </article>

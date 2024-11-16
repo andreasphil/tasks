@@ -3,7 +3,7 @@ import Dialog from "@/components/Dialog.vue";
 import { usePages } from "@/stores/pages";
 import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
-import { Check, DownloadCloud, UploadCloud } from "lucide-vue-next";
+import { Check, DownloadCloud, UploadCloud } from "lucide-static";
 import { computed } from "vue";
 
 const props = defineProps<{
@@ -70,15 +70,15 @@ async function openFromFile() {
 
     <div :class="$style.actions">
       <button @click="saveToFile" data-variant="muted">
-        <DownloadCloud />Download backup
+        <span v-html="DownloadCloud" />Download backup
       </button>
       <button @click="openFromFile" data-variant="muted">
-        <UploadCloud />Restore backup
+        <span v-html="UploadCloud" />Restore backup
       </button>
     </div>
 
     <template #footer>
-      <button @click="localOpen = false"><Check />Done</button>
+      <button @click="localOpen = false"><span v-html="Check" />Done</button>
     </template>
   </Dialog>
 </template>

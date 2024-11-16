@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Dialog from "@/components/Dialog.vue";
 import { getDateHint } from "@/lib/date";
-import { CalendarCheck, CalendarX2 } from "lucide-vue-next";
+import { CalendarCheck, CalendarX2 } from "lucide-static";
 import { computed, watch } from "vue";
 
 const props = defineProps<{
@@ -79,11 +79,11 @@ function onCancel() {
 
     <template #footer>
       <button @click="onClear()" data-variant="muted">
-        <CalendarX2 />Clear
+        <span v-html="CalendarX2" />Clear
       </button>
       <div></div>
       <button data-variant="ghost" @click="onCancel()">Cancel</button>
-      <button @click="onConfirm()"><CalendarCheck />Done</button>
+      <button @click="onConfirm()"><span v-html="CalendarCheck" />Done</button>
     </template>
   </Dialog>
 </template>

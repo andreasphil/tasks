@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { Sticker } from "lucide-vue-next";
+import { Sticker } from "lucide-static";
 </script>
 
 <template>
   <article data-with-fallback="emtpy">
     <div />
     <div data-when="empty">
-      <Sticker />
+      <span v-html="Sticker" />
       <p>Welcome!</p>
     </div>
   </article>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Layout from "@/components/Layout.vue";
-import { Ghost } from "lucide-vue-next";
+import { Ghost } from "lucide-static";
 </script>
 
 <template>
@@ -8,7 +8,7 @@ import { Ghost } from "lucide-vue-next";
     <div data-with-fallback="emtpy" :class="$style.notFound">
       <div />
       <div data-when="empty">
-        <Ghost />
+        <span v-html="Ghost" />
         <p>This URL doesn't exist.</p>
         <RouterLink :to="{ name: 'Home' }">Take me back</RouterLink>
       </div>
