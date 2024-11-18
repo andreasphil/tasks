@@ -283,7 +283,7 @@ onUnmounted(() => {
 
   &::after {
     content: attr(data-icon);
-    filter: blur(8px) saturate(1.5) brightness(1);
+    filter: blur(10px) saturate(1.5) brightness(1.25);
     font-size: inherit;
     inset: 0;
     line-height: inherit;
@@ -295,7 +295,7 @@ onUnmounted(() => {
 
 @media (prefers-color-scheme: dark) {
   .pageIcon::after {
-    filter: blur(8px) saturate(1.5) brightness(0.75);
+    filter: blur(10px) saturate(1.5) brightness(0.75);
   }
 }
 </style>
