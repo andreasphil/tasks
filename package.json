@@ -12,7 +12,7 @@
     "typecheck": "vue-tsc"
   },
   "dependencies": {
-    "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.2.0",
+    "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.3.0",
     "@andreasphil/design-system": "github:andreasphil/design-system#v0.37.0",
     "@andreasphil/vue-textarea2": "github:andreasphil/vue-textarea2#v0.5.0",
     "@fontsource-variable/fira-code": "^5.1.0",

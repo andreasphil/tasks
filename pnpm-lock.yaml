@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@andreasphil/command-bar':
-        specifier: github:andreasphil/command-bar#v0.2.0
-        version: https://codeload.github.com/andreasphil/command-bar/tar.gz/8a90c3b00b3905d5b7c740da65fd4453ba23dd01
+        specifier: github:andreasphil/command-bar#v0.3.0
+        version: https://codeload.github.com/andreasphil/command-bar/tar.gz/1f3c804f13110d8e0af31900a06a08090df02e4a
       '@andreasphil/design-system':
         specifier: github:andreasphil/design-system#v0.37.0
         version: https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a
@@ -67,9 +67,9 @@ packages:
     resolution: {tarball: https://codeload.github.com/andreasphil/c8/tar.gz/dc5b1a066d22e95a5a5d931e5981784d19170db0}
     version: 0.3.0
 
-  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/8a90c3b00b3905d5b7c740da65fd4453ba23dd01':
-    resolution: {tarball: https://codeload.github.com/andreasphil/command-bar/tar.gz/8a90c3b00b3905d5b7c740da65fd4453ba23dd01}
-    version: 0.2.0
+  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/1f3c804f13110d8e0af31900a06a08090df02e4a':
+    resolution: {tarball: https://codeload.github.com/andreasphil/command-bar/tar.gz/1f3c804f13110d8e0af31900a06a08090df02e4a}
+    version: 0.3.0
 
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a':
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a}
@@ -862,7 +862,7 @@ snapshots:
 
   '@andreasphil/c8@https://codeload.github.com/andreasphil/c8/tar.gz/dc5b1a066d22e95a5a5d931e5981784d19170db0': {}
 
-  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/8a90c3b00b3905d5b7c740da65fd4453ba23dd01':
+  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/1f3c804f13110d8e0af31900a06a08090df02e4a':
     dependencies:
       '@andreasphil/c8': https://codeload.github.com/andreasphil/c8/tar.gz/dc5b1a066d22e95a5a5d931e5981784d19170db0
       '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a
