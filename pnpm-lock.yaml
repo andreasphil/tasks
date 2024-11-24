@@ -12,8 +12,8 @@ importers:
         specifier: github:andreasphil/command-bar#v0.3.0
         version: https://codeload.github.com/andreasphil/command-bar/tar.gz/1f3c804f13110d8e0af31900a06a08090df02e4a
       '@andreasphil/design-system':
-        specifier: github:andreasphil/design-system#v0.37.0
-        version: https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a
+        specifier: github:andreasphil/design-system#v0.38.0
+        version: https://codeload.github.com/andreasphil/design-system/tar.gz/89f03e59aaf4cad62c099c3940d56dbca28ed31c
       '@andreasphil/vue-textarea2':
         specifier: github:andreasphil/vue-textarea2#v0.5.0
         version: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc(typescript@5.6.3)
@@ -74,6 +74,10 @@ packages:
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a':
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a}
     version: 0.37.0
+
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/89f03e59aaf4cad62c099c3940d56dbca28ed31c':
+    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/89f03e59aaf4cad62c099c3940d56dbca28ed31c}
+    version: 0.38.0
 
   '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc':
     resolution: {tarball: https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc}
@@ -868,6 +872,8 @@ snapshots:
       '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a
 
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/77bf154a40e9ce99dcf931142c1d9f8a5718373a': {}
+
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/89f03e59aaf4cad62c099c3940d56dbca28ed31c': {}
 
   '@andreasphil/vue-textarea2@https://codeload.github.com/andreasphil/vue-textarea2/tar.gz/8c44ac4513b6d30221b32285d38f807b186733dc(typescript@5.6.3)':
     dependencies:
