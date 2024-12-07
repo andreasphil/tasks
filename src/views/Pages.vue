@@ -180,7 +180,6 @@ const todayCount = useTodayCount();
 watch(
   todayCount,
   (count) => {
-    console.log(count, navigator.setAppBadge);
     if (count <= 0) navigator.clearAppBadge?.();
     else navigator.setAppBadge?.(count);
   },
