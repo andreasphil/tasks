@@ -117,7 +117,7 @@ export type Item = DeepReadonly<UncheckedItem>;
 // multiple matches can be found per line.
 const regexes = {
   // Section headings
-  heading: /^# /,
+  headingMarker: /^(?<headingMarker># )/,
   // Task status
   status: new RegExp(
     `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`
@@ -280,13 +280,11 @@ export function parse(input: string): Item {
       matchLength: token[0].length,
     };
 
-    if (token[1]) {
-      // This is a section heading (but it doesn't have a named group in the
-      // regex, so we check for the group index instead).
+    if (token.groups?.headingMarker) {
       type = "heading";
-      text = input.replace(regexes.heading, "");
+      text = input.replace(regexes.headingMarker, "");
       tokenDescriptor.type = "headingMarker";
-      tokenDescriptor.text = token[1];
+      tokenDescriptor.text = token.groups?.headingMarker;
     } else if (token.groups?.status) {
       // Tasks, so we'll also need to check for the status
       type = "task";
