@@ -9,15 +9,9 @@ export type Model<T = any> = {
   id: string;
 } & T;
 
-export function uid(): string {
-  return Math.round(Math.random() * 10 ** 16)
-    .toString()
-    .padEnd(16, "0");
-}
-
 export function createModel<T>(init: T): Model<T> {
   init = structuredClone(init);
-  return { id: uid(), ...init };
+  return { id: crypto.randomUUID(), ...init };
 }
 
 /* -------------------------------------------------- *
