@@ -3,7 +3,7 @@ import { Sticker } from "lucide-static";
 </script>
 
 <template>
-  <article data-with-fallback="emtpy">
+  <article data-with-fallback="empty">
     <div />
     <div data-when="empty">
       <span v-html="Sticker" />
