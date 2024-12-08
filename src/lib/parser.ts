@@ -29,8 +29,6 @@
  * to contain tags and due dates.
  */
 
-import memize from "memize";
-
 /* -------------------------------------------------- *
  * Types                                              *
  * -------------------------------------------------- */
@@ -199,7 +197,7 @@ type AutoLinkRule = {
   target: string;
 };
 
-type ParserOpts = {
+export type ParserOpts = {
   autoLinkRules?: AutoLinkRule[];
 };
 
@@ -296,9 +294,6 @@ export function parse(input: string, opts?: ParserOpts): Item {
 
   return result as Item;
 }
-
-/** Globally memoized version of the individual item parser. */
-export const parseWithMemo = memize(parse);
 
 /* -------------------------------------------------- *
  * Stringifier                                        *
