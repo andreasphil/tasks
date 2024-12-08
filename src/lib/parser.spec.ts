@@ -46,7 +46,7 @@ describe("parse", () => {
 
     test("reads the url correctly", () => {
       const r = parse("# Heading https://example.com");
-      expect(r.tokens[2].text).toBe("https://example.com");
+      expect(r.tokens[2].value).toBe("https://example.com");
     });
   });
 
@@ -129,14 +129,14 @@ describe("parse", () => {
 
     test("ignores indentation with spaces", () => {
       const r = parse("  [ ] Task 1");
-      expect(r.tokens[0].match).toBe("  ");
-      expect(r.tokens[1].match.trim()).toBe(r.tokens[1].match);
+      expect(r.tokens[0].raw).toBe("  ");
+      expect(r.tokens[1].raw.trim()).toBe(r.tokens[1].raw);
     });
 
     test("ignores indentation with tabs", () => {
       const r = parse("\t[ ] Task 1");
-      expect(r.tokens[0].match).toBe("\t");
-      expect(r.tokens[1].match.trim()).toBe(r.tokens[1].match);
+      expect(r.tokens[0].raw).toBe("\t");
+      expect(r.tokens[1].raw.trim()).toBe(r.tokens[1].raw);
     });
 
     test("ignores '#' in the middle of a task", () => {
@@ -151,7 +151,7 @@ describe("parse", () => {
 
     test("reads the url correctly", () => {
       const r = parse("[ ] Task 1 https://example.com");
-      expect(r.tokens[2].text).toBe("https://example.com");
+      expect(r.tokens[2].value).toBe("https://example.com");
     });
   });
 
@@ -214,7 +214,7 @@ describe("parse", () => {
 
     test("reads the url correctly", () => {
       const r = parse("This is a note. https://example.com");
-      expect(r.tokens[1].text).toBe("https://example.com");
+      expect(r.tokens[1].value).toBe("https://example.com");
     });
   });
 
@@ -223,10 +223,9 @@ describe("parse", () => {
       const r = parse("# Heading");
       expect(r.tokens[0]).toEqual({
         type: "headingMarker",
-        text: "# ",
-        match: "# ",
+        value: "# ",
+        raw: "# ",
         matchStart: 0,
-        matchLength: 2,
       });
     });
 
@@ -234,10 +233,9 @@ describe("parse", () => {
       const r = parse("[x] Completed task");
       expect(r.tokens[0]).toEqual({
         type: "status",
-        text: "x",
-        match: "[x]",
+        value: "x",
+        raw: "[x]",
         matchStart: 0,
-        matchLength: 3,
       });
     });
 
@@ -245,10 +243,9 @@ describe("parse", () => {
       const r = parse("[ ] Task with due date @2021-01-01 continued");
       expect(r.tokens[2]).toEqual({
         type: "dueDate",
-        text: "2021-01-01",
-        match: "@2021-01-01",
+        value: "2021-01-01",
+        raw: "@2021-01-01",
         matchStart: 23,
-        matchLength: 11,
       });
     });
 
@@ -256,10 +253,9 @@ describe("parse", () => {
       const r = parse("[ ] Task with tag #tag1 continued");
       expect(r.tokens[2]).toEqual({
         type: "tag",
-        text: "tag1",
-        match: "#tag1",
+        value: "tag1",
+        raw: "#tag1",
         matchStart: 18,
-        matchLength: 5,
       });
     });
 
@@ -268,17 +264,15 @@ describe("parse", () => {
 
       expect(r.tokens[2]).toEqual({
         type: "tag",
-        text: "tag1",
-        match: "#tag1",
+        value: "tag1",
+        raw: "#tag1",
         matchStart: 19,
-        matchLength: 5,
       });
       expect(r.tokens[4]).toEqual({
         type: "tag",
-        text: "tag2",
-        match: "#tag2",
+        value: "tag2",
+        raw: "#tag2",
         matchStart: 25,
-        matchLength: 5,
       });
     });
 
@@ -286,17 +280,15 @@ describe("parse", () => {
       const r = parse("[ ] Task with tags #tag1 #tag1 continued");
       expect(r.tokens[2]).toEqual({
         type: "tag",
-        text: "tag1",
-        match: "#tag1",
+        value: "tag1",
+        raw: "#tag1",
         matchStart: 19,
-        matchLength: 5,
       });
       expect(r.tokens[4]).toEqual({
         type: "tag",
-        text: "tag1",
-        match: "#tag1",
+        value: "tag1",
+        raw: "#tag1",
         matchStart: 25,
-        matchLength: 5,
       });
     });
 
@@ -304,10 +296,9 @@ describe("parse", () => {
       const r = parse("[ ] Task with a link http://example.com");
       expect(r.tokens.at(-1)).toEqual({
         type: "link",
-        text: "http://example.com",
-        match: "http://example.com",
+        value: "http://example.com",
+        raw: "http://example.com",
         matchStart: 21,
-        matchLength: 18,
       });
     });
 
@@ -315,10 +306,9 @@ describe("parse", () => {
       const r = parse("This is a note.");
       expect(r.tokens[0]).toEqual({
         type: "text",
-        text: "This is a note.",
-        match: "This is a note.",
+        value: "This is a note.",
+        raw: "This is a note.",
         matchStart: 0,
-        matchLength: 15,
       });
     });
 
@@ -326,10 +316,9 @@ describe("parse", () => {
       const r = parse("Note with #tag1 and @2021-01-01");
       expect(r.tokens[0]).toEqual({
         type: "text",
-        text: "Note with ",
-        match: "Note with ",
+        value: "Note with ",
+        raw: "Note with ",
         matchStart: 0,
-        matchLength: 10,
       });
     });
 
@@ -337,17 +326,15 @@ describe("parse", () => {
       const r = parse("[ ] Task with #tag1 and @2021-01-01");
       expect(r.tokens[1]).toEqual({
         type: "text",
-        text: " Task with ",
-        match: " Task with ",
+        value: " Task with ",
+        raw: " Task with ",
         matchStart: 3,
-        matchLength: 11,
       });
       expect(r.tokens[3]).toEqual({
         type: "text",
-        text: " and ",
-        match: " and ",
+        value: " and ",
+        raw: " and ",
         matchStart: 19,
-        matchLength: 5,
       });
     });
 
@@ -355,10 +342,9 @@ describe("parse", () => {
       const r = parse("[ ] Task with #tag1 continued");
       expect(r.tokens[3]).toEqual({
         type: "text",
-        text: " continued",
-        match: " continued",
+        value: " continued",
+        raw: " continued",
         matchStart: 19,
-        matchLength: 10,
       });
     });
   });

@@ -70,10 +70,9 @@ export type TokenType =
 /** Represents a token in an item. */
 export type Token = {
   type: TokenType;
-  text: string;
-  match: string;
+  value: string; // e.g. `tag`
+  raw: string; // e.g. `#tag`
   matchStart: number;
-  matchLength: number;
 };
 
 /**
@@ -87,7 +86,6 @@ export type Token = {
  */
 export type UncheckedItem = {
   raw: string;
-  text: string;
   tokens: Token[];
   tags: string[];
   dueDate?: Date;
@@ -170,157 +168,81 @@ function toStatus(status: string, strict = false): TaskStatus {
   return result;
 }
 
-/**
- * Returns a copy of the given array of tokens, sorted by their occurrence in
- * the original string (i.e. the `matchStart` property).
- */
-function sortTokens(tokens: Token[]): Token[] {
-  return [...tokens].sort((a, b) => a.matchStart - b.matchStart);
-}
-
-/**
- * For a given string and an array of tokens that occur in that string, this
- * function fills the gaps between those previously found tokens with the text
- * that was skipped. This is necessary because the regexes used to find the
- * tokens don't match the entire string, but only the parts that are relevant
- * to the token type. To reconstruct the original string, we need to fill in
- * the gaps between the tokens.
- */
-function insertTextTokens(original: string, tokens: Token[]): Token[] {
-  // If there are no tokens, the entire string is a text token, so we return
-  // that and exit early.
-  if (tokens.length === 0) {
-    return [
-      {
-        type: "text",
-        text: original,
-        match: original,
-        matchStart: 0,
-        matchLength: original.length,
-      },
-    ];
-  }
-
-  const sortedTokens = sortTokens(tokens);
-  let result: Token[] = [];
-  let cursor = 0;
-  let buffer = "";
-  let nextToken = sortedTokens.shift();
-
-  while (cursor < original.length) {
-    // If there is no next token, we push the rest of the string as a text
-    // token and we're done.
-    if (!nextToken) {
-      buffer = original.slice(cursor);
-      result.push({
-        type: "text",
-        text: buffer,
-        match: buffer,
-        matchStart: cursor,
-        matchLength: buffer.length,
-      });
-
-      break;
-    }
-
-    // If the cursor is at the start of the next token, we first flush the
-    // buffer by adding it as a text token, then push the next token to the
-    // result and move the cursor to the end of the token. We can then take
-    // a new token from the queue.
-    else if (cursor === nextToken.matchStart) {
-      if (buffer.length > 0) {
-        result.push({
-          type: "text",
-          text: buffer,
-          match: buffer,
-          matchStart: cursor - buffer.length,
-          matchLength: buffer.length,
-        });
-        buffer = "";
-      }
-
-      result.push(nextToken);
-      cursor += nextToken.matchLength;
-      nextToken = sortedTokens.shift();
-    }
-
-    // If the cursor doesn't currently point to a token, we push the current
-    // character to the buffer and move the cursor forward.
-    else {
-      buffer += original[cursor];
-      cursor++;
-    }
-  }
-
-  return result;
-}
-
 /* -------------------------------------------------- *
  * Parser                                             *
  * -------------------------------------------------- */
 
 /** Parses a single item from the specified input. */
 export function parse(input: string): Item {
-  let token = null;
-
   let type: UncheckedItem["type"] = "note";
-  let text = input;
   let tags: Set<Item["tags"][number]> = new Set();
   let dueDate: UncheckedItem["dueDate"] = undefined;
   let status: TaskStatus = "incomplete";
   let tokens: Token[] = [];
 
-  while ((token = mergedRegex.exec(input))) {
-    const tokenDescriptor: Token = {
-      type: "text",
-      text: token[0],
+  let match = null;
+  let cursor = 0;
 
-      match: token[0],
-      matchStart: token.index,
-      matchLength: token[0].length,
-    };
-
-    if (token.groups?.headingMarker) {
-      type = "heading";
-      text = input.replace(regexes.headingMarker, "");
-      tokenDescriptor.type = "headingMarker";
-      tokenDescriptor.text = token.groups?.headingMarker;
-    } else if (token.groups?.status) {
-      // Tasks, so we'll also need to check for the status
-      type = "task";
-      text = input.replace(regexes.status, "");
-      status = toStatus(token.groups.status);
-      tokenDescriptor.type = "status";
-      tokenDescriptor.text = token.groups.status;
-    } else if (token.groups?.dueDate && !dueDate) {
-      // Due date
-      const maybeDueDate = new Date(token.groups.dueDate);
-      if (!Number.isNaN(maybeDueDate.getTime())) {
-        dueDate = maybeDueDate;
-        tokenDescriptor.type = "dueDate";
-        tokenDescriptor.text = token.groups.dueDate;
-      }
-    } else if (token.groups?.tag) {
-      // Tags
-      tags.add(token.groups.tag);
-      tokenDescriptor.type = "tag";
-      tokenDescriptor.text = token.groups.tag;
-    } else if (token.groups?.url) {
-      // Links
-      tokenDescriptor.type = "link";
-      tokenDescriptor.text = token.groups.url;
+  while ((match = mergedRegex.exec(input))) {
+    // If there is plain text before of between tokens, insert it as a
+    // plain text token
+    if (match.index > cursor) {
+      const text = input.slice(cursor, match.index);
+      tokens.push({ type: "text", value: text, raw: text, matchStart: cursor });
+      cursor += text.length;
     }
 
-    tokens.push(tokenDescriptor);
+    const token: Token = {
+      type: "text",
+      value: match[0],
+      raw: match[0],
+      matchStart: match.index,
+    };
+
+    if (match.groups?.headingMarker) {
+      // Section heading
+      type = "heading";
+      token.type = "headingMarker";
+      token.value = match.groups?.headingMarker;
+    } else if (match.groups?.status) {
+      // Tasks, so we'll also need to check for the status
+      type = "task";
+      status = toStatus(match.groups.status);
+      token.type = "status";
+      token.value = match.groups.status;
+    } else if (match.groups?.dueDate && !dueDate) {
+      // Due date
+      const maybeDueDate = new Date(match.groups.dueDate);
+      if (!Number.isNaN(maybeDueDate.getTime())) {
+        dueDate = maybeDueDate;
+        token.type = "dueDate";
+        token.value = match.groups.dueDate;
+      }
+    } else if (match.groups?.tag) {
+      // Tags
+      tags.add(match.groups.tag);
+      token.type = "tag";
+      token.value = match.groups.tag;
+    } else if (match.groups?.url) {
+      // Links
+      token.type = "link";
+      token.value = match.groups.url;
+    }
+
+    tokens.push(token);
+    cursor += match[0].length;
   }
 
-  tokens = insertTextTokens(input, tokens);
+  // Append any text after the last token as a plain text token, too
+  if (cursor < input.length) {
+    const text = input.slice(cursor);
+    tokens.push({ type: "text", value: text, raw: text, matchStart: cursor });
+  }
 
   // @ts-expect-error Complains about the missing status, we'll add that below
   const result: UncheckedItem = {
     type,
     raw: input,
-    text,
     tokens,
     tags: Array.from(tags),
     dueDate,
@@ -339,6 +261,6 @@ export const parseWithMemo = memize(parse);
  * Stringifier                                        *
  * -------------------------------------------------- */
 
-export function stringify(item: Item): string {
-  return item.tokens.map((i) => i.match).join("");
+export function stringify({ tokens }: Pick<Item, "tokens">): string {
+  return tokens.map((i) => i.raw).join("");
 }

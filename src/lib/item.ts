@@ -34,8 +34,8 @@ function setStatus(item: UncheckedItem, status: TaskStatus): void {
   const statusToken = item.tokens.find((i) => i.type === "status");
   if (statusToken) {
     const statusChar = taskStatuses[status];
-    statusToken.match = statusToken.match.replace(/\[.\]/, `[${statusChar}]`);
-    statusToken.text = statusChar;
+    statusToken.raw = statusToken.raw.replace(/\[.\]/, `[${statusChar}]`);
+    statusToken.value = statusChar;
   }
 
   item.raw = stringify(item);
@@ -63,14 +63,14 @@ function setDueDate(item: UncheckedItem, date?: Date): void {
   else if (hasDueDate && !date) {
     const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
     if (!dueDateToken) return;
-    const exp = new RegExp(`\\s?@${dueDateToken.text}`);
+    const exp = new RegExp(`\\s?@${dueDateToken.value}`);
     newRaw = newRaw.replace(exp, "");
   }
   // 4. Due date before, due date after = update
   else if (hasDueDate && date) {
     const dueDateToken = item.tokens.find((i) => i.type === "dueDate");
     if (!dueDateToken) return;
-    newRaw = newRaw.replace(`@${dueDateToken.text}`, `@${newDueDateStr}`);
+    newRaw = newRaw.replace(`@${dueDateToken.value}`, `@${newDueDateStr}`);
   }
 
   Object.assign(item, parse(newRaw));

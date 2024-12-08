@@ -73,7 +73,7 @@ const dueDateHint = computed(() => {
         @click.prevent.stop="updateStatus()"
         type="button"
       >
-        {{ token.match }}
+        {{ token.raw }}
       </button>
 
       <span
@@ -84,24 +84,24 @@ const dueDateHint = computed(() => {
           { [$style.today]: todayOrOverdue && item.status !== 'completed' },
         ]"
         :data-tooltip="dueDateHint"
-        >{{ token.match }}</span
+        >{{ token.raw }}</span
       >
 
       <span
         v-else-if="token.type === 'tag'"
         :class="[$style.token, $style.tag]"
-        >{{ token.match }}</span
+        >{{ token.raw }}</span
       >
 
       <a
         v-else-if="token.type === 'link'"
         :class="[$style.link]"
-        :href="token.match"
+        :href="token.value"
         target="_blank"
-        >{{ token.match }}</a
+        >{{ token.raw }}</a
       >
 
-      <template v-else>{{ token.text }}</template>
+      <template v-else>{{ token.raw }}</template>
     </template>
   </component>
 </template>
