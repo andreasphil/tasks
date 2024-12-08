@@ -3,11 +3,28 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 import { nextTick } from "vue";
 import { usePages } from "./pages";
 
+vi.hoisted(() => {
+  const mockStorage = new Map();
+  globalThis.localStorage = {
+    getItem: (key: string) => mockStorage.get(key),
+    setItem: (key: string, value: unknown) => mockStorage.set(key, value),
+    removeItem: (key: string) => mockStorage.delete(key),
+    key: (i: number) => Array.from(mockStorage.keys())[i] ?? null,
+    clear: () => mockStorage.clear(),
+    get length() {
+      return mockStorage.size;
+    },
+  };
+});
+
 describe("usePages", () => {
   afterEach(() => {
     // Reset the store to its initial state after each run
     const { pages, removePage } = usePages();
     Object.keys(pages).forEach((id) => removePage(id));
+
+    // Clear localStorage
+    localStorage.clear();
 
     // Reset stubs
     vi.unstubAllGlobals();
