@@ -48,6 +48,51 @@ describe("parse", () => {
       const r = parse("# Heading https://example.com");
       expect(r.tokens[2].value).toBe("https://example.com");
     });
+
+    test("finds an automatic link", () => {
+      const r = parse("# Heading EXAMPLE-1", {
+        autoLinkRules: [
+          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
+        ],
+      });
+
+      expect(r.tokens[2].type).toBe("link");
+      expect(r.tokens[2].raw).toBe("EXAMPLE-1");
+      expect(r.tokens[2].value).toBe("https://example.com/EXAMPLE-1");
+    });
+
+    test("finds multiple automatic links of the same type", () => {
+      const r = parse("# EXAMPLE-1 Heading EXAMPLE-2", {
+        autoLinkRules: [
+          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
+        ],
+      });
+
+      expect(r.tokens[1].type).toBe("link");
+      expect(r.tokens[1].raw).toBe("EXAMPLE-1");
+      expect(r.tokens[1].value).toBe("https://example.com/EXAMPLE-1");
+
+      expect(r.tokens[3].type).toBe("link");
+      expect(r.tokens[3].raw).toBe("EXAMPLE-2");
+      expect(r.tokens[3].value).toBe("https://example.com/EXAMPLE-2");
+    });
+
+    test("finds mulitple automatic links of different types", () => {
+      const r = parse("# FOO-1 Heading BAR-2", {
+        autoLinkRules: [
+          { pattern: "(FOO-\\d+)", target: "https://example.com/foo/$1" },
+          { pattern: "(BAR-\\d+)", target: "https://example.com/bar/$1" },
+        ],
+      });
+
+      expect(r.tokens[1].type).toBe("link");
+      expect(r.tokens[1].raw).toBe("FOO-1");
+      expect(r.tokens[1].value).toBe("https://example.com/foo/FOO-1");
+
+      expect(r.tokens[3].type).toBe("link");
+      expect(r.tokens[3].raw).toBe("BAR-2");
+      expect(r.tokens[3].value).toBe("https://example.com/bar/BAR-2");
+    });
   });
 
   describe("tasks", () => {
@@ -153,6 +198,52 @@ describe("parse", () => {
       const r = parse("[ ] Task 1 https://example.com");
       expect(r.tokens[2].value).toBe("https://example.com");
     });
+
+
+    test("finds an automatic link", () => {
+      const r = parse("[ ] Task 1 EXAMPLE-1", {
+        autoLinkRules: [
+          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
+        ],
+      });
+
+      expect(r.tokens[2].type).toBe("link");
+      expect(r.tokens[2].raw).toBe("EXAMPLE-1");
+      expect(r.tokens[2].value).toBe("https://example.com/EXAMPLE-1");
+    });
+
+    test("finds multiple automatic links of the same type", () => {
+      const r = parse("[ ] EXAMPLE-1 Task 1 EXAMPLE-2", {
+        autoLinkRules: [
+          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
+        ],
+      });
+
+      expect(r.tokens[2].type).toBe("link");
+      expect(r.tokens[2].raw).toBe("EXAMPLE-1");
+      expect(r.tokens[2].value).toBe("https://example.com/EXAMPLE-1");
+
+      expect(r.tokens[4].type).toBe("link");
+      expect(r.tokens[4].raw).toBe("EXAMPLE-2");
+      expect(r.tokens[4].value).toBe("https://example.com/EXAMPLE-2");
+    });
+
+    test("finds mulitple automatic links of different types", () => {
+      const r = parse("[ ] FOO-1 Task 1 BAR-2", {
+        autoLinkRules: [
+          { pattern: "(FOO-\\d+)", target: "https://example.com/foo/$1" },
+          { pattern: "(BAR-\\d+)", target: "https://example.com/bar/$1" },
+        ],
+      });
+
+      expect(r.tokens[2].type).toBe("link");
+      expect(r.tokens[2].raw).toBe("FOO-1");
+      expect(r.tokens[2].value).toBe("https://example.com/foo/FOO-1");
+
+      expect(r.tokens[4].type).toBe("link");
+      expect(r.tokens[4].raw).toBe("BAR-2");
+      expect(r.tokens[4].value).toBe("https://example.com/bar/BAR-2");
+    });
   });
 
   describe("notes", () => {
@@ -215,6 +306,52 @@ describe("parse", () => {
     test("reads the url correctly", () => {
       const r = parse("This is a note. https://example.com");
       expect(r.tokens[1].value).toBe("https://example.com");
+    });
+
+
+    test("finds an automatic link", () => {
+      const r = parse("This is a note. EXAMPLE-1", {
+        autoLinkRules: [
+          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
+        ],
+      });
+
+      expect(r.tokens[1].type).toBe("link");
+      expect(r.tokens[1].raw).toBe("EXAMPLE-1");
+      expect(r.tokens[1].value).toBe("https://example.com/EXAMPLE-1");
+    });
+
+    test("finds multiple automatic links of the same type", () => {
+      const r = parse("EXAMPLE-1 This is a note. EXAMPLE-2", {
+        autoLinkRules: [
+          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
+        ],
+      });
+
+      expect(r.tokens[0].type).toBe("link");
+      expect(r.tokens[0].raw).toBe("EXAMPLE-1");
+      expect(r.tokens[0].value).toBe("https://example.com/EXAMPLE-1");
+
+      expect(r.tokens[2].type).toBe("link");
+      expect(r.tokens[2].raw).toBe("EXAMPLE-2");
+      expect(r.tokens[2].value).toBe("https://example.com/EXAMPLE-2");
+    });
+
+    test("finds mulitple automatic links of different types", () => {
+      const r = parse("FOO-1 This is a note. BAR-2", {
+        autoLinkRules: [
+          { pattern: "(FOO-\\d+)", target: "https://example.com/foo/$1" },
+          { pattern: "(BAR-\\d+)", target: "https://example.com/bar/$1" },
+        ],
+      });
+
+      expect(r.tokens[0].type).toBe("link");
+      expect(r.tokens[0].raw).toBe("FOO-1");
+      expect(r.tokens[0].value).toBe("https://example.com/foo/FOO-1");
+
+      expect(r.tokens[2].type).toBe("link");
+      expect(r.tokens[2].raw).toBe("BAR-2");
+      expect(r.tokens[2].value).toBe("https://example.com/bar/BAR-2");
     });
   });
 
@@ -301,6 +438,21 @@ describe("parse", () => {
         matchStart: 21,
       });
     });
+
+    test("returns an automatic link token", () => {
+      const r = parse("This is a note. EXAMPLE-1", {
+        autoLinkRules: [
+          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
+        ],
+      });
+
+      expect(r.tokens.at(-1)).toEqual({
+        type: "link",
+        value: "https://example.com/EXAMPLE-1",
+        raw: "EXAMPLE-1",
+        matchStart: 16
+      })
+    })
 
     test("returns text tokens if there's nothing but text", () => {
       const r = parse("This is a note.");

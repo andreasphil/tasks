@@ -35,12 +35,10 @@ import memize from "memize";
  * Types                                              *
  * -------------------------------------------------- */
 
-/** Recursively makes all properties in T readonly. */
 export type DeepReadonly<T> = {
   readonly [K in keyof T]: DeepReadonly<T[K]>;
 };
 
-/** Recursively makes all properties in T writable. */
 export type DeepWritable<T> = {
   -readonly [K in keyof T]: DeepWritable<T[K]>;
 };
@@ -55,10 +53,8 @@ export const taskStatuses = {
 
 const statusChars = Object.values(taskStatuses);
 
-/** Represents the status of a task. */
 export type TaskStatus = keyof typeof taskStatuses;
 
-/** Different types of tokens that can be found in an item. */
 export type TokenType =
   | "headingMarker"
   | "status"
@@ -67,7 +63,6 @@ export type TokenType =
   | "link"
   | "text";
 
-/** Represents a token in an item. */
 export type Token = {
   type: TokenType;
   value: string; // e.g. `tag`
@@ -77,7 +72,7 @@ export type Token = {
 
 /**
  * Represents a parsed item. "Item" is the generic type for anything that can
- * be included in a list, such as a task, note, or section heading.
+ * be included on a page, such as a task, note, or section heading.
  *
  * Unchecked items allow changing any property in any way you want. Note that
  * since properties depend on each other (e.g. status is parsed from raw, and
@@ -96,7 +91,7 @@ export type UncheckedItem = {
 
 /**
  * Represents a parsed item. "Item" is the generic type for anything that can
- * be included in a list, such as a task, note, or section heading.
+ * be included on a page, such as a task, note, or section heading.
  *
  * Note that in a regular item, all properties are readonly. This is because
  * some depend on each other (e.g. status is parsed from raw, and also leads
@@ -108,42 +103,69 @@ export type UncheckedItem = {
 export type Item = DeepReadonly<UncheckedItem>;
 
 /* -------------------------------------------------- *
- * Regexes                                            *
- * -------------------------------------------------- */
-
-// Singular means only one of these can be matched per line. Plural means
-// multiple matches can be found per line.
-const regexes = {
-  // Section headings
-  headingMarker: /^(?<headingMarker># )/,
-  // Task status
-  status: new RegExp(
-    `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`
-  ),
-  // Due date
-  dueDate: /@(?<dueDate>\d{4}-\d{2}-\d{2})/,
-  // Tags
-  tags: /#(?<tag>\w+)/g,
-  // Links
-  links: /(?<url>https?:\/\/\S+)/g,
-} as const;
-
-const mergedRegex = new RegExp(
-  Object.values(regexes)
-    .map((i) => `(${i.source})`)
-    .join("|"),
-  "gm"
-);
-
-/* -------------------------------------------------- *
  * Utilities                                          *
  * -------------------------------------------------- */
 
-/**
- * Converts a status character to a TaskStatus. If the character is not a valid
- * status, 'incomplete' is returned as a fallback. If the `strict` parameter is
- * set to true, an error is thrown instead.
- */
+const taskExpr = {
+  // Headings
+  headingMarker: /^(?<headingMarker># )/,
+
+  // Due dates
+  dueDate: /@(?<dueDate>\d{4}-\d{2}-\d{2})/,
+
+  // Tags
+  tags: /#(?<tag>\w+)/,
+
+  // Links
+  links: /(?<url>https?:\/\/\S+)/,
+
+  // Statuses
+  status: new RegExp(
+    `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`
+  ),
+} as const;
+
+function mergeExpression(...sources: Array<Record<string, RegExp>>): RegExp {
+  const raw = sources
+    .flatMap((i) => Object.values(i))
+    .map((i) => `(${i.source})`)
+    .join("|");
+
+  return new RegExp(raw, "gm");
+}
+
+function getAutoLinkExpressions(rules: AutoLinkRule[]): Record<string, RegExp> {
+  return rules.reduce<Record<string, RegExp>>((all, current, i) => {
+    all[`autolink_${i}`] = new RegExp(`(?<autolink_${i}>${current.pattern})`);
+    return all;
+  }, {});
+}
+
+function matchAutolink(
+  groups: RegExpExecArray["groups"],
+  rules: AutoLinkRule[] | undefined
+): {
+  groupName: string;
+  url: string;
+} | null {
+  if (!groups || !rules) return null;
+
+  const groupName = Object.entries(groups ?? {}).find(
+    ([k, v]) => k.startsWith("autolink_") && !!v
+  )?.[0];
+
+  if (!groupName) return null;
+
+  const index = Number(groupName.replace("autolink_", ""));
+
+  const url = groups[groupName].replace(
+    new RegExp(rules[index].pattern),
+    rules[index].target
+  );
+
+  return { groupName, url };
+}
+
 function toStatus(status: string, strict = false): TaskStatus {
   let result: TaskStatus = "incomplete";
 
@@ -172,8 +194,17 @@ function toStatus(status: string, strict = false): TaskStatus {
  * Parser                                             *
  * -------------------------------------------------- */
 
+type AutoLinkRule = {
+  pattern: string;
+  target: string;
+};
+
+type ParserOpts = {
+  autoLinkRules?: AutoLinkRule[];
+};
+
 /** Parses a single item from the specified input. */
-export function parse(input: string): Item {
+export function parse(input: string, opts?: ParserOpts): Item {
   let type: UncheckedItem["type"] = "note";
   let tags: Set<Item["tags"][number]> = new Set();
   let dueDate: UncheckedItem["dueDate"] = undefined;
@@ -183,7 +214,12 @@ export function parse(input: string): Item {
   let match = null;
   let cursor = 0;
 
-  while ((match = mergedRegex.exec(input))) {
+  const mergedExpression = mergeExpression(
+    taskExpr,
+    opts?.autoLinkRules ? getAutoLinkExpressions(opts.autoLinkRules) : {}
+  );
+
+  while ((match = mergedExpression.exec(input))) {
     // If there is plain text before of between tokens, insert it as a
     // plain text token
     if (match.index > cursor) {
@@ -198,6 +234,8 @@ export function parse(input: string): Item {
       raw: match[0],
       matchStart: match.index,
     };
+
+    let autolink;
 
     if (match.groups?.headingMarker) {
       // Section heading
@@ -227,6 +265,11 @@ export function parse(input: string): Item {
       // Links
       token.type = "link";
       token.value = match.groups.url;
+    } else if ((autolink = matchAutolink(match.groups, opts?.autoLinkRules))) {
+      // Autolink
+      token.type = "link";
+      token.raw = match.groups![autolink.groupName];
+      token.value = autolink.url;
     }
 
     tokens.push(token);

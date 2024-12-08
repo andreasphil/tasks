@@ -17,7 +17,7 @@ vi.mock("@/stores/pages", () => ({
           "[ ] Multiple tags from Page 1 #tag1 #tag2",
           "[ ] No tags from Page 1",
           "\t[ ] Tag from Page 1 with indent #tag1",
-        ].map(parse),
+        ].map((i) => parse(i)),
       },
 
       bar: {
@@ -28,12 +28,12 @@ vi.mock("@/stores/pages", () => ({
           "[ ] Another one tag from Page 2 #tag2",
           "[ ] Multiple tags from Page 2 #tag2 #tag3",
           "[ ] No tags from Page 2",
-        ].map(parse),
+        ].map((i) => parse(i)),
       },
 
       baz: {
         id: "bar",
-        items: ["Page 3", "[ ] No tags from Page 3"].map(parse),
+        items: ["Page 3", "[ ] No tags from Page 3"].map((i) => parse(i)),
       },
     },
     updatePage: mocks.updatePage,

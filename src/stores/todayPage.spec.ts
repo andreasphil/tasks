@@ -27,7 +27,7 @@ vi.mock("@/stores/pages", () => ({
           "[ ] Due in the future @2024-02-01",
           "[ ] No due date",
           "\t[*] With indent @2024-01-01",
-        ].map(parse),
+        ].map((i) => parse(i)),
       },
 
       bar: {
@@ -38,7 +38,7 @@ vi.mock("@/stores/pages", () => ({
           "[x] Overdue completed @2023-11-01",
           "[ ] Due in the future @2024-03-01",
           "[ ] No due date",
-        ].map(parse),
+        ].map((i) => parse(i)),
       },
 
       baz: {
@@ -47,7 +47,7 @@ vi.mock("@/stores/pages", () => ({
           "Page 3",
           "[ ] Due in the future @2024-02-01",
           "[ ] No due date",
-        ].map(parse),
+        ].map((i) => parse(i)),
       },
     },
     updatePage: mocks.updatePage,

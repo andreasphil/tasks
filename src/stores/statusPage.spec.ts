@@ -18,7 +18,7 @@ vi.mock("@/stores/pages", () => ({
           "[?] Blocked from Page 1",
           "[*] Important from Page 1",
           "[x] Completed from Page 1",
-        ].map(parse),
+        ].map((i) => parse(i)),
       },
 
       bar: {
@@ -30,7 +30,7 @@ vi.mock("@/stores/pages", () => ({
           "[?] Blocked from Page 2",
           "[*] Important from Page 2",
           "[x] Completed from Page 2",
-        ].map(parse),
+        ].map((i) => parse(i)),
       },
     },
     updatePage: mocks.updatePage,
