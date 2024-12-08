@@ -1,10 +1,6 @@
 import { Item } from "@/lib/parser";
 import { DeepReadonly } from "vue";
 
-/* -------------------------------------------------- *
- * Base model                                         *
- * -------------------------------------------------- */
-
 export type Model<T = any> = {
   id: string;
 } & T;
@@ -13,10 +9,6 @@ export function createModel<T>(init: T): Model<T> {
   init = structuredClone(init);
   return { id: crypto.randomUUID(), ...init };
 }
-
-/* -------------------------------------------------- *
- * Page                                               *
- * -------------------------------------------------- */
 
 export type Page = Model<{
   items: Item[];

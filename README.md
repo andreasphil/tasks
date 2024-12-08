@@ -6,14 +6,6 @@
   <strong>Simple, plain-text productivity</strong>
 </p>
 
-<p align="center">
-<a href="https://app.netlify.com/sites/andreasphil-tasks/deploys">
-   <img src="https://api.netlify.com/api/v1/badges/508e3f7f-df54-4326-bb55-4b4cae9a7dd2/deploy-status" alt="Netlify Status" />
-</a>
-</p>
-
-> ⚠️ Work in progress. Things are most certainly incomplete and/or broken, and will definitely change.
-
 - ✅ Manage your tasks with a simple, text-based format
 - 🦦 Add sections, notes, due dates and tags
 - 🏄‍♂️ Board view for easy status tracking

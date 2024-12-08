@@ -13,19 +13,9 @@ import dayjs from "dayjs";
  * Mutating items                                     *
  * -------------------------------------------------- */
 
-/**
- * Special variant of the Item where all properties that can safely be changed
- * via `asWritable` or `mutate` are writable.
- */
 export type WritableItem = Omit<Item, "dueDate" | "status" | "type"> &
   DeepWritable<Pick<Item, "dueDate" | "status" | "type">>;
 
-/**
- * Change the status of the specified item. This will mutate the item.
- *
- * @param item The item to change
- * @param status The next status of the item
- */
 function setStatus(item: UncheckedItem, status: TaskStatus): void {
   if (item.type !== "task") return;
 
@@ -41,13 +31,6 @@ function setStatus(item: UncheckedItem, status: TaskStatus): void {
   item.raw = stringify(item);
 }
 
-/**
- * Change the due date of the specified item. This will mutate the item.
- *
- * @param item The item to change
- * @param date The next due date of the item. Will remove an existing due
- *  date then set to undefined.
- */
 function setDueDate(item: UncheckedItem, date?: Date): void {
   const hasDueDate = item.dueDate !== undefined;
   let newRaw = item.raw;
@@ -76,12 +59,6 @@ function setDueDate(item: UncheckedItem, date?: Date): void {
   Object.assign(item, parse(newRaw));
 }
 
-/**
- * Change the status of the specified item. This will mutate the item.
- *
- * @param item The item to change
- * @param type The next type of the item
- */
 function setType(item: UncheckedItem, type: UncheckedItem["type"]): void {
   if (item.type === type) return;
 
@@ -100,12 +77,6 @@ function setType(item: UncheckedItem, type: UncheckedItem["type"]): void {
   item.status = type === "task" ? "incomplete" : null;
 }
 
-/**
- * Creates a depp copy of the item.
- *
- * @param item The item to clone
- * @returns Cloned item
- */
 function clone(item: Item): Item {
   return {
     ...item,
@@ -171,32 +142,6 @@ const statusWeights: Record<TaskStatus, number> = {
   completed: 1,
 } as const;
 
-/**
- * Sorts 2 items by the following criteria:
- *
- * 1. Sections and notes are always equal, i.e. comparing two should not change
- *    their order.
- * 2. When comparing sections or notes with tasks, the order should also stay
- *    the same.
- * 3. Tasks are first sorted by their status (important, in progress, open,
- *    question, done), then due dates (ascending; tasks with due dates should
- *    come before tasks without due dates). Tasks with the same due date or
- *    status should not change their order.
- * 4. To accomodate nested tasks, white space at the beginning of the line
- *    always takes precedence over all other criteria. Tasks with different
- *    leading white space should never change order. Note that sorting an
- *    entire page using `compare(item, item)` will mess up pages with nested
- *    items, as those nested items need to be moved together with their parent
- *    item. If you need to sort an entire page, use `sort(page)`.
- * 5. The order of items and blank lines should not change.
- *
- * Note that this function is only suitable for comparing two individual items.
- * It should not be used for sorting an entire page as it will mess up the
- * nesting of tasks.
- *
- * @param a
- * @param b
- */
 export function compare(a: Item, b: Item): number {
   // Keep order of items of different types
   if (a.type !== b.type || a.type !== "task" || b.type !== "task") return 0;

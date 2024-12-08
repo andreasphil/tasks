@@ -36,12 +36,6 @@ export function useTodayPage() {
     updateFn?.(factory);
   }
 
-  /**
-   * The list of items on this page, where each item also has a function to
-   * update the item. The function keeps track of the page and index of the
-   * item. The function is optional and doesn't exist for items that can't
-   * be updated.
-   */
   const items = computed<UpdateableItem[] | undefined>(() => {
     const eod = dayjs().endOf("day").valueOf();
     const newPages = Object.values(pages).sort(compareByTitle);
