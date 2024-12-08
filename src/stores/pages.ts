@@ -5,7 +5,8 @@ import {
   type Model,
   type Page,
 } from "@/lib/page";
-import { parse, type Item } from "@/lib/parser";
+import { type Item } from "@/lib/parser";
+import { parse } from "@/stores/appParser";
 import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
 import { computed, reactive, watch } from "vue";
 

@@ -2,11 +2,8 @@
 import DownloadDialog from "@/components/DownloadDialog.vue";
 import DueDateDialog from "@/components/DueDateDialog.vue";
 import { default as PageItem } from "@/components/Item.vue";
-import {
-  parseWithMemo as rowToTask,
-  type Item,
-  type TaskStatus,
-} from "@/lib/parser";
+import { type Item, type TaskStatus } from "@/lib/parser";
+import { parse } from "@/stores/appParser";
 import { usePage } from "@/stores/page";
 import { useTags } from "@/stores/tags";
 import {
@@ -442,7 +439,7 @@ onBeforeUnmount(() => {
       <Textarea2
         v-if="pageText !== undefined"
         :autocomplete="completions"
-        :context-provider="rowToTask"
+        :context-provider="parse.withMemo"
         :continue-lists="continueLists"
         :spellcheck="false"
         class="editor text-mono"

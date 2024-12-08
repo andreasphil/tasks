@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Item from "@/components/Item.vue";
-import { parseWithMemo as rowToTask, type TaskStatus } from "@/lib/parser";
+import { type TaskStatus } from "@/lib/parser";
+import { parse } from "@/stores/appParser";
 import { useTodayPage } from "@/stores/todayPage";
 import Textarea2 from "@andreasphil/vue-textarea2";
 import { TreePalm } from "lucide-static";
@@ -28,7 +29,7 @@ function updateStatus(status: TaskStatus, index: number) {
     <div>
       <Textarea2
         v-if="text"
-        :context-provider="rowToTask"
+        :context-provider="parse.withMemo"
         :model-value="text"
         :spellcheck="false"
         class="editor text-mono"

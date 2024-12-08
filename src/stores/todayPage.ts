@@ -1,6 +1,7 @@
 import { compare, mutate } from "@/lib/item";
 import { compareByTitle, getTitle } from "@/lib/page";
-import { parse, type Item } from "@/lib/parser";
+import { type Item } from "@/lib/parser";
+import { parse } from "@/stores/appParser";
 import { usePages } from "@/stores/pages";
 import dayjs from "dayjs";
 import { computed } from "vue";

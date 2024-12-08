@@ -1,5 +1,4 @@
 import {
-  parse,
   stringify,
   taskStatuses,
   type DeepWritable,
@@ -7,6 +6,7 @@ import {
   type TaskStatus,
   type UncheckedItem,
 } from "@/lib/parser";
+import { parse } from "@/stores/appParser";
 import dayjs from "dayjs";
 
 /* -------------------------------------------------- *
