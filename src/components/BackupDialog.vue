@@ -4,24 +4,12 @@ import { usePages } from "@/stores/pages";
 import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
 import { Check, DownloadCloud, UploadCloud } from "lucide-static";
-import { computed } from "vue";
-
-const props = defineProps<{
-  modelValue: boolean;
-}>();
-
-const emit = defineEmits<{
-  "update:modelValue": [value: boolean];
-}>();
 
 /* -------------------------------------------------- *
  * Visibility & focus                                 *
  * -------------------------------------------------- */
 
-const localOpen = computed({
-  get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
-});
+const visible = defineModel({ default: false });
 
 /* -------------------------------------------------- *
  * Page download                                      *
@@ -38,7 +26,7 @@ async function saveToFile() {
     });
 
     alert("Backup saved!");
-    localOpen.value = false;
+    visible.value = false;
   } catch {
     alert("Failed to save backup.");
   }
@@ -53,7 +41,7 @@ async function openFromFile() {
     }).then((blob) => blob.text());
 
     importBackup(text);
-    localOpen.value = false;
+    visible.value = false;
   } catch {
     alert("Failed to load backup.");
   }
@@ -61,7 +49,7 @@ async function openFromFile() {
 </script>
 
 <template>
-  <Dialog title="Backup" v-model="localOpen">
+  <Dialog title="Backup" v-model="visible">
     <p>
       Use the buttons below to download or restore a backup of all your pages.
       If you restore a backup, pages that already exist will be overwritten.
@@ -78,7 +66,7 @@ async function openFromFile() {
     </div>
 
     <template #footer>
-      <button @click="localOpen = false"><span v-html="Check" />Done</button>
+      <button @click="visible = false"><span v-html="Check" />Done</button>
     </template>
   </Dialog>
 </template>

@@ -2,29 +2,21 @@
 import Dialog from "@/components/Dialog.vue";
 import { usePage } from "@/stores/page";
 import { Download } from "lucide-static";
-import { computed, nextTick, onUnmounted, ref, watch } from "vue";
+import { nextTick, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{
-  modelValue: boolean;
   pageId: string;
-}>();
-
-const emit = defineEmits<{
-  "update:modelValue": [value: boolean];
 }>();
 
 /* -------------------------------------------------- *
  * Visibility & focus                                 *
  * -------------------------------------------------- */
 
-const localOpen = computed({
-  get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
-});
+const visible = defineModel({ default: false });
 
 const confirmButtonEl = ref<HTMLButtonElement | null>(null);
 
-watch(localOpen, async (is, was) => {
+watch(visible, async (is, was) => {
   if (!is || is === was) return;
   await nextTick();
   confirmButtonEl.value?.focus();
@@ -49,7 +41,7 @@ function createDownloadUrl(source: string | undefined) {
 }
 
 watch(
-  () => props.modelValue,
+  visible,
   (is, was) => {
     if (is && !was) createDownloadUrl(pageText.value);
     else if (!is && downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
@@ -64,14 +56,14 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Dialog title="Download page" v-model="localOpen">
+  <Dialog title="Download page" v-model="visible">
     <p>
       Press the download button below to save a copy of "{{ pageTitle }}" to
       your disk.
     </p>
 
     <template #footer>
-      <button @click="localOpen = false" data-variant="ghost">Close</button>
+      <button @click="visible = false" data-variant="ghost">Close</button>
       <a
         :download="`${pageTitle}.txt`"
         :href="downloadUrl"

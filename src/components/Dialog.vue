@@ -1,40 +1,29 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 
-const props = defineProps<{
-  modelValue?: boolean;
+defineProps<{
   title?: string;
 }>();
 
-const emit = defineEmits<{
-  "update:modelValue": [value: boolean];
-}>();
+const visible = defineModel({ default: false });
 
 const dialogEl = ref<HTMLDialogElement | null>(null);
 
-watch(
-  () => props.modelValue,
-  (is, was) => {
-    if (is === was) return;
-    else if (is) dialogEl.value?.showModal();
-    else dialogEl.value?.close();
-  }
-);
-
-onMounted(() => {
-  if (props.modelValue) dialogEl.value?.showModal();
+watch(visible, (is, was) => {
+  if (is === was) return;
+  else if (is) dialogEl.value?.showModal();
+  else dialogEl.value?.close();
 });
 
-const localOpen = computed({
-  get: () => props.modelValue,
-  set: (val) => emit("update:modelValue", val),
+onMounted(() => {
+  if (visible.value) dialogEl.value?.showModal();
 });
 </script>
 
 <template>
   <dialog
-    @close="localOpen = false"
-    @keydown.esc.stop.prevent="localOpen = false"
+    @close="visible = false"
+    @keydown.esc.stop.prevent="visible = false"
     ref="dialogEl"
   >
     <header v-if="title">
@@ -47,7 +36,7 @@ const localOpen = computed({
 
     <footer>
       <slot name="footer">
-        <button @click="localOpen = false">Confirm</button>
+        <button @click="visible = false">Confirm</button>
       </slot>
     </footer>
   </dialog>

@@ -4,40 +4,31 @@ import { getDateHint } from "@/lib/date";
 import { CalendarCheck, CalendarX2 } from "lucide-static";
 import { computed, watch } from "vue";
 
-const props = defineProps<{
-  modelValue: boolean;
-  selectedDate: string | undefined;
-}>();
-
 const emit = defineEmits<{
-  "update:modelValue": [value: boolean];
-  "update:selectedDate": [value: string | undefined];
   confirmed: [];
   cancelled: [];
 }>();
+
+const selectedDate = defineModel<string | undefined>("selectedDate", {
+  default: undefined,
+});
+
+const visible = defineModel({ default: false });
 
 /* -------------------------------------------------- *
  * Model value handling                               *
  * -------------------------------------------------- */
 
-const localSelectedDate = computed<string | undefined>({
-  get: () => props.selectedDate,
-  set: (val) => emit("update:selectedDate", val),
+watch(visible, (is, was) => {
+  if (is && !was) selectedDate.value = undefined;
 });
 
-watch(
-  () => props.modelValue,
-  (is, was) => {
-    if (is && !was) localSelectedDate.value = undefined;
-  }
-);
-
 const dueDateHint = computed(() => {
-  if (!props.selectedDate) {
+  if (!selectedDate.value) {
     return "No date selected";
   }
 
-  return getDateHint(props.selectedDate);
+  return getDateHint(selectedDate.value);
 });
 
 /* -------------------------------------------------- *
@@ -45,33 +36,29 @@ const dueDateHint = computed(() => {
  * -------------------------------------------------- */
 
 function onClear() {
-  localSelectedDate.value = undefined;
-  emit("update:modelValue", false);
+  selectedDate.value = undefined;
+  visible.value = false;
   emit("confirmed");
 }
 
 function onConfirm() {
-  emit("update:modelValue", false);
+  visible.value = false;
   emit("confirmed");
 }
 
 function onCancel() {
-  emit("update:modelValue", false);
+  visible.value = false;
   emit("cancelled");
 }
 </script>
 
 <template>
-  <Dialog
-    :model-value="modelValue"
-    @update:model-value="$emit('update:modelValue', $event)"
-    title="Set due date"
-  >
+  <Dialog v-model="visible" title="Set due date">
     <label>
       Finish this task by...
       <input
         type="date"
-        v-model="localSelectedDate"
+        v-model="selectedDate"
         @keydown.enter.stop.prevent="onConfirm()"
       />
       <small>{{ dueDateHint }}</small>
