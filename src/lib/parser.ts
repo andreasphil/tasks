@@ -192,7 +192,7 @@ function toStatus(status: string, strict = false): TaskStatus {
  * Parser                                             *
  * -------------------------------------------------- */
 
-type AutoLinkRule = {
+export type AutoLinkRule = {
   pattern: string;
   target: string;
 };
