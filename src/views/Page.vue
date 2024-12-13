@@ -191,35 +191,35 @@ const dueDateCompletions: AutoComplete = {
     {
       id: "today",
       name: "Today",
-      icon: renderSvgFromString(Calendar),
+      // icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().format("@YYYY-MM-DD"),
     },
     {
       id: "tomorrow",
       name: "Tomorrow",
-      icon: renderSvgFromString(Calendar),
+      // icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().add(1, "day").format("@YYYY-MM-DD"),
     },
     {
       id: "next-week",
       name: "Next week",
-      icon: renderSvgFromString(Calendar),
+      // icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().add(1, "week").startOf("week").format("@YYYY-MM-DD"),
     },
     {
       id: "end-of-week",
       name: "End of week",
-      icon: renderSvgFromString(Calendar),
+      // icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().weekday(4).format("@YYYY-MM-DD"),
     },
     {
       id: "custom",
       name: "Custom",
-      icon: renderSvgFromString(CalendarSearch),
+      // icon: renderSvgFromString(CalendarSearch),
       initial: true,
       value: () => {
         beginUpdateDueDate();
