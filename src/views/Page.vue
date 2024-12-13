@@ -43,6 +43,7 @@ import {
   onBeforeUnmount,
   onMounted,
   ref,
+  useTemplateRef,
   watch,
 } from "vue";
 import { useRoute } from "vue-router";
@@ -57,8 +58,7 @@ const pageId = computed(() => route.params.id?.toString());
 
 const { pageExists, pageText, updateOnPage } = usePage(() => pageId.value);
 
-// @ts-expect-error Vue types seem to be buggy here
-const textareaEl = ref<InstanceType<typeof Textarea2> | null>(null);
+const textareaEl = useTemplateRef("textareaEl");
 
 watch(pageId, async () => {
   await nextTick();

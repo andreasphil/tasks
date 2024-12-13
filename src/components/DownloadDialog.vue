@@ -2,7 +2,7 @@
 import Dialog from "@/components/Dialog.vue";
 import { usePage } from "@/stores/page";
 import { Download } from "lucide-static";
-import { nextTick, onUnmounted, ref, watch } from "vue";
+import { nextTick, onUnmounted, ref, useTemplateRef, watch } from "vue";
 
 const props = defineProps<{
   pageId: string;
@@ -14,7 +14,9 @@ const props = defineProps<{
 
 const visible = defineModel({ default: false });
 
-const confirmButtonEl = ref<HTMLButtonElement | null>(null);
+const confirmButtonEl = useTemplateRef<HTMLButtonElement | null>(
+  "confirmButtonEl"
+);
 
 watch(visible, async (is, was) => {
   if (!is || is === was) return;

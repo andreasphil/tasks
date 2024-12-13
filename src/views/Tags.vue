@@ -34,7 +34,6 @@ function updateStatus(status: TaskStatus, index: number) {
         :spellcheck="false"
         class="editor text-mono"
         readonly
-        ref="textareaEl"
       >
         <template #row="{ context, index }">
           <Item

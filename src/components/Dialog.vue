@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, useTemplateRef, watch } from "vue";
 
 defineProps<{
   title?: string;
@@ -7,7 +7,7 @@ defineProps<{
 
 const visible = defineModel({ default: false });
 
-const dialogEl = ref<HTMLDialogElement | null>(null);
+const dialogEl = useTemplateRef<HTMLDialogElement | null>("dialogEl");
 
 watch(visible, (is, was) => {
   if (is === was) return;
