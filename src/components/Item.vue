@@ -154,6 +154,7 @@ const dueDateHint = computed(() => {
 .dueDate {
   border-radius: var(--border-radius-small);
   color: var(--c-fg-variant);
+  cursor: help;
   pointer-events: initial;
   position: relative;
   white-space: nowrap;
