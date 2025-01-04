@@ -16,7 +16,7 @@ importers:
         version: https://codeload.github.com/andreasphil/design-system/tar.gz/daca1147bad38d9b4f96908664c5ab4ab4757094
       '@andreasphil/textarea2':
         specifier: github:andreasphil/textarea2#v0.1.0
-        version: git+https://git@github.com:andreasphil/textarea2.git#27c5b4be9504a0ea35c8b33ee9db76f325c663f6
+        version: https://codeload.github.com/andreasphil/textarea2/tar.gz/27c5b4be9504a0ea35c8b33ee9db76f325c663f6
       '@fontsource-variable/fira-code':
         specifier: ^5.1.0
         version: 5.1.0
@@ -72,8 +72,8 @@ packages:
     resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/daca1147bad38d9b4f96908664c5ab4ab4757094}
     version: 0.40.0
 
-  '@andreasphil/textarea2@git+https://git@github.com:andreasphil/textarea2.git#27c5b4be9504a0ea35c8b33ee9db76f325c663f6':
-    resolution: {commit: 27c5b4be9504a0ea35c8b33ee9db76f325c663f6, repo: git@github.com:andreasphil/textarea2.git, type: git}
+  '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/27c5b4be9504a0ea35c8b33ee9db76f325c663f6':
+    resolution: {tarball: https://codeload.github.com/andreasphil/textarea2/tar.gz/27c5b4be9504a0ea35c8b33ee9db76f325c663f6}
     version: 0.1.0
 
   '@babel/helper-string-parser@7.25.9':
@@ -1022,7 +1022,7 @@ snapshots:
 
   '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/daca1147bad38d9b4f96908664c5ab4ab4757094': {}
 
-  '@andreasphil/textarea2@git+https://git@github.com:andreasphil/textarea2.git#27c5b4be9504a0ea35c8b33ee9db76f325c663f6': {}
+  '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/27c5b4be9504a0ea35c8b33ee9db76f325c663f6': {}
 
   '@babel/helper-string-parser@7.25.9': {}
 

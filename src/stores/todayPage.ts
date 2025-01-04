@@ -50,10 +50,10 @@ export function useTodayPage() {
           removeIndent(item),
           updateFn(page.id, i),
         ])
-        .sort(([a], [b]) => compare(a, b))
         .filter(([item]) => {
           return item.dueDate && (item.dueDate as Date).getTime() <= eod;
         })
+        .sort(([a], [b]) => compare(a, b))
         .forEach((item) => dueItems.push(item));
 
       if (dueItems.length) {
