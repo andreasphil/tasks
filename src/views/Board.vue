@@ -171,7 +171,8 @@ function updateStatus() {
   gap: 0.75rem;
   height: 100%;
   overflow: auto;
-  padding: 0.75rem 1.25rem 2rem 0.5rem;
+  padding: 0.75rem 1rem 2rem 0.5rem;
+  scrollbar-width: thin;
 }
 
 .cards {
