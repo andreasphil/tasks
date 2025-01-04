@@ -2,7 +2,6 @@ import { mutate } from "@/lib/item";
 import { getTitle } from "@/lib/page";
 import { parse } from "@/stores/appParser";
 import { usePages } from "@/stores/pages";
-import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
 import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
 
 export function usePage(id: MaybeRefOrGetter<string>) {
@@ -30,11 +29,15 @@ export function usePage(id: MaybeRefOrGetter<string>) {
   const text = computed<string | undefined>({
     get() {
       const rawItems = page.value?.items.map((item) => item.raw);
-      return rawItems ? joinLines(rawItems) : undefined;
+      return rawItems ? rawItems.join("\n") : undefined;
     },
     set(value) {
       if (!page.value) return;
-      const items = splitLines(value ?? "").map((line) => parse.withMemo(line));
+
+      const items = (value ?? "")
+        .split("\n")
+        .map((line) => parse.withMemo(line));
+
       updatePage(toValue(id), { items });
     },
   });

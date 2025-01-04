@@ -16,7 +16,7 @@ export type Page = Model<{
 
 export function getTitle(page: Page | DeepReadonly<Page>): string {
   const firstItem = page.items.find((i) => Boolean(i.raw));
-  return firstItem?.raw?.trim() || "Untitled";
+  return firstItem?.raw?.replace(/^# /, "").trim() || "Untitled";
 }
 
 export function compareByTitle(

@@ -8,7 +8,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => ["command-bar"].includes(tag),
+          isCustomElement: (tag) => ["command-bar", "textarea-2"].includes(tag),
         },
       },
     }),

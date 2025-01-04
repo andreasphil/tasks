@@ -14,7 +14,7 @@
   "dependencies": {
     "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.5.0",
     "@andreasphil/design-system": "github:andreasphil/design-system#v0.40.0",
-    "@andreasphil/vue-textarea2": "github:andreasphil/vue-textarea2#v0.6.0",
+    "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.1.0",
     "@fontsource-variable/fira-code": "^5.1.0",
     "browser-fs-access": "^0.35.0",
     "dayjs": "^1.11.13",

@@ -199,7 +199,6 @@ describe("parse", () => {
       expect(r.tokens[2].value).toBe("https://example.com");
     });
 
-
     test("finds an automatic link", () => {
       const r = parse("[ ] Task 1 EXAMPLE-1", {
         autoLinkRules: [
@@ -307,7 +306,6 @@ describe("parse", () => {
       const r = parse("This is a note. https://example.com");
       expect(r.tokens[1].value).toBe("https://example.com");
     });
-
 
     test("finds an automatic link", () => {
       const r = parse("This is a note. EXAMPLE-1", {
@@ -450,9 +448,9 @@ describe("parse", () => {
         type: "link",
         value: "https://example.com/EXAMPLE-1",
         raw: "EXAMPLE-1",
-        matchStart: 16
-      })
-    })
+        matchStart: 16,
+      });
+    });
 
     test("returns text tokens if there's nothing but text", () => {
       const r = parse("This is a note.");

@@ -7,7 +7,6 @@ import {
 } from "@/lib/page";
 import { type Item } from "@/lib/parser";
 import { parse } from "@/stores/appParser";
-import { joinLines, splitLines } from "@andreasphil/vue-textarea2/text";
 import { computed, reactive, watch } from "vue";
 
 type SerializedPage = Model<{ text: string }>;
@@ -75,7 +74,7 @@ function createPagesStore() {
   function importBackup(serializedPages: string) {
     const textPages: SerializedPage[] = JSON.parse(serializedPages) ?? [];
     textPages.forEach(({ id, text }) => {
-      pages[id] = { id, items: splitLines(text).map((line) => parse(line)) };
+      pages[id] = { id, items: text.split("\n").map((line) => parse(line)) };
     });
   }
 
@@ -86,7 +85,7 @@ function createPagesStore() {
   function exportBackup(): string {
     const textPages: SerializedPage[] = Object.values(pages).map((page) => ({
       id: page.id,
-      text: joinLines(page.items.map((item) => item.raw)),
+      text: page.items.map((item) => item.raw).join("\n"),
     }));
 
     return JSON.stringify(textPages);

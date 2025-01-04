@@ -58,14 +58,7 @@ const dueDateHint = computed(() => {
 </script>
 
 <template>
-  <component
-    :is="htmlTag"
-    :class="[
-      $style.item,
-      $style[effectiveType],
-      { [$style.completed]: status === 'completed' },
-    ]"
-  >
+  <component :is="htmlTag" :class="[$style.item, $style[effectiveType]]">
     <template v-for="token in item.tokens" :key="token.matchStart">
       <button
         v-if="token.type === 'status'"
@@ -113,29 +106,18 @@ const dueDateHint = computed(() => {
 
 .item {
   --item-neutral-bg: hsl(var(--theme-tint) 15% 65% / 0.075);
-  border-radius: var(--border-radius-small);
+  font: inherit;
+  margin: 0;
+  padding: 0;
 }
 
 .heading {
   color: var(--c-fg);
-  font: inherit;
   font-weight: var(--font-weight-bold);
-  margin: 0;
-  padding: 0;
 }
 
-.task {
-  font: inherit;
-
-  &.completed {
-    color: var(--c-fg-variant);
-  }
-}
-
-.note {
-  font: inherit;
-  margin: 0;
-  padding: 0;
+.task:has(.status.completed) {
+  color: var(--c-fg-variant);
 }
 
 /* -------------------------------------------------- *

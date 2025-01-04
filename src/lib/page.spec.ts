@@ -20,6 +20,14 @@ describe("page", () => {
       expect(getTitle(page)).toEqual("Title");
     });
 
+    test("remove a heading marker from the title", () => {
+      const page: Page = createModel({
+        items: [parse("# Title")],
+      });
+
+      expect(getTitle(page)).toEqual("Title");
+    });
+
     test("returns a default title if the page is empty", () => {
       const page: Page = createModel({ items: [parse("")] });
 

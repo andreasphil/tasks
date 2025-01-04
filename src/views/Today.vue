@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import Item from "@/components/Item.vue";
-import { type TaskStatus } from "@/lib/parser";
 import { parse } from "@/stores/appParser";
 import { useTodayPage } from "@/stores/todayPage";
-import Textarea2 from "@andreasphil/vue-textarea2";
 import { TreePalm } from "lucide-static";
+import { computed } from "vue";
 
 /* -------------------------------------------------- *
  * Current page                                       *
@@ -16,33 +15,32 @@ const { text, updateOnPage } = useTodayPage();
  * Interacting with items                             *
  * -------------------------------------------------- */
 
-function updateStatus(status: TaskStatus, index: number) {
+function toggleCompleted(index: number) {
   updateOnPage(index, (item) => {
     if (item.type !== "task") item.type = "task";
-    item.status = status;
+    item.status = item.status === "completed" ? "incomplete" : "completed";
   });
 }
+
+const items = computed(() =>
+  text.value?.split("\n").map((line) => parse.withMemo(line))
+);
 </script>
 
 <template>
   <article data-with-fallback>
     <div>
-      <Textarea2
-        v-if="text"
-        :context-provider="parse.withMemo"
-        :model-value="text"
-        :spellcheck="false"
-        class="editor text-mono"
-        readonly
-      >
-        <template #row="{ context, index }">
+      <textarea-2 v-if="text" overscroll class="editor text-mono">
+        <textarea spellcheck="false" v-model="text" readonly></textarea>
+        <div class="t2-output" custom>
           <Item
+            v-for="(item, index) in items"
             :as="index === 0 ? 'heading' : undefined"
-            :item="context"
-            @update:status="updateStatus($event, index)"
+            :item="item"
+            @update:status="toggleCompleted(index)"
           />
-        </template>
-      </Textarea2>
+        </div>
+      </textarea-2>
     </div>
 
     <div data-when="empty">

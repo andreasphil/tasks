@@ -11,15 +11,8 @@ import {
   renderSvgFromString,
   type Command,
 } from "@andreasphil/command-bar";
-import Textarea2, {
-  AutoCompleteCommand,
-  type AutoComplete,
-  type EditingContext,
-} from "@andreasphil/vue-textarea2";
-import {
-  continueListRules,
-  type ContinueListRule,
-} from "@andreasphil/vue-textarea2/text";
+import { Textarea2 } from "@andreasphil/textarea2";
+import * as Plugins from "@andreasphil/textarea2/plugins";
 import dayjs from "dayjs";
 import {
   Bookmark,
@@ -58,30 +51,18 @@ const pageId = computed(() => route.params.id?.toString());
 
 const { pageExists, pageText, updateOnPage } = usePage(() => pageId.value);
 
-const textareaEl = useTemplateRef("textareaEl");
-
 watch(pageId, async () => {
   await nextTick();
-  textareaEl.value?.withContext(({ focus }: EditingContext) => {
+  textareaEl.value?.act(({ focus }) => {
     focus({ to: "absolute", start: 0 });
   });
 });
 
 onMounted(() => {
-  textareaEl.value?.withContext(({ focus }: EditingContext) => {
+  textareaEl.value?.act(({ focus }) => {
     focus({ to: "absolute", start: 0 });
   });
 });
-
-/* -------------------------------------------------- *
- * Editor hooks and customizations                    *
- * -------------------------------------------------- */
-
-const continueLists: ContinueListRule[] = [
-  { pattern: /^\t*\[-] /, next: "same" },
-  { pattern: /^\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
-  ...Object.values(continueListRules),
-];
 
 /* -------------------------------------------------- *
  * Interacting with items                             *
@@ -106,8 +87,9 @@ function setDueDateFromDialog() {
 function updateDueDate(
   dueDate: Date | "today" | "tomorrow" | "next-week" | "end-of-week" | undefined
 ) {
-  textareaEl.value?.withContext((ctx: EditingContext) => {
+  textareaEl.value?.act(async ({ selectedLines, selectionStart, select }) => {
     let effectiveDueDate: Date | undefined;
+    let oldSelection = selectionStart();
 
     if (dueDate === "today") {
       effectiveDueDate = dayjs().endOf("day").toDate();
@@ -121,17 +103,20 @@ function updateDueDate(
       effectiveDueDate = dueDate;
     }
 
-    updateOnPage(ctx.selectedLines[0], (item) => {
+    updateOnPage(selectedLines()[0], (item) => {
       item.dueDate = effectiveDueDate;
     });
 
-    ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
+    await nextTick();
+    select({ to: "absolute", start: oldSelection });
   });
 }
 
 function postpone(time: "1d" | "1w") {
-  textareaEl.value?.withContext((ctx: EditingContext) => {
-    updateOnPage(ctx.selectedLines[0], (item) => {
+  textareaEl.value?.act(async ({ selectedLines, selectionStart, select }) => {
+    let oldSelection = selectionStart();
+
+    updateOnPage(selectedLines()[0], (item) => {
       const base = (item.dueDate as Date) ?? new Date();
       let effectiveDueDate: Date | undefined;
 
@@ -144,82 +129,96 @@ function postpone(time: "1d" | "1w") {
       item.dueDate = effectiveDueDate;
     });
 
-    ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
+    await nextTick();
+    select({ to: "absolute", start: oldSelection });
   });
 }
 
-function updateStatus(
-  status: TaskStatus,
-  index?: number,
-  keepSelection = true
-) {
-  textareaEl.value?.withContext((ctx: EditingContext) => {
-    let effectiveIndex = index ?? ctx.selectedLines[0];
+function updateStatus(status: TaskStatus) {
+  textareaEl.value?.act(async ({ selectedLines, selectionStart, select }) => {
+    let oldSelection = selectionStart();
+
+    let effectiveIndex = selectedLines()[0];
 
     updateOnPage(effectiveIndex, (item) => {
       if (item.type !== "task") item.type = "task";
       item.status = status;
     });
 
-    if (keepSelection) {
-      ctx.adjustSelection({ to: "absolute", start: ctx.selectionStart });
-    }
+    await nextTick();
+    select({ to: "absolute", start: oldSelection });
+  });
+}
+
+function toggleCompleted(index: number) {
+  textareaEl.value?.act(async ({ selectionStart, select }) => {
+    let oldSelection = selectionStart();
+
+    updateOnPage(index, (item) => {
+      if (item.type !== "task") item.type = "task";
+      item.status = item.status === "completed" ? "incomplete" : "completed";
+    });
+
+    await nextTick();
+    select({ to: "absolute", start: oldSelection });
   });
 }
 
 function updateType(type: Item["type"]) {
-  textareaEl.value?.withContext((ctx: EditingContext) => {
+  textareaEl.value?.act(async ({ selectedLines, select, selectionStart }) => {
     const lenBefore = pageText.value?.length ?? 0;
+    const selectionBefore = selectionStart();
 
-    updateOnPage(ctx.selectedLines[0], (item) => {
+    updateOnPage(selectedLines()[0], (item) => {
       item.type = type;
     });
 
     const lenAfter = pageText.value?.length ?? 0;
-    ctx.adjustSelection({ to: "relative", delta: lenAfter - lenBefore });
+    await nextTick();
+    select({ to: "absolute", start: selectionBefore + lenAfter - lenBefore });
   });
 }
 
 /* -------------------------------------------------- *
- * Autocomplete                                       *
+ * Editor hooks and customizations                    *
  * -------------------------------------------------- */
 
-const dueDateCompletions: AutoComplete = {
+const dueDateCompletions: Plugins.AutoComplete = {
   id: "dueDate",
   trigger: "@",
   commands: [
     {
       id: "today",
       name: "Today",
-      // icon: renderSvgFromString(Calendar),
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().format("@YYYY-MM-DD"),
     },
     {
       id: "tomorrow",
       name: "Tomorrow",
-      // icon: renderSvgFromString(Calendar),
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().add(1, "day").format("@YYYY-MM-DD"),
     },
     {
       id: "next-week",
       name: "Next week",
-      // icon: renderSvgFromString(Calendar),
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().add(1, "week").startOf("week").format("@YYYY-MM-DD"),
     },
     {
       id: "end-of-week",
       name: "End of week",
-      // icon: renderSvgFromString(Calendar),
+      icon: renderSvgFromString(Calendar),
       initial: true,
       value: () => dayjs().weekday(4).format("@YYYY-MM-DD"),
     },
     {
       id: "custom",
       name: "Custom",
-      // icon: renderSvgFromString(CalendarSearch),
+      icon: renderSvgFromString(CalendarSearch),
       initial: true,
       value: () => {
         beginUpdateDueDate();
@@ -231,22 +230,40 @@ const dueDateCompletions: AutoComplete = {
 
 const tags = useTags();
 
-const tagCompletions = computed<AutoComplete>(() => {
-  const tagCommands: AutoCompleteCommand[] = tags.value.map((t, i) => ({
-    id: t,
-    name: t,
-    value: `#${t}`,
-    initial: i < 5,
-    icon: renderSvgFromString(Bookmark),
-  }));
+const tagCompletions: Plugins.AutoComplete = {
+  id: "tags",
+  trigger: "#",
+  commands: () =>
+    tags.value.map((t, i) => ({
+      id: t,
+      name: t,
+      value: `#${t}`,
+      initial: i < 5,
+      icon: renderSvgFromString(Bookmark),
+    })),
+};
 
-  return { id: "tags", trigger: "#", commands: tagCommands };
+const textareaEl = useTemplateRef<Textarea2 | null>("textareaEl");
+
+const lists: Plugins.ContinueListRule[] = [
+  { pattern: /^\t*\[-] /, next: "same" },
+  { pattern: /^\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
+  ...Object.values(Plugins.defaultContinueListRules),
+];
+
+onMounted(() => {
+  textareaEl.value?.use(
+    new Plugins.AutocompletePlugin([dueDateCompletions, tagCompletions]),
+    new Plugins.FlipLinesPlugin(),
+    new Plugins.FullLineEditsPlugin(),
+    new Plugins.ListsPlugin(lists),
+    new Plugins.TabsPlugin()
+  );
 });
 
-const completions = computed<AutoComplete[]>(() => [
-  dueDateCompletions,
-  tagCompletions.value,
-]);
+const items = computed(() =>
+  pageText.value?.split("\n").map((line) => parse.withMemo(line))
+);
 
 /* -------------------------------------------------- *
  * Downloads                                          *
@@ -436,24 +453,22 @@ onBeforeUnmount(() => {
 <template>
   <article data-with-fallback>
     <div>
-      <Textarea2
+      <textarea-2
         v-if="pageText !== undefined"
-        :autocomplete="completions"
-        :context-provider="parse.withMemo"
-        :continue-lists="continueLists"
-        :spellcheck="false"
         class="editor text-mono"
+        overscroll
         ref="textareaEl"
-        v-model="pageText"
       >
-        <template #row="{ context, index }">
+        <textarea spellcheck="false" v-model="pageText"></textarea>
+        <div class="t2-output" custom>
           <PageItem
+            v-for="(item, index) in items"
             :as="index === 0 ? 'heading' : undefined"
-            :item="context"
-            @update:status="updateStatus($event, index, false)"
+            :item="item"
+            @update:status="toggleCompleted(index)"
           />
-        </template>
-      </Textarea2>
+        </div>
+      </textarea-2>
     </div>
 
     <div data-when="empty">
