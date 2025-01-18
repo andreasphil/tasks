@@ -1,6 +1,6 @@
-@import "@andreasphil/design-system/style.css" layer(theme);
-@import "@andreasphil/command-bar/style.css";
-@import "@andreasphil/textarea2/style.css";
+@import "@andreasphil/design-system/style.css" layer(base);
+@import "@andreasphil/command-bar/style.css" layer(components);
+@import "@andreasphil/textarea2/style.css" layer(components);
 @import "@fontsource-variable/fira-code";
 
 /* -------------------------------------------------- *
@@ -39,15 +39,6 @@ body {
   min-width: 640px;
 }
 
-nav a:hover {
-  background: var(--c-surface-variant-bg);
-  color: var(--c-fg);
-}
-
-dialog {
-  --block-spacing-y: 1rem;
-}
-
 [data-tooltip]::after {
   font-family: var(--font-family);
 }
@@ -58,6 +49,8 @@ dialog {
 
 .editor {
   caret-color: var(--primary);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-mono);
   margin: auto;
   max-width: 50rem;
 
@@ -66,17 +59,4 @@ dialog {
     font-family: var(--font-family);
     font-size: var(--font-size);
   }
-}
-
-/* -------------------------------------------------- *
- * Utilities                                          *
- * -------------------------------------------------- */
-
-.text-c-variant {
-  color: var(--c-fg-variant);
-}
-
-.text-mono {
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-mono);
 }

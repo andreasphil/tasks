@@ -200,13 +200,21 @@ onUnmounted(() => {
         <!-- Static contents -->
         <ul>
           <li>
-            <a href="#" @click.prevent="cmdBar?.open()" class="text-c-variant">
+            <a
+              @click.prevent="cmdBar?.open()"
+              href="#"
+              style="color: var(--c-fg-variant)"
+            >
               <span v-html="Command" />
               Go to anything
             </a>
           </li>
           <li>
-            <a href="#" @click.prevent="goToNewPage()" class="text-c-variant">
+            <a
+              @click.prevent="goToNewPage()"
+              href="#"
+              style="color: var(--c-fg-variant)"
+            >
               <span v-html="Plus" />
               Add page...
             </a>

@@ -42,7 +42,7 @@ function saveAndClose() {
       one per line:
     </p>
     <pre>(EXAMPLE-\d+) = https://example.com/$1</pre>
-    <textarea rows="5" class="text-mono" v-model="rulesText" />
+    <textarea rows="5" v-model="rulesText" />
 
     <template #footer>
       <button @click="visible = false" data-variant="ghost">Cancel</button>

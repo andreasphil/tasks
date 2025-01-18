@@ -455,7 +455,7 @@ onBeforeUnmount(() => {
     <div>
       <textarea-2
         v-if="pageText !== undefined"
-        class="editor text-mono"
+        class="editor"
         overscroll
         ref="textareaEl"
       >

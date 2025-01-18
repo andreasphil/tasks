@@ -30,7 +30,7 @@ const items = computed(() =>
 <template>
   <article data-with-fallback>
     <div>
-      <textarea-2 v-if="text" overscroll class="editor text-mono">
+      <textarea-2 v-if="text" overscroll class="editor">
         <textarea spellcheck="false" v-model="text" readonly></textarea>
         <div class="t2-output" custom>
           <Item
