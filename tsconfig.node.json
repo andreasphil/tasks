@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "composite": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "skipLibCheck": true
+    "lib": ["es2023"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
   },
-
   "include": ["vite.config.ts"]
 }
