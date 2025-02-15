@@ -45,14 +45,14 @@ Most actions such as creating or removing pages, converting between different ty
 
 ## Development
 
-Tasks is a [Vue 3](https://vuejs.org) app built with [Vite](https://vitejs.dev). Packages are managed by [pnpm](https://pnpm.io). Tests are powered by [Vitest](https://vitest.dev). The following commands are available:
+Tasks is a [Vue 3](https://vuejs.org) app built with [Vite](https://vitejs.dev). Packages are managed by [npm](https://npmjs.org). Tests are powered by [Vitest](https://vitest.dev). The following commands are available:
 
 ```sh
-pnpm dev          # Start development server
-pnpm test         # Run tests once
-pnpm test:watch   # Run tests in watch mode
-pnpm typecheck    # Typecheck
-pnpm build        # Bundle for production
+node --run dev          # Start development server
+node --run test         # Run tests once
+node --run test:watch   # Run tests in watch mode
+node --run typecheck    # Typecheck
+node --run build        # Bundle for production
 ```
 
 ## Deployment
