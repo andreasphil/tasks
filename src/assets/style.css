@@ -1,7 +1,7 @@
 @import "@andreasphil/design-system/style.css" layer(base);
 @import "@andreasphil/command-bar/style.css" layer(components);
 @import "@andreasphil/textarea2/style.css" layer(components);
-@import "@fontsource-variable/fira-code";
+@import "@fontsource-variable/fira-code" layer(base);
 
 /* Theme customization --------------------------------- */
 
