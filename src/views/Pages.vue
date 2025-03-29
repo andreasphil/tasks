@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import BackupDialog from "@/components/BackupDialog.vue";
 import Layout from "@/components/Layout.vue";
 import RouterLink from "@/components/RouterLink.vue";
 import { usePages } from "@/stores/pages";
@@ -18,6 +17,7 @@ import {
   Plus,
   Star,
   Trash2,
+  Settings,
 } from "lucide-static";
 import {
   computed,
@@ -66,14 +66,6 @@ const pageSidebarItems = computed(() =>
   })
 );
 
-// Backups ------------------------------------------------
-
-const backupDialog = ref(false);
-
-function beginBackup() {
-  backupDialog.value = true;
-}
-
 // Command bar integration --------------------------------
 
 const cmdBar = CommandBar.instance;
@@ -107,6 +99,14 @@ let cleanupStaticCommands: (() => void) | null = null;
 
 const staticCommands: CommandBarCommand[] = [
   {
+    id: "open:settings",
+    name: "Settings",
+    alias: ["preferences", "backup", "links"],
+    groupName: "Open",
+    icon: renderSvgFromString(Settings),
+    action: () => router.push({ name: "Settings" }),
+  },
+  {
     id: "pages:new",
     name: "Add page",
     alias: ["new"],
@@ -122,14 +122,6 @@ const staticCommands: CommandBarCommand[] = [
     groupName: "Pages",
     icon: renderSvgFromString(Trash2),
     action: beginRemovePage,
-  },
-  {
-    id: "pages:backup",
-    name: "Backup",
-    alias: ["import", "export"],
-    groupName: "Pages",
-    icon: renderSvgFromString(DownloadCloud),
-    action: beginBackup,
   },
   {
     id: "open:today",
@@ -159,7 +151,6 @@ const staticCommands: CommandBarCommand[] = [
 
 onMounted(() => {
   cleanupStaticCommands = cmdBar?.registerCommand(...staticCommands) ?? null;
-
 });
 
 onBeforeUnmount(() => {
@@ -203,6 +194,12 @@ onUnmounted(() => {
               <span v-html="Plus" />
               Add page...
             </button>
+          </li>
+          <li>
+            <RouterLink :to="{ name: 'Settings' }" :class="$style.mutedLink">
+              <span v-html="Settings" />
+              Settings
+            </RouterLink>
           </li>
           <li>
             <hr />
@@ -253,12 +250,14 @@ onUnmounted(() => {
     </template>
 
     <RouterView />
-
-    <BackupDialog v-model="backupDialog" />
   </Layout>
 </template>
 
 <style module>
+.mutedLink:not(:hover, :focus) {
+  color: var(--c-fg-variant);
+}
+
 .todayBadge {
   background: var(--primary);
   border-radius: var(--border-radius-large);

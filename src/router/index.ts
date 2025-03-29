@@ -2,6 +2,7 @@ import Board from "@/views/Board.vue";
 import NotFound from "@/views/NotFound.vue";
 import Page from "@/views/Page.vue";
 import Pages from "@/views/Pages.vue";
+import Settings from "@/views/Settings.vue";
 import Tags from "@/views/Tags.vue";
 import Today from "@/views/Today.vue";
 import Welcome from "@/views/Welcome.vue";
@@ -20,6 +21,11 @@ const routes: RouteRecordRaw[] = [
       { path: "tags", name: "Tags", component: Tags },
       { path: ":id", name: "Page", component: Page },
     ],
+  },
+  {
+    path: "/settings",
+    component: Pages,
+    children: [{ path: "", name: "Settings", component: Settings }],
   },
   { path: "/:catchAll(.*)*", name: "NotFound", component: NotFound },
 ];
