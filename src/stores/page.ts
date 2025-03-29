@@ -12,9 +12,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     return pages[idVal];
   });
 
-  /* -------------------------------------------------- *
-   * Metadata                                           *
-   * -------------------------------------------------- */
+  // Metadata -----------------------------------------------
 
   const exists = computed<boolean>(() => Boolean(page.value));
 
@@ -22,9 +20,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     page.value ? getTitle(page.value) : undefined
   );
 
-  /* -------------------------------------------------- *
-   * Text content                                       *
-   * -------------------------------------------------- */
+  // Text content -------------------------------------------
 
   const text = computed<string | undefined>({
     get() {
@@ -42,9 +38,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     },
   });
 
-  /* -------------------------------------------------- *
-   * Parsed content                                     *
-   * -------------------------------------------------- */
+  // Parsed content -----------------------------------------
 
   function updateItem(
     index: number,

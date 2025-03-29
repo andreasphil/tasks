@@ -9,9 +9,7 @@ import {
 import { parse } from "@/stores/appParser";
 import dayjs from "dayjs";
 
-/* -------------------------------------------------- *
- * Mutating items                                     *
- * -------------------------------------------------- */
+// Mutating items -----------------------------------------
 
 export type WritableItem = Omit<Item, "dueDate" | "status" | "type"> &
   DeepWritable<Pick<Item, "dueDate" | "status" | "type">>;
@@ -130,9 +128,7 @@ export function mutate(
   return mutatedItem as Item;
 }
 
-/* -------------------------------------------------- *
- * Sorting items                                      *
- * -------------------------------------------------- */
+// Sorting items ------------------------------------------
 
 const statusWeights: Record<TaskStatus, number> = {
   important: 10000,

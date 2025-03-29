@@ -1,9 +1,5 @@
 import dayjs from "dayjs";
 
-/* -------------------------------------------------- *
- * Formatting                                         *
- * -------------------------------------------------- */
-
 export function getDateHint(date: Date | string): string {
   const selected = dayjs(date);
   const day = selected.format("dddd");

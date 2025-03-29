@@ -20,9 +20,7 @@ function createPagesStore() {
       .sort(compareByTitle)
   );
 
-  /* -------------------------------------------------- *
-   * Managing pages                                     *
-   * -------------------------------------------------- */
+  // Managing pages -----------------------------------------
 
   function create(items: Item[] = []): string {
     const page = createModel({ items });
@@ -40,9 +38,7 @@ function createPagesStore() {
     delete pages[id];
   }
 
-  /* -------------------------------------------------- *
-   * Persisting                                         *
-   * -------------------------------------------------- */
+  // Persisting ---------------------------------------------
 
   function loadFromStorage() {
     const saved = localStorage.getItem("pages");
@@ -63,9 +59,7 @@ function createPagesStore() {
 
   loadFromStorage();
 
-  /* -------------------------------------------------- *
-   * Import and export                                  *
-   * -------------------------------------------------- */
+  // Import and export --------------------------------------
 
   /**
    * Imports the pages included in the backup. The backup is expected to

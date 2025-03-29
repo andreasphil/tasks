@@ -29,9 +29,7 @@
  * to contain tags and due dates.
  */
 
-/* -------------------------------------------------- *
- * Types                                              *
- * -------------------------------------------------- */
+// Types --------------------------------------------------
 
 export type DeepReadonly<T> = {
   readonly [K in keyof T]: DeepReadonly<T[K]>;
@@ -100,9 +98,7 @@ export type UncheckedItem = {
  */
 export type Item = DeepReadonly<UncheckedItem>;
 
-/* -------------------------------------------------- *
- * Utilities                                          *
- * -------------------------------------------------- */
+// Utilities ----------------------------------------------
 
 const taskExpr = {
   // Headings
@@ -188,9 +184,7 @@ function toStatus(status: string, strict = false): TaskStatus {
   return result;
 }
 
-/* -------------------------------------------------- *
- * Parser                                             *
- * -------------------------------------------------- */
+// Parser -------------------------------------------------
 
 export type AutoLinkRule = {
   pattern: string;
@@ -295,9 +289,7 @@ export function parse(input: string, opts?: ParserOpts): Item {
   return result as Item;
 }
 
-/* -------------------------------------------------- *
- * Stringifier                                        *
- * -------------------------------------------------- */
+// Stringifier --------------------------------------------
 
 export function stringify({ tokens }: Pick<Item, "tokens">): string {
   return tokens.map((i) => i.raw).join("");

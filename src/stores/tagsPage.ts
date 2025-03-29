@@ -7,10 +7,6 @@ import { computed } from "vue";
 export function useTagsPage() {
   const { pages, updatePage } = usePages();
 
-  /* -------------------------------------------------- *
-   * Items                                              *
-   * -------------------------------------------------- */
-
   type UpdateFn = (factory: Parameters<typeof mutate>[1]) => void;
   type UpdateableItem = Item & { update?: UpdateFn };
 
@@ -70,10 +66,6 @@ export function useTagsPage() {
 
     return buffer.length > 1 ? buffer : undefined;
   });
-
-  /* -------------------------------------------------- *
-   * Page text                                          *
-   * -------------------------------------------------- */
 
   const text = computed<string | undefined>(() =>
     items.value?.map((item) => item.raw).join("\n")

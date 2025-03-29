@@ -5,15 +5,11 @@ import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
 import { Check, DownloadCloud, UploadCloud } from "lucide-static";
 
-/* -------------------------------------------------- *
- * Visibility & focus                                 *
- * -------------------------------------------------- */
+// Visibility ---------------------------------------------
 
 const visible = defineModel({ default: false });
 
-/* -------------------------------------------------- *
- * Page download                                      *
- * -------------------------------------------------- */
+// Backups ------------------------------------------------
 
 const { importBackup, exportBackup } = usePages();
 

@@ -41,9 +41,7 @@ import {
 } from "vue";
 import { useRoute } from "vue-router";
 
-/* -------------------------------------------------- *
- * Current page                                       *
- * -------------------------------------------------- */
+// Current page -------------------------------------------
 
 const route = useRoute();
 
@@ -64,9 +62,7 @@ onMounted(() => {
   });
 });
 
-/* -------------------------------------------------- *
- * Interacting with items                             *
- * -------------------------------------------------- */
+// Interacting with items ---------------------------------
 
 const dueDateDialog = ref(false);
 
@@ -179,9 +175,7 @@ function updateType(type: Item["type"]) {
   });
 }
 
-/* -------------------------------------------------- *
- * Editor hooks and customizations                    *
- * -------------------------------------------------- */
+// Editor hooks and customizations ------------------------
 
 const dueDateCompletions: Plugins.AutoComplete = {
   id: "dueDate",
@@ -265,9 +259,7 @@ const items = computed(() =>
   pageText.value?.split("\n").map((line) => parse.withMemo(line))
 );
 
-/* -------------------------------------------------- *
- * Downloads                                          *
- * -------------------------------------------------- */
+// Downloads ----------------------------------------------
 
 const downloadDialog = ref(false);
 
@@ -275,9 +267,7 @@ function beginDownload() {
   downloadDialog.value = true;
 }
 
-/* -------------------------------------------------- *@
- * Command bar integration                            *
- * -------------------------------------------------- */
+// Command bar integration --------------------------------
 
 let cleanup: (() => void) | null = null;
 

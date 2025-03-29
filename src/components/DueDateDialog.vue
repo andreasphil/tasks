@@ -15,9 +15,7 @@ const selectedDate = defineModel<string | undefined>("selectedDate", {
 
 const visible = defineModel({ default: false });
 
-/* -------------------------------------------------- *
- * Model value handling                               *
- * -------------------------------------------------- */
+// Model value handling -----------------------------------
 
 watch(visible, (is, was) => {
   if (is && !was) selectedDate.value = undefined;
@@ -31,9 +29,7 @@ const dueDateHint = computed(() => {
   return getDateHint(selectedDate.value);
 });
 
-/* -------------------------------------------------- *
- * Visibility                                         *
- * -------------------------------------------------- */
+// Visibility ---------------------------------------------
 
 function onClear() {
   selectedDate.value = undefined;

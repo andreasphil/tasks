@@ -13,9 +13,7 @@ import { computed, reactive } from "vue";
 
 const { items, updateOnPage } = useStatusPage();
 
-/* -------------------------------------------------- *
- * Columns                                            *
- * -------------------------------------------------- */
+// Columns ------------------------------------------------
 
 const columns = computed<
   Array<{
@@ -57,9 +55,7 @@ const columns = computed<
   },
 ]);
 
-/* -------------------------------------------------- *
- * Drag & drop handling                               *
- * -------------------------------------------------- */
+// Drag & drop handling -----------------------------------
 
 const drag = reactive<{
   active: boolean;
@@ -183,7 +179,7 @@ function updateStatus() {
   -webkit-backdrop-filter: blur(4px);
   align-items: center;
   backdrop-filter: blur(4px);
-  background: color-mix(in srgb, var(--c-surface-variant-bg), transparent 25%);
+  background: color-mix(in oklch, var(--c-surface-variant-bg), transparent 25%);
   border-radius: var(--border-radius-large);
   border: var(--border-width-large) dashed var(--c-border);
   color: var(--c-fg-variant);
@@ -198,7 +194,7 @@ function updateStatus() {
   transition-property: background-color, border-color, color;
 
   &.dragover {
-    background: color-mix(in srgb, var(--primary-100), transparent 25%);
+    background: color-mix(in oklch, var(--primary-100), transparent 25%);
     border-color: var(--primary);
     color: var(--primary);
   }

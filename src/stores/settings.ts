@@ -11,9 +11,7 @@ function createSettingsStore() {
     autoLinkRules: [],
   });
 
-  /* -------------------------------------------------- *
-   * Persisting                                         *
-   * -------------------------------------------------- */
+  // Persisting ---------------------------------------------
 
   function loadFromStorage() {
     const saved = localStorage.getItem("settings");
@@ -35,9 +33,7 @@ function createSettingsStore() {
 
   loadFromStorage();
 
-  /* -------------------------------------------------- *
-   * Side effects of settings                           *
-   * -------------------------------------------------- */
+  // Side effects of settings -------------------------------
 
   watchEffect(() => {
     if (settings.autoLinkRules) {

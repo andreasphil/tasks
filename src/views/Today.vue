@@ -5,15 +5,7 @@ import { useTodayPage } from "@/stores/todayPage";
 import { TreePalm } from "lucide-static";
 import { computed } from "vue";
 
-/* -------------------------------------------------- *
- * Current page                                       *
- * -------------------------------------------------- */
-
 const { text, updateOnPage } = useTodayPage();
-
-/* -------------------------------------------------- *
- * Interacting with items                             *
- * -------------------------------------------------- */
 
 function toggleCompleted(index: number) {
   updateOnPage(index, (item) => {

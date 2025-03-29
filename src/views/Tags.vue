@@ -5,15 +5,7 @@ import { useTagsPage } from "@/stores/tagsPage";
 import { BookmarkX } from "lucide-static";
 import { computed } from "vue";
 
-/* -------------------------------------------------- *
- * Current page                                       *
- * -------------------------------------------------- */
-
 const { text, updateOnPage } = useTagsPage();
-
-/* -------------------------------------------------- *
- * Interacting with items                             *
- * -------------------------------------------------- */
 
 function toggleCompleted(index: number) {
   updateOnPage(index, (item) => {

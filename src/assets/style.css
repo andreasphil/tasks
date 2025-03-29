@@ -3,9 +3,7 @@
 @import "@andreasphil/textarea2/style.css" layer(components);
 @import "@fontsource-variable/fira-code";
 
-/* -------------------------------------------------- *
- * Theme customizations                                *
- * -------------------------------------------------- */
+/* Theme customization --------------------------------- */
 
 @layer theme {
   :root {
@@ -43,9 +41,8 @@ body {
   font-family: var(--font-family);
 }
 
-/* -------------------------------------------------- *
- * Textarea2                                          *
- * -------------------------------------------------- */
+
+/* Textarea2 ------------------------------------------- */
 
 .editor {
   caret-color: var(--primary);

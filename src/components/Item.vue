@@ -12,9 +12,7 @@ const emit = defineEmits<{
   (emit: "update:status", value: TaskStatus): void;
 }>();
 
-/* -------------------------------------------------- *
- * Rendering                                          *
- * -------------------------------------------------- */
+// Rendering ----------------------------------------------
 
 const htmlTags: Record<Item["type"], string> = {
   heading: "h2",
@@ -26,9 +24,7 @@ const effectiveType = computed(() => props.as ?? props.item.type);
 
 const htmlTag = computed(() => htmlTags[effectiveType.value] ?? "div");
 
-/* -------------------------------------------------- *
- * Status                                             *
- * -------------------------------------------------- */
+// Status -------------------------------------------------
 
 const status = computed(() =>
   props.item.type === "task" ? props.item.status : "incomplete"
@@ -41,9 +37,7 @@ function updateStatus() {
   );
 }
 
-/* -------------------------------------------------- *
- * Due date                                           *
- * -------------------------------------------------- */
+// Due date -----------------------------------------------
 
 const todayOrOverdue = computed(() => {
   const today = new Date();
@@ -100,9 +94,7 @@ const dueDateHint = computed(() => {
 </template>
 
 <style module>
-/* -------------------------------------------------- *
- * Top level item types                               *
- * -------------------------------------------------- */
+/* Top level item types -------------------------------- */
 
 .item {
   --item-neutral-bg: hsl(var(--theme-tint) 15% 65% / 0.075);
@@ -120,9 +112,7 @@ const dueDateHint = computed(() => {
   color: var(--c-fg-variant);
 }
 
-/* -------------------------------------------------- *
- * Token types                                        *
- * -------------------------------------------------- */
+/* Token types ----------------------------------------- */
 
 .status {
   all: unset;

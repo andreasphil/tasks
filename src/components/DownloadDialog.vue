@@ -8,9 +8,7 @@ const props = defineProps<{
   pageId: string;
 }>();
 
-/* -------------------------------------------------- *
- * Visibility & focus                                 *
- * -------------------------------------------------- */
+// Visbility ----------------------------------------------
 
 const visible = defineModel({ default: false });
 
@@ -24,9 +22,7 @@ watch(visible, async (is, was) => {
   confirmButtonEl.value?.focus();
 });
 
-/* -------------------------------------------------- *
- * Page download                                      *
- * -------------------------------------------------- */
+// Page download ------------------------------------------
 
 const { pageTitle, pageText } = usePage(() => props.pageId);
 

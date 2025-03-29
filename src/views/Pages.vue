@@ -33,9 +33,7 @@ import { RouterView, useRoute, useRouter } from "vue-router";
 const router = useRouter();
 const route = useRoute();
 
-/* -------------------------------------------------- *
- * Pages                                              *
- * -------------------------------------------------- */
+// Pages --------------------------------------------------
 
 const { pageList, createPage, removePage } = usePages();
 
@@ -68,9 +66,7 @@ const pageSidebarItems = computed(() =>
   })
 );
 
-/* -------------------------------------------------- *
- * Backups                                            *
- * -------------------------------------------------- */
+// Backups ------------------------------------------------
 
 const backupDialog = ref(false);
 
@@ -78,9 +74,7 @@ function beginBackup() {
   backupDialog.value = true;
 }
 
-/* -------------------------------------------------- *
- * Command bar integration                            *
- * -------------------------------------------------- */
+// Command bar integration --------------------------------
 
 const cmdBar = CommandBar.instance;
 
@@ -165,15 +159,14 @@ const staticCommands: CommandBarCommand[] = [
 
 onMounted(() => {
   cleanupStaticCommands = cmdBar?.registerCommand(...staticCommands) ?? null;
+
 });
 
 onBeforeUnmount(() => {
   cleanupStaticCommands?.();
 });
 
-/* -------------------------------------------------- *
- * Badging integration                                *
- * -------------------------------------------------- */
+// Command bar integration --------------------------------
 
 const todayCount = useTodayCount();
 

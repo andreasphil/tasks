@@ -12,10 +12,6 @@ export type StatusPageItem = Item & {
 export function useStatusPage() {
   const { pages, updatePage } = usePages();
 
-  /* -------------------------------------------------- *
-   * Items                                              *
-   * -------------------------------------------------- */
-
   type UpdateFn = (factory: Parameters<typeof mutate>[1]) => void;
   type UpdateableItem = StatusPageItem & { update?: UpdateFn };
 
@@ -67,10 +63,6 @@ export function useStatusPage() {
 
     return buffer;
   });
-
-  /* -------------------------------------------------- *
-   * Page text                                          *
-   * -------------------------------------------------- */
 
   return { items, updateOnPage: updateItem };
 }

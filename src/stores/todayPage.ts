@@ -9,10 +9,6 @@ import { computed } from "vue";
 export function useTodayPage() {
   const { pages, updatePage } = usePages();
 
-  /* -------------------------------------------------- *
-   * Items                                              *
-   * -------------------------------------------------- */
-
   type UpdateFn = (factory: Parameters<typeof mutate>[1]) => void;
   type UpdateableItem = [item: Item, update?: UpdateFn];
 
@@ -69,10 +65,6 @@ export function useTodayPage() {
 
     return buffer.length > 1 ? buffer : undefined;
   });
-
-  /* -------------------------------------------------- *
-   * Page text                                          *
-   * -------------------------------------------------- */
 
   const text = computed<string | undefined>(() =>
     items.value?.map(([item]) => item.raw).join("\n")
