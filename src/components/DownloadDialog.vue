@@ -4,7 +4,7 @@ import { usePage } from "@/stores/page";
 import { Download } from "lucide-static";
 import { nextTick, onUnmounted, ref, useTemplateRef, watch } from "vue";
 
-const props = defineProps<{
+const { pageId } = defineProps<{
   pageId: string;
 }>();
 
@@ -24,7 +24,7 @@ watch(visible, async (is, was) => {
 
 // Page download ------------------------------------------
 
-const { pageTitle, pageText } = usePage(() => props.pageId);
+const { pageTitle, pageText } = usePage(() => pageId);
 
 const downloadUrl = ref<string | undefined>(undefined);
 

@@ -3,7 +3,7 @@ import { getDateHint } from "@/lib/date";
 import type { Item, TaskStatus } from "@/lib/parser";
 import { computed } from "vue";
 
-const props = defineProps<{
+const { item, as } = defineProps<{
   item: Item;
   as?: Item["type"];
 }>();
@@ -20,20 +20,20 @@ const htmlTags: Record<Item["type"], string> = {
   task: "div",
 };
 
-const effectiveType = computed(() => props.as ?? props.item.type);
+const effectiveType = computed(() => as ?? item.type);
 
 const htmlTag = computed(() => htmlTags[effectiveType.value] ?? "div");
 
 // Status -------------------------------------------------
 
 const status = computed(() =>
-  props.item.type === "task" ? props.item.status : "incomplete"
+  item.type === "task" ? item.status : "incomplete"
 );
 
 function updateStatus() {
   emit(
     "update:status",
-    props.item.status === "completed" ? "incomplete" : "completed"
+    item.status === "completed" ? "incomplete" : "completed"
   );
 }
 
@@ -42,12 +42,12 @@ function updateStatus() {
 const todayOrOverdue = computed(() => {
   const today = new Date();
   today.setHours(23, 59, 59);
-  return props.item.dueDate && new Date(props.item.dueDate as Date) <= today;
+  return item.dueDate && new Date(item.dueDate as Date) <= today;
 });
 
 const dueDateHint = computed(() => {
-  if (!props.item.dueDate) return undefined;
-  return getDateHint(props.item.dueDate as Date);
+  if (!item.dueDate) return undefined;
+  return getDateHint(item.dueDate as Date);
 });
 </script>
 
