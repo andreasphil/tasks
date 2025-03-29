@@ -29,6 +29,10 @@ body {
   font-family: var(--font-family);
 }
 
+aside nav button {
+  justify-content: start;
+  width: 100%;
+}
 
 /* Textarea2 ------------------------------------------- */
 
