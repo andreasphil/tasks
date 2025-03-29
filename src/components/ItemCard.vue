@@ -3,9 +3,9 @@ import { default as PageItem } from "@/components/Item.vue";
 import { type Item } from "@/lib/parser";
 import { StatusPageItem } from "@/stores/statusPage";
 import { computed } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLinkProps } from "vue-router";
 
-const props = defineProps<{
+const { item } = defineProps<{
   item: StatusPageItem;
 }>();
 
@@ -14,9 +14,15 @@ defineEmits<{
 }>();
 
 const cardRepresentation = computed<Item>(() => {
-  const tokens = props.item.tokens.filter((token) => token.type !== "status");
-  return { ...props.item, tokens };
+  const tokens = item.tokens.filter((token) => token.type !== "status");
+  return { ...item, tokens };
 });
+
+const source = computed<RouterLinkProps["to"]>(() => ({
+  name: "Page",
+  params: { id: item.pageId },
+  query: { line: item.lineNr },
+}));
 </script>
 
 <template>
@@ -28,11 +34,7 @@ const cardRepresentation = computed<Item>(() => {
   >
     <PageItem :item="cardRepresentation" />
 
-    <RouterLink
-      v-if="item.pageName"
-      :class="$style.pageName"
-      :to="{ name: 'Page', params: { id: item.pageId } }"
-    >
+    <RouterLink v-if="item.pageName" :class="$style.pageName" :to="source">
       {{ item.pageName }}
     </RouterLink>
   </li>

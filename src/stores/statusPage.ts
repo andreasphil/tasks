@@ -7,6 +7,7 @@ import { usePages } from "./pages";
 export type StatusPageItem = Item & {
   pageName: string;
   pageId: string;
+  lineNr: number;
 };
 
 export function useStatusPage() {
@@ -47,6 +48,7 @@ export function useStatusPage() {
           raw: item.raw.replace(/^\t+/, ""),
           pageName: getTitle(page),
           pageId: page.id,
+          lineNr: i,
           update: updateFn(page.id, i),
         }))
       )

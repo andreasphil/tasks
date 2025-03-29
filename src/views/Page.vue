@@ -58,7 +58,12 @@ watch(pageId, async () => {
 
 onMounted(() => {
   textareaEl.value?.act(({ focus }) => {
-    focus({ to: "absolute", start: 0 });
+    const maybeLine = Number(route.query.line);
+    if (Number.isFinite(maybeLine)) {
+      focus({ to: "endOfLine", endOf: maybeLine });
+    } else {
+      focus({ to: "absolute", start: 0 });
+    }
   });
 });
 
