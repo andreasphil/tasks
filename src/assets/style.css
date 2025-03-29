@@ -19,19 +19,7 @@
   }
 }
 
-/* -------------------------------------------------- *
- * Additional global stuff                            *
- * -------------------------------------------------- */
-
-:root {
-  --red: 350 90% 65%;
-  --red-50: hsl(var(--red) / 0.075);
-  --red-100: hsl(var(--red) / 0.18);
-  --red-200: hsl(var(--red) / 0.4);
-  --red-300: hsl(var(--red) / 0.6);
-  --red-400: hsl(var(--red) / 0.7);
-  --red-500: hsl(var(--red) / 1);
-}
+/* Additional global stuff ----------------------------- */
 
 body {
   min-width: 640px;

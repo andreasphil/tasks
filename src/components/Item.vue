@@ -97,7 +97,9 @@ const dueDateHint = computed(() => {
 /* Top level item types -------------------------------- */
 
 .item {
-  --item-neutral-bg: hsl(var(--theme-tint) 15% 65% / 0.075);
+  --item-bg: color-mix(in oklch, currentColor, transparent 93%);
+  --red: hsl(350 90% 65%);
+
   font: inherit;
   margin: 0;
   padding: 0;
@@ -123,18 +125,14 @@ const dueDateHint = computed(() => {
   transition-property: background-color;
 
   &:hover {
-    background: var(--c-surface-variant-bg);
+    background-color: var(--item-bg);
   }
 
   &.important {
-    color: var(--red-500);
-    font-weight: var(--font-weight-bold);
-
-    &:hover {
-      background: var(--red-50);
-    }
+    color: var(--red);
   }
 
+  &.important,
   &.inProgress,
   &.question {
     font-weight: var(--font-weight-bold);
@@ -142,6 +140,7 @@ const dueDateHint = computed(() => {
 }
 
 .dueDate {
+  background-color: var(--item-bg);
   border-radius: var(--border-radius-small);
   color: var(--c-fg-variant);
   cursor: help;
@@ -149,42 +148,17 @@ const dueDateHint = computed(() => {
   position: relative;
   white-space: nowrap;
 
-  &::before {
-    background-color: var(--item-neutral-bg);
-    border-radius: inherit;
-    bottom: 0px;
-    content: "";
-    left: -2px;
-    position: absolute;
-    right: -2px;
-    top: 0px;
-  }
-
   &.today {
-    color: var(--red-500);
-
-    &::before {
-      background-color: var(--red-50);
-    }
+    color: var(--red);
   }
 }
 
 .tag {
+  background-color: var(--item-bg);
   border-radius: var(--border-radius-small);
   color: var(--c-fg-variant);
   position: relative;
   white-space: nowrap;
-
-  &::after {
-    background-color: var(--item-neutral-bg);
-    border-radius: inherit;
-    bottom: 0px;
-    content: "";
-    left: -2px;
-    position: absolute;
-    right: -2px;
-    top: 0px;
-  }
 }
 
 .link {
