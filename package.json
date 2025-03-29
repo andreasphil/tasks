@@ -14,20 +14,20 @@
   "dependencies": {
     "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.5.0",
     "@andreasphil/design-system": "github:andreasphil/design-system#v0.43.0",
-    "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.1.0",
-    "@fontsource-variable/fira-code": "^5.1.1",
+    "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.2.0",
+    "@fontsource-variable/fira-code": "^5.2.5",
     "browser-fs-access": "^0.35.0",
     "dayjs": "^1.11.13",
-    "lucide-static": "^0.473.0",
+    "lucide-static": "^0.485.0",
     "memize": "^2.1.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.1",
-    "typescript": "^5.7.3",
-    "vite": "^6.1.0",
-    "vitest": "^3.0.5",
-    "vue-tsc": "^2.2.0"
+    "@vitejs/plugin-vue": "^5.2.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.3",
+    "vitest": "^3.0.9",
+    "vue-tsc": "^2.2.8"
   }
 }
