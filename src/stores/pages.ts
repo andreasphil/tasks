@@ -7,6 +7,7 @@ import {
 } from "@/lib/page";
 import { type Item } from "@/lib/parser";
 import { parse } from "@/stores/appParser";
+import { useSettings } from "@/stores/settings";
 import { computed, reactive, watch } from "vue";
 
 type SerializedPage = Model<{ text: string }>;
@@ -19,6 +20,16 @@ function createPagesStore() {
       .map((page) => ({ ...page, title: getTitle(page) }))
       .sort(compareByTitle)
   );
+
+  function refresh() {
+    Object.keys(pages).forEach((p) => {
+      pages[p].items = pages[p].items.map((i) => parse.withMemo(i.raw));
+    });
+  }
+
+  const { onSettingsChange } = useSettings();
+
+  onSettingsChange(refresh);
 
   // Managing pages -----------------------------------------
 

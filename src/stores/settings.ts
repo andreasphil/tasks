@@ -6,6 +6,8 @@ type Settings = {
   autoLinkRules: AutoLinkRule[];
 };
 
+type OnSettingsChangeCallback = () => void;
+
 function createSettingsStore() {
   const settings = reactive<Settings>({
     autoLinkRules: [],
@@ -35,13 +37,25 @@ function createSettingsStore() {
 
   // Side effects of settings -------------------------------
 
+  const subscribers = new Set<OnSettingsChangeCallback>();
+
+  function subscribe(cb: OnSettingsChangeCallback) {
+    subscribers.add(cb);
+  }
+
+  function notify() {
+    subscribers.forEach((s) => s());
+  }
+
   watchEffect(() => {
     if (settings.autoLinkRules) {
       parse.setOpts({ autoLinkRules: settings.autoLinkRules });
+      notify();
     }
   });
 
   return () => ({
+    onSettingsChange: subscribe,
     settings,
   });
 }

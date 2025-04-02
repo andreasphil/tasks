@@ -48,4 +48,15 @@ describe("settings", () => {
     await nextTick();
     expect(setItem).toHaveBeenCalled();
   });
+
+  test("notifies subscribers when settings change", async () => {
+    const cb = vi.fn();
+    const { settings, onSettingsChange } = useSettings();
+
+    onSettingsChange(cb);
+    settings.autoLinkRules = [{ pattern: "foo", target: "bar" }];
+    await nextTick();
+
+    expect(cb).toHaveBeenCalled();
+  });
 });
