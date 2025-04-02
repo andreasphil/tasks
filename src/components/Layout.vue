@@ -32,9 +32,3 @@
   overflow: auto;
 }
 </style>
-
-<style scoped>
-:deep(article) {
-  min-height: calc(100dvh - calc(2 * var(--block-spacing-y)));
-}
-</style>

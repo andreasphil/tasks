@@ -68,9 +68,8 @@ async function openFromFile() {
 </script>
 
 <template>
-  <div :class="$style.settings" data-trim="both">
+  <article :class="$style.settings">
     <h1>Settings</h1>
-
     <section data-trim="both">
       <hgroup>
         <h2>Automatic Links</h2>
@@ -82,17 +81,15 @@ async function openFromFile() {
         </p>
         <pre>(EXAMPLE-\d+) = https://example.com/$1</pre>
       </hgroup>
-
       <textarea class="editor" rows="5" v-model="rulesText" />
-
       <div :class="$style.actions">
-        <button @click="saveRules">
+        <button @click="saveRules" data-variant="outline">
           <span v-html="Save" />
           Save
         </button>
       </div>
     </section>
-
+    <hr />
     <section data-trim="both">
       <hgroup>
         <h2>Backup</h2>
@@ -103,9 +100,8 @@ async function openFromFile() {
           affected.
         </p>
       </hgroup>
-
       <div :class="$style.actions">
-        <button @click="saveToFile" data-variant="primary">
+        <button @click="saveToFile" data-variant="outline">
           <span v-html="DownloadCloud" />Download backup
         </button>
         <button @click="openFromFile" data-variant="muted">
@@ -113,7 +109,7 @@ async function openFromFile() {
         </button>
       </div>
     </section>
-  </div>
+  </article>
 </template>
 
 <style module>
@@ -121,14 +117,10 @@ async function openFromFile() {
   --font-size-h1: var(--font-size);
   --font-size-h2: var(--font-size);
   --font-size-h5: var(--font-size);
-  margin: auto;
-  max-width: 40rem;
-  padding: 4rem 0.75rem 0 0.5rem;
-
-  section {
-    border-top: var(--border-width) solid var(--c-border-variant);
-    padding: var(--block-spacing-y) 0;
-  }
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50rem;
+  min-height: auto;
 }
 
 .actions {

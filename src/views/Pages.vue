@@ -11,20 +11,18 @@ import {
 import {
   Bookmark,
   Command,
-  DownloadCloud,
   FileCheck2,
   KanbanSquare,
   Plus,
+  User,
   Star,
   Trash2,
-  Settings,
 } from "lucide-static";
 import {
   computed,
   onBeforeUnmount,
   onMounted,
   onUnmounted,
-  ref,
   toValue,
   watch,
 } from "vue";
@@ -103,7 +101,7 @@ const staticCommands: CommandBarCommand[] = [
     name: "Settings",
     alias: ["preferences", "backup", "links"],
     groupName: "Open",
-    icon: renderSvgFromString(Settings),
+    icon: renderSvgFromString(User),
     action: () => router.push({ name: "Settings" }),
   },
   {
@@ -197,7 +195,7 @@ onUnmounted(() => {
           </li>
           <li>
             <RouterLink :to="{ name: 'Settings' }" :class="$style.mutedLink">
-              <span v-html="Settings" />
+              <span v-html="User" />
               Settings
             </RouterLink>
           </li>
