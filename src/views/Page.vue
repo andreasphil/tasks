@@ -242,6 +242,48 @@ const tagCompletions: Plugins.AutoComplete = {
     })),
 };
 
+const taskCompletions: Plugins.AutoComplete = {
+  id: "tasks",
+  trigger: "[",
+  commands: [
+    {
+      id: "incomplete",
+      name: "To do",
+      value: "[ ] ",
+      initial: true,
+      icon: renderSvgFromString(CircleDashed),
+    },
+    {
+      id: "important",
+      name: "Important",
+      value: "[*] ",
+      initial: true,
+      icon: renderSvgFromString(Star),
+    },
+    {
+      id: "inProgress",
+      name: "In progress",
+      value: "[/] ",
+      initial: true,
+      icon: renderSvgFromString(Construction),
+    },
+    {
+      id: "question",
+      name: "Waiting",
+      value: "[?] ",
+      initial: true,
+      icon: renderSvgFromString(HelpCircle),
+    },
+    {
+      id: "complete",
+      name: "Done",
+      value: "[x] ",
+      initial: true,
+      icon: renderSvgFromString(Check),
+    },
+  ],
+};
+
 const textareaEl = useTemplateRef<Textarea2 | null>("textareaEl");
 
 const lists: Plugins.ContinueListRule[] = [
@@ -252,7 +294,11 @@ const lists: Plugins.ContinueListRule[] = [
 
 onMounted(() => {
   textareaEl.value?.use(
-    new Plugins.AutocompletePlugin([dueDateCompletions, tagCompletions]),
+    new Plugins.AutocompletePlugin([
+      dueDateCompletions,
+      tagCompletions,
+      taskCompletions,
+    ]),
     new Plugins.FlipLinesPlugin(),
     new Plugins.FullLineEditsPlugin(),
     new Plugins.ListsPlugin(lists),
