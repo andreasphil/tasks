@@ -70,6 +70,7 @@ async function openFromFile() {
 <template>
   <article :class="$style.settings">
     <h1>Settings</h1>
+    <hr />
     <section data-trim="both">
       <hgroup>
         <h2>Automatic Links</h2>
@@ -114,9 +115,6 @@ async function openFromFile() {
 
 <style module>
 .settings {
-  --font-size-h1: var(--font-size);
-  --font-size-h2: var(--font-size);
-  --font-size-h5: var(--font-size);
   margin-left: auto;
   margin-right: auto;
   max-width: 50rem;

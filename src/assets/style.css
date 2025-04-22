@@ -11,8 +11,11 @@
     --body-padding-y: 0rem;
     --body-width: auto;
     --font-family-mono: "Fira Code Variable", ui-monospace, monospace;
-    --font-size-mono: 0.95em;
+    --font-size-h1: var(--font-size);
+    --font-size-h2: var(--font-size);
     --font-size: 14px;
+    --h-margin-top: 0;
+    --h-margin-bottom: 0;
     --on-primary: var(--neutral-700);
     --theme-primary: 85% 0.14 var(--theme-tint);
     --theme-tint: 87;

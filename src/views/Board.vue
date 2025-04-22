@@ -154,9 +154,7 @@ function updateStatus() {
 .columnHeading {
   align-items: center;
   display: flex;
-  font-size: var(--font-size);
   gap: 0.375rem;
-  margin: 0;
   padding: 0 1.25rem 0.5rem 0.5rem;
   text-transform: capitalize;
 }
