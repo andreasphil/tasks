@@ -1,11 +1,11 @@
 import Board from "@/views/Board.vue";
-import NotFound from "@/views/NotFound.vue";
+import NotFound from "@/views/notFound";
 import Page from "@/views/Page.vue";
 import Pages from "@/views/Pages.vue";
 import Settings from "@/views/Settings.vue";
-import Tags from "@/views/Tags.vue";
-import Today from "@/views/Today.vue";
-import Welcome from "@/views/Welcome.vue";
+import Tags from "@/views/tags";
+import Today from "@/views/today";
+import Welcome from "@/views/welcome";
 import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
 
 const routes: RouteRecordRaw[] = [

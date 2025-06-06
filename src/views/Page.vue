@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import DownloadDialog from "@/components/DownloadDialog.vue";
-import DueDateDialog from "@/components/DueDateDialog.vue";
-import { default as PageItem } from "@/components/Item.vue";
+import DownloadDialog from "@/components/downloadDialog";
+import DueDateDialog from "@/components/dueDateDialog";
+import { default as PageItem } from "@/components/item";
 import { type Item, type TaskStatus } from "@/lib/parser";
 import { parse } from "@/stores/appParser";
 import { usePage } from "@/stores/page";
@@ -86,7 +86,13 @@ function setDueDateFromDialog() {
 }
 
 function updateDueDate(
-  dueDate: Date | "today" | "tomorrow" | "next-week" | "end-of-week" | undefined
+  dueDate:
+    | Date
+    | "today"
+    | "tomorrow"
+    | "next-week"
+    | "end-of-week"
+    | undefined,
 ) {
   textareaEl.value?.act(async ({ selectedLines, selectionStart, select }) => {
     let effectiveDueDate: Date | undefined;
@@ -302,12 +308,12 @@ onMounted(() => {
     new Plugins.FlipLinesPlugin(),
     new Plugins.FullLineEditsPlugin(),
     new Plugins.ListsPlugin(lists),
-    new Plugins.TabsPlugin()
+    new Plugins.TabsPlugin(),
   );
 });
 
 const items = computed(() =>
-  pageText.value?.split("\n").map((line) => parse.withMemo(line))
+  pageText.value?.split("\n").map((line) => parse.withMemo(line)),
 );
 
 // Downloads ----------------------------------------------

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Layout from "@/components/Layout.vue";
-import RouterLink from "@/components/RouterLink.vue";
+import Layout from "@/components/layout";
+import SidebarLink from "@/components/sidebarLink";
 import { usePages } from "@/stores/pages";
 import { useTodayCount } from "@/stores/todayCount";
 import {
@@ -61,7 +61,7 @@ const pageSidebarItems = computed(() =>
       : page.title;
 
     return { ...page, icon, title };
-  })
+  }),
 );
 
 // Command bar integration --------------------------------
@@ -165,7 +165,7 @@ watch(
     if (count <= 0) navigator.clearAppBadge?.();
     else navigator.setAppBadge?.(count);
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onUnmounted(() => {
@@ -194,10 +194,10 @@ onUnmounted(() => {
             </button>
           </li>
           <li>
-            <RouterLink :to="{ name: 'Settings' }" :class="$style.mutedLink">
+            <SidebarLink :to="{ name: 'Settings' }" :class="$style.mutedLink">
               <span v-html="User" />
               Settings
-            </RouterLink>
+            </SidebarLink>
           </li>
           <li>
             <hr />
@@ -205,25 +205,25 @@ onUnmounted(() => {
 
           <!-- Smart pages -->
           <li>
-            <RouterLink :to="{ name: 'Today' }">
+            <SidebarLink :to="{ name: 'Today' }">
               <span v-html="Star" />
               Today
               <span v-if="todayCount > 0" :class="$style.todayBadge">{{
                 todayCount
               }}</span>
-            </RouterLink>
+            </SidebarLink>
           </li>
           <li>
-            <RouterLink :to="{ name: 'Board' }">
+            <SidebarLink :to="{ name: 'Board' }">
               <span v-html="KanbanSquare" />
               Board
-            </RouterLink>
+            </SidebarLink>
           </li>
           <li>
-            <RouterLink :to="{ name: 'Tags' }">
+            <SidebarLink :to="{ name: 'Tags' }">
               <span v-html="Bookmark" />
               Tags
-            </RouterLink>
+            </SidebarLink>
           </li>
           <li v-if="pageSidebarItems.length">
             <hr />
@@ -231,7 +231,7 @@ onUnmounted(() => {
 
           <!-- User pages -->
           <li v-for="page in pageSidebarItems">
-            <RouterLink :to="{ name: 'Page', params: { id: page.id } }">
+            <SidebarLink :to="{ name: 'Page', params: { id: page.id } }">
               <span
                 v-if="page.icon"
                 :class="$style.pageIcon"
@@ -241,7 +241,7 @@ onUnmounted(() => {
               </span>
               <span v-else v-html="FileCheck2" />
               <span data-clamp>{{ page.title }}</span>
-            </RouterLink>
+            </SidebarLink>
           </li>
         </ul>
       </nav>

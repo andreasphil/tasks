@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ItemCard from "@/components/ItemCard.vue";
+import ItemCard from "@/components/itemCard";
 import type { TaskStatus } from "@/lib/parser";
 import { useStatusPage, type StatusPageItem } from "@/stores/statusPage";
 import {
@@ -67,7 +67,7 @@ const drag = reactive<{
 function setDragFrom(
   value: boolean,
   item: number | null = null,
-  from: TaskStatus | null = null
+  from: TaskStatus | null = null,
 ) {
   drag.active = value;
 
