@@ -1,0 +1,61 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(16rem, 1fr));
+  grid-template-rows: min-content 1fr;
+  height: 100dvh;
+  margin: 0 -2rem 0 0;
+  overflow: auto;
+  padding: 4rem 0.75rem 0 0.5rem;
+}
+
+.column {
+  overflow: hidden;
+  position: relative;
+}
+
+.column-heading {
+  align-items: center;
+  display: flex;
+  gap: 0.375rem;
+  padding: 0 1.25rem 0.5rem 0.5rem;
+  text-transform: capitalize;
+}
+
+.column-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  overflow: auto;
+  padding: 0.75rem 1rem 2rem 0.5rem;
+  scrollbar-width: thin;
+}
+
+.cards {
+  display: contents;
+}
+
+.column-droptarget {
+  -webkit-backdrop-filter: blur(4px);
+  align-items: center;
+  backdrop-filter: blur(4px);
+  background: color-mix(in oklch, var(--c-surface-variant-bg), transparent 25%);
+  border-radius: var(--border-radius-large);
+  border: var(--border-width-large) dashed var(--c-border);
+  color: var(--c-fg-variant);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  inset: 0 0.75rem 1.5rem 0;
+  justify-content: center;
+  padding: 1rem;
+  position: absolute;
+  transition: var(--transition);
+  transition-property: background-color, border-color, color;
+
+  &.dragover {
+    background: color-mix(in oklch, var(--primary-100), transparent 25%);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+}

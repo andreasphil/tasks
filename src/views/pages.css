@@ -1,0 +1,35 @@
+.muted-link:not(:hover, :focus) {
+  color: var(--c-fg-variant);
+}
+
+.today-badge {
+  background: var(--primary);
+  border-radius: var(--border-radius-large);
+  color: var(--on-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  padding: 0 0.5rem;
+}
+
+.page-icon {
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+
+  &::after {
+    content: attr(data-icon);
+    filter: blur(10px) saturate(1.5) brightness(1.25);
+    font-size: inherit;
+    inset: 0;
+    line-height: inherit;
+    opacity: 0.75;
+    position: absolute;
+    z-index: -1;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .page-icon::after {
+    filter: blur(10px) saturate(1.5) brightness(0.75);
+  }
+}
