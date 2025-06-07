@@ -1,4 +1,4 @@
-import App from "@/App.vue";
+import App from "@/app";
 import "@/assets/style.css";
 import { router } from "@/router";
 import "@/stores/settings";
@@ -13,7 +13,12 @@ dayjs.locale("de");
 dayjs.extend(weekday);
 
 CommandBar.define();
-
 Textarea2.define();
 
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+app.use(router);
+app.mount("#app");
+
+app.config.compilerOptions.isCustomElement = (tag) => {
+  return ["textarea-2", "command-bar"].includes(tag);
+};
