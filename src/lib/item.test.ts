@@ -1,6 +1,7 @@
-import { parse, type Item } from "@/lib/parser";
-import { describe, expect, test } from "vitest";
-import { asWritable, compare, mutate } from "./item";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { asWritable, compare, mutate } from "./item.ts";
+import { parse, type Item } from "./parser.ts";
 
 describe("item", () => {
   describe("set type", () => {
@@ -37,7 +38,7 @@ describe("item", () => {
 
         writable.type = changeTo;
         const newR = parse(expected);
-        expect(writable).toStrictEqual(newR);
+        assert.deepEqual(writable, newR);
       });
     });
 
@@ -53,7 +54,7 @@ describe("item", () => {
 
         writable.type = changeTo;
         const newR = parse(expected);
-        expect(writable).toStrictEqual(newR);
+        assert.deepEqual(writable, newR);
       });
     });
 
@@ -63,7 +64,7 @@ describe("item", () => {
 
       writable.type = "task";
       const newR = parse("    [ ] Note 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("retains whitespace when converting to a note", () => {
@@ -72,7 +73,7 @@ describe("item", () => {
 
       writable.type = "note";
       const newR = parse("    Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
   });
 
@@ -81,77 +82,77 @@ describe("item", () => {
       const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
-      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
 
       writable.dueDate = new Date("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("updates an existing due date in between", () => {
       const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
-      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
 
       writable.dueDate = new Date("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02 some more text");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("adds a new due date", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
-      expect(writable.dueDate).toBeUndefined();
+      assert.equal(writable.dueDate, undefined);
 
       writable.dueDate = new Date("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("adds a new due date after a non-text token", () => {
       const r = parse("[ ] Task 1 #tag");
       const writable = asWritable(r);
 
-      expect(writable.dueDate).toBeUndefined();
+      assert.equal(writable.dueDate, undefined);
 
       writable.dueDate = new Date("2021-01-02");
       const newR = parse("[ ] Task 1 #tag @2021-01-02");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("doesn't add double whitespace when adding a due date", () => {
       const r = parse("[ ] Task 1 ");
       const writable = asWritable(r);
 
-      expect(writable.dueDate).toBeUndefined();
+      assert.equal(writable.dueDate, undefined);
 
       writable.dueDate = new Date("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("removes an existing due date at the end", () => {
       const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
-      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
 
       writable.dueDate = undefined;
       const newR = parse("[ ] Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("removes an existing due date in between", () => {
       const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
-      expect(writable.dueDate).toEqual(new Date("2020-01-01"));
+      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
 
       writable.dueDate = undefined;
       const newR = parse("[ ] Task 1 some more text");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
   });
 
@@ -160,66 +161,66 @@ describe("item", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
-      expect(writable.status).toBe("incomplete");
+      assert.equal(writable.status, "incomplete");
 
       writable.status = "completed";
       const newR = parse("[x] Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("changes the status to in progress", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
-      expect(writable.status).toBe("incomplete");
+      assert.equal(writable.status, "incomplete");
 
       writable.status = "inProgress";
       const newR = parse("[/] Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("changes the status to question", () => {
       const r = parse("[ ] Task 1");
       const writable = asWritable(r);
 
-      expect(writable.status).toBe("incomplete");
+      assert.equal(writable.status, "incomplete");
 
       writable.status = "question";
       const newR = parse("[?] Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("changes the status to incomplete", () => {
       const r = parse("[x] Task 1");
       const writable = asWritable(r);
 
-      expect(writable.status).toBe("completed");
+      assert.equal(writable.status, "completed");
 
       writable.status = "incomplete";
       const newR = parse("[ ] Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("retains spaces when changing the status", () => {
       const r = parse("    [ ] Task 1");
       const writable = asWritable(r);
 
-      expect(writable.status).toBe("incomplete");
+      assert.equal(writable.status, "incomplete");
 
       writable.status = "completed";
       const newR = parse("    [x] Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("retains tabs then changing the status", () => {
       const r = parse("\t\t[ ] Task 1");
       const writable = asWritable(r);
 
-      expect(writable.status).toBe("incomplete");
+      assert.equal(writable.status, "incomplete");
 
       writable.status = "completed";
       const newR = parse("\t\t[x] Task 1");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
 
     test("doesn't change items that aren't tasks", () => {
@@ -228,7 +229,7 @@ describe("item", () => {
 
       writable.status = "completed";
       const newR = parse("Not a task");
-      expect(writable).toStrictEqual(newR);
+      assert.deepEqual(writable, newR);
     });
   });
 
@@ -240,7 +241,7 @@ describe("item", () => {
         item.type = "note";
       });
 
-      expect(r.type).toBe("note");
+      assert.equal(r.type, "note");
     });
 
     test("mutates the due date of the item", () => {
@@ -250,7 +251,7 @@ describe("item", () => {
         item.dueDate = new Date("2021-01-01");
       });
 
-      expect(r.dueDate).toEqual(new Date("2021-01-01"));
+      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
     });
 
     test("mutates the status of the item", () => {
@@ -260,7 +261,7 @@ describe("item", () => {
         item.status = "completed";
       });
 
-      expect(r.status).toBe("completed");
+      assert.equal(r.status, "completed");
     });
 
     test("creates a deep copy of the original item", () => {
@@ -271,8 +272,8 @@ describe("item", () => {
       });
 
       // Only need to check array and object type contents because they're references
-      expect(original.tokens).not.toBe(mutated.tokens);
-      expect(original.tags).not.toBe(mutated.tags);
+      assert.notEqual(original.tokens, mutated.tokens);
+      assert.notEqual(original.tags, mutated.tags);
     });
   });
 
@@ -281,120 +282,120 @@ describe("item", () => {
       const a = parse("Note 1");
       const b = parse("Note 2");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order of sections", () => {
       const a = parse("# Section 1");
       const b = parse("# Section 2");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order of notes and sections", () => {
       const a = parse("Note 1");
       const b = parse("# Section 1");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order of notes and tasks", () => {
       const a = parse("Note 1");
       const b = parse("[ ] Task 1");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order of sections and tasks", () => {
       const a = parse("# Section 1");
       const b = parse("[ ] Task 1");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order of notes and blank lines", () => {
       const a = parse("Note 1");
       const b = parse("");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order of sections and blank lines", () => {
       const a = parse("# Section 1");
       const b = parse("");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order of tasks and blank lines", () => {
       const a = parse("[ ] Task 1");
       const b = parse("");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("sorts by status before due date when both have due dates", () => {
       const a = parse("[x] Task 1 @2023-01-01");
       const b = parse("[ ] Task 2 @2024-01-01");
 
-      expect(compare(a, b)).toBeGreaterThan(0);
-      expect(compare(b, a)).toBeLessThan(0);
+      assert.ok(compare(a, b) > 0);
+      assert.ok(compare(b, a) < 0);
     });
 
     test("sorts by status before due date when only one has a due date", () => {
       const a = parse("[x] Task 1 @2023-01-01");
       const b = parse("[ ] Task 2");
 
-      expect(compare(a, b)).toBeGreaterThan(0);
-      expect(compare(b, a)).toBeLessThan(0);
+      assert.ok(compare(a, b) > 0);
+      assert.ok(compare(b, a) < 0);
     });
 
     test("sorts by due date when both have due dates", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2 @2022-01-01");
 
-      expect(compare(a, b)).toBeLessThan(0);
-      expect(compare(b, a)).toBeGreaterThan(0);
+      assert.ok(compare(a, b) < 0);
+      assert.ok(compare(b, a) > 0);
     });
 
     test("sorts by status when both have identical due dates", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[x] Task 2 @2021-01-01");
 
-      expect(compare(a, b)).toBeLessThan(0);
-      expect(compare(b, a)).toBeGreaterThan(0);
+      assert.ok(compare(a, b) < 0);
+      assert.ok(compare(b, a) > 0);
     });
 
     test("sorts by due date when only one has a due date", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2");
 
-      expect(compare(a, b)).toBeLessThan(0);
-      expect(compare(b, a)).toBeGreaterThan(0);
+      assert.ok(compare(a, b) < 0);
+      assert.ok(compare(b, a) > 0);
     });
 
     test("keeps the order for equal due dates", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2 @2021-01-01");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("keeps the order for equal due dates and status", () => {
       const a = parse("[ ] Task 1 @2021-01-01");
       const b = parse("[ ] Task 2 @2021-01-01");
 
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
     });
 
     test("sorts by status", () => {
@@ -448,47 +449,47 @@ describe("item", () => {
       ];
 
       expectedResults.forEach(([items, result]) => {
-        expect([...items].sort(compare)).toStrictEqual(result);
+        assert.deepEqual([...items].sort(compare), result);
       });
     });
 
     test("keeps the order for equal status", () => {
       const a = parse("[ ] Task 1");
       const b = parse("[ ] Task 2");
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
 
       const c = parse("[x] Task 1");
       const d = parse("[x] Task 2");
-      expect(compare(c, d)).toBe(0);
-      expect(compare(d, c)).toBe(0);
+      assert.equal(compare(c, d), 0);
+      assert.equal(compare(d, c), 0);
 
       const e = parse("[/] Task 1");
       const f = parse("[/] Task 2");
-      expect(compare(e, f)).toBe(0);
-      expect(compare(f, e)).toBe(0);
+      assert.equal(compare(e, f), 0);
+      assert.equal(compare(f, e), 0);
 
       const g = parse("[?] Task 1");
       const h = parse("[?] Task 2");
-      expect(compare(g, h)).toBe(0);
-      expect(compare(h, g)).toBe(0);
+      assert.equal(compare(g, h), 0);
+      assert.equal(compare(h, g), 0);
 
       const i = parse("[*] Task 1");
       const j = parse("[*] Task 2");
-      expect(compare(i, j)).toBe(0);
-      expect(compare(j, i)).toBe(0);
+      assert.equal(compare(i, j), 0);
+      assert.equal(compare(j, i), 0);
     });
 
     test("keeps the order when the leading whitespace is different", () => {
       const a = parse("\t[ ] Task 1");
       const b = parse("\t\t[*] Task 2");
-      expect(compare(a, b)).toBe(0);
-      expect(compare(b, a)).toBe(0);
+      assert.equal(compare(a, b), 0);
+      assert.equal(compare(b, a), 0);
 
       const c = parse("\t[ ] Task 1 @2021-01-01");
       const d = parse("\t\t[ ] Task 2 @2022-01-01");
-      expect(compare(c, d)).toBe(0);
-      expect(compare(d, c)).toBe(0);
+      assert.equal(compare(c, d), 0);
+      assert.equal(compare(d, c), 0);
     });
 
     test("does not change how items are grouped into paragraphs", () => {
@@ -500,7 +501,7 @@ describe("item", () => {
         parse("[ ] Task 2"),
       ];
 
-      expect([...items].sort(compare)).toStrictEqual(items);
+      assert.deepEqual([...items].sort(compare), items);
     });
   });
 });

@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+import { parse } from "../stores/appParser.ts";
 import {
   stringify,
   taskStatuses,
@@ -5,9 +7,7 @@ import {
   type Item,
   type TaskStatus,
   type UncheckedItem,
-} from "@/lib/parser";
-import { parse } from "@/stores/appParser";
-import dayjs from "dayjs";
+} from "./parser.ts";
 
 // Mutating items -----------------------------------------
 

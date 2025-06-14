@@ -1,5 +1,5 @@
-import { usePages } from "@/stores/pages";
 import { computed, readonly } from "vue";
+import { usePages } from "./pages.ts";
 
 export function useTags() {
   const { pages } = usePages();

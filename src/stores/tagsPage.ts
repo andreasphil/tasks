@@ -1,8 +1,8 @@
-import { compare, mutate } from "@/lib/item";
-import { type Item } from "@/lib/parser";
-import { parse } from "@/stores/appParser";
-import { usePages } from "@/stores/pages";
 import { computed } from "vue";
+import { compare, mutate } from "../lib/item.ts";
+import type { Item } from "../lib/parser.ts";
+import { parse } from "./appParser.ts";
+import { usePages } from "./pages.ts";
 
 export function useTagsPage() {
   const { pages, updatePage } = usePages();

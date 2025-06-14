@@ -1,14 +1,14 @@
+import { computed, reactive, watch } from "vue";
 import {
   compareByTitle,
   createModel,
   getTitle,
   type Model,
   type Page,
-} from "@/lib/page";
-import { type Item } from "@/lib/parser";
-import { parse } from "@/stores/appParser";
-import { useSettings } from "@/stores/settings";
-import { computed, reactive, watch } from "vue";
+} from "../lib/page.ts";
+import type { Item } from "../lib/parser.ts";
+import { parse } from "./appParser.ts";
+import { useSettings } from "./settings.ts";
 
 type SerializedPage = Model<{ text: string }>;
 

@@ -1,23 +1,28 @@
-import { parse } from "@/lib/parser";
-import { afterEach, describe, expect, test, vi } from "vitest";
+import assert from "node:assert/strict";
+import { afterEach, before, describe, mock, test } from "node:test";
 import { nextTick } from "vue";
-import { usePages } from "./pages";
-
-vi.hoisted(() => {
-  const mockStorage = new Map();
-  globalThis.localStorage = {
-    getItem: (key: string) => mockStorage.get(key),
-    setItem: (key: string, value: unknown) => mockStorage.set(key, value),
-    removeItem: (key: string) => mockStorage.delete(key),
-    key: (i: number) => Array.from(mockStorage.keys())[i] ?? null,
-    clear: () => mockStorage.clear(),
-    get length() {
-      return mockStorage.size;
-    },
-  };
-});
+import { parse } from "../lib/parser.ts";
+import type { usePages as usePagesFn } from "./pages.ts";
 
 describe("usePages", () => {
+  let usePages: typeof usePagesFn;
+
+  before(async () => {
+    const mockStorage = new Map();
+    globalThis.localStorage = {
+      getItem: (key: string) => mockStorage.get(key),
+      setItem: (key: string, value: unknown) => mockStorage.set(key, value),
+      removeItem: (key: string) => mockStorage.delete(key),
+      key: (i: number) => Array.from(mockStorage.keys())[i] ?? null,
+      clear: () => mockStorage.clear(),
+      get length() {
+        return mockStorage.size;
+      },
+    };
+
+    usePages = (await import("./pages.ts")).usePages;
+  });
+
   afterEach(() => {
     // Reset the store to its initial state after each run
     const { pages, removePage } = usePages();
@@ -25,16 +30,13 @@ describe("usePages", () => {
 
     // Clear localStorage
     localStorage.clear();
-
-    // Reset stubs
-    vi.unstubAllGlobals();
   });
 
   test("returns an empty list of pages", () => {
     const { pages } = usePages();
 
-    expect(pages).toBeTruthy();
-    expect(Object.values(pages)).toHaveLength(0);
+    assert.ok(pages);
+    assert.equal(Object.values(pages).length, 0);
   });
 
   test("creates an empty new page and returns the ID", () => {
@@ -42,7 +44,7 @@ describe("usePages", () => {
 
     const id = createPage();
 
-    expect(pages[id]).toEqual({ id, items: [] });
+    assert.deepEqual(pages[id], { id, items: [] });
   });
 
   test("creates a page with contents", () => {
@@ -50,13 +52,13 @@ describe("usePages", () => {
 
     const id = createPage([parse("[ ] New task")]);
 
-    expect(pages[id].items[0].raw).toBe("[ ] New task");
+    assert.equal(pages[id].items[0].raw, "[ ] New task");
   });
 
   test("returns an empty list of pages", () => {
     const { pageList } = usePages();
 
-    expect(pageList.value).toHaveLength(0);
+    assert.equal(pageList.value.length, 0);
   });
 
   test("includes the page titles in the list", () => {
@@ -65,10 +67,10 @@ describe("usePages", () => {
     createPage([parse("Page 1")]);
     createPage([parse("Page 2")]);
 
-    expect(pageList.value).toEqual([
-      expect.objectContaining({ title: "Page 1" }),
-      expect.objectContaining({ title: "Page 2" }),
-    ]);
+    assert.deepEqual(
+      pageList.value.map((i) => i.title),
+      ["Page 1", "Page 2"]
+    );
   });
 
   test("sorts the page list by the titles", () => {
@@ -78,11 +80,10 @@ describe("usePages", () => {
     createPage([parse("Page 1")]);
     createPage([parse("Page 2")]);
 
-    expect(pageList.value).toEqual([
-      expect.objectContaining({ title: "Page 1" }),
-      expect.objectContaining({ title: "Page 2" }),
-      expect.objectContaining({ title: "Page 3" }),
-    ]);
+    assert.deepEqual(
+      pageList.value.map((i) => i.title),
+      ["Page 1", "Page 2", "Page 3"]
+    );
   });
 
   test("updates a page", () => {
@@ -91,16 +92,16 @@ describe("usePages", () => {
     const id = createPage([parse("Page 1")]);
     updatePage(id, { items: [parse("Page 1.1")] });
 
-    expect(pages[id].items[0].raw).toBe("Page 1.1");
-    expect(pages[id].items).toHaveLength(1);
+    assert.equal(pages[id].items[0].raw, "Page 1.1");
+    assert.equal(pages[id].items.length, 1);
   });
 
   test("doesn't crash when attempting to update a non-existent ID", () => {
     const { updatePage } = usePages();
 
-    expect(() =>
-      updatePage("foo", { items: [parse("Page 1.1")] })
-    ).not.toThrow();
+    assert.doesNotThrow(() => {
+      updatePage("foo", { items: [parse("Page 1.1")] });
+    });
   });
 
   test("doesn't add a page when attempting to update a non-existent ID", () => {
@@ -108,48 +109,50 @@ describe("usePages", () => {
 
     updatePage("foo", { items: [parse("Page 1.1")] });
 
-    expect(Object.values(pages)).toHaveLength(0);
+    assert.equal(Object.values(pages).length, 0);
   });
 
   test("removes a page", () => {
     const { pages, createPage, removePage } = usePages();
 
     const id = createPage();
-    expect(pages[id]).toBeTruthy();
+    assert.ok(pages[id]);
 
     removePage(id);
-    expect(pages[id]).toBeFalsy();
+    assert.ok(!pages[id]);
   });
 
   test("doesn't crash when attempting to remove a non-existent ID", () => {
     const { removePage } = usePages();
 
-    expect(() => removePage("foo")).not.toThrow();
+    assert.doesNotThrow(() => removePage("foo"));
   });
 
   test("persists modifications in local storage", async () => {
-    const getItem = vi.fn();
-    const setItem = vi.fn();
-    vi.stubGlobal("localStorage", { ...localStorage, getItem, setItem });
+    const setItem = mock.method(globalThis.localStorage, "setItem");
+
     const { createPage, updatePage, removePage } = usePages();
 
     const id = createPage([parse("Page 1")]);
     await nextTick();
-    expect(setItem).toHaveBeenCalledWith(
+    assert.deepEqual(setItem.mock.calls[0].arguments, [
       "pages",
-      JSON.stringify([{ id: id, text: "Page 1" }])
-    );
+      JSON.stringify([{ id: id, text: "Page 1" }]),
+    ]);
 
     updatePage(id, { items: [parse("Page 1.2")] });
     await nextTick();
-    expect(setItem).toHaveBeenCalledWith(
+    assert.deepEqual(setItem.mock.calls[1].arguments, [
       "pages",
-      JSON.stringify([{ id: id, text: "Page 1.2" }])
-    );
+      JSON.stringify([{ id: id, text: "Page 1.2" }]),
+    ]);
 
     removePage(id);
     await nextTick();
-    expect(setItem).toHaveBeenCalledWith("pages", JSON.stringify([]));
+    assert.deepEqual(setItem.mock.calls[2].arguments, [
+      "pages",
+      JSON.stringify([]),
+    ]);
   });
 
   test.todo("restores previous pages from local storage", () => {
@@ -169,7 +172,7 @@ describe("usePages", () => {
 
     importBackup('[{ "id": "foo", "text": "Page 1" }]');
 
-    expect(pages["foo"]).toBeTruthy();
+    assert.ok(pages["foo"]);
   });
 
   test("does not remove existing pages not included in the backup", () => {
@@ -178,8 +181,8 @@ describe("usePages", () => {
     const id = createPage([parse("Page 2")]);
     importBackup('[{ "id": "foo", "text": "Page 1" }]');
 
-    expect(pages[id]).toBeTruthy();
-    expect(pages["foo"]).toBeTruthy();
+    assert.ok(pages[id]);
+    assert.ok(pages["foo"]);
   });
 
   test("does not modify existing page contents when importing", () => {
@@ -188,14 +191,14 @@ describe("usePages", () => {
     const id = createPage([parse("Page 1")]);
     importBackup('[{ "id": "foo", "text": "Page 1" }]');
 
-    expect(pages[id].items[0].raw).toBe("Page 1");
-    expect(pages["foo"]).toBeTruthy();
+    assert.equal(pages[id].items[0].raw, "Page 1");
+    assert.ok(pages["foo"]);
   });
 
   test("throws an error when attempting to import an invalid backup", () => {
     const { importBackup } = usePages();
 
-    expect(() => importBackup("🐸")).toThrow();
+    assert.throws(() => importBackup("🐸"));
   });
 
   test("exports a serialized version of the current pages", () => {
@@ -204,6 +207,6 @@ describe("usePages", () => {
     const id = createPage([parse("Page 1")]);
     const backup = exportBackup();
 
-    expect(backup).toBe(JSON.stringify([{ id, text: "Page 1" }]));
+    assert.equal(backup, JSON.stringify([{ id, text: "Page 1" }]));
   });
 });

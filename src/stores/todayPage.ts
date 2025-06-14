@@ -1,10 +1,10 @@
-import { compare, mutate } from "@/lib/item";
-import { compareByTitle, getTitle } from "@/lib/page";
-import { type Item } from "@/lib/parser";
-import { parse } from "@/stores/appParser";
-import { usePages } from "@/stores/pages";
 import dayjs from "dayjs";
 import { computed } from "vue";
+import { compare, mutate } from "../lib/item.ts";
+import { compareByTitle, getTitle } from "../lib/page.ts";
+import type { Item } from "../lib/parser.ts";
+import { parse } from "./appParser.ts";
+import { usePages } from "./pages.ts";
 
 export function useTodayPage() {
   const { pages, updatePage } = usePages();

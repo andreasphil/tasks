@@ -1,5 +1,9 @@
-import { parse as baseParse, type Item, type ParserOpts } from "@/lib/parser";
 import memize from "memize";
+import {
+  parse as baseParse,
+  type Item,
+  type ParserOpts,
+} from "../lib/parser.ts";
 
 function createAppParser() {
   let appOpts: ParserOpts = {};

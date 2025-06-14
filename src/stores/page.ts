@@ -1,8 +1,8 @@
-import { mutate } from "@/lib/item";
-import { getTitle } from "@/lib/page";
-import { parse } from "@/stores/appParser";
-import { usePages } from "@/stores/pages";
 import { computed, readonly, toValue, type MaybeRefOrGetter } from "vue";
+import { mutate } from "../lib/item.ts";
+import { getTitle } from "../lib/page.ts";
+import { parse } from "./appParser.ts";
+import { usePages } from "./pages.ts";
 
 export function usePage(id: MaybeRefOrGetter<string>) {
   const { pages, updatePage } = usePages();

@@ -2,7 +2,7 @@ import DownloadDialog from "@/components/downloadDialog";
 import DueDateDialog from "@/components/dueDateDialog";
 import { default as PageItem } from "@/components/item";
 import { html } from "@/lib/html";
-import { type Item, type TaskStatus } from "@/lib/parser";
+import type { Item, TaskStatus } from "@/lib/parser";
 import { parse } from "@/stores/appParser";
 import { usePage } from "@/stores/page";
 import { useTags } from "@/stores/tags";
@@ -99,7 +99,7 @@ export default defineComponent({
         | "tomorrow"
         | "next-week"
         | "end-of-week"
-        | undefined,
+        | undefined
     ) {
       textareaEl.value?.act(
         async ({ selectedLines, selectionStart, select }) => {
@@ -124,7 +124,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        },
+        }
       );
     }
 
@@ -148,7 +148,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        },
+        }
       );
     }
 
@@ -166,7 +166,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        },
+        }
       );
     }
 
@@ -201,7 +201,7 @@ export default defineComponent({
             to: "absolute",
             start: selectionBefore + lenAfter - lenBefore,
           });
-        },
+        }
       );
     }
 
@@ -328,12 +328,12 @@ export default defineComponent({
         new Plugins.FlipLinesPlugin(),
         new Plugins.FullLineEditsPlugin(),
         new Plugins.ListsPlugin(lists),
-        new Plugins.TabsPlugin(),
+        new Plugins.TabsPlugin()
       );
     });
 
     const items = computed(() =>
-      pageText.value?.split("\n").map((line) => parse.withMemo(line)),
+      pageText.value?.split("\n").map((line) => parse.withMemo(line))
     );
 
     // Downloads ----------------------------------------------

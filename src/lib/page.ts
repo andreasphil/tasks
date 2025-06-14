@@ -1,5 +1,5 @@
-import { Item } from "@/lib/parser";
-import { DeepReadonly } from "vue";
+import type { DeepReadonly } from "vue";
+import type { Item } from "./parser.ts";
 
 export type Model<T = any> = {
   id: string;

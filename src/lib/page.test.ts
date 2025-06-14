@@ -1,6 +1,7 @@
-import { parse } from "@/lib/parser";
-import { describe, expect, test } from "vitest";
-import { compareByTitle, createModel, getTitle, type Page } from "./page";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { compareByTitle, createModel, getTitle, type Page } from "./page.ts";
+import { parse } from "./parser.ts";
 
 describe("page", () => {
   describe("getTitle", () => {
@@ -9,7 +10,7 @@ describe("page", () => {
         items: [parse("Title"), parse(""), parse("Content")],
       });
 
-      expect(getTitle(page)).toEqual("Title");
+      assert.equal(getTitle(page), "Title");
     });
 
     test("trims the title of the page", () => {
@@ -17,7 +18,7 @@ describe("page", () => {
         items: [parse("  Title  ")],
       });
 
-      expect(getTitle(page)).toEqual("Title");
+      assert.equal(getTitle(page), "Title");
     });
 
     test("remove a heading marker from the title", () => {
@@ -25,19 +26,19 @@ describe("page", () => {
         items: [parse("# Title")],
       });
 
-      expect(getTitle(page)).toEqual("Title");
+      assert.equal(getTitle(page), "Title");
     });
 
     test("returns a default title if the page is empty", () => {
       const page: Page = createModel({ items: [parse("")] });
 
-      expect(getTitle(page)).toEqual("Untitled");
+      assert.equal(getTitle(page), "Untitled");
     });
 
     test("returns a default title if the page has no items", () => {
       const page: Page = createModel({ items: [] });
 
-      expect(getTitle(page)).toEqual("Untitled");
+      assert.equal(getTitle(page), "Untitled");
     });
 
     test("skips blank lines when determining the title", () => {
@@ -45,7 +46,7 @@ describe("page", () => {
         items: [parse(""), parse(""), parse("Title")],
       });
 
-      expect(getTitle(page)).toEqual("Title");
+      assert.equal(getTitle(page), "Title");
     });
   });
 
@@ -61,7 +62,7 @@ describe("page", () => {
         .sort(compareByTitle)
         .map((page) => page.items[0].raw);
 
-      expect(sorted).toStrictEqual(["A", "B", "C"]);
+      assert.deepEqual(sorted, ["A", "B", "C"]);
     });
 
     test("does not change the order if titles are the same", () => {
@@ -72,7 +73,7 @@ describe("page", () => {
       ];
 
       const sorted = pages.sort(compareByTitle).map((page) => page.id);
-      expect(sorted).toStrictEqual(["1", "2", "3"]);
+      assert.deepEqual(sorted, ["1", "2", "3"]);
     });
   });
 });

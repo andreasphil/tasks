@@ -1,8 +1,8 @@
-import { compare, mutate } from "@/lib/item";
-import { getTitle } from "@/lib/page";
-import { TaskStatus, type Item } from "@/lib/parser";
 import { computed } from "vue";
-import { usePages } from "./pages";
+import { compare, mutate } from "../lib/item.ts";
+import { getTitle } from "../lib/page.ts";
+import type { Item, TaskStatus } from "../lib/parser.ts";
+import { usePages } from "./pages.ts";
 
 export type StatusPageItem = Item & {
   pageName: string;

@@ -1,6 +1,6 @@
-import { usePages } from "@/stores/pages";
 import dayjs from "dayjs";
 import { computed } from "vue";
+import { usePages } from "./pages.ts";
 
 export function useTodayCount() {
   const { pages } = usePages();

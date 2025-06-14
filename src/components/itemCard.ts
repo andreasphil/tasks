@@ -1,6 +1,6 @@
 import { default as PageItem } from "@/components/item";
 import { html } from "@/lib/html";
-import { type Item } from "@/lib/parser";
+import type { Item } from "@/lib/parser";
 import { StatusPageItem } from "@/stores/statusPage";
 import { computed, defineComponent, PropType } from "vue";
 import { type RouterLinkProps, RouterLink } from "vue-router";

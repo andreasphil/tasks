@@ -1,0 +1,244 @@
+exports[`statusPage > returns tasks grouped by status 1`] = `
+{
+  "completed": [
+    {
+      "type": "task",
+      "raw": "[x] Completed from Page 1",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "x",
+          "raw": "[x]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Completed from Page 1",
+          "raw": " Completed from Page 1",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "completed",
+      "pageName": "Page 1",
+      "pageId": "foo",
+      "lineNr": 5
+    },
+    {
+      "type": "task",
+      "raw": "[x] Completed from Page 2",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "x",
+          "raw": "[x]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Completed from Page 2",
+          "raw": " Completed from Page 2",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "completed",
+      "pageName": "Page 2",
+      "pageId": "bar",
+      "lineNr": 5
+    }
+  ],
+  "important": [
+    {
+      "type": "task",
+      "raw": "[*] Important from Page 1",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "*",
+          "raw": "[*]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Important from Page 1",
+          "raw": " Important from Page 1",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "important",
+      "pageName": "Page 1",
+      "pageId": "foo",
+      "lineNr": 4
+    },
+    {
+      "type": "task",
+      "raw": "[*] Important from Page 2",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "*",
+          "raw": "[*]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Important from Page 2",
+          "raw": " Important from Page 2",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "important",
+      "pageName": "Page 2",
+      "pageId": "bar",
+      "lineNr": 4
+    }
+  ],
+  "incomplete": [
+    {
+      "type": "task",
+      "raw": "[ ] Open from Page 1",
+      "tokens": [
+        {
+          "type": "status",
+          "value": " ",
+          "raw": "[ ]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Open from Page 1",
+          "raw": " Open from Page 1",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "incomplete",
+      "pageName": "Page 1",
+      "pageId": "foo",
+      "lineNr": 1
+    },
+    {
+      "type": "task",
+      "raw": "[ ] Open from Page 2",
+      "tokens": [
+        {
+          "type": "status",
+          "value": " ",
+          "raw": "[ ]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Open from Page 2",
+          "raw": " Open from Page 2",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "incomplete",
+      "pageName": "Page 2",
+      "pageId": "bar",
+      "lineNr": 1
+    }
+  ],
+  "inProgress": [
+    {
+      "type": "task",
+      "raw": "[/] In progress from Page 1",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "/",
+          "raw": "[/]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " In progress from Page 1",
+          "raw": " In progress from Page 1",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "inProgress",
+      "pageName": "Page 1",
+      "pageId": "foo",
+      "lineNr": 2
+    },
+    {
+      "type": "task",
+      "raw": "[/] In progress from Page 2",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "/",
+          "raw": "[/]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " In progress from Page 2",
+          "raw": " In progress from Page 2",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "inProgress",
+      "pageName": "Page 2",
+      "pageId": "bar",
+      "lineNr": 2
+    }
+  ],
+  "question": [
+    {
+      "type": "task",
+      "raw": "[?] Blocked from Page 1",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "?",
+          "raw": "[?]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Blocked from Page 1",
+          "raw": " Blocked from Page 1",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "question",
+      "pageName": "Page 1",
+      "pageId": "foo",
+      "lineNr": 3
+    },
+    {
+      "type": "task",
+      "raw": "[?] Blocked from Page 2",
+      "tokens": [
+        {
+          "type": "status",
+          "value": "?",
+          "raw": "[?]",
+          "matchStart": 0
+        },
+        {
+          "type": "text",
+          "value": " Blocked from Page 2",
+          "raw": " Blocked from Page 2",
+          "matchStart": 3
+        }
+      ],
+      "tags": [],
+      "status": "question",
+      "pageName": "Page 2",
+      "pageId": "bar",
+      "lineNr": 3
+    }
+  ]
+}
+`;

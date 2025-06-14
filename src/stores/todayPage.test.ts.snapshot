@@ -1,0 +1,3 @@
+exports[`useTodayPage > returns tasks due today grouped by page 1`] = `
+"Today\\n\\n# Page 1\\n\\n[*] With indent @2024-01-01\\n[ ] Overdue @2023-12-01\\n[ ] Due today @2024-01-01\\n[ ] Due in the future @2024-02-01\\n\\n# Page 2\\n\\n[ ] Due today @2024-01-01\\n[ ] Due in the future @2024-03-01\\n[x] Overdue completed @2023-11-01\\n\\n# Page 3\\n\\n[ ] Due in the future @2024-02-01"
+`;

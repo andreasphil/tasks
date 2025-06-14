@@ -1,6 +1,6 @@
-import { AutoLinkRule } from "@/lib/parser";
 import { reactive, watch, watchEffect } from "vue";
-import { parse } from "./appParser";
+import type { AutoLinkRule } from "../lib/parser.ts";
+import { parse } from "./appParser.ts";
 
 type Settings = {
   autoLinkRules: AutoLinkRule[];
