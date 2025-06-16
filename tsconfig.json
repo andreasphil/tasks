@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "baseUrl": ".",
-    "lib": ["es2023", "DOM"],
+    "allowJs": true,
+    "checkJs": true,
+    "lib": ["es2024", "DOM"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "paths": { "@/*": ["src/*"] },
+    "outDir": "dist",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2023"
+    "target": "es2024"
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["scripts/**/*.ts"]
 }

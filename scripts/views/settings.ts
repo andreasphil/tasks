@@ -6,7 +6,6 @@ import { html } from "../lib/html.ts";
 import type { AutoLinkRule } from "../lib/parser.ts";
 import { usePages } from "../stores/pages.ts";
 import { useSettings } from "../stores/settings.ts";
-import "./settings.css";
 
 export default defineComponent({
   name: "Settings",

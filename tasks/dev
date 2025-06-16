@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -ueEo pipefail
+IFS=$'\n\t'
+
+npx esbuild scripts/app.ts --bundle --minify --sourcemap --outdir=dist --target=esnext --loader:.woff2=file --alias:vue=vue/dist/vue.esm-browser.prod.js --alias:vue-router=vue-router/dist/vue-router.esm-browser.prod.js --watch --servedir=.

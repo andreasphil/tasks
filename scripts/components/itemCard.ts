@@ -4,7 +4,6 @@ import { default as PageItem } from "../components/item.ts";
 import { html } from "../lib/html.ts";
 import type { Item } from "../lib/parser.ts";
 import { StatusPageItem } from "../stores/statusPage.ts";
-import "./itemCard.css";
 
 export default defineComponent({
   name: "ItemCard",

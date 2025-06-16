@@ -3,6 +3,15 @@
 @import "@andreasphil/textarea2/style.css" layer(components);
 @import "@fontsource-variable/fira-code" layer(base);
 
+@import "./views/board.css";
+@import "./views/notFound.css";
+@import "./views/pages.css";
+@import "./views/settings.css";
+
+@import "./components/item.css";
+@import "./components/itemCard.css";
+@import "./components/layout.css";
+
 /* Theme customization --------------------------------- */
 
 @layer theme {

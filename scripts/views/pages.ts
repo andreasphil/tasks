@@ -28,7 +28,6 @@ import SidebarLink from "../components/sidebarLink.ts";
 import { html } from "../lib/html.ts";
 import { usePages } from "../stores/pages.ts";
 import { useTodayCount } from "../stores/todayCount.ts";
-import "./pages.css";
 
 export default defineComponent({
   name: "Pages",

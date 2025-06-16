@@ -45,7 +45,7 @@ Most actions such as creating or removing pages, converting between different ty
 
 ## Development
 
-Tasks is a [Vue 3](https://vuejs.org) app built with [Vite](https://vitejs.dev). Packages are managed by [npm](https://npmjs.org). Tests are powered by [Vitest](https://vitest.dev). The following commands are available:
+Tasks is a [Vue 3](https://vuejs.org) app based on the [Unbuild](https://github.com/andreasphil/unbuild) template. Packages are managed by [npm](https://npmjs.org). Tests are powered by [Node.js' test runner](https://nodejs.org/en/learn/test-runner/introduction). The following commands are available:
 
 ```sh
 node --run dev          # Start development server

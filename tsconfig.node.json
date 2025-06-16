@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "composite": true,
-    "lib": ["es2023"],
-    "module": "nodenext",
-    "moduleResolution": "nodenext"
-  },
-  "include": ["vite.config.ts"]
-}

@@ -2,7 +2,6 @@ import { computed, defineComponent, type PropType } from "vue";
 import { getDateHint } from "../lib/date.ts";
 import { html } from "../lib/html.ts";
 import type { Item } from "../lib/parser.ts";
-import "./item.css";
 
 export default defineComponent({
   name: "Item",

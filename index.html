@@ -2,14 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Tasks</title>
-    <link rel="icon" href="/favicon.png" sizes="any" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png" />
+    <link rel="icon" href="./assets/favicon.png" sizes="any" />
+    <link rel="manifest" href="./manifest.json" />
+    <title>Tasks</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="./dist/app.css" />
+
+    <!-- App scripts -->
+    <script type="module" src="./dist/app.js"></script>
   </head>
+
   <body>
-    <div id="app"></div>
-    <script type="module" src="./src/main.ts"></script>
+    <div data-with-fallback>
+      <div id="app"></div>
+
+      <!-- Show a loading state while the app is starting -->
+      <div data-when="empty">
+        <p aria-busy="true"><small>Loading ...</small></p>
+      </div>
+    </div>
   </body>
+
+  <script type="module">
+    // Automatically reload on change when serving with `node --run dev`
+    new EventSource("/esbuild").addEventListener("change", () =>
+      location.reload()
+    );
+  </script>
 </html>

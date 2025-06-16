@@ -4,28 +4,27 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview",
+    "dev": "tasks/dev",
+    "build": "node --run typecheck && tasks/build",
     "test": "node --test --experimental-strip-types --experimental-test-module-mocks",
     "test:watch": "node --test --experimental-strip-types --experimental-test-module-mocks --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.5.0",
-    "@andreasphil/design-system": "github:andreasphil/design-system#v0.45.0",
-    "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.3.0",
+    "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.7.0",
+    "@andreasphil/design-system": "github:andreasphil/design-system#v0.47.0",
+    "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.4.0",
     "@fontsource-variable/fira-code": "^5.2.6",
     "browser-fs-access": "^0.37.0",
     "dayjs": "^1.11.13",
-    "lucide-static": "^0.511.0",
+    "lucide-static": "^0.515.0",
     "memize": "^2.1.0",
     "vue": "^3.5.16",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
-    "@types/node": "^24.0.1",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "@types/node": "^24.0.3",
+    "esbuild": "^0.25.5",
+    "typescript": "^5.8.3"
   }
 }

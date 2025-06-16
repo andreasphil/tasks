@@ -1,6 +1,6 @@
 import { CalendarCheck, CalendarX2 } from "lucide-static";
 import { computed, defineComponent, watch } from "vue";
-import BaseDialog from "../components/dialog.ts";
+import BaseDialog from "./dialog.ts";
 import { getDateHint } from "../lib/date.ts";
 import { html } from "../lib/html.ts";
 
