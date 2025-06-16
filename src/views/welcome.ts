@@ -1,6 +1,6 @@
-import { html } from "@/lib/html";
 import { Sticker } from "lucide-static";
 import { defineComponent } from "vue";
+import { html } from "../lib/html.ts";
 
 export default defineComponent({
   setup() {

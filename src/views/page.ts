@@ -1,11 +1,3 @@
-import DownloadDialog from "@/components/downloadDialog";
-import DueDateDialog from "@/components/dueDateDialog";
-import { default as PageItem } from "@/components/item";
-import { html } from "@/lib/html";
-import type { Item, TaskStatus } from "@/lib/parser";
-import { parse } from "@/stores/appParser";
-import { usePage } from "@/stores/page";
-import { useTags } from "@/stores/tags";
 import {
   CommandBar,
   renderSvgFromString,
@@ -41,6 +33,14 @@ import {
   watch,
 } from "vue";
 import { useRoute } from "vue-router";
+import DownloadDialog from "../components/downloadDialog.ts";
+import DueDateDialog from "../components/dueDateDialog.ts";
+import { default as PageItem } from "../components/item.ts";
+import { html } from "../lib/html.ts";
+import type { Item, TaskStatus } from "../lib/parser.ts";
+import { parse } from "../stores/appParser.ts";
+import { usePage } from "../stores/page.ts";
+import { useTags } from "../stores/tags.ts";
 
 export default defineComponent({
   name: "Page",

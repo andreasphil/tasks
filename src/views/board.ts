@@ -1,7 +1,3 @@
-import ItemCard from "@/components/itemCard";
-import { html } from "@/lib/html";
-import type { TaskStatus } from "@/lib/parser";
-import { useStatusPage, type StatusPageItem } from "@/stores/statusPage";
 import {
   Check,
   CircleDashed,
@@ -10,6 +6,10 @@ import {
   Star,
 } from "lucide-static";
 import { computed, defineComponent, reactive } from "vue";
+import ItemCard from "../components/itemCard.ts";
+import { html } from "../lib/html.ts";
+import type { TaskStatus } from "../lib/parser.ts";
+import { useStatusPage, type StatusPageItem } from "../stores/statusPage.ts";
 import "./board.css";
 
 export default defineComponent({
@@ -74,7 +74,7 @@ export default defineComponent({
     function setDragFrom(
       value: boolean,
       item: number | null = null,
-      from: TaskStatus | null = null,
+      from: TaskStatus | null = null
     ) {
       drag.active = value;
 

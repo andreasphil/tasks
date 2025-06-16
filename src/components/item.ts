@@ -1,7 +1,7 @@
-import { getDateHint } from "@/lib/date";
-import { html } from "@/lib/html";
-import type { Item } from "@/lib/parser";
 import { computed, defineComponent, type PropType } from "vue";
+import { getDateHint } from "../lib/date.ts";
+import { html } from "../lib/html.ts";
+import type { Item } from "../lib/parser.ts";
 import "./item.css";
 
 export default defineComponent({
@@ -30,13 +30,13 @@ export default defineComponent({
     // Status -------------------------------------------------
 
     const status = computed(() =>
-      props.item.type === "task" ? props.item.status : "incomplete",
+      props.item.type === "task" ? props.item.status : "incomplete"
     );
 
     function updateStatus() {
       emit(
         "update:status",
-        props.item.status === "completed" ? "incomplete" : "completed",
+        props.item.status === "completed" ? "incomplete" : "completed"
       );
     }
 

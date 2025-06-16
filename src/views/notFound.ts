@@ -1,8 +1,8 @@
-import Layout from "@/components/layout";
-import { html } from "@/lib/html";
 import { Ghost } from "lucide-static";
 import { defineComponent } from "vue";
 import { RouterLink } from "vue-router";
+import Layout from "../components/layout.ts";
+import { html } from "../lib/html.ts";
 import "./notFound.css";
 
 export default defineComponent({

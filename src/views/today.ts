@@ -1,9 +1,9 @@
-import Item from "@/components/item";
-import { html } from "@/lib/html";
-import { parse } from "@/stores/appParser";
-import { useTodayPage } from "@/stores/todayPage";
 import { TreePalm } from "lucide-static";
 import { computed, defineComponent } from "vue";
+import Item from "../components/item.ts";
+import { html } from "../lib/html.ts";
+import { parse } from "../stores/appParser.ts";
+import { useTodayPage } from "../stores/todayPage.ts";
 
 export default defineComponent({
   name: "Today",
@@ -21,7 +21,7 @@ export default defineComponent({
     }
 
     const items = computed(() =>
-      text.value?.split("\n").map((line) => parse.withMemo(line)),
+      text.value?.split("\n").map((line) => parse.withMemo(line))
     );
 
     return {

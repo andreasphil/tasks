@@ -1,5 +1,5 @@
-import { html } from "@/lib/html";
 import { defineComponent } from "vue";
+import { html } from "../lib/html.ts";
 import "./layout.css";
 
 export default defineComponent({

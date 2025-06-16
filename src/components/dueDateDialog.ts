@@ -1,8 +1,8 @@
-import BaseDialog from "@/components/dialog";
-import { getDateHint } from "@/lib/date";
-import { html } from "@/lib/html";
 import { CalendarCheck, CalendarX2 } from "lucide-static";
 import { computed, defineComponent, watch } from "vue";
+import BaseDialog from "../components/dialog.ts";
+import { getDateHint } from "../lib/date.ts";
+import { html } from "../lib/html.ts";
 
 export default defineComponent({
   name: "DueDateDialog",

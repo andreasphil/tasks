@@ -1,5 +1,5 @@
-import { html } from "@/lib/html";
 import { defineComponent, onMounted, useTemplateRef, watch } from "vue";
+import { html } from "../lib/html.ts";
 
 export default defineComponent({
   name: "BaseDialog",

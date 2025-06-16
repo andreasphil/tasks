@@ -1,12 +1,12 @@
-import Board from "@/views/board";
-import NotFound from "@/views/notFound";
-import Page from "@/views/page";
-import Pages from "@/views/pages";
-import Settings from "@/views/settings";
-import Tags from "@/views/tags";
-import Today from "@/views/today";
-import Welcome from "@/views/welcome";
 import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
+import Board from "./views/board.ts";
+import NotFound from "./views/notFound.ts";
+import Page from "./views/page.ts";
+import Pages from "./views/pages.ts";
+import Settings from "./views/settings.ts";
+import Tags from "./views/tags.ts";
+import Today from "./views/today.ts";
+import Welcome from "./views/welcome.ts";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", name: "Home", redirect: { name: "Welcome" } },

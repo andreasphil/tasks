@@ -1,8 +1,3 @@
-import Layout from "@/components/layout";
-import SidebarLink from "@/components/sidebarLink";
-import { html } from "@/lib/html";
-import { usePages } from "@/stores/pages";
-import { useTodayCount } from "@/stores/todayCount";
 import {
   CommandBar,
   renderSvgFromString,
@@ -28,6 +23,11 @@ import {
   watch,
 } from "vue";
 import { RouterView, useRoute, useRouter } from "vue-router";
+import Layout from "../components/layout.ts";
+import SidebarLink from "../components/sidebarLink.ts";
+import { html } from "../lib/html.ts";
+import { usePages } from "../stores/pages.ts";
+import { useTodayCount } from "../stores/todayCount.ts";
 import "./pages.css";
 
 export default defineComponent({
@@ -69,7 +69,7 @@ export default defineComponent({
           : page.title;
 
         return { ...page, icon, title };
-      }),
+      })
     );
 
     // Command bar integration --------------------------------
@@ -174,7 +174,7 @@ export default defineComponent({
         if (count <= 0) navigator.clearAppBadge?.();
         else navigator.setAppBadge?.(count);
       },
-      { immediate: true },
+      { immediate: true }
     );
 
     onUnmounted(() => {

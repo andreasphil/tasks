@@ -1,6 +1,3 @@
-import BaseDialog from "@/components/dialog";
-import { html } from "@/lib/html";
-import { usePage } from "@/stores/page";
 import { Download } from "lucide-static";
 import {
   computed,
@@ -11,6 +8,9 @@ import {
   useTemplateRef,
   watch,
 } from "vue";
+import BaseDialog from "../components/dialog.ts";
+import { html } from "../lib/html.ts";
+import { usePage } from "../stores/page.ts";
 
 export default defineComponent({
   name: "DownloadDialog",
@@ -37,7 +37,7 @@ export default defineComponent({
     });
 
     const confirmButtonEl = useTemplateRef<HTMLButtonElement | null>(
-      "confirmButtonEl",
+      "confirmButtonEl"
     );
 
     watch(
@@ -46,7 +46,7 @@ export default defineComponent({
         if (!is || is === was) return;
         await nextTick();
         confirmButtonEl.value?.focus();
-      },
+      }
     );
 
     // Page download ------------------------------------------
@@ -72,7 +72,7 @@ export default defineComponent({
         else if (!is && downloadUrl.value)
           URL.revokeObjectURL(downloadUrl.value);
       },
-      { immediate: true },
+      { immediate: true }
     );
 
     onUnmounted(() => {

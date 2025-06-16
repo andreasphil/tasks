@@ -1,6 +1,6 @@
-import { html } from "@/lib/html";
 import { defineComponent, PropType } from "vue";
 import { RouteLocationRaw, RouterLink } from "vue-router";
+import { html } from "../lib/html.ts";
 
 export default defineComponent({
   name: "SidebarLink",

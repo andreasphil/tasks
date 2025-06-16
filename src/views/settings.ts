@@ -1,11 +1,11 @@
-import { html } from "@/lib/html";
-import type { AutoLinkRule } from "@/lib/parser";
-import { usePages } from "@/stores/pages";
-import { useSettings } from "@/stores/settings";
 import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
 import { DownloadCloud, Save, UploadCloud } from "lucide-static";
 import { defineComponent, ref, watchEffect } from "vue";
+import { html } from "../lib/html.ts";
+import type { AutoLinkRule } from "../lib/parser.ts";
+import { usePages } from "../stores/pages.ts";
+import { useSettings } from "../stores/settings.ts";
 import "./settings.css";
 
 export default defineComponent({
@@ -51,7 +51,7 @@ export default defineComponent({
             mimeTypes: ["application/json"],
             extensions: [".json"],
             fileName: `tasks-${dayjs().format("YYYY-MM-DD")}.json`,
-          },
+          }
         );
 
         alert("Backup saved!");

@@ -1,9 +1,9 @@
-import { default as PageItem } from "@/components/item";
-import { html } from "@/lib/html";
-import type { Item } from "@/lib/parser";
-import { StatusPageItem } from "@/stores/statusPage";
 import { computed, defineComponent, PropType } from "vue";
 import { type RouterLinkProps, RouterLink } from "vue-router";
+import { default as PageItem } from "../components/item.ts";
+import { html } from "../lib/html.ts";
+import type { Item } from "../lib/parser.ts";
+import { StatusPageItem } from "../stores/statusPage.ts";
 import "./itemCard.css";
 
 export default defineComponent({
