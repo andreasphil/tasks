@@ -37,7 +37,7 @@ export default defineComponent({
     });
 
     const confirmButtonEl = useTemplateRef<HTMLButtonElement | null>(
-      "confirmButtonEl"
+      "confirmButtonEl",
     );
 
     watch(
@@ -46,7 +46,7 @@ export default defineComponent({
         if (!is || is === was) return;
         await nextTick();
         confirmButtonEl.value?.focus();
-      }
+      },
     );
 
     // Page download ------------------------------------------
@@ -72,7 +72,7 @@ export default defineComponent({
         else if (!is && downloadUrl.value)
           URL.revokeObjectURL(downloadUrl.value);
       },
-      { immediate: true }
+      { immediate: true },
     );
 
     onUnmounted(() => {
@@ -97,7 +97,7 @@ export default defineComponent({
       </p>
 
       <template #footer>
-        <button @click="visible = false" data-variant="ghost">Close</button>
+        <button @click="visible = false" variant="ghost">Close</button>
         <a
           :download="\`\${pageTitle}.txt\`"
           :href="downloadUrl"

@@ -50,7 +50,7 @@ export default defineComponent({
             mimeTypes: ["application/json"],
             extensions: [".json"],
             fileName: `tasks-${dayjs().format("YYYY-MM-DD")}.json`,
-          }
+          },
         );
 
         alert("Backup saved!");
@@ -88,7 +88,7 @@ export default defineComponent({
     <article class="settings">
       <h1>Settings</h1>
       <hr />
-      <section data-trim="both">
+      <section class="trim">
         <hgroup>
           <h2>Automatic Links</h2>
           <p>
@@ -101,14 +101,14 @@ export default defineComponent({
         </hgroup>
         <textarea class="editor" rows="5" v-model="rulesText" />
         <div class="actions">
-          <button @click="saveRules" data-variant="outline">
+          <button @click="saveRules" variant="outline">
             <span v-html="Save" />
             Save
           </button>
         </div>
       </section>
       <hr />
-      <section data-trim="both">
+      <section class="trim">
         <hgroup>
           <h2>Backup</h2>
           <p>
@@ -119,10 +119,10 @@ export default defineComponent({
           </p>
         </hgroup>
         <div class="actions">
-          <button @click="saveToFile" data-variant="outline">
+          <button @click="saveToFile" variant="outline">
             <span v-html="DownloadCloud" />Download backup
           </button>
-          <button @click="openFromFile" data-variant="muted">
+          <button @click="openFromFile" variant="muted">
             <span v-html="UploadCloud" />Restore backup
           </button>
         </div>

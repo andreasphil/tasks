@@ -99,7 +99,7 @@ export default defineComponent({
         | "tomorrow"
         | "next-week"
         | "end-of-week"
-        | undefined
+        | undefined,
     ) {
       textareaEl.value?.act(
         async ({ selectedLines, selectionStart, select }) => {
@@ -124,7 +124,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        }
+        },
       );
     }
 
@@ -148,7 +148,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        }
+        },
       );
     }
 
@@ -166,7 +166,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        }
+        },
       );
     }
 
@@ -201,7 +201,7 @@ export default defineComponent({
             to: "absolute",
             start: selectionBefore + lenAfter - lenBefore,
           });
-        }
+        },
       );
     }
 
@@ -328,12 +328,12 @@ export default defineComponent({
         new Plugins.FlipLinesPlugin(),
         new Plugins.FullLineEditsPlugin(),
         new Plugins.ListsPlugin(lists),
-        new Plugins.TabsPlugin()
+        new Plugins.TabsPlugin(),
       );
     });
 
     const items = computed(() =>
-      pageText.value?.split("\n").map((line) => parse.withMemo(line))
+      pageText.value?.split("\n").map((line) => parse.withMemo(line)),
     );
 
     // Downloads ----------------------------------------------
@@ -532,7 +532,7 @@ export default defineComponent({
   },
 
   template: html`
-    <article data-with-fallback>
+    <article has-fallback>
       <div>
         <textarea-2
           v-if="pageText !== undefined"
@@ -552,7 +552,7 @@ export default defineComponent({
         </textarea-2>
       </div>
 
-      <div data-when="empty">
+      <div fallback-for="empty">
         <span v-html="Ghost" />
         <p>This page doesn't exist.</p>
       </div>

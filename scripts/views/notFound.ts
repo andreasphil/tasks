@@ -17,9 +17,9 @@ export default defineComponent({
 
   template: html`
     <Layout>
-      <div data-with-fallback="empty" class="notFound">
+      <div has-fallback="empty" class="margin-y-outer-spacing">
         <div />
-        <div data-when="empty">
+        <div fallback-for="empty">
           <span v-html="Ghost" />
           <p>This URL doesn't exist.</p>
           <RouterLink :to="{ name: 'Home' }">Take me back</RouterLink>

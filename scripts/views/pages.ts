@@ -68,7 +68,7 @@ export default defineComponent({
           : page.title;
 
         return { ...page, icon, title };
-      })
+      }),
     );
 
     // Command bar integration --------------------------------
@@ -173,7 +173,7 @@ export default defineComponent({
         if (count <= 0) navigator.clearAppBadge?.();
         else navigator.setAppBadge?.(count);
       },
-      { immediate: true }
+      { immediate: true },
     );
 
     onUnmounted(() => {
@@ -204,17 +204,13 @@ export default defineComponent({
           <!-- Static contents -->
           <ul>
             <li>
-              <button
-                type="button"
-                data-variant="muted"
-                @click="cmdBar?.open()"
-              >
+              <button type="button" variant="muted" @click="cmdBar?.open()">
                 <span v-html="Command" />
                 Go to anything
               </button>
             </li>
             <li>
-              <button type="button" data-variant="muted" @click="goToNewPage()">
+              <button type="button" variant="muted" @click="goToNewPage()">
                 <span v-html="Plus" />
                 Add page...
               </button>
@@ -258,11 +254,11 @@ export default defineComponent({
             <!-- User pages -->
             <li v-for="page in pageSidebarItems">
               <SidebarLink :to="{ name: 'Page', params: { id: page.id } }">
-                <span v-if="page.icon" class="page-icon" :data-icon="page.icon">
+                <span v-if="page.icon" class="glow" :data-content="page.icon">
                   {{ page.icon }}
                 </span>
                 <span v-else v-html="FileCheck2" />
-                <span data-clamp>{{ page.title }}</span>
+                <span class="clamp">{{ page.title }}</span>
               </SidebarLink>
             </li>
           </ul>

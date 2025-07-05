@@ -13,7 +13,7 @@ export default defineComponent({
 
   template: html`
     <RouterLink :to custom v-slot="{ isExactActive, href, navigate }">
-      <a :data-active="isExactActive" :href="href" @click="navigate">
+      <a :active="isExactActive" :href="href" @click="navigate">
         <slot />
       </a>
     </RouterLink>

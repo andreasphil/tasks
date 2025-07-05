@@ -4,7 +4,6 @@
 @import "@fontsource-variable/fira-code" layer(base);
 
 @import "./views/board.css";
-@import "./views/notFound.css";
 @import "./views/pages.css";
 @import "./views/settings.css";
 
@@ -23,8 +22,6 @@
     --font-size-h1: var(--font-size);
     --font-size-h2: var(--font-size);
     --font-size: 14px;
-    --h-margin-top: 0;
-    --h-margin-bottom: 0;
     --on-primary: var(--neutral-700);
     --theme-primary: 85% 0.14 var(--theme-tint);
     --theme-tint: 87;
@@ -37,17 +34,21 @@ body {
   min-width: 640px;
 }
 
-[data-tooltip]::after {
-  font-family: var(--font-family);
-}
-
 aside nav button {
   justify-content: start;
   width: 100%;
 }
 
 article {
-  min-height: calc(100dvh - calc(2 * var(--block-spacing-y)));
+  min-height: calc(100dvh - calc(2 * var(--outer-spacing-y)));
+}
+
+:is(h1, h2, h3, h4, h5, h6) {
+  --outer-spacing-y: 0;
+}
+
+[data-tooltip]::after {
+  font-family: var(--font-family);
 }
 
 /* Textarea2 ------------------------------------------- */

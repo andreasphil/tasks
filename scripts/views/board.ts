@@ -73,7 +73,7 @@ export default defineComponent({
     function setDragFrom(
       value: boolean,
       item: number | null = null,
-      from: TaskStatus | null = null
+      from: TaskStatus | null = null,
     ) {
       drag.active = value;
 
@@ -114,7 +114,7 @@ export default defineComponent({
       </h2>
 
       <div v-for="column in columns" class="column" :key="column.status">
-        <div data-with-fallback class="column-content">
+        <div has-fallback class="column-content">
           <ul class="cards">
             <ItemCard
               v-for="(item, i) in column.items"
@@ -123,7 +123,7 @@ export default defineComponent({
             />
           </ul>
 
-          <div data-when="empty">
+          <div fallback-for="empty">
             <span v-html="column.icon" />
           </div>
         </div>

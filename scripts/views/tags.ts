@@ -21,7 +21,7 @@ export default defineComponent({
     }
 
     const items = computed(() =>
-      text.value?.split("\n").map((line) => parse.withMemo(line))
+      text.value?.split("\n").map((line) => parse.withMemo(line)),
     );
 
     return {
@@ -33,7 +33,7 @@ export default defineComponent({
   },
 
   template: html`
-    <article data-with-fallback>
+    <article has-fallback>
       <div>
         <textarea-2 v-if="text" overscroll class="editor">
           <textarea spellcheck="false" v-model="text" readonly></textarea>
@@ -48,7 +48,7 @@ export default defineComponent({
         </textarea-2>
       </div>
 
-      <div data-when="empty">
+      <div fallback-for="empty">
         <span v-html="BookmarkX" />
         <p>Looks like you haven't tagged any items.</p>
       </div>

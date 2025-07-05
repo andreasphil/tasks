@@ -10,9 +10,9 @@ export default defineComponent({
   },
 
   template: html`
-    <article data-with-fallback="empty">
+    <article has-fallback="empty">
       <div />
-      <div data-when="empty">
+      <div fallback-for="empty">
         <span v-html="Sticker" />
         <p>Welcome!</p>
       </div>

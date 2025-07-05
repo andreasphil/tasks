@@ -92,11 +92,11 @@ export default defineComponent({
       </label>
 
       <template #footer>
-        <button @click="onClear()" data-variant="muted">
+        <button @click="onClear()" variant="muted">
           <span v-html="CalendarX2" />Clear
         </button>
         <div></div>
-        <button data-variant="ghost" @click="onCancel()">Cancel</button>
+        <button variant="ghost" @click="onCancel()">Cancel</button>
         <button @click="onConfirm()">
           <span v-html="CalendarCheck" />Done
         </button>

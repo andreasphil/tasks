@@ -40,7 +40,7 @@ export default defineComponent({
         <strong>{{ title }}</strong>
       </header>
 
-      <div data-trim="both">
+      <div class="trim">
         <slot />
       </div>
 
