@@ -1,13 +1,13 @@
+import { computed, defineComponent, reactive } from "vue";
+import ItemCard from "../components/itemCard.ts";
+import { html } from "../lib/html.ts";
 import {
   Check,
   CircleDashed,
   Construction,
   HelpCircle,
   Star,
-} from "lucide-static";
-import { computed, defineComponent, reactive } from "vue";
-import ItemCard from "../components/itemCard.ts";
-import { html } from "../lib/html.ts";
+} from "../lib/icons.ts";
 import type { TaskStatus } from "../lib/parser.ts";
 import { useStatusPage, type StatusPageItem } from "../stores/statusPage.ts";
 

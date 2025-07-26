@@ -1,8 +1,8 @@
-import { CalendarCheck, CalendarX2 } from "lucide-static";
 import { computed, defineComponent, watch } from "vue";
-import BaseDialog from "./dialog.ts";
 import { getDateHint } from "../lib/date.ts";
 import { html } from "../lib/html.ts";
+import { CalendarCheck2, CalendarX2 } from "../lib/icons.ts";
+import BaseDialog from "./dialog.ts";
 
 export default defineComponent({
   name: "DueDateDialog",
@@ -68,7 +68,7 @@ export default defineComponent({
     }
 
     return {
-      CalendarCheck,
+      CalendarCheck2,
       CalendarX2,
       dueDateHint,
       onCancel,
@@ -98,7 +98,7 @@ export default defineComponent({
         <div></div>
         <button variant="ghost" @click="onCancel()">Cancel</button>
         <button @click="onConfirm()">
-          <span v-html="CalendarCheck" />Done
+          <span v-html="CalendarCheck2" />Done
         </button>
       </template>
     </BaseDialog>

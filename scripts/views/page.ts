@@ -7,22 +7,6 @@ import { Textarea2 } from "@andreasphil/textarea2";
 import * as Plugins from "@andreasphil/textarea2/plugins";
 import dayjs from "dayjs";
 import {
-  Bookmark,
-  Calendar,
-  CalendarSearch,
-  CalendarX2,
-  Check,
-  CircleDashed,
-  Construction,
-  Download,
-  Ghost,
-  Heading1,
-  HelpCircle,
-  Hourglass,
-  Star,
-  StickyNote,
-} from "lucide-static";
-import {
   computed,
   defineComponent,
   nextTick,
@@ -37,6 +21,22 @@ import DownloadDialog from "../components/downloadDialog.ts";
 import DueDateDialog from "../components/dueDateDialog.ts";
 import { default as PageItem } from "../components/item.ts";
 import { html } from "../lib/html.ts";
+import {
+  Bookmark,
+  Calendar,
+  CalendarSearch,
+  CalendarX2,
+  Check,
+  CircleDashed,
+  Construction,
+  Download,
+  Ghost,
+  Heading1,
+  HelpCircle,
+  Hourglass,
+  Star,
+  StickyNote,
+} from "../lib/icons.ts";
 import type { Item, TaskStatus } from "../lib/parser.ts";
 import { parse } from "../stores/appParser.ts";
 import { usePage } from "../stores/page.ts";

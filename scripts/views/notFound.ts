@@ -1,8 +1,8 @@
-import { Ghost } from "lucide-static";
 import { defineComponent } from "vue";
 import { RouterLink } from "vue-router";
 import Layout from "../components/layout.ts";
 import { html } from "../lib/html.ts";
+import { Ghost } from "../lib/icons.ts";
 
 export default defineComponent({
   name: "NotFound",

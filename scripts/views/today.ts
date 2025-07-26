@@ -1,7 +1,7 @@
-import { TreePalm } from "lucide-static";
 import { computed, defineComponent } from "vue";
 import Item from "../components/item.ts";
 import { html } from "../lib/html.ts";
+import { TreePalm } from "../lib/icons.ts";
 import { parse } from "../stores/appParser.ts";
 import { useTodayPage } from "../stores/todayPage.ts";
 

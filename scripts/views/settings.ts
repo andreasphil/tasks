@@ -1,8 +1,8 @@
 import { fileOpen, fileSave } from "browser-fs-access";
 import dayjs from "dayjs";
-import { DownloadCloud, Save, UploadCloud } from "lucide-static";
 import { defineComponent, ref, watchEffect } from "vue";
 import { html } from "../lib/html.ts";
+import { DownloadCloud, Save, UploadCloud } from "../lib/icons.ts";
 import type { AutoLinkRule } from "../lib/parser.ts";
 import { usePages } from "../stores/pages.ts";
 import { useSettings } from "../stores/settings.ts";

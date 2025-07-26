@@ -1,4 +1,3 @@
-import { Download } from "lucide-static";
 import {
   computed,
   defineComponent,
@@ -10,6 +9,7 @@ import {
 } from "vue";
 import BaseDialog from "../components/dialog.ts";
 import { html } from "../lib/html.ts";
+import { Download } from "../lib/icons.ts";
 import { usePage } from "../stores/page.ts";
 
 export default defineComponent({

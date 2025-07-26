@@ -1,7 +1,7 @@
-import { BookmarkX } from "lucide-static";
 import { computed, defineComponent } from "vue";
 import Item from "../components/item.ts";
 import { html } from "../lib/html.ts";
+import { BookmarkX } from "../lib/icons.ts";
 import { parse } from "../stores/appParser.ts";
 import { useTagsPage } from "../stores/tagsPage.ts";
 

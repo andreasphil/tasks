@@ -1,6 +1,6 @@
-import { Sticker } from "lucide-static";
 import { defineComponent } from "vue";
 import { html } from "../lib/html.ts";
+import { Sticker } from "../lib/icons.ts";
 
 export default defineComponent({
   setup() {

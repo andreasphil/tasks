@@ -14,10 +14,8 @@
     "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.10.0",
     "@andreasphil/design-system": "github:andreasphil/design-system#v0.52.0",
     "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.5.0",
-    "@fontsource-variable/fira-code": "^5.2.6",
     "browser-fs-access": "^0.38.0",
     "dayjs": "^1.11.13",
-    "lucide-static": "^0.525.0",
     "memize": "^2.1.0",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"

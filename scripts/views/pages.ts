@@ -4,16 +4,6 @@ import {
   type Command as CommandBarCommand,
 } from "@andreasphil/command-bar";
 import {
-  Bookmark,
-  Command,
-  FileCheck2,
-  KanbanSquare,
-  Plus,
-  Star,
-  Trash2,
-  User,
-} from "lucide-static";
-import {
   computed,
   defineComponent,
   onBeforeUnmount,
@@ -26,6 +16,16 @@ import { RouterView, useRoute, useRouter } from "vue-router";
 import Layout from "../components/layout.ts";
 import SidebarLink from "../components/sidebarLink.ts";
 import { html } from "../lib/html.ts";
+import {
+  Bookmark,
+  Command,
+  FileCheck2,
+  KanbanSquare,
+  Plus,
+  Star,
+  Trash2,
+  User,
+} from "../lib/icons.ts";
 import { usePages } from "../stores/pages.ts";
 import { useTodayCount } from "../stores/todayCount.ts";
 

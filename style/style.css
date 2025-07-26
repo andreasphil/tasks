@@ -1,7 +1,6 @@
 @import "@andreasphil/design-system/style.css" layer(base);
 @import "@andreasphil/command-bar/style.css" layer(components);
 @import "@andreasphil/textarea2/style.css" layer(components);
-@import "@fontsource-variable/fira-code" layer(base);
 
 @import "./components/item.css";
 @import "./components/itemCard.css";
@@ -9,6 +8,15 @@
 @import "./views/board.css";
 @import "./views/pages.css";
 @import "./views/settings.css";
+
+/* Fonts ----------------------------------------------- */
+
+@font-face {
+  font-family: "Fira Code Variable";
+  src: url("../assets/fonts/FiraCode-VF.woff2") format("woff2-variations");
+  font-weight: 300 700;
+  font-style: normal;
+}
 
 /* Theme customization --------------------------------- */
 
