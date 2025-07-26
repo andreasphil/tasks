@@ -1,12 +1,14 @@
-.muted-link:not(:hover, :focus) {
-  color: var(--c-fg-variant);
-}
+@scope (.pages) {
+  .muted-link:not(:hover, :focus) {
+    color: var(--c-fg-variant);
+  }
 
-.today-badge {
-  background: var(--primary);
-  border-radius: var(--border-radius-large);
-  color: var(--on-primary);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  padding: 0 0.5rem;
+  .today-badge {
+    background: var(--primary);
+    border-radius: var(--border-radius-large);
+    color: var(--on-primary);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+    padding: 0 0.5rem;
+  }
 }

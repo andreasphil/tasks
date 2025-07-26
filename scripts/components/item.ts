@@ -29,13 +29,13 @@ export default defineComponent({
     // Status -------------------------------------------------
 
     const status = computed(() =>
-      props.item.type === "task" ? props.item.status : "incomplete"
+      props.item.type === "task" ? props.item.status : "incomplete",
     );
 
     function updateStatus() {
       emit(
         "update:status",
-        props.item.status === "completed" ? "incomplete" : "completed"
+        props.item.status === "completed" ? "incomplete" : "completed",
       );
     }
 

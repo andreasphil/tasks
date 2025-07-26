@@ -1,75 +1,77 @@
-/* Top level item types -------------------------------- */
+@scope (.item) {
+  :scope {
+    --item-bg: color-mix(in oklch, currentColor, transparent 93%);
+    --red: hsl(350 90% 65%);
 
-.item {
-  --item-bg: color-mix(in oklch, currentColor, transparent 93%);
-  --red: hsl(350 90% 65%);
+    font: inherit;
+    margin: 0;
+    padding: 0;
 
-  font: inherit;
-  margin: 0;
-  padding: 0;
-}
+    /* Top level item types -------------------------------- */
 
-.heading {
-  color: var(--c-fg);
-  font-weight: var(--font-weight-bold);
-}
+    &.heading {
+      color: var(--c-fg);
+      font-weight: var(--font-weight-bold);
+    }
 
-.task:has(.status.completed) {
-  color: var(--c-fg-variant);
-}
+    &.task:has(.status.completed) {
+      color: var(--c-fg-variant);
+    }
+  }
 
-/* Token types ----------------------------------------- */
+  /* Token types ----------------------------------------- */
 
-.status {
-  all: unset;
-  border-radius: var(--border-radius-small);
-  cursor: pointer;
-  pointer-events: initial;
-  transition: var(--transition);
-  transition-property: background-color;
+  .status {
+    all: unset;
+    border-radius: var(--border-radius-small);
+    cursor: pointer;
+    pointer-events: initial;
+    transition: var(--transition);
+    transition-property: background-color;
 
-  &:hover {
+    &:hover {
+      background-color: var(--item-bg);
+    }
+
+    &.important {
+      color: var(--red);
+    }
+
+    &.important,
+    &.inProgress,
+    &.question {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  .dueDate {
     background-color: var(--item-bg);
+    border-radius: var(--border-radius-small);
+    color: var(--c-fg-variant);
+    cursor: help;
+    pointer-events: initial;
+    position: relative;
+    white-space: nowrap;
+
+    &.today {
+      color: var(--red);
+    }
   }
 
-  &.important {
-    color: var(--red);
+  .tag {
+    background-color: var(--item-bg);
+    border-radius: var(--border-radius-small);
+    color: var(--c-fg-variant);
+    position: relative;
+    white-space: nowrap;
   }
 
-  &.important,
-  &.inProgress,
-  &.question {
-    font-weight: var(--font-weight-bold);
+  .link {
+    color: var(--primary);
+    font-weight: var(--font-weight-normal);
+    pointer-events: initial;
+    text-decoration-color: var(--primary);
+    text-decoration-thickness: var(--border-width);
+    text-underline-offset: 0.125rem;
   }
-}
-
-.dueDate {
-  background-color: var(--item-bg);
-  border-radius: var(--border-radius-small);
-  color: var(--c-fg-variant);
-  cursor: help;
-  pointer-events: initial;
-  position: relative;
-  white-space: nowrap;
-
-  &.today {
-    color: var(--red);
-  }
-}
-
-.tag {
-  background-color: var(--item-bg);
-  border-radius: var(--border-radius-small);
-  color: var(--c-fg-variant);
-  position: relative;
-  white-space: nowrap;
-}
-
-.link {
-  color: var(--primary);
-  font-weight: var(--font-weight-normal);
-  pointer-events: initial;
-  text-decoration-color: var(--primary);
-  text-decoration-thickness: var(--border-width);
-  text-underline-offset: 0.125rem;
 }

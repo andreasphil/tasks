@@ -37,7 +37,7 @@ export default defineComponent({
 
   template: html`
     <li
-      class="card"
+      class="itemCard"
       @dragend="$emit('isDragging', false)"
       @dragstart="$emit('isDragging', true)"
       draggable="true"

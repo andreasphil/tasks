@@ -6,9 +6,11 @@ export default defineComponent({
 
   template: html`
     <div class="layout">
-      <aside v-if="$slots.sidebar" class="sidebar">
-        <slot name="sidebar" />
-      </aside>
+      <div v-if="$slots.sidebar" class="sidebar">
+        <aside>
+          <slot name="sidebar" />
+        </aside>
+      </div>
 
       <div class="content">
         <main>

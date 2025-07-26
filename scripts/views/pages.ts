@@ -196,7 +196,7 @@ export default defineComponent({
   },
 
   template: html`
-    <Layout>
+    <Layout class="pages">
       <template #sidebar>
         <nav>
           <strong>Tasks</strong>
