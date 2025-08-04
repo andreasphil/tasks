@@ -78,7 +78,7 @@ function setType(item: UncheckedItem, type: UncheckedItem["type"]): void {
 function clone(item: Item): Item {
   return {
     ...item,
-    tokens: [...item.tokens.map((token) => ({ ...token }))],
+    tokens: item.tokens.map((token) => ({ ...token })),
     tags: [...item.tags],
   };
 }
