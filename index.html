@@ -9,10 +9,10 @@
     <title>Tasks</title>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="./dist/app.css" />
+    <link rel="stylesheet" href="./style/style.css" />
 
     <!-- App scripts -->
-    <script type="module" src="./dist/app.js"></script>
+    <script type="module" src="./scripts/app.ts"></script>
   </head>
 
   <body>
@@ -20,16 +20,9 @@
       <div id="app"></div>
 
       <!-- Show a loading state while the app is starting -->
-      <div fallback-for="empty">
+      <div fallback-for="empty" style="margin: 2rem">
         <p aria-busy="true"><small>Loading ...</small></p>
       </div>
     </div>
   </body>
-
-  <script type="module">
-    // Automatically reload on change when serving with `node --run dev`
-    new EventSource("/esbuild").addEventListener("change", () =>
-      location.reload(),
-    );
-  </script>
 </html>
