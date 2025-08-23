@@ -1,8 +1,7 @@
 import { CommandBar } from "@andreasphil/command-bar";
-import { useThemeColor } from "@andreasphil/design-system";
 import { Textarea2 } from "@andreasphil/textarea2";
 import "temporal-polyfill/global";
-import { createApp, defineComponent, onMounted } from "vue";
+import { createApp, defineComponent } from "vue";
 import { RouterView } from "vue-router";
 import "../style/style.css";
 import { html } from "./lib/html.ts";
@@ -13,12 +12,6 @@ const App = defineComponent({
   name: "App",
 
   components: { RouterView },
-
-  setup() {
-    onMounted(() => {
-      useThemeColor();
-    });
-  },
 
   template: html`
     <command-bar></command-bar>
