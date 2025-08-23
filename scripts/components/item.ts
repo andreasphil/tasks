@@ -29,29 +29,29 @@ export default defineComponent({
     // Status -------------------------------------------------
 
     const status = computed(() =>
-      props.item.type === "task" ? props.item.status : "incomplete",
+      props.item.type === "task" ? props.item.status : "incomplete"
     );
 
     function updateStatus() {
       emit(
         "update:status",
-        props.item.status === "completed" ? "incomplete" : "completed",
+        props.item.status === "completed" ? "incomplete" : "completed"
       );
     }
 
     // Due date -----------------------------------------------
 
     const todayOrOverdue = computed(() => {
-      const today = new Date();
-      today.setHours(23, 59, 59);
+      const today = Temporal.Now.plainDateISO();
       return (
-        props.item.dueDate && new Date(props.item.dueDate as Date) <= today
+        props.item.dueDate &&
+        Temporal.PlainDate.compare(props.item.dueDate, today) <= 0
       );
     });
 
     const dueDateHint = computed(() => {
       if (!props.item.dueDate) return undefined;
-      return getDateHint(props.item.dueDate as Date);
+      return getDateHint(props.item.dueDate);
     });
 
     return {

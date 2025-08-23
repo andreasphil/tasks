@@ -1,15 +1,17 @@
-import dayjs from "dayjs";
+const weekday = new Intl.DateTimeFormat(undefined, {
+  weekday: "long",
+});
 
-export function getDateHint(date: Date | string): string {
-  const selected = dayjs(date);
-  const day = selected.format("dddd");
-  const diff = Math.ceil(selected.diff(dayjs(), "days", true));
+const relativeTIme = new Intl.RelativeTimeFormat(undefined, {
+  style: "long",
+  numeric: "auto",
+});
 
-  let readableDiff = "today";
-  if (diff === -1) readableDiff = "yesterday";
-  else if (diff === 1) readableDiff = "tomorrow";
-  else if (diff > 1) readableDiff = `in ${diff} days`;
-  else if (diff < -1) readableDiff = `${Math.abs(diff)} days ago`;
+export function getDateHint(date: Temporal.PlainDate | string): string {
+  date =
+    date instanceof Temporal.PlainDate ? date : Temporal.PlainDate.from(date);
 
-  return `${day} (${readableDiff})`;
+  const diff = date.since(Temporal.Now.plainDateISO());
+
+  return `${weekday.format(date)} (${relativeTIme.format(diff.days, "day")})`;
 }

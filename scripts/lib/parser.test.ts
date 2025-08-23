@@ -26,12 +26,12 @@ describe("parse", () => {
 
     test("finds a due date", () => {
       const r = parse("# Heading @2021-01-01");
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
     });
 
     test("finds a due date and tags", () => {
       const r = parse("# Heading #tag1 @2021-01-01");
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
       assert.deepEqual(r.tags, ["tag1"]);
     });
 
@@ -149,7 +149,7 @@ describe("parse", () => {
 
     test("finds a due date", () => {
       const r = parse("[ ] Task 1 @2021-01-01");
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
     });
 
     test("ignores an invalid due date", () => {
@@ -159,7 +159,7 @@ describe("parse", () => {
 
     test("finds a due date and tags", () => {
       const r = parse("[ ] Task 1 #tag1 @2021-01-01");
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
       assert.deepEqual(r.tags, ["tag1"]);
     });
 
@@ -274,17 +274,17 @@ describe("parse", () => {
 
     test("finds a due date", () => {
       const r = parse("Note 1 @2021-01-01");
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
     });
 
     test("ignores any additional due dates", () => {
       const r = parse("Note 1 @2021-01-01 @2021-01-02");
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
     });
 
     test("finds a due date and tags", () => {
       const r = parse("Note 1 #tag1 @2021-01-01");
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
       assert.deepEqual(r.tags, ["tag1"]);
     });
 

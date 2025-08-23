@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { computed } from "vue";
 import { compare, mutate } from "../lib/item.ts";
 import { compareByTitle, getTitle } from "../lib/page.ts";
@@ -34,7 +33,8 @@ export function useTodayPage() {
   }
 
   const items = computed<UpdateableItem[] | undefined>(() => {
-    const eod = dayjs().endOf("day").valueOf();
+    const today = Temporal.Now.plainDateISO();
+    console.log(today.toString());
     const newPages = Object.values(pages).sort(compareByTitle);
     let buffer: UpdateableItem[] = [[parse("Today")]];
 
@@ -46,9 +46,10 @@ export function useTodayPage() {
           removeIndent(item),
           updateFn(page.id, i),
         ])
-        .filter(([item]) => {
-          return item.dueDate && (item.dueDate as Date).getTime() <= eod;
-        })
+        .filter(
+          ([item]) =>
+            item.dueDate && Temporal.PlainDate.compare(item.dueDate, today) <= 0
+        )
         .sort(([a], [b]) => compare(a, b))
         .forEach((item) => dueItems.push(item));
 

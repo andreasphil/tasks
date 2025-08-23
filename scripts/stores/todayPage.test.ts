@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { before, describe, mock, test } from "node:test";
+import { afterEach, before, describe, mock, test } from "node:test";
 import { parse } from "../lib/parser.ts";
 import type { useTodayPage as useTodayPageFn } from "./todayPage.ts";
 
@@ -50,7 +50,12 @@ describe("useTodayPage", () => {
     useTodayPage = (await import("./todayPage.ts")).useTodayPage;
   });
 
+  afterEach(() => {
+    mock.timers.reset();
+  });
+
   test("returns tasks due today grouped by page", (t) => {
+    mock.timers.enable({ apis: ["Date"], now: new Date("2024-01-01") });
     const { text } = useTodayPage();
     t.assert.snapshot(text.value);
   });
@@ -78,7 +83,7 @@ describe("useTodayPage", () => {
 
     updateOnPage(10, (item) => {
       item.status = "completed";
-      item.dueDate = new Date(2023, 0, 1);
+      item.dueDate = Temporal.PlainDate.from("2023-01-01");
     });
 
     assert.equal(mocks.updatePage.mock.calls[1].arguments[0], "bar");

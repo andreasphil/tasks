@@ -5,7 +5,6 @@ import {
 } from "@andreasphil/command-bar";
 import { Textarea2 } from "@andreasphil/textarea2";
 import * as Plugins from "@andreasphil/textarea2/plugins";
-import dayjs from "dayjs";
 import {
   computed,
   defineComponent,
@@ -86,7 +85,7 @@ export default defineComponent({
 
     function setDueDateFromDialog() {
       const date = dueDateDialogValue.value
-        ? new Date(dueDateDialogValue.value)
+        ? Temporal.PlainDate.from(dueDateDialogValue.value)
         : undefined;
 
       updateDueDate(date);
@@ -94,37 +93,39 @@ export default defineComponent({
 
     function updateDueDate(
       dueDate:
-        | Date
+        | Temporal.PlainDate
         | "today"
         | "tomorrow"
         | "next-week"
         | "end-of-week"
-        | undefined,
+        | undefined
     ) {
       textareaEl.value?.act(
         async ({ selectedLines, selectionStart, select }) => {
-          let effectiveDueDate: Date | undefined;
+          let newDate: Temporal.PlainDate | undefined;
           let oldSelection = selectionStart();
 
           if (dueDate === "today") {
-            effectiveDueDate = dayjs().endOf("day").toDate();
+            newDate = Temporal.Now.plainDateISO();
           } else if (dueDate === "tomorrow") {
-            effectiveDueDate = dayjs().add(1, "day").endOf("day").toDate();
+            newDate = Temporal.Now.plainDateISO().add({ days: 1 });
           } else if (dueDate === "next-week") {
-            effectiveDueDate = dayjs().add(1, "week").startOf("week").toDate();
+            const nextWeek = Temporal.Now.plainDateISO().add({ weeks: 1 });
+            newDate = nextWeek.subtract({ days: nextWeek.dayOfWeek - 1 });
           } else if (dueDate === "end-of-week") {
-            effectiveDueDate = dayjs().weekday(4).toDate();
+            const today = Temporal.Now.plainDateISO();
+            newDate = today.add({ days: 5 - today.dayOfWeek });
           } else {
-            effectiveDueDate = dueDate;
+            newDate = dueDate;
           }
 
           updateOnPage(selectedLines()[0], (item) => {
-            item.dueDate = effectiveDueDate;
+            item.dueDate = newDate;
           });
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        },
+        }
       );
     }
 
@@ -134,21 +135,17 @@ export default defineComponent({
           let oldSelection = selectionStart();
 
           updateOnPage(selectedLines()[0], (item) => {
-            const base = (item.dueDate as Date) ?? new Date();
-            let effectiveDueDate: Date | undefined;
+            let base = item.dueDate ?? Temporal.Now.plainDateISO();
 
-            if (time === "1d") {
-              effectiveDueDate = dayjs(base).add(1, "day").toDate();
-            } else if (time === "1w") {
-              effectiveDueDate = dayjs(base).add(1, "week").toDate();
-            }
+            if (time === "1d") base = base.add({ days: 1 });
+            else if (time === "1w") base = base.add({ weeks: 1 });
 
-            item.dueDate = effectiveDueDate;
+            item.dueDate = base;
           });
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        },
+        }
       );
     }
 
@@ -166,7 +163,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        },
+        }
       );
     }
 
@@ -201,11 +198,13 @@ export default defineComponent({
             to: "absolute",
             start: selectionBefore + lenAfter - lenBefore,
           });
-        },
+        }
       );
     }
 
     // Editor hooks and customizations ------------------------
+
+    const formatDate = (date: Temporal.PlainDate) => `@${date.toString()}`;
 
     const dueDateCompletions: Plugins.AutoComplete = {
       id: "dueDate",
@@ -216,29 +215,35 @@ export default defineComponent({
           name: "Today",
           icon: renderSvgFromString(Calendar),
           initial: true,
-          value: () => dayjs().format("@YYYY-MM-DD"),
+          value: () => formatDate(Temporal.Now.plainDateISO()),
         },
         {
           id: "tomorrow",
           name: "Tomorrow",
           icon: renderSvgFromString(Calendar),
           initial: true,
-          value: () => dayjs().add(1, "day").format("@YYYY-MM-DD"),
+          value: () => formatDate(Temporal.Now.plainDateISO().add({ days: 1 })),
         },
         {
           id: "next-week",
           name: "Next week",
           icon: renderSvgFromString(Calendar),
           initial: true,
-          value: () =>
-            dayjs().add(1, "week").startOf("week").format("@YYYY-MM-DD"),
+          value: () => {
+            const nextWeek = Temporal.Now.plainDateISO().add({ weeks: 1 });
+            const newDate = nextWeek.subtract({ days: nextWeek.dayOfWeek - 1 });
+            return formatDate(newDate);
+          },
         },
         {
           id: "end-of-week",
           name: "End of week",
           icon: renderSvgFromString(Calendar),
           initial: true,
-          value: () => dayjs().weekday(4).format("@YYYY-MM-DD"),
+          value: () => {
+            const today = Temporal.Now.plainDateISO();
+            return formatDate(today.add({ days: 5 - today.dayOfWeek }));
+          },
         },
         {
           id: "custom",
@@ -328,12 +333,12 @@ export default defineComponent({
         new Plugins.FlipLinesPlugin(),
         new Plugins.FullLineEditsPlugin(),
         new Plugins.ListsPlugin(lists),
-        new Plugins.TabsPlugin(),
+        new Plugins.TabsPlugin()
       );
     });
 
     const items = computed(() =>
-      pageText.value?.split("\n").map((line) => parse.withMemo(line)),
+      pageText.value?.split("\n").map((line) => parse.withMemo(line))
     );
 
     // Downloads ----------------------------------------------

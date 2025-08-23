@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite dev",
     "build": "node --run typecheck && vite build",
-    "test": "node --test --experimental-test-module-mocks",
-    "test:watch": "node --test --experimental-test-module-mocks --watch",
+    "test": "node --test --experimental-test-module-mocks --import ./test-setup.ts",
+    "test:watch": "node --run test -- --watch",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -15,8 +15,8 @@
     "@andreasphil/design-system": "github:andreasphil/design-system#v0.52.0",
     "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.5.0",
     "browser-fs-access": "^0.38.0",
-    "dayjs": "^1.11.13",
     "memize": "^2.1.1",
+    "temporal-polyfill": "^0.3.0",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
   },

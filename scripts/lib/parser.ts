@@ -31,14 +31,6 @@
 
 // Types --------------------------------------------------
 
-export type DeepReadonly<T> = {
-  readonly [K in keyof T]: DeepReadonly<T[K]>;
-};
-
-export type DeepWritable<T> = {
-  -readonly [K in keyof T]: DeepWritable<T[K]>;
-};
-
 export const taskStatuses = {
   incomplete: " ",
   completed: "x",
@@ -79,7 +71,7 @@ export type UncheckedItem = {
   raw: string;
   tokens: Token[];
   tags: string[];
-  dueDate?: Date;
+  dueDate?: Temporal.PlainDate;
 } & (
   | { type: "note" | "heading"; status: null }
   | { type: "task"; status: TaskStatus }
@@ -96,7 +88,7 @@ export type UncheckedItem = {
  *
  * Check out `items.ts@asWritable` to learn how to safely mutate items.
  */
-export type Item = DeepReadonly<UncheckedItem>;
+export type Item = Readonly<UncheckedItem>;
 
 // Utilities ----------------------------------------------
 
@@ -115,7 +107,7 @@ const taskExpr = {
 
   // Statuses
   status: new RegExp(
-    `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`
+    `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`,
   ),
 } as const;
 
@@ -137,7 +129,7 @@ function getAutoLinkExpressions(rules: AutoLinkRule[]): Record<string, RegExp> {
 
 function matchAutolink(
   groups: RegExpExecArray["groups"],
-  rules: AutoLinkRule[] | undefined
+  rules: AutoLinkRule[] | undefined,
 ): {
   groupName: string;
   url: string;
@@ -145,7 +137,7 @@ function matchAutolink(
   if (!groups || !rules) return null;
 
   const groupName = Object.entries(groups ?? {}).find(
-    ([k, v]) => k.startsWith("autolink_") && !!v
+    ([k, v]) => k.startsWith("autolink_") && !!v,
   )?.[0];
 
   if (!groupName) return null;
@@ -154,7 +146,7 @@ function matchAutolink(
 
   const url = groups[groupName].replace(
     new RegExp(rules[index].pattern),
-    rules[index].target
+    rules[index].target,
   );
 
   return { groupName, url };
@@ -208,7 +200,7 @@ export function parse(input: string, opts?: ParserOpts): Item {
 
   const mergedExpression = mergeExpression(
     taskExpr,
-    opts?.autoLinkRules ? getAutoLinkExpressions(opts.autoLinkRules) : {}
+    opts?.autoLinkRules ? getAutoLinkExpressions(opts.autoLinkRules) : {},
   );
 
   while ((match = mergedExpression.exec(input))) {
@@ -242,12 +234,11 @@ export function parse(input: string, opts?: ParserOpts): Item {
       token.value = match.groups.status;
     } else if (match.groups?.dueDate && !dueDate) {
       // Due date
-      const maybeDueDate = new Date(match.groups.dueDate);
-      if (!Number.isNaN(maybeDueDate.getTime())) {
-        dueDate = maybeDueDate;
+      try {
+        dueDate = Temporal.PlainDate.from(match.groups.dueDate);
         token.type = "dueDate";
         token.value = match.groups.dueDate;
-      }
+      } catch {}
     } else if (match.groups?.tag) {
       // Tags
       tags.add(match.groups.tag);

@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { computed } from "vue";
 import { usePages } from "./pages.ts";
 
@@ -6,14 +5,14 @@ export function useTodayCount() {
   const { pages } = usePages();
 
   const todayCount = computed(() => {
-    const eod = dayjs().endOf("day").valueOf();
+    const today = Temporal.Now.plainDateISO();
 
-    const items = Object.values(pages)
+    return Object.values(pages)
       .flatMap((i) => i.items)
       .filter((i) => i.status !== "completed")
-      .filter((i) => !!i.dueDate && (i.dueDate as Date).getTime() <= eod);
-
-    return items.length;
+      .filter(
+        (i) => !!i.dueDate && Temporal.PlainDate.compare(i.dueDate, today) <= 0
+      ).length;
   });
 
   return todayCount;

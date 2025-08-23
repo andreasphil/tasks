@@ -64,7 +64,7 @@ describe("tagsPage", () => {
 
     updateOnPage(11, (item) => {
       item.status = "completed";
-      item.dueDate = new Date(2023, 0, 1);
+      item.dueDate = Temporal.PlainDate.from("2023-01-01")
     });
 
     assert.equal(mocks.updatePage.mock.calls[1].arguments[0], "bar");

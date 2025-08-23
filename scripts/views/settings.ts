@@ -1,5 +1,4 @@
 import { fileOpen, fileSave } from "browser-fs-access";
-import dayjs from "dayjs";
 import { defineComponent, ref, watchEffect } from "vue";
 import { html } from "../lib/html.ts";
 import { DownloadCloud, Save, UploadCloud } from "../lib/icons.ts";
@@ -49,7 +48,7 @@ export default defineComponent({
           {
             mimeTypes: ["application/json"],
             extensions: [".json"],
-            fileName: `tasks-${dayjs().format("YYYY-MM-DD")}.json`,
+            fileName: `tasks-${Temporal.Now.plainDateISO()}.json`,
           },
         );
 

@@ -1,9 +1,7 @@
 import { CommandBar } from "@andreasphil/command-bar";
 import { useThemeColor } from "@andreasphil/design-system";
 import { Textarea2 } from "@andreasphil/textarea2";
-import dayjs from "dayjs";
-import "dayjs/locale/de";
-import weekday from "dayjs/plugin/weekday";
+import "temporal-polyfill/global";
 import { createApp, defineComponent, onMounted } from "vue";
 import { RouterView } from "vue-router";
 import "../style/style.css";
@@ -14,7 +12,7 @@ import "./stores/settings.ts";
 const App = defineComponent({
   name: "App",
 
-  components: { CommandBar, RouterView },
+  components: { RouterView },
 
   setup() {
     onMounted(() => {
@@ -27,9 +25,6 @@ const App = defineComponent({
     <RouterView />
   `,
 });
-
-dayjs.locale("de");
-dayjs.extend(weekday);
 
 CommandBar.define();
 Textarea2.define();

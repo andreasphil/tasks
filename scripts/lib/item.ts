@@ -1,9 +1,7 @@
-import dayjs from "dayjs";
 import { parse } from "../stores/appParser.ts";
 import {
   stringify,
   taskStatuses,
-  type DeepWritable,
   type Item,
   type TaskStatus,
   type UncheckedItem,
@@ -12,7 +10,7 @@ import {
 // Mutating items -----------------------------------------
 
 export type WritableItem = Omit<Item, "dueDate" | "status" | "type"> &
-  DeepWritable<Pick<Item, "dueDate" | "status" | "type">>;
+  Pick<UncheckedItem, "dueDate" | "status" | "type">;
 
 function setStatus(item: UncheckedItem, status: TaskStatus): void {
   if (item.type !== "task") return;
@@ -29,10 +27,10 @@ function setStatus(item: UncheckedItem, status: TaskStatus): void {
   item.raw = stringify(item);
 }
 
-function setDueDate(item: UncheckedItem, date?: Date): void {
+function setDueDate(item: UncheckedItem, date?: Temporal.PlainDate): void {
   const hasDueDate = item.dueDate !== undefined;
   let newRaw = item.raw;
-  const newDueDateStr = date ? dayjs(date).format("YYYY-MM-DD") : "";
+  const newDueDateStr = date ? date.toString() : "";
 
   // 1. No due date before, no due date after = skip
   if (!hasDueDate && !date) return;
@@ -121,7 +119,7 @@ export function asWritable(item: Item): WritableItem {
  */
 export function mutate(
   item: Item,
-  factory: (item: WritableItem) => void
+  factory: (item: WritableItem) => void,
 ): Item {
   const mutatedItem = asWritable(clone(item));
   factory(mutatedItem);
@@ -155,10 +153,8 @@ export function compare(a: Item, b: Item): number {
   // Sort by due date
   if (a.dueDate && !b.dueDate) return -1;
   else if (b.dueDate && !a.dueDate) return 1;
-  else {
-    const aDueDate = dayjs((a as UncheckedItem).dueDate).startOf("day");
-    const bDueDate = dayjs((b as UncheckedItem).dueDate).startOf("day");
-    const diff = aDueDate.diff(bDueDate);
+  else if (a.dueDate && b.dueDate) {
+    const diff = (a.dueDate as Temporal.PlainDate).since(b.dueDate).days;
     if (diff !== 0) return diff;
   }
 

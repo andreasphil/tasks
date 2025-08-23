@@ -82,9 +82,9 @@ describe("item", () => {
       const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
-      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
+      assert(writable.dueDate?.equals(Temporal.PlainDate.from("2020-01-01")));
 
-      writable.dueDate = new Date("2021-01-02");
+      writable.dueDate = Temporal.PlainDate.from("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02");
       assert.deepEqual(writable, newR);
     });
@@ -93,9 +93,9 @@ describe("item", () => {
       const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
-      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
+      assert(writable.dueDate?.equals(Temporal.PlainDate.from("2020-01-01")));
 
-      writable.dueDate = new Date("2021-01-02");
+      writable.dueDate = Temporal.PlainDate.from("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02 some more text");
       assert.deepEqual(writable, newR);
     });
@@ -106,7 +106,7 @@ describe("item", () => {
 
       assert.equal(writable.dueDate, undefined);
 
-      writable.dueDate = new Date("2021-01-02");
+      writable.dueDate = Temporal.PlainDate.from("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02");
       assert.deepEqual(writable, newR);
     });
@@ -117,7 +117,7 @@ describe("item", () => {
 
       assert.equal(writable.dueDate, undefined);
 
-      writable.dueDate = new Date("2021-01-02");
+      writable.dueDate = Temporal.PlainDate.from("2021-01-02");
       const newR = parse("[ ] Task 1 #tag @2021-01-02");
       assert.deepEqual(writable, newR);
     });
@@ -128,7 +128,7 @@ describe("item", () => {
 
       assert.equal(writable.dueDate, undefined);
 
-      writable.dueDate = new Date("2021-01-02");
+      writable.dueDate = Temporal.PlainDate.from("2021-01-02");
       const newR = parse("[ ] Task 1 @2021-01-02");
       assert.deepEqual(writable, newR);
     });
@@ -137,7 +137,7 @@ describe("item", () => {
       const r = parse("[ ] Task 1 @2020-01-01");
       const writable = asWritable(r);
 
-      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
+      assert(writable.dueDate?.equals(Temporal.PlainDate.from("2020-01-01")));
 
       writable.dueDate = undefined;
       const newR = parse("[ ] Task 1");
@@ -148,7 +148,7 @@ describe("item", () => {
       const r = parse("[ ] Task 1 @2020-01-01 some more text");
       const writable = asWritable(r);
 
-      assert.deepEqual(writable.dueDate, new Date("2020-01-01"));
+      assert(writable.dueDate?.equals(Temporal.PlainDate.from("2020-01-01")));
 
       writable.dueDate = undefined;
       const newR = parse("[ ] Task 1 some more text");
@@ -248,10 +248,10 @@ describe("item", () => {
       let r = parse("[ ] Task 1");
 
       r = mutate(r, (item) => {
-        item.dueDate = new Date("2021-01-01");
+        item.dueDate = Temporal.PlainDate.from("2021-01-01");
       });
 
-      assert.deepEqual(r.dueDate, new Date("2021-01-01"));
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
     });
 
     test("mutates the status of the item", () => {
