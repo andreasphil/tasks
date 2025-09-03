@@ -147,7 +147,7 @@ export default defineComponent({
       {
         id: "open:tags",
         name: "Tags",
-        chord: "g#",
+        chord: "gx",
         groupName: "Open",
         icon: renderSvgFromString(Bookmark),
         action: () => router.push({ name: "Tags" }),

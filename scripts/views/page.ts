@@ -98,7 +98,7 @@ export default defineComponent({
         | "tomorrow"
         | "next-week"
         | "end-of-week"
-        | undefined
+        | undefined,
     ) {
       textareaEl.value?.act(
         async ({ selectedLines, selectionStart, select }) => {
@@ -125,7 +125,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        }
+        },
       );
     }
 
@@ -145,7 +145,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        }
+        },
       );
     }
 
@@ -163,7 +163,7 @@ export default defineComponent({
 
           await nextTick();
           select({ to: "absolute", start: oldSelection });
-        }
+        },
       );
     }
 
@@ -198,7 +198,7 @@ export default defineComponent({
             to: "absolute",
             start: selectionBefore + lenAfter - lenBefore,
           });
-        }
+        },
       );
     }
 
@@ -273,48 +273,6 @@ export default defineComponent({
         })),
     };
 
-    const taskCompletions: Plugins.AutoComplete = {
-      id: "tasks",
-      trigger: "[",
-      commands: [
-        {
-          id: "incomplete",
-          name: "To do",
-          value: "[ ] ",
-          initial: true,
-          icon: renderSvgFromString(CircleDashed),
-        },
-        {
-          id: "important",
-          name: "Important",
-          value: "[*] ",
-          initial: true,
-          icon: renderSvgFromString(Star),
-        },
-        {
-          id: "inProgress",
-          name: "In progress",
-          value: "[/] ",
-          initial: true,
-          icon: renderSvgFromString(Construction),
-        },
-        {
-          id: "question",
-          name: "Waiting",
-          value: "[?] ",
-          initial: true,
-          icon: renderSvgFromString(HelpCircle),
-        },
-        {
-          id: "complete",
-          name: "Done",
-          value: "[x] ",
-          initial: true,
-          icon: renderSvgFromString(Check),
-        },
-      ],
-    };
-
     const textareaEl = useTemplateRef<Textarea2 | null>("textareaEl");
 
     const lists: Plugins.ContinueListRule[] = [
@@ -325,20 +283,16 @@ export default defineComponent({
 
     onMounted(() => {
       textareaEl.value?.use(
-        new Plugins.AutocompletePlugin([
-          dueDateCompletions,
-          tagCompletions,
-          taskCompletions,
-        ]),
+        new Plugins.AutocompletePlugin([dueDateCompletions, tagCompletions]),
         new Plugins.FlipLinesPlugin(),
         new Plugins.FullLineEditsPlugin(),
         new Plugins.ListsPlugin(lists),
-        new Plugins.TabsPlugin()
+        new Plugins.TabsPlugin(),
       );
     });
 
     const items = computed(() =>
-      pageText.value?.split("\n").map((line) => parse.withMemo(line))
+      pageText.value?.split("\n").map((line) => parse.withMemo(line)),
     );
 
     // Downloads ----------------------------------------------
@@ -360,7 +314,7 @@ export default defineComponent({
         name: "Today",
         alias: ["@"],
         groupName: "Due",
-        chord: "@t",
+        chord: "dt",
         icon: renderSvgFromString(Calendar),
         action: () => updateDueDate("today"),
       },
@@ -368,7 +322,7 @@ export default defineComponent({
         id: "item:dueDate:tomorrow",
         name: "Tomorrow",
         alias: ["@"],
-        chord: "@m",
+        chord: "dm",
         groupName: "Due",
         icon: renderSvgFromString(Calendar),
         action: () => updateDueDate("tomorrow"),
@@ -377,7 +331,7 @@ export default defineComponent({
         id: "item:dueDate:nextWeek",
         name: "Next week",
         alias: ["@", "monday"],
-        chord: "@n",
+        chord: "dn",
         groupName: "Due",
         icon: renderSvgFromString(Calendar),
         action: () => updateDueDate("next-week"),
@@ -386,7 +340,7 @@ export default defineComponent({
         id: "item:dueDate:endOfWeek",
         name: "End of week",
         alias: ["@", "eow", "friday"],
-        chord: "@e",
+        chord: "de",
         groupName: "Due",
         icon: renderSvgFromString(Calendar),
         action: () => updateDueDate("end-of-week"),
@@ -395,7 +349,7 @@ export default defineComponent({
         id: "item:dueDate:custom",
         name: "Custom",
         alias: ["@"],
-        chord: "@@",
+        chord: "dc",
         groupName: "Due",
         icon: renderSvgFromString(CalendarSearch),
         action: () => beginUpdateDueDate(),
@@ -413,8 +367,8 @@ export default defineComponent({
       {
         id: "item:postpone:1d",
         name: "1 day",
-        alias: ["due", "+"],
-        chord: "+d",
+        alias: ["due"],
+        chord: "pd",
         groupName: "Postpone",
         icon: renderSvgFromString(Hourglass),
         action: () => postpone("1d"),
@@ -422,8 +376,8 @@ export default defineComponent({
       {
         id: "item:postpone:1w",
         name: "1 week",
-        alias: ["due", "+"],
-        chord: "+w",
+        alias: ["due"],
+        chord: "pw",
         groupName: "Postpone",
         icon: renderSvgFromString(Hourglass),
         action: () => postpone("1w"),
