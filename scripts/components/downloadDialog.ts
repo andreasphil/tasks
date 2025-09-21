@@ -97,7 +97,7 @@ export default defineComponent({
       </p>
 
       <template #footer>
-        <button @click="visible = false" variant="ghost">Close</button>
+        <button @click="visible = false" variant="secondary">Close</button>
         <a
           :download="\`\${pageTitle}.txt\`"
           :href="downloadUrl"

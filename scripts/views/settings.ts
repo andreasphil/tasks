@@ -100,7 +100,7 @@ export default defineComponent({
         </hgroup>
         <textarea class="editor" rows="5" v-model="rulesText" />
         <div class="actions">
-          <button @click="saveRules" variant="outline">
+          <button @click="saveRules" variant="secondary">
             <span v-html="Save" />
             Save
           </button>
@@ -118,7 +118,7 @@ export default defineComponent({
           </p>
         </hgroup>
         <div class="actions">
-          <button @click="saveToFile" variant="outline">
+          <button @click="saveToFile" variant="secondary">
             <span v-html="DownloadCloud" />Download backup
           </button>
           <button @click="openFromFile" variant="muted">

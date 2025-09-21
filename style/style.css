@@ -1,14 +1,13 @@
 @import "@andreasphil/design-system/style.css" layer(base);
 @import "@andreasphil/textarea2/style.css" layer(components);
+@import "@andreasphil/design-system/utils.css" layer(utils);
 
-@import "./components/item.css";
-@import "./components/itemCard.css";
-@import "./components/layout.css";
-@import "./views/board.css";
-@import "./views/pages.css";
-@import "./views/settings.css";
-
-/* Fonts ----------------------------------------------- */
+@import "./components/item.css" layer(components);
+@import "./components/itemCard.css" layer(components);
+@import "./components/layout.css" layer(components);
+@import "./views/board.css" layer(components);
+@import "./views/pages.css" layer(components);
+@import "./views/settings.css" layer(components);
 
 @font-face {
   font-family: "Fira Code Variable";
@@ -17,9 +16,7 @@
   font-style: normal;
 }
 
-/* Theme customization --------------------------------- */
-
-@layer theme {
+@layer base {
   :root {
     --body-padding-x: 0rem;
     --body-padding-y: 0rem;
@@ -32,43 +29,41 @@
     --theme-primary: 85% 0.14 var(--theme-tint);
     --theme-tint: 87;
   }
-}
 
-/* Additional global stuff ----------------------------- */
+  body {
+    min-width: 640px;
+  }
 
-body {
-  min-width: 640px;
-}
+  aside nav button {
+    justify-content: start;
+    width: 100%;
+  }
 
-aside nav button {
-  justify-content: start;
-  width: 100%;
-}
+  article {
+    min-height: calc(100dvh - calc(2 * var(--outer-spacing-y)));
+  }
 
-article {
-  min-height: calc(100dvh - calc(2 * var(--outer-spacing-y)));
-}
+  :is(h1, h2, h3, h4, h5, h6) {
+    --outer-spacing-y: 0;
+  }
 
-:is(h1, h2, h3, h4, h5, h6) {
-  --outer-spacing-y: 0;
-}
-
-[data-tooltip]::after {
-  font-family: var(--font-family);
-}
-
-/* Textarea2 ------------------------------------------- */
-
-.editor {
-  caret-color: var(--primary);
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-mono);
-  margin: auto;
-  max-width: 50rem;
-
-  menu {
-    margin: 0.25rem 0 0 0;
+  [data-tooltip]::after {
     font-family: var(--font-family);
-    font-size: var(--font-size);
+  }
+}
+
+@layer components {
+  .editor {
+    caret-color: var(--primary);
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-mono);
+    margin: auto;
+    max-width: 50rem;
+
+    menu {
+      margin: 0.25rem 0 0 0;
+      font-family: var(--font-family);
+      font-size: var(--font-size);
+    }
   }
 }

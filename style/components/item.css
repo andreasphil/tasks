@@ -23,7 +23,7 @@
 
   .status {
     all: unset;
-    border-radius: var(--border-radius-small);
+    border-radius: 0.25rem;
     cursor: pointer;
     pointer-events: initial;
     transition: var(--transition);
@@ -46,7 +46,7 @@
 
   .dueDate {
     background-color: var(--item-bg);
-    border-radius: var(--border-radius-small);
+    border-radius: 0.25rem;
     color: var(--c-fg-variant);
     cursor: help;
     pointer-events: initial;
@@ -60,7 +60,7 @@
 
   .tag {
     background-color: var(--item-bg);
-    border-radius: var(--border-radius-small);
+    border-radius: 0.25rem;
     color: var(--c-fg-variant);
     position: relative;
     white-space: nowrap;
