@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.11.0",
-    "@andreasphil/design-system": "github:andreasphil/design-system#v0.52.0",
+    "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.12.0",
+    "@andreasphil/design-system": "github:andreasphil/design-system#v0.53.0",
     "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.5.0",
     "browser-fs-access": "^0.38.0",
     "memize": "^2.1.1",
