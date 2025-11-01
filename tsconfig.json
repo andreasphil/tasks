@@ -3,14 +3,14 @@
     "allowImportingTsExtensions": true,
     "allowJs": true,
     "checkJs": true,
-    "lib": ["es2024", "DOM"],
+    "lib": ["esnext", "DOM"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
     "outDir": "dist",
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2024"
+    "target": "esnext"
   },
   "include": ["scripts/**/*.ts"]
 }

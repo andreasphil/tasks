@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "node --run typecheck && vite build",
     "test": "node --test --experimental-test-module-mocks --import ./test-setup.ts",
     "test:watch": "node --run test -- --watch",
+    "build": "node --run typecheck && node --run build:bundle",
+    "build:bundle": "vite build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
