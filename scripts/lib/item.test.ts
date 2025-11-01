@@ -501,7 +501,7 @@ describe("item", () => {
         parse("[ ] Task 2"),
       ];
 
-      assert.deepEqual([...items].sort(compare), items);
+      assert.deepEqual([...items].toSorted(compare), items);
     });
   });
 });

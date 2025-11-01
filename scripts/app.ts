@@ -19,7 +19,6 @@ const App = defineComponent({
   `,
 });
 
-// @ts-expect-error
 CommandBar.define();
 Textarea2.define();
 
