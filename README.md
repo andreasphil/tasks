@@ -51,8 +51,7 @@ Tasks is a [Vue 3](https://vuejs.org) app based on the [Unbuild](https://github.
 node --run dev          # Start development server
 node --run test         # Run tests once
 node --run test:watch   # Run tests in watch mode
-node --run typecheck    # Typecheck
-node --run build        # Bundle for production
+node --run build        # Typecheck and bundle
 ```
 
 ## Deployment
@@ -61,6 +60,6 @@ Deployment should work out of the box on GitHub Pages.
 
 ## Credits
 
-This app uses a number of open source packages listed in [package.json](package.json). It was inspired by [Bullet Journal](https://bulletjournal.com), [TaskTXT](https://tasktxt.com), and [[x]it!](https://xit.jotaen.net).
+This app uses a number of open source packages listed in [package.json](package.json). It was inspired by [Bullet Journal](https://bulletjournal.com), [TaskTXT](https://tasktxt.com), and [[x]it!](https://xit.jotaen.net). Icons are from [Lucide](https://lucide.dev).
 
 Thanks 🙏
