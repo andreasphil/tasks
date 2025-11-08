@@ -1,5 +1,4 @@
 @import "@andreasphil/design-system/style.css" layer(base);
-@import "@andreasphil/textarea2/style.css" layer(components);
 @import "@andreasphil/design-system/utils.css" layer(utils);
 
 @import "./components/item.css" layer(components);

@@ -3,8 +3,17 @@ import {
   renderSvgFromString,
   type Command,
 } from "@andreasphil/command-bar";
-import { Textarea2 } from "@andreasphil/textarea2";
-import * as Plugins from "@andreasphil/textarea2/plugins";
+import {
+  type AutoComplete,
+  AutocompletePlugin,
+  ContinueListRule,
+  defaultContinueListRules,
+  FlipLinesPlugin,
+  FullLineEditsPlugin,
+  ListsPlugin,
+  TabsPlugin,
+  Textarea2,
+} from "@andreasphil/textarea2";
 import {
   computed,
   defineComponent,
@@ -206,7 +215,7 @@ export default defineComponent({
 
     const formatDate = (date: Temporal.PlainDate) => `@${date.toString()}`;
 
-    const dueDateCompletions: Plugins.AutoComplete = {
+    const dueDateCompletions: AutoComplete = {
       id: "dueDate",
       trigger: "@",
       commands: [
@@ -260,7 +269,7 @@ export default defineComponent({
 
     const tags = useTags();
 
-    const tagCompletions: Plugins.AutoComplete = {
+    const tagCompletions: AutoComplete = {
       id: "tags",
       trigger: "#",
       commands: () =>
@@ -275,19 +284,19 @@ export default defineComponent({
 
     const textareaEl = useTemplateRef<Textarea2 | null>("textareaEl");
 
-    const lists: Plugins.ContinueListRule[] = [
+    const lists: ContinueListRule[] = [
       { pattern: /^\t*\[-] /, next: "same" },
       { pattern: /^\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
-      ...Object.values(Plugins.defaultContinueListRules),
+      ...Object.values(defaultContinueListRules),
     ];
 
     onMounted(() => {
       textareaEl.value?.use(
-        new Plugins.AutocompletePlugin([dueDateCompletions, tagCompletions]),
-        new Plugins.FlipLinesPlugin(),
-        new Plugins.FullLineEditsPlugin(),
-        new Plugins.ListsPlugin(lists),
-        new Plugins.TabsPlugin(),
+        new AutocompletePlugin([dueDateCompletions, tagCompletions]),
+        new FlipLinesPlugin(),
+        new FullLineEditsPlugin(),
+        new ListsPlugin(lists),
+        new TabsPlugin(),
       );
     });
 
