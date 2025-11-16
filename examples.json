@@ -1,0 +1,13 @@
+[
+  {
+    "id": "674de631-eba7-4738-aa6f-9599a7ee7c16",
+    "text": "Getting started 🔮\n\nA line like this that doesn't have any special formatting is a note. Notes don't have any special meaning and are just there to help you structure your file and remember things.\n\nOne exception is the first line, which is the title of the page.\n\n[ ] This is a task\n[/] This task is in progress\n[?] Tasks with a question mark are waiting for something\n[*] Something important can be marked with an asterisk\n[x] Once a task is done, cross it off the list with an x\n\n# This is a section\n\nSections are a great way to group tasks and notes.\n\n[ ] Tasks can have #tags\n[ ] ...and due dates @2021-12-31\n[ ] Add an URL anywhere and it will turn into a link: https://example.com"
+  },
+  { "id": "595cb806-37e9-48cb-acaf-b58404426687", "text": "Hello World 🌎" },
+  { "id": "beb9782a-c3d1-4230-bdad-713f03f22a42", "text": "Meal Prep 🍏" },
+  {
+    "id": "5ce1bc8a-a763-4f45-ba7d-c4bc0f55da52",
+    "text": "Summer Vacation 🌞"
+  },
+  { "id": "43a0ccc9-34c1-46fe-b258-0ba09b8f8c4f", "text": "Inbox 📮" }
+]
