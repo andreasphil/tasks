@@ -6,9 +6,10 @@
     box-shadow: var(--shadow-elevation-medium);
     list-style-type: none;
     margin: 0;
+    overflow-wrap: break-word;
     padding: 0.75rem 1rem;
-    transition-property: background-color, border-color;
     transition: var(--transition);
+    transition-property: background-color, border-color;
   }
 
   &:hover {
@@ -17,16 +18,10 @@
   }
 
   .pageName {
-    all: unset;
-    color: var(--c-fg-variant);
-    cursor: pointer;
+    --c-link: var(--c-fg-variant);
+
     display: inline-block;
     font-size: var(--font-size-small);
     margin-top: 0.5rem;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 }
