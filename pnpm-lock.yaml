@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@andreasphil/command-bar':
         specifier: github:andreasphil/command-bar#v0.14.0
-        version: https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91(@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/3f36f4a8fe57b245ca2519662dd54293138d8359)
+        version: https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91(@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde)
       '@andreasphil/design-system':
-        specifier: github:andreasphil/design-system#v0.53.0
-        version: https://codeload.github.com/andreasphil/design-system/tar.gz/3f36f4a8fe57b245ca2519662dd54293138d8359
+        specifier: github:andreasphil/design-system#v0.54.0
+        version: https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde
       '@andreasphil/textarea2':
-        specifier: github:andreasphil/textarea2#v0.6.0
-        version: https://codeload.github.com/andreasphil/textarea2/tar.gz/cebf0881d6619106fd22f4be95ea9680981c8c6d(@types/node@24.10.4)
+        specifier: github:andreasphil/textarea2#v0.7.0
+        version: https://codeload.github.com/andreasphil/textarea2/tar.gz/53a607108f5e520df0b5666197f3135ab0a7fd86
       browser-fs-access:
         specifier: ^0.38.0
         version: 0.38.0
@@ -54,13 +54,13 @@ packages:
       - lit-html
       - nanostores
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/3f36f4a8fe57b245ca2519662dd54293138d8359':
-    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/3f36f4a8fe57b245ca2519662dd54293138d8359}
-    version: 0.53.0
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde':
+    resolution: {tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde}
+    version: 0.54.0
 
-  '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/cebf0881d6619106fd22f4be95ea9680981c8c6d':
-    resolution: {tarball: https://codeload.github.com/andreasphil/textarea2/tar.gz/cebf0881d6619106fd22f4be95ea9680981c8c6d}
-    version: 0.6.0
+  '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/53a607108f5e520df0b5666197f3135ab0a7fd86':
+    resolution: {tarball: https://codeload.github.com/andreasphil/textarea2/tar.gz/53a607108f5e520df0b5666197f3135ab0a7fd86}
+    version: 0.7.0
 
   '@babel/helper-string-parser@7.27.1':
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
@@ -427,27 +427,13 @@ packages:
 
 snapshots:
 
-  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91(@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/3f36f4a8fe57b245ca2519662dd54293138d8359)':
+  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91(@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde)':
     dependencies:
-      '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/3f36f4a8fe57b245ca2519662dd54293138d8359
+      '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/3f36f4a8fe57b245ca2519662dd54293138d8359': {}
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde': {}
 
-  '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/cebf0881d6619106fd22f4be95ea9680981c8c6d(@types/node@24.10.4)':
-    dependencies:
-      rolldown-vite: 7.3.0(@types/node@24.10.4)
-    transitivePeerDependencies:
-      - '@types/node'
-      - esbuild
-      - jiti
-      - less
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - terser
-      - tsx
-      - yaml
+  '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/53a607108f5e520df0b5666197f3135ab0a7fd86': {}
 
   '@babel/helper-string-parser@7.27.1': {}
 
