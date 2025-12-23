@@ -1,11 +1,17 @@
 @scope (.item) {
   :scope {
-    --item-bg: color-mix(in oklch, currentColor, transparent 93%);
-    --red: hsl(350 90% 65%);
+    --item-bg: oklch(from currentColor l c h / 7%);
+    --red: oklch(65% 0.2 15);
 
     font: inherit;
     margin: 0;
     padding: 0;
+
+    &,
+    * {
+      transition: var(--transition);
+      transition-property: background-color, color;
+    }
 
     /* Top level item types -------------------------------- */
 
@@ -67,11 +73,13 @@
   }
 
   .link {
-    color: var(--primary);
-    font-weight: var(--font-weight-normal);
+    --c-link: var(--primary);
+    --c-link-hover: var(--c-fg);
+
     pointer-events: initial;
-    text-decoration-color: var(--primary);
-    text-decoration-thickness: var(--border-width);
-    text-underline-offset: 0.125rem;
+
+    .task:has(.completed) & {
+      --c-link: var(--c-fg-variant);
+    }
   }
 }
