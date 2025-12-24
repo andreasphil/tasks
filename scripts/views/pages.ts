@@ -14,6 +14,7 @@ import {
 } from "vue";
 import { RouterView, useRoute, useRouter } from "vue-router";
 import Layout from "../components/layout.ts";
+import { confirm } from "../components/prompts.ts";
 import SidebarLink from "../components/sidebarLink.ts";
 import { html } from "../lib/html.ts";
 import {
@@ -47,8 +48,11 @@ export default defineComponent({
       if (newPage) router.push({ name: "Page", params: { id: newPage } });
     }
 
-    function beginRemovePage() {
-      const confirmed = confirm("Are you sure you want to delete this page?");
+    async function beginRemovePage() {
+      const confirmed = await confirm(
+        "Are you sure you want to delete this page?",
+      );
+
       const pageId = route.params.id?.toString();
 
       if (confirmed && pageId) {

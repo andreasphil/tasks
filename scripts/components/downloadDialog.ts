@@ -90,7 +90,7 @@ export default defineComponent({
   },
 
   template: html`
-    <BaseDialog title="Download page" v-model="visible">
+    <BaseDialog title="Download page" v-model="visible" small>
       <p>
         Press the download button below to save a copy of "{{ pageTitle }}" to
         your disk.
