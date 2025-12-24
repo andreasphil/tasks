@@ -12,5 +12,5 @@
     "strict": true,
     "target": "esnext"
   },
-  "include": ["scripts/**/*.ts"]
+  "include": ["scripts/**/*.ts", "scripts/**/*.vue", "scripts/env.d.ts"]
 }

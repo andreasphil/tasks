@@ -9,7 +9,7 @@
     "test:watch": "node --run test -- --watch",
     "build": "node --run typecheck && node --run build:bundle",
     "build:bundle": "vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.14.0",
@@ -23,7 +23,9 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
+    "@vitejs/plugin-vue": "^6.0.3",
     "rolldown-vite": "^7.2.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.2.1"
   }
 }

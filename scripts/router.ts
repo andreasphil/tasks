@@ -1,12 +1,12 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
-import Board from "./views/board.ts";
-import NotFound from "./views/notFound.ts";
-import Page from "./views/page.ts";
-import Pages from "./views/pages.ts";
-import Settings from "./views/settings.ts";
-import Tags from "./views/tags.ts";
-import Today from "./views/today.ts";
-import Welcome from "./views/welcome.ts";
+import Board from "./views/Board.vue";
+import NotFound from "./views/NotFound.vue";
+import Page from "./views/Page.vue";
+import Pages from "./views/Pages.vue";
+import Settings from "./views/Settings.vue";
+import Tags from "./views/Tags.vue";
+import Today from "./views/Today.vue";
+import Welcome from "./views/Welcome.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", name: "Home", redirect: { name: "Welcome" } },
