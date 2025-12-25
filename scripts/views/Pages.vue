@@ -14,7 +14,7 @@ import {
 } from "vue";
 import { RouterView, useRoute, useRouter } from "vue-router";
 import Layout from "../components/Layout.vue";
-import { confirm } from "../components/prompts.ts";
+import { confirm } from "@andreasphil/cap";
 import SidebarLink from "../components/SidebarLink.vue";
 import {
   Bookmark,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { fileOpen, fileSave } from "browser-fs-access";
 import { ref, watchEffect } from "vue";
-import { alert } from "../components/prompts.ts";
+import { alert } from "@andreasphil/cap";
 import { DownloadCloud, Save, UploadCloud } from "../lib/icons.ts";
 import type { AutoLinkRule } from "../lib/parser.ts";
 import { usePages } from "../stores/pages.ts";

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@andreasphil/cap':
+        specifier: github:andreasphil/cap
+        version: https://codeload.github.com/andreasphil/cap/tar.gz/b9f047e0cf98067135645537d7aeaeda79956b87
       '@andreasphil/command-bar':
         specifier: github:andreasphil/command-bar#v0.14.0
         version: https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91(@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde)
@@ -50,6 +53,10 @@ importers:
         version: 3.2.1(typescript@5.9.3)
 
 packages:
+
+  '@andreasphil/cap@https://codeload.github.com/andreasphil/cap/tar.gz/b9f047e0cf98067135645537d7aeaeda79956b87':
+    resolution: {tarball: https://codeload.github.com/andreasphil/cap/tar.gz/b9f047e0cf98067135645537d7aeaeda79956b87}
+    version: 0.0.0
 
   '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91':
     resolution: {tarball: https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91}
@@ -788,6 +795,8 @@ packages:
         optional: true
 
 snapshots:
+
+  '@andreasphil/cap@https://codeload.github.com/andreasphil/cap/tar.gz/b9f047e0cf98067135645537d7aeaeda79956b87': {}
 
   '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/d5646ceabd98c85500612e40663930ad4bca0a91(@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/60501dd10f31584f080a835681fe405d6e553bde)':
     dependencies:
