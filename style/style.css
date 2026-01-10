@@ -1,3 +1,5 @@
+@layer base, components, utils;
+
 @import "@andreasphil/design-system/style.css" layer(base);
 @import "@andreasphil/design-system/utils.css" layer(utils);
 
