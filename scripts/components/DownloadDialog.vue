@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onUnmounted,
-  ref,
-  useTemplateRef,
-  watch,
-} from "vue";
+import { nextTick, onUnmounted, ref, useTemplateRef, watch } from "vue";
 import BaseDialog from "../components/BaseDialog.vue";
 import { Download } from "../lib/icons.ts";
 import { usePage } from "../stores/page.ts";
@@ -24,7 +17,7 @@ const emit = defineEmits<{
 // Visbility ----------------------------------------------
 
 const confirmButtonEl = useTemplateRef<HTMLButtonElement | null>(
-  "confirmButtonEl"
+  "confirmButtonEl",
 );
 
 watch(visible, async (is, was) => {
@@ -55,7 +48,7 @@ watch(
     if (is && !was) createDownloadUrl(pageText.value);
     else if (!is && downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onUnmounted(() => {
