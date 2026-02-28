@@ -7,12 +7,6 @@
     margin: 0;
     padding: 0;
 
-    &,
-    * {
-      transition: var(--transition);
-      transition-property: background-color, color;
-    }
-
     /* Top level item types -------------------------------- */
 
     &.heading {
