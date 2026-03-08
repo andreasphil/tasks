@@ -19,6 +19,7 @@ import SidebarLink from "../components/sidebarLink.ts";
 import { html } from "../lib/html.ts";
 import {
   Bookmark,
+  Calendar,
   Command,
   FileCheck2,
   KanbanSquare,
@@ -133,6 +134,13 @@ export default defineComponent({
         action: beginRemovePage,
       },
       {
+        id: "open:planned",
+        name: "Planned",
+        groupName: "Open",
+        icon: renderSvgFromString(Calendar),
+        action: () => router.push({ name: "Planned" }),
+      },
+      {
         id: "open:today",
         name: "Today",
         chord: "gt",
@@ -189,6 +197,7 @@ export default defineComponent({
       goToNewPage,
       pageSidebarItems,
       todayCount,
+      Calendar,
       Command,
       Plus,
       User,
@@ -237,6 +246,12 @@ export default defineComponent({
                 <span v-if="todayCount > 0" class="today-badge"
                   >{{ todayCount }}</span
                 >
+              </SidebarLink>
+            </li>
+            <li>
+              <SidebarLink :to="{ name: 'Planned' }">
+                <span v-html="Calendar" />
+                Planned
               </SidebarLink>
             </li>
             <li>

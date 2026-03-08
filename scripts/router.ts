@@ -3,6 +3,7 @@ import Board from "./views/board.ts";
 import NotFound from "./views/notFound.ts";
 import Page from "./views/page.ts";
 import Pages from "./views/pages.ts";
+import Planned from "./views/planned.ts";
 import Settings from "./views/settings.ts";
 import Tags from "./views/tags.ts";
 import Today from "./views/today.ts";
@@ -17,6 +18,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: "", name: "Welcome", component: Welcome },
       { path: "today", name: "Today", component: Today },
+      { path: "planned", name: "Planned", component: Planned },
       { path: "board", name: "Board", component: Board },
       { path: "tags", name: "Tags", component: Tags },
       { path: ":id", name: "Page", component: Page },
