@@ -34,7 +34,6 @@ export function useTodayPage() {
 
   const items = computed<UpdateableItem[] | undefined>(() => {
     const today = Temporal.Now.plainDateISO();
-    console.log(today.toString());
     const newPages = Object.values(pages).sort(compareByTitle);
     let buffer: UpdateableItem[] = [[parse("Today")]];
 
