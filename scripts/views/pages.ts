@@ -50,9 +50,7 @@ export default defineComponent({
     }
 
     async function beginRemovePage() {
-      const confirmed = await confirm(
-        "Are you sure you want to delete this page?",
-      );
+      const confirmed = await confirm("Are you sure you want to delete this page?");
 
       const pageId = route.params.id?.toString();
 
@@ -68,9 +66,7 @@ export default defineComponent({
       pageList.value.map((page) => {
         const icon = page.title.match(/\p{Emoji_Presentation}\S*/u)?.[0];
 
-        const title = icon
-          ? page.title.replace(icon, "").trim() || "Untitled"
-          : page.title;
+        const title = icon ? page.title.replace(icon, "").trim() || "Untitled" : page.title;
 
         return { ...page, icon, title };
       }),
@@ -167,8 +163,7 @@ export default defineComponent({
     ];
 
     onMounted(() => {
-      cleanupStaticCommands =
-        cmdBar?.registerCommand(...staticCommands) ?? null;
+      cleanupStaticCommands = cmdBar?.registerCommand(...staticCommands) ?? null;
     });
 
     onBeforeUnmount(() => {
@@ -243,9 +238,7 @@ export default defineComponent({
               <SidebarLink :to="{ name: 'Today' }">
                 <span v-html="Star" />
                 Today
-                <span v-if="todayCount > 0" class="today-badge"
-                  >{{ todayCount }}</span
-                >
+                <span v-if="todayCount > 0" class="today-badge">{{ todayCount }}</span>
               </SidebarLink>
             </li>
             <li>
@@ -273,9 +266,7 @@ export default defineComponent({
             <!-- User pages -->
             <li v-for="page in pageSidebarItems">
               <SidebarLink :to="{ name: 'Page', params: { id: page.id } }">
-                <span v-if="page.icon" class="glow" :data-content="page.icon">
-                  {{ page.icon }}
-                </span>
+                <span v-if="page.icon" class="glow" :data-content="page.icon"> {{ page.icon }} </span>
                 <span v-else v-html="FileCheck2" />
                 <span class="clamp">{{ page.title }}</span>
               </SidebarLink>

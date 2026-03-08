@@ -34,10 +34,7 @@ export function usePlannedPage() {
     return { ...item, raw: item.raw.replace(/^\t+/, "") };
   }
 
-  function updateItem(
-    index: number,
-    factory: Parameters<typeof mutate>[1],
-  ): void {
+  function updateItem(index: number, factory: Parameters<typeof mutate>[1]): void {
     const updateFn = items.value?.at(index)?.[1];
     updateFn?.(factory);
   }
@@ -47,15 +44,11 @@ export function usePlannedPage() {
     let buffer: UpdateableItem[] = [[parse("Planned")]];
 
     const allItems: UpdateableItem[] = Object.values(pages).flatMap((page) =>
-      page.items.map<UpdateableItem>((item, i) => [
-        removeIndent(item),
-        updateFn(page.id, i),
-      ]),
+      page.items.map<UpdateableItem>((item, i) => [removeIndent(item), updateFn(page.id, i)]),
     );
 
     const datedItems = allItems.filter(
-      ([item]) =>
-        item.dueDate && Temporal.PlainDate.compare(item.dueDate, today) > 0,
+      ([item]) => item.dueDate && Temporal.PlainDate.compare(item.dueDate, today) > 0,
     );
 
     const byDate = new Map<string, UpdateableItem[]>();
@@ -78,16 +71,10 @@ export function usePlannedPage() {
       buffer.push(...heading, ...groupItems);
     });
 
-    const anyTime = allItems.filter(
-      ([item]) => item.type === "task" && !item.dueDate,
-    );
+    const anyTime = allItems.filter(([item]) => item.type === "task" && !item.dueDate);
 
     if (anyTime.length) {
-      const heading: UpdateableItem[] = [
-        [parse("")],
-        [parse("# Any time")],
-        [parse("")],
-      ];
+      const heading: UpdateableItem[] = [[parse("")], [parse("# Any time")], [parse("")]];
       buffer.push(...heading, ...anyTime);
     }
 

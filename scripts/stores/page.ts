@@ -16,9 +16,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
 
   const exists = computed<boolean>(() => Boolean(page.value));
 
-  const title = computed<string | undefined>(() =>
-    page.value ? getTitle(page.value) : undefined
-  );
+  const title = computed<string | undefined>(() => (page.value ? getTitle(page.value) : undefined));
 
   // Text content -------------------------------------------
 
@@ -30,9 +28,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
     set(value) {
       if (!page.value) return;
 
-      const items = (value ?? "")
-        .split("\n")
-        .map((line) => parse.withMemo(line));
+      const items = (value ?? "").split("\n").map((line) => parse.withMemo(line));
 
       updatePage(toValue(id), { items });
     },
@@ -40,10 +36,7 @@ export function usePage(id: MaybeRefOrGetter<string>) {
 
   // Parsed content -----------------------------------------
 
-  function updateItem(
-    index: number,
-    factory: Parameters<typeof mutate>[1]
-  ): void {
+  function updateItem(index: number, factory: Parameters<typeof mutate>[1]): void {
     if (!page.value) return;
     const newItems = [...page.value.items];
     newItems[index] = mutate(newItems[index], factory);

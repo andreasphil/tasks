@@ -20,9 +20,7 @@ export default defineComponent({
       });
     }
 
-    const items = computed(() =>
-      text.value?.split("\n").map((line) => parse.withMemo(line)),
-    );
+    const items = computed(() => text.value?.split("\n").map((line) => parse.withMemo(line)));
 
     return {
       TreePalm,

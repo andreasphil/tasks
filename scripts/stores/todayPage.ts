@@ -24,10 +24,7 @@ export function useTodayPage() {
     return { ...item, raw: item.raw.replace(/^\t+/, "") };
   }
 
-  function updateItem(
-    index: number,
-    factory: Parameters<typeof mutate>[1]
-  ): void {
+  function updateItem(index: number, factory: Parameters<typeof mutate>[1]): void {
     const updateFn = items.value?.at(index)?.[1];
     updateFn?.(factory);
   }
@@ -41,14 +38,8 @@ export function useTodayPage() {
       const dueItems: UpdateableItem[] = [];
 
       page.items
-        .map<UpdateableItem>((item, i) => [
-          removeIndent(item),
-          updateFn(page.id, i),
-        ])
-        .filter(
-          ([item]) =>
-            item.dueDate && Temporal.PlainDate.compare(item.dueDate, today) <= 0
-        )
+        .map<UpdateableItem>((item, i) => [removeIndent(item), updateFn(page.id, i)])
+        .filter(([item]) => item.dueDate && Temporal.PlainDate.compare(item.dueDate, today) <= 0)
         .sort(([a], [b]) => compare(a, b))
         .forEach((item) => dueItems.push(item));
 
@@ -67,7 +58,7 @@ export function useTodayPage() {
   });
 
   const text = computed<string | undefined>(() =>
-    items.value?.map(([item]) => item.raw).join("\n")
+    items.value?.map(([item]) => item.raw).join("\n"),
   );
 
   return { text, updateOnPage: updateItem };

@@ -10,9 +10,7 @@ export function useTodayCount() {
     return Object.values(pages)
       .flatMap((i) => i.items)
       .filter((i) => i.status !== "completed")
-      .filter(
-        (i) => !!i.dueDate && Temporal.PlainDate.compare(i.dueDate, today) <= 0
-      ).length;
+      .filter((i) => !!i.dueDate && Temporal.PlainDate.compare(i.dueDate, today) <= 0).length;
   });
 
   return todayCount;

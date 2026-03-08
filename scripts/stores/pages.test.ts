@@ -69,7 +69,7 @@ describe("usePages", () => {
 
     assert.deepEqual(
       pageList.value.map((i) => i.title),
-      ["Page 1", "Page 2"]
+      ["Page 1", "Page 2"],
     );
   });
 
@@ -82,7 +82,7 @@ describe("usePages", () => {
 
     assert.deepEqual(
       pageList.value.map((i) => i.title),
-      ["Page 1", "Page 2", "Page 3"]
+      ["Page 1", "Page 2", "Page 3"],
     );
   });
 
@@ -149,10 +149,7 @@ describe("usePages", () => {
 
     removePage(id);
     await nextTick();
-    assert.deepEqual(setItem.mock.calls[2].arguments, [
-      "pages",
-      JSON.stringify([]),
-    ]);
+    assert.deepEqual(setItem.mock.calls[2].arguments, ["pages", JSON.stringify([])]);
   });
 
   test.todo("restores previous pages from local storage", () => {

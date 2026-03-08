@@ -59,18 +59,18 @@ describe("tagsPage", () => {
     assert.equal(mocks.updatePage.mock.calls[0].arguments[0], "foo");
     assert.equal(
       mocks.updatePage.mock.calls[0].arguments[1].items[1].raw,
-      "[x] One tag from Page 1 #tag1"
+      "[x] One tag from Page 1 #tag1",
     );
 
     updateOnPage(11, (item) => {
       item.status = "completed";
-      item.dueDate = Temporal.PlainDate.from("2023-01-01")
+      item.dueDate = Temporal.PlainDate.from("2023-01-01");
     });
 
     assert.equal(mocks.updatePage.mock.calls[1].arguments[0], "bar");
     assert.equal(
       mocks.updatePage.mock.calls[1].arguments[1].items[1].raw,
-      "[x] One tag from Page 2 #tag2 @2023-01-01"
+      "[x] One tag from Page 2 #tag2 @2023-01-01",
     );
   });
 });

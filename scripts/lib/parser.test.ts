@@ -26,12 +26,12 @@ describe("parse", () => {
 
     test("finds a due date", () => {
       const r = parse("# Heading @2021-01-01");
-      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
     });
 
     test("finds a due date and tags", () => {
       const r = parse("# Heading #tag1 @2021-01-01");
-      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
       assert.deepEqual(r.tags, ["tag1"]);
     });
 
@@ -52,9 +52,7 @@ describe("parse", () => {
 
     test("finds an automatic link", () => {
       const r = parse("# Heading EXAMPLE-1", {
-        autoLinkRules: [
-          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
-        ],
+        autoLinkRules: [{ pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" }],
       });
 
       assert.equal(r.tokens[2].type, "link");
@@ -64,9 +62,7 @@ describe("parse", () => {
 
     test("finds multiple automatic links of the same type", () => {
       const r = parse("# EXAMPLE-1 Heading EXAMPLE-2", {
-        autoLinkRules: [
-          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
-        ],
+        autoLinkRules: [{ pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" }],
       });
 
       assert.equal(r.tokens[1].type, "link");
@@ -149,7 +145,7 @@ describe("parse", () => {
 
     test("finds a due date", () => {
       const r = parse("[ ] Task 1 @2021-01-01");
-      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
     });
 
     test("ignores an invalid due date", () => {
@@ -159,7 +155,7 @@ describe("parse", () => {
 
     test("finds a due date and tags", () => {
       const r = parse("[ ] Task 1 #tag1 @2021-01-01");
-      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
       assert.deepEqual(r.tags, ["tag1"]);
     });
 
@@ -202,9 +198,7 @@ describe("parse", () => {
 
     test("finds an automatic link", () => {
       const r = parse("[ ] Task 1 EXAMPLE-1", {
-        autoLinkRules: [
-          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
-        ],
+        autoLinkRules: [{ pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" }],
       });
 
       assert.equal(r.tokens[2].type, "link");
@@ -214,9 +208,7 @@ describe("parse", () => {
 
     test("finds multiple automatic links of the same type", () => {
       const r = parse("[ ] EXAMPLE-1 Task 1 EXAMPLE-2", {
-        autoLinkRules: [
-          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
-        ],
+        autoLinkRules: [{ pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" }],
       });
 
       assert.equal(r.tokens[2].type, "link");
@@ -274,17 +266,17 @@ describe("parse", () => {
 
     test("finds a due date", () => {
       const r = parse("Note 1 @2021-01-01");
-      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
     });
 
     test("ignores any additional due dates", () => {
       const r = parse("Note 1 @2021-01-01 @2021-01-02");
-      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
     });
 
     test("finds a due date and tags", () => {
       const r = parse("Note 1 #tag1 @2021-01-01");
-      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")))
+      assert(r.dueDate?.equals(Temporal.PlainDate.from("2021-01-01")));
       assert.deepEqual(r.tags, ["tag1"]);
     });
 
@@ -310,9 +302,7 @@ describe("parse", () => {
 
     test("finds an automatic link", () => {
       const r = parse("Note 1 EXAMPLE-1", {
-        autoLinkRules: [
-          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
-        ],
+        autoLinkRules: [{ pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" }],
       });
 
       assert.equal(r.tokens[1].type, "link");
@@ -322,9 +312,7 @@ describe("parse", () => {
 
     test("finds multiple automatic links of the same type", () => {
       const r = parse("EXAMPLE-1 This is a note. EXAMPLE-2", {
-        autoLinkRules: [
-          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
-        ],
+        autoLinkRules: [{ pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" }],
       });
 
       assert.equal(r.tokens[0].type, "link");
@@ -440,9 +428,7 @@ describe("parse", () => {
 
     test("returns an automatic link token", () => {
       const r = parse("This is a note. EXAMPLE-1", {
-        autoLinkRules: [
-          { pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" },
-        ],
+        autoLinkRules: [{ pattern: "(EXAMPLE-\\d+)", target: "https://example.com/$1" }],
       });
 
       assert.deepEqual(r.tokens.at(-1), {

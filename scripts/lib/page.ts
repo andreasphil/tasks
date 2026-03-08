@@ -19,10 +19,7 @@ export function getTitle(page: Page | DeepReadonly<Page>): string {
   return firstItem?.raw?.replace(/^# /, "").trim() || "Untitled";
 }
 
-export function compareByTitle(
-  a: Page | DeepReadonly<Page>,
-  b: Page | DeepReadonly<Page>
-): number {
+export function compareByTitle(a: Page | DeepReadonly<Page>, b: Page | DeepReadonly<Page>): number {
   const aTitle = getTitle(a);
   const bTitle = getTitle(b);
 

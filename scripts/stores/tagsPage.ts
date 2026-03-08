@@ -19,10 +19,7 @@ export function useTagsPage() {
     };
   }
 
-  function updateItem(
-    index: number,
-    factory: Parameters<typeof mutate>[1]
-  ): void {
+  function updateItem(index: number, factory: Parameters<typeof mutate>[1]): void {
     const updateFn = items.value?.at(index)?.update;
     updateFn?.(factory);
   }
@@ -37,7 +34,7 @@ export function useTagsPage() {
           ...item,
           raw: item.raw.replace(/^\t+/, ""),
           update: updateFn(page.id, i),
-        }))
+        })),
       )
 
       // Remove items that don't have tags
@@ -55,11 +52,7 @@ export function useTagsPage() {
 
       // Create tag sections
       .forEach((items, tag) => {
-        const heading: UpdateableItem[] = [
-          parse(""),
-          parse(`# Tagged "#${tag}"`),
-          parse(""),
-        ];
+        const heading: UpdateableItem[] = [parse(""), parse(`# Tagged "#${tag}"`), parse("")];
 
         buffer.push(...heading, ...items);
       });
@@ -67,9 +60,7 @@ export function useTagsPage() {
     return buffer.length > 1 ? buffer : undefined;
   });
 
-  const text = computed<string | undefined>(() =>
-    items.value?.map((item) => item.raw).join("\n")
-  );
+  const text = computed<string | undefined>(() => items.value?.map((item) => item.raw).join("\n"));
 
   return { text, updateOnPage: updateItem };
 }

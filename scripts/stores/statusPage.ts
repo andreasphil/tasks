@@ -50,7 +50,7 @@ export function useStatusPage() {
           pageId: page.id,
           lineNr: i,
           update: updateFn(page.id, i),
-        }))
+        })),
       )
 
       // Remove items other than tasks

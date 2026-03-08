@@ -1,12 +1,4 @@
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  onUnmounted,
-  ref,
-  useTemplateRef,
-  watch,
-} from "vue";
+import { computed, defineComponent, nextTick, onUnmounted, ref, useTemplateRef, watch } from "vue";
 import BaseDialog from "../components/dialog.ts";
 import { html } from "../lib/html.ts";
 import { Download } from "../lib/icons.ts";
@@ -36,9 +28,7 @@ export default defineComponent({
       },
     });
 
-    const confirmButtonEl = useTemplateRef<HTMLButtonElement | null>(
-      "confirmButtonEl",
-    );
+    const confirmButtonEl = useTemplateRef<HTMLButtonElement | null>("confirmButtonEl");
 
     watch(
       () => props.modelValue,
@@ -69,8 +59,7 @@ export default defineComponent({
       () => props.modelValue,
       (is, was) => {
         if (is && !was) createDownloadUrl(pageText.value);
-        else if (!is && downloadUrl.value)
-          URL.revokeObjectURL(downloadUrl.value);
+        else if (!is && downloadUrl.value) URL.revokeObjectURL(downloadUrl.value);
       },
       { immediate: true },
     );
@@ -91,19 +80,11 @@ export default defineComponent({
 
   template: html`
     <BaseDialog title="Download page" v-model="visible" small>
-      <p>
-        Press the download button below to save a copy of "{{ pageTitle }}" to
-        your disk.
-      </p>
+      <p>Press the download button below to save a copy of "{{ pageTitle }}" to your disk.</p>
 
       <template #footer>
         <button @click="visible = false" variant="secondary">Close</button>
-        <a
-          :download="\`\${pageTitle}.txt\`"
-          :href="downloadUrl"
-          ref="confirmButtonEl"
-          role="button"
-        >
+        <a :download="\`\${pageTitle}.txt\`" :href="downloadUrl" ref="confirmButtonEl" role="button">
           <span v-html="Download" />Download
         </a>
       </template>

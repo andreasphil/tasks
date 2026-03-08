@@ -35,11 +35,9 @@ describe("useTodayPage", () => {
             },
             baz: {
               id: "bar",
-              items: [
-                "Page 3",
-                "[ ] Due in the future @2024-02-01",
-                "[ ] No due date",
-              ].map((i) => parse(i)),
+              items: ["Page 3", "[ ] Due in the future @2024-02-01", "[ ] No due date"].map((i) =>
+                parse(i),
+              ),
             },
           },
           updatePage: mocks.updatePage,
@@ -78,7 +76,7 @@ describe("useTodayPage", () => {
     assert.equal(mocks.updatePage.mock.calls[0].arguments[0], "foo");
     assert.equal(
       mocks.updatePage.mock.calls[0].arguments[1].items[5].raw,
-      "\t[/] With indent @2024-01-01"
+      "\t[/] With indent @2024-01-01",
     );
 
     updateOnPage(10, (item) => {
@@ -89,7 +87,7 @@ describe("useTodayPage", () => {
     assert.equal(mocks.updatePage.mock.calls[1].arguments[0], "bar");
     assert.equal(
       mocks.updatePage.mock.calls[1].arguments[1].items[1].raw,
-      "[x] Due today @2023-01-01"
+      "[x] Due today @2023-01-01",
     );
   });
 });

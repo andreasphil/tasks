@@ -1,8 +1,4 @@
-import {
-  CommandBar,
-  renderSvgFromString,
-  type Command,
-} from "@andreasphil/command-bar";
+import { CommandBar, renderSvgFromString, type Command } from "@andreasphil/command-bar";
 import {
   type AutoComplete,
   AutocompletePlugin,
@@ -101,79 +97,67 @@ export default defineComponent({
     }
 
     function updateDueDate(
-      dueDate:
-        | Temporal.PlainDate
-        | "today"
-        | "tomorrow"
-        | "next-week"
-        | "end-of-week"
-        | undefined,
+      dueDate: Temporal.PlainDate | "today" | "tomorrow" | "next-week" | "end-of-week" | undefined,
     ) {
-      textareaEl.value?.act(
-        async ({ selectedLines, selectionStart, select }) => {
-          let newDate: Temporal.PlainDate | undefined;
-          let oldSelection = selectionStart();
+      textareaEl.value?.act(async ({ selectedLines, selectionStart, select }) => {
+        let newDate: Temporal.PlainDate | undefined;
+        let oldSelection = selectionStart();
 
-          if (dueDate === "today") {
-            newDate = Temporal.Now.plainDateISO();
-          } else if (dueDate === "tomorrow") {
-            newDate = Temporal.Now.plainDateISO().add({ days: 1 });
-          } else if (dueDate === "next-week") {
-            const nextWeek = Temporal.Now.plainDateISO().add({ weeks: 1 });
-            newDate = nextWeek.subtract({ days: nextWeek.dayOfWeek - 1 });
-          } else if (dueDate === "end-of-week") {
-            const today = Temporal.Now.plainDateISO();
-            newDate = today.add({ days: 5 - today.dayOfWeek });
-          } else {
-            newDate = dueDate;
-          }
+        if (dueDate === "today") {
+          newDate = Temporal.Now.plainDateISO();
+        } else if (dueDate === "tomorrow") {
+          newDate = Temporal.Now.plainDateISO().add({ days: 1 });
+        } else if (dueDate === "next-week") {
+          const nextWeek = Temporal.Now.plainDateISO().add({ weeks: 1 });
+          newDate = nextWeek.subtract({ days: nextWeek.dayOfWeek - 1 });
+        } else if (dueDate === "end-of-week") {
+          const today = Temporal.Now.plainDateISO();
+          newDate = today.add({ days: 5 - today.dayOfWeek });
+        } else {
+          newDate = dueDate;
+        }
 
-          updateOnPage(selectedLines()[0], (item) => {
-            item.dueDate = newDate;
-          });
+        updateOnPage(selectedLines()[0], (item) => {
+          item.dueDate = newDate;
+        });
 
-          await nextTick();
-          select({ to: "absolute", start: oldSelection });
-        },
-      );
+        await nextTick();
+        select({ to: "absolute", start: oldSelection });
+      });
     }
 
     function postpone(time: "1d" | "1w") {
-      textareaEl.value?.act(
-        async ({ selectedLines, selectionStart, select }) => {
-          let oldSelection = selectionStart();
+      textareaEl.value?.act(async ({ selectedLines, selectionStart, select }) => {
+        let oldSelection = selectionStart();
 
-          updateOnPage(selectedLines()[0], (item) => {
-            let base = item.dueDate ?? Temporal.Now.plainDateISO();
+        updateOnPage(selectedLines()[0], (item) => {
+          let base = item.dueDate ?? Temporal.Now.plainDateISO();
 
-            if (time === "1d") base = base.add({ days: 1 });
-            else if (time === "1w") base = base.add({ weeks: 1 });
+          if (time === "1d") base = base.add({ days: 1 });
+          else if (time === "1w") base = base.add({ weeks: 1 });
 
-            item.dueDate = base;
-          });
+          item.dueDate = base;
+        });
 
-          await nextTick();
-          select({ to: "absolute", start: oldSelection });
-        },
-      );
+        await nextTick();
+        select({ to: "absolute", start: oldSelection });
+      });
     }
 
     function updateStatus(status: TaskStatus) {
-      textareaEl.value?.act(
-        async ({ selectedLines, selectionStart, select }) => {
-          let oldSelection = selectionStart();
+      textareaEl.value?.act(async ({ selectedLines, selectionStart, select }) => {
+        let oldSelection = selectionStart();
 
-          let effectiveIndex = selectedLines()[0];
+        let effectiveIndex = selectedLines()[0];
 
-          updateOnPage(effectiveIndex, (item) => {
-            if (item.type !== "task") item.type = "task";
-            item.status = status;
-          });
+        updateOnPage(effectiveIndex, (item) => {
+          if (item.type !== "task") item.type = "task";
+          item.status = status;
+        });
 
-          await nextTick();
-          select({ to: "absolute", start: oldSelection });
-        },
-      );
+        await nextTick();
+        select({ to: "absolute", start: oldSelection });
+      });
     }
 
     function toggleCompleted(index: number) {
@@ -182,8 +166,7 @@ export default defineComponent({
 
         updateOnPage(index, (item) => {
           if (item.type !== "task") item.type = "task";
-          item.status =
-            item.status === "completed" ? "incomplete" : "completed";
+          item.status = item.status === "completed" ? "incomplete" : "completed";
         });
 
         await nextTick();
@@ -192,23 +175,21 @@ export default defineComponent({
     }
 
     function updateType(type: Item["type"]) {
-      textareaEl.value?.act(
-        async ({ selectedLines, select, selectionStart }) => {
-          const lenBefore = pageText.value?.length ?? 0;
-          const selectionBefore = selectionStart();
+      textareaEl.value?.act(async ({ selectedLines, select, selectionStart }) => {
+        const lenBefore = pageText.value?.length ?? 0;
+        const selectionBefore = selectionStart();
 
-          updateOnPage(selectedLines()[0], (item) => {
-            item.type = type;
-          });
+        updateOnPage(selectedLines()[0], (item) => {
+          item.type = type;
+        });
 
-          const lenAfter = pageText.value?.length ?? 0;
-          await nextTick();
-          select({
-            to: "absolute",
-            start: selectionBefore + lenAfter - lenBefore,
-          });
-        },
-      );
+        const lenAfter = pageText.value?.length ?? 0;
+        await nextTick();
+        select({
+          to: "absolute",
+          start: selectionBefore + lenAfter - lenBefore,
+        });
+      });
     }
 
     // Editor hooks and customizations ------------------------
@@ -300,9 +281,7 @@ export default defineComponent({
       );
     });
 
-    const items = computed(() =>
-      pageText.value?.split("\n").map((line) => parse.withMemo(line)),
-    );
+    const items = computed(() => pageText.value?.split("\n").map((line) => parse.withMemo(line)));
 
     // Downloads ----------------------------------------------
 
@@ -502,12 +481,7 @@ export default defineComponent({
   template: html`
     <article has-fallback>
       <div>
-        <textarea-2
-          v-if="pageText !== undefined"
-          class="editor"
-          overscroll
-          ref="textareaEl"
-        >
+        <textarea-2 v-if="pageText !== undefined" class="editor" overscroll ref="textareaEl">
           <textarea spellcheck="false" v-model="pageText"></textarea>
           <div class="t2-output" custom>
             <PageItem
@@ -526,11 +500,7 @@ export default defineComponent({
       </div>
     </article>
 
-    <DownloadDialog
-      v-if="pageExists"
-      v-model="downloadDialog"
-      :pageId="pageId"
-    />
+    <DownloadDialog v-if="pageExists" v-model="downloadDialog" :pageId="pageId" />
 
     <DueDateDialog
       @confirmed="setDueDateFromDialog()"

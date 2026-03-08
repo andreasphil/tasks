@@ -83,23 +83,15 @@ export default defineComponent({
     <BaseDialog v-model="visible" title="Set due date">
       <label>
         Finish this task by...
-        <input
-          type="date"
-          v-model="selectedDate"
-          @keydown.enter.stop.prevent="onConfirm()"
-        />
+        <input type="date" v-model="selectedDate" @keydown.enter.stop.prevent="onConfirm()" />
         <small>{{ dueDateHint }}</small>
       </label>
 
       <template #footer>
-        <button @click="onClear()" variant="muted">
-          <span v-html="CalendarX2" />Clear
-        </button>
+        <button @click="onClear()" variant="muted"><span v-html="CalendarX2" />Clear</button>
         <div></div>
         <button variant="secondary" @click="onCancel()">Cancel</button>
-        <button @click="onConfirm()">
-          <span v-html="CalendarCheck2" />Done
-        </button>
+        <button @click="onConfirm()"><span v-html="CalendarCheck2" />Done</button>
       </template>
     </BaseDialog>
   `,

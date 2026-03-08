@@ -8,8 +8,7 @@ const relativeTIme = new Intl.RelativeTimeFormat(undefined, {
 });
 
 export function getDateHint(date: Temporal.PlainDate | string): string {
-  date =
-    date instanceof Temporal.PlainDate ? date : Temporal.PlainDate.from(date);
+  date = date instanceof Temporal.PlainDate ? date : Temporal.PlainDate.from(date);
 
   const diff = date.since(Temporal.Now.plainDateISO());
 

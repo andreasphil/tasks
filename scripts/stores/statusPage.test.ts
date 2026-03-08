@@ -56,17 +56,14 @@ describe("statusPage", () => {
     updateOnPage(0, "incomplete", "inProgress");
 
     assert.equal(mocks.updatePage.mock.calls[0].arguments[0], "foo");
-    assert.equal(
-      mocks.updatePage.mock.calls[0].arguments[1].items[1].raw,
-      "[/] Open from Page 1"
-    );
+    assert.equal(mocks.updatePage.mock.calls[0].arguments[1].items[1].raw, "[/] Open from Page 1");
 
     updateOnPage(1, "important", "completed");
 
     assert.equal(mocks.updatePage.mock.calls[1].arguments[0], "bar");
     assert.equal(
       mocks.updatePage.mock.calls[1].arguments[1].items[4].raw,
-      "[x] Important from Page 2"
+      "[x] Important from Page 2",
     );
   });
 });

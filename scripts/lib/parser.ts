@@ -43,13 +43,7 @@ const statusChars = Object.values(taskStatuses);
 
 export type TaskStatus = keyof typeof taskStatuses;
 
-export type TokenType =
-  | "headingMarker"
-  | "status"
-  | "dueDate"
-  | "tag"
-  | "link"
-  | "text";
+export type TokenType = "headingMarker" | "status" | "dueDate" | "tag" | "link" | "text";
 
 export type Token = {
   type: TokenType;
@@ -72,10 +66,7 @@ export type UncheckedItem = {
   tokens: Token[];
   tags: string[];
   dueDate?: Temporal.PlainDate;
-} & (
-  | { type: "note" | "heading"; status: null }
-  | { type: "task"; status: TaskStatus }
-);
+} & ({ type: "note" | "heading"; status: null } | { type: "task"; status: TaskStatus });
 
 /**
  * Represents a parsed item. "Item" is the generic type for anything that can
@@ -106,9 +97,7 @@ const taskExpr = {
   links: /(?<url>https?:\/\/\S+)/,
 
   // Statuses
-  status: new RegExp(
-    `(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`,
-  ),
+  status: new RegExp(`(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`),
 } as const;
 
 function mergeExpression(...sources: Array<Record<string, RegExp>>): RegExp {
@@ -144,10 +133,7 @@ function matchAutolink(
 
   const index = Number(groupName.replace("autolink_", ""));
 
-  const url = groups[groupName].replace(
-    new RegExp(rules[index].pattern),
-    rules[index].target,
-  );
+  const url = groups[groupName].replace(new RegExp(rules[index].pattern), rules[index].target);
 
   return { groupName, url };
 }

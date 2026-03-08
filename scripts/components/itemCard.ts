@@ -44,9 +44,7 @@ export default defineComponent({
     >
       <PageItem :item="cardRepresentation" />
 
-      <RouterLink v-if="item.pageName" class="pageName" :to="source">
-        {{ item.pageName }}
-      </RouterLink>
+      <RouterLink v-if="item.pageName" class="pageName" :to="source"> {{ item.pageName }} </RouterLink>
     </li>
   `,
 });

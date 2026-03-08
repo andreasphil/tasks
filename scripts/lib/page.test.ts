@@ -58,9 +58,7 @@ describe("page", () => {
         { id: "3", items: [parse("A")] },
       ];
 
-      const sorted = pages
-        .sort(compareByTitle)
-        .map((page) => page.items[0].raw);
+      const sorted = pages.sort(compareByTitle).map((page) => page.items[0].raw);
 
       assert.deepEqual(sorted, ["A", "B", "C"]);
     });

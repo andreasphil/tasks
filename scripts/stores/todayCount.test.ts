@@ -34,11 +34,9 @@ describe("useTodayPage", () => {
             },
             baz: {
               id: "bar",
-              items: [
-                "Page 3",
-                "[ ] Due in the future @2024-02-01",
-                "[ ] No due date",
-              ].map((i) => parse(i)),
+              items: ["Page 3", "[ ] Due in the future @2024-02-01", "[ ] No due date"].map((i) =>
+                parse(i),
+              ),
             },
           },
         }),

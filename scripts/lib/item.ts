@@ -117,10 +117,7 @@ export function asWritable(item: Item): WritableItem {
  * @param item The item that should be mutated.
  * @param factory A function making the changes to the item.
  */
-export function mutate(
-  item: Item,
-  factory: (item: WritableItem) => void,
-): Item {
+export function mutate(item: Item, factory: (item: WritableItem) => void): Item {
   const mutatedItem = asWritable(clone(item));
   factory(mutatedItem);
   return mutatedItem as Item;

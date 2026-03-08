@@ -1,11 +1,5 @@
 import { computed, reactive, watch } from "vue";
-import {
-  compareByTitle,
-  createModel,
-  getTitle,
-  type Model,
-  type Page,
-} from "../lib/page.ts";
+import { compareByTitle, createModel, getTitle, type Model, type Page } from "../lib/page.ts";
 import type { Item } from "../lib/parser.ts";
 import { parse } from "./appParser.ts";
 import { useSettings } from "./settings.ts";
@@ -18,7 +12,7 @@ function createPagesStore() {
   const list = computed(() =>
     Object.values(pages)
       .map((page) => ({ ...page, title: getTitle(page) }))
-      .sort(compareByTitle)
+      .sort(compareByTitle),
   );
 
   function refresh() {

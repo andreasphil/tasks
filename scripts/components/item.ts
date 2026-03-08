@@ -28,25 +28,17 @@ export default defineComponent({
 
     // Status -------------------------------------------------
 
-    const status = computed(() =>
-      props.item.type === "task" ? props.item.status : "incomplete"
-    );
+    const status = computed(() => (props.item.type === "task" ? props.item.status : "incomplete"));
 
     function updateStatus() {
-      emit(
-        "update:status",
-        props.item.status === "completed" ? "incomplete" : "completed"
-      );
+      emit("update:status", props.item.status === "completed" ? "incomplete" : "completed");
     }
 
     // Due date -----------------------------------------------
 
     const todayOrOverdue = computed(() => {
       const today = Temporal.Now.plainDateISO();
-      return (
-        props.item.dueDate &&
-        Temporal.PlainDate.compare(props.item.dueDate, today) <= 0
-      );
+      return props.item.dueDate && Temporal.PlainDate.compare(props.item.dueDate, today) <= 0;
     });
 
     const dueDateHint = computed(() => {
@@ -85,15 +77,9 @@ export default defineComponent({
           >{{ token.raw }}</span
         >
 
-        <span v-else-if="token.type === 'tag'" class="token tag"
-          >{{ token.raw }}</span
-        >
+        <span v-else-if="token.type === 'tag'" class="token tag">{{ token.raw }}</span>
 
-        <a
-          v-else-if="token.type === 'link'"
-          :href="token.value"
-          class="link"
-          target="_blank"
+        <a v-else-if="token.type === 'link'" :href="token.value" class="link" target="_blank"
           >{{ token.raw }}</a
         >
 
