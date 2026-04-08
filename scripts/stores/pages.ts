@@ -67,8 +67,8 @@ function createPagesStore() {
   // Import and export --------------------------------------
 
   /**
-   * Imports the pages included in the backup. The backup is expected to
-   * correspond to the type `SerializedPage[]`, as stringified JSON.
+   * Imports the pages included in the backup. The backup is expected to correspond to the type
+   * `SerializedPage[]`, as stringified JSON.
    */
   function importBackup(serializedPages: string) {
     const textPages: SerializedPage[] = JSON.parse(serializedPages) ?? [];
@@ -78,8 +78,8 @@ function createPagesStore() {
   }
 
   /**
-   * Exports the pages currently in the list. The backup will correspond to
-   * the type `SerializedPage[]`, as stringified JSON.
+   * Exports the pages currently in the list. The backup will correspond to the type
+   * `SerializedPage[]`, as stringified JSON.
    */
   function exportBackup(): string {
     const textPages: SerializedPage[] = Object.values(pages).map((page) => ({

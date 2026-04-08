@@ -82,14 +82,14 @@ function clone(item: Item): Item {
 }
 
 /**
- * Returns a wrtiable proxy to the original item. This will allow changing some
- * of the properties of an item while keeping the data structure intact and
- * consistent, i.e. all tokens, raw value, and dependencies between properties
- * of the item will also be updated to match the new value of the property.
+ * Returns a wrtiable proxy to the original item. This will allow changing some of the properties of
+ * an item while keeping the data structure intact and consistent, i.e. all tokens, raw value, and
+ * dependencies between properties of the item will also be updated to match the new value of the
+ * property.
  *
  * @param item The item that should be changed.
- * @returns A writable proxy to the original item. Note that this is not a
- *  copy. Any changes made to the writable item will change the original item.
+ * @returns A writable proxy to the original item. Note that this is not a copy. Any changes made to
+ *   the writable item will change the original item.
  */
 export function asWritable(item: Item): WritableItem {
   return new Proxy(item as UncheckedItem, {
@@ -111,8 +111,8 @@ export function asWritable(item: Item): WritableItem {
 }
 
 /**
- * Allows you to change an item in place by writing all changes you make in the
- * `factory` callback back into the item.
+ * Allows you to change an item in place by writing all changes you make in the `factory` callback
+ * back into the item.
  *
  * @param item The item that should be mutated.
  * @param factory A function making the changes to the item.

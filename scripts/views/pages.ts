@@ -266,7 +266,9 @@ export default defineComponent({
             <!-- User pages -->
             <li v-for="page in pageSidebarItems">
               <SidebarLink :to="{ name: 'Page', params: { id: page.id } }">
-                <span v-if="page.icon" class="glow" :data-content="page.icon"> {{ page.icon }} </span>
+                <span v-if="page.icon" class="glow" :data-content="page.icon">
+                  {{ page.icon }}
+                </span>
                 <span v-else v-html="FileCheck2" />
                 <span class="clamp">{{ page.title }}</span>
               </SidebarLink>

@@ -84,7 +84,12 @@ export default defineComponent({
 
       <template #footer>
         <button @click="visible = false" variant="secondary">Close</button>
-        <a :download="\`\${pageTitle}.txt\`" :href="downloadUrl" ref="confirmButtonEl" role="button">
+        <a
+          :download="\`\${pageTitle}.txt\`"
+          :href="downloadUrl"
+          ref="confirmButtonEl"
+          role="button"
+        >
           <span v-html="Download" />Download
         </a>
       </template>

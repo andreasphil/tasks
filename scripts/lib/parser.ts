@@ -1,32 +1,29 @@
 /**
- * This is the parser for the converting a string into a task. The format for
- * tasks is loosely based on the Bullet Journal notation, and is defined as
- * follows:
+ * This is the parser for the converting a string into a task. The format for tasks is loosely based
+ * on the Bullet Journal notation, and is defined as follows:
  *
- * Lines that start with a single character enclosed in square brackets are
- * tasks. The character inside the brackets defines the status of the task.
- * The following statuses are supported:
+ * Lines that start with a single character enclosed in square brackets are tasks. The character
+ * inside the brackets defines the status of the task. The following statuses are supported:
  *
- * [ ] Incomplete task
- * [x] Completed
- * [/] In progress
- * [*] Important
- * [-] Note
- * [?] Question
+ *     [ ] Incomplete task
+ *     [x] Completed
+ *     [/] In progress
+ *     [*] Important
+ *     [-] Note
+ *     [?] Question
  *
- * The text after the brackets is the text of the task. Lines can also start
- * with whitespace, which is ignored (but can be used for indentation). The
- * text of the task can contain tags and a due date:
+ * The text after the brackets is the text of the task. Lines can also start with whitespace, which
+ * is ignored (but can be used for indentation). The text of the task can contain tags and a due
+ * date:
  *
  * - Tags: #tag1 #tag2 (tags can be any letter, number, or underscore)
  * - Due date: @2021-01-01
  *
- * Besides tasks, lists can also contain notes and sections. Sections are started
- * by headings, which are lines that start with a single #.
+ * Besides tasks, lists can also contain notes and sections. Sections are started by headings, which
+ * are lines that start with a single #.
  *
- * Everything else is considered a note. Notes have no special syntax or meaning,
- * but are used to add additional information to a task. They are also allowed
- * to contain tags and due dates.
+ * Everything else is considered a note. Notes have no special syntax or meaning, but are used to
+ * add additional information to a task. They are also allowed to contain tags and due dates.
  */
 
 // Types --------------------------------------------------
@@ -53,13 +50,12 @@ export type Token = {
 };
 
 /**
- * Represents a parsed item. "Item" is the generic type for anything that can
- * be included on a page, such as a task, note, or section heading.
+ * Represents a parsed item. "Item" is the generic type for anything that can be included on a page,
+ * such as a task, note, or section heading.
  *
- * Unchecked items allow changing any property in any way you want. Note that
- * since properties depend on each other (e.g. status is parsed from raw, and
- * also leads to the presence of a "status" token), changing them individually
- * might result in inconsistent data within the item.
+ * Unchecked items allow changing any property in any way you want. Note that since properties
+ * depend on each other (e.g. status is parsed from raw, and also leads to the presence of a
+ * "status" token), changing them individually might result in inconsistent data within the item.
  */
 export type UncheckedItem = {
   raw: string;
@@ -69,13 +65,12 @@ export type UncheckedItem = {
 } & ({ type: "note" | "heading"; status: null } | { type: "task"; status: TaskStatus });
 
 /**
- * Represents a parsed item. "Item" is the generic type for anything that can
- * be included on a page, such as a task, note, or section heading.
+ * Represents a parsed item. "Item" is the generic type for anything that can be included on a page,
+ * such as a task, note, or section heading.
  *
- * Note that in a regular item, all properties are readonly. This is because
- * some depend on each other (e.g. status is parsed from raw, and also leads
- * to the presence of a "status" token), and changing them individually might
- * result in inconsistent data within the item.
+ * Note that in a regular item, all properties are readonly. This is because some depend on each
+ * other (e.g. status is parsed from raw, and also leads to the presence of a "status" token), and
+ * changing them individually might result in inconsistent data within the item.
  *
  * Check out `items.ts@asWritable` to learn how to safely mutate items.
  */

@@ -89,8 +89,8 @@ export default defineComponent({
         <hgroup>
           <h2>Automatic Links</h2>
           <p>
-            Automatic links allow you to specify patterns that will be converted into links. You can use
-            this, for example, to link to Jira issues or GitHub PRs. Define the rules below as
+            Automatic links allow you to specify patterns that will be converted into links. You can
+            use this, for example, to link to Jira issues or GitHub PRs. Define the rules below as
             <code>pattern = template</code> like this, one per line:
           </p>
           <pre>(EXAMPLE-\\d+) = https://example.com/$1</pre>
@@ -108,9 +108,9 @@ export default defineComponent({
         <hgroup>
           <h2>Backup</h2>
           <p>
-            Use the buttons below to download or restore a backup of all your pages. If you restore a
-            backup, pages that already exist will be overwritten. Pages you added since the backup was
-            created will not be affected.
+            Use the buttons below to download or restore a backup of all your pages. If you restore
+            a backup, pages that already exist will be overwritten. Pages you added since the backup
+            was created will not be affected.
           </p>
         </hgroup>
         <div class="actions">
