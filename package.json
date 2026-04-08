@@ -9,7 +9,7 @@
     "test:watch": "node --run test -- --watch",
     "build": "node --run typecheck && node --run build:bundle",
     "build:bundle": "vite build",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsgo --noEmit"
   },
   "dependencies": {
     "@andreasphil/cap": "github:andreasphil/cap",
@@ -18,13 +18,13 @@
     "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.7.0",
     "browser-fs-access": "^0.38.0",
     "memize": "^2.1.1",
-    "temporal-polyfill": "^0.3.0",
-    "vue": "^3.5.24",
-    "vue-router": "^4.6.3"
+    "temporal-polyfill": "^0.3.2",
+    "vue": "^3.5.32",
+    "vue-router": "^5.0.4"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
-    "rolldown-vite": "^7.2.2",
-    "typescript": "^5.9.3"
+    "@types/node": "^25.5.2",
+    "@typescript/native-preview": "7.0.0-dev.20260408.1",
+    "vite": "^8.0.7"
   }
 }
