@@ -45,7 +45,7 @@ Most actions such as creating or removing pages, converting between different ty
 
 ## Development
 
-Tasks is a [Vue 3](https://vuejs.org) app based on the [Unbuild](https://github.com/andreasphil/unbuild) template. Packages are managed by [npm](https://npmjs.org). Tests are powered by [Node.js' test runner](https://nodejs.org/en/learn/test-runner/introduction). The following commands are available:
+Tasks is a [Vue 3](https://vuejs.org) app based on the [Unbuild](https://github.com/andreasphil/unbuild) template. Packages are managed by [pnpm](https://pnpm.io). Tests are powered by [Node.js' test runner](https://nodejs.org/en/learn/test-runner/introduction). The following commands are available:
 
 ```sh
 node --run dev          # Start development server
@@ -53,10 +53,6 @@ node --run test         # Run tests once
 node --run test:watch   # Run tests in watch mode
 node --run build        # Typecheck and bundle
 ```
-
-## Deployment
-
-Deployment should work out of the box on GitHub Pages.
 
 ## Credits
 
