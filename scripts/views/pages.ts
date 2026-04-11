@@ -1,4 +1,3 @@
-import { confirm } from "@andreasphil/cap";
 import {
   CommandBar,
   renderSvgFromString,
@@ -14,6 +13,7 @@ import {
   watch,
 } from "vue";
 import { RouterView, useRoute, useRouter } from "vue-router";
+import { confirm } from "../common/cap.js";
 import Layout from "../components/layout.ts";
 import SidebarLink from "../components/sidebarLink.ts";
 import { html } from "../lib/html.ts";

@@ -1,6 +1,6 @@
-import { alert } from "@andreasphil/cap";
 import { fileOpen, fileSave } from "browser-fs-access";
 import { defineComponent, ref, watchEffect } from "vue";
+import { alert } from "../common/cap.js";
 import { html } from "../lib/html.ts";
 import { DownloadCloud, Save, UploadCloud } from "../lib/icons.ts";
 import type { AutoLinkRule } from "../lib/parser.ts";
