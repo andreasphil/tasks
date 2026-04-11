@@ -1,5 +1,5 @@
 import { computed, reactive, watch } from "vue";
-import { compareByTitle, createModel, getTitle, type Model, type Page } from "../lib/page.ts";
+import { compareByTitle, createModel, fmt, getTitle, type Model, type Page } from "../lib/page.ts";
 import type { Item } from "../lib/parser.ts";
 import { parse } from "./appParser.ts";
 import { useSettings } from "./settings.ts";
@@ -41,6 +41,17 @@ function createPagesStore() {
 
   function remove(id: string) {
     delete pages[id];
+  }
+
+  function format(id: string): void {
+    const page = pages[id];
+    if (!page) return;
+
+    const raw = page.items.map((i) => i.raw).join("\n");
+    const formatted = fmt(raw);
+    if (raw !== formatted) {
+      update(id, { items: formatted.split("\n").map((line) => parse.withMemo(line)) });
+    }
   }
 
   // Persisting ---------------------------------------------
@@ -93,6 +104,7 @@ function createPagesStore() {
   return () => ({
     createPage: create,
     exportBackup,
+    formatPage: format,
     importBackup,
     pageList: list,
     pages,

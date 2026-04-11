@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { compareByTitle, createModel, getTitle, type Page } from "./page.ts";
+import { compareByTitle, createModel, fmt, getTitle, type Page } from "./page.ts";
 import { parse } from "./parser.ts";
 
 describe("page", () => {
@@ -47,6 +47,32 @@ describe("page", () => {
       });
 
       assert.equal(getTitle(page), "Title");
+    });
+  });
+
+  describe("fmt", () => {
+    test("removes trailing whitespace from lines", () => {
+      assert.equal(fmt("hello   \nworld  \n"), "hello\nworld\n");
+    });
+
+    test("ensures exactly one trailing newline", () => {
+      assert.equal(fmt("hello"), "hello\n");
+    });
+
+    test("collapses multiple trailing newlines to one", () => {
+      assert.equal(fmt("hello\n\n\n"), "hello\n");
+    });
+
+    test("preserves intentional empty lines within content", () => {
+      assert.equal(fmt("hello\n\nworld\n"), "hello\n\nworld\n");
+    });
+
+    test("handles an empty string", () => {
+      assert.equal(fmt(""), "");
+    });
+
+    test("handles a string with only whitespace lines", () => {
+      assert.equal(fmt("   \n   \n"), "");
     });
   });
 

@@ -1,6 +1,5 @@
 import { CommandBar, renderSvgFromString, type Command } from "@andreasphil/command-bar";
 import {
-  type AutoComplete,
   AutocompletePlugin,
   ContinueListRule,
   defaultContinueListRules,
@@ -9,6 +8,7 @@ import {
   ListsPlugin,
   TabsPlugin,
   Textarea2,
+  type AutoComplete,
 } from "@andreasphil/textarea2";
 import {
   computed,
@@ -44,6 +44,7 @@ import {
 import type { Item, TaskStatus } from "../lib/parser.ts";
 import { parse } from "../stores/appParser.ts";
 import { usePage } from "../stores/page.ts";
+import { usePages } from "../stores/pages.ts";
 import { useTags } from "../stores/tags.ts";
 
 export default defineComponent({
@@ -59,6 +60,16 @@ export default defineComponent({
     const pageId = computed(() => route.params.id?.toString());
 
     const { pageExists, pageText, updateOnPage } = usePage(() => pageId.value);
+
+    const { formatPage } = usePages();
+
+    watch(pageId, (_, id) => {
+      if (id) formatPage(id);
+    });
+
+    onBeforeUnmount(() => {
+      if (pageId.value) formatPage(pageId.value);
+    });
 
     watch(pageId, async () => {
       await nextTick();
