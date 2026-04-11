@@ -25,6 +25,7 @@
     --font-family-mono: "Fira Code Variable", ui-monospace, monospace;
     --font-size-h1: var(--font-size);
     --font-size-h2: var(--font-size);
+    --font-size-mono: calc(var(--font-size) * 0.9);
     --font-size: 14px;
     --on-primary: var(--neutral-700);
     --primary: oklch(85% 0.14 var(--tint));
@@ -58,6 +59,7 @@
     caret-color: var(--primary);
     font-family: var(--font-family-mono);
     font-size: var(--font-size-mono);
+    line-height: 1.25rem;
     margin: auto;
     max-width: 50rem;
 
