@@ -238,6 +238,23 @@ describe("parse", () => {
     });
   });
 
+  describe("dividers", () => {
+    test("correctly identifies dividers", () => {
+      const r = parse("---");
+      assert.equal(r.type, "divider");
+    });
+
+    test("does not identify partial dividers", () => {
+      const r = parse("--");
+      assert.notEqual(r.type, "divider");
+    });
+
+    test("does not identify dividers with extra characters", () => {
+      const r = parse("--- extra");
+      assert.notEqual(r.type, "divider");
+    });
+  });
+
   describe("notes", () => {
     test("correctly identifies notes in tasks", () => {
       const r = parse("[-] Task 1");
@@ -489,6 +506,7 @@ describe("parse", () => {
 
 describe("stringify", () => {
   [
+    "---",
     "  [ ] Task 1",
     "[ ] Task 1 @2021-01-01",
     "[ ] Task 1 # Not a heading",

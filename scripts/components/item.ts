@@ -20,6 +20,7 @@ export default defineComponent({
       heading: "h2",
       note: "p",
       task: "div",
+      divider: "hr",
     };
 
     const effectiveType = computed(() => props.as ?? props.item.type);

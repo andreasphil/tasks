@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { compareByTitle, createModel, fmt, getTitle, type Page } from "./page.ts";
+import {
+  compareByTitle,
+  createModel,
+  fmt,
+  getTitle,
+  shouldAppendDivider,
+  type Page,
+} from "./page.ts";
 import { parse } from "./parser.ts";
 
 describe("page", () => {
@@ -47,6 +54,32 @@ describe("page", () => {
       });
 
       assert.equal(getTitle(page), "Title");
+    });
+  });
+
+  describe("shouldAppendDivider", () => {
+    test("returns true when the divider is the last item", () => {
+      const page: Page = createModel({
+        items: [parse("# Page"), parse(""), parse("---")],
+      });
+
+      assert(shouldAppendDivider(page));
+    });
+
+    test("returns true when the divider is followed by empty items", () => {
+      const page: Page = createModel({
+        items: [parse("# Page"), parse(""), parse("---"), parse("")],
+      });
+
+      assert(shouldAppendDivider(page));
+    });
+
+    test("returns false", () => {
+      const page: Page = createModel({
+        items: [parse("# Page"), parse(""), parse("---"), parse(""), parse("[ ] Task")],
+      });
+
+      assert(!shouldAppendDivider(page));
     });
   });
 

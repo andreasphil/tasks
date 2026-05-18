@@ -62,7 +62,7 @@ export type UncheckedItem = {
   tokens: Token[];
   tags: string[];
   dueDate?: Temporal.PlainDate;
-} & ({ type: "note" | "heading"; status: null } | { type: "task"; status: TaskStatus });
+} & ({ type: "note" | "heading" | "divider"; status: null } | { type: "task"; status: TaskStatus });
 
 /**
  * Represents a parsed item. "Item" is the generic type for anything that can be included on a page,
@@ -93,6 +93,9 @@ const taskExpr = {
 
   // Statuses
   status: new RegExp(`(?<=^[^\\S\\n]*)\\[(?<status>[${statusChars.join("")}])\\]`),
+
+  // Divider
+  divider: /(?<divider>^---$)/,
 } as const;
 
 function mergeExpression(...sources: Array<Record<string, RegExp>>): RegExp {
@@ -234,6 +237,10 @@ export function parse(input: string, opts?: ParserOpts): Item {
       token.type = "link";
       token.raw = match.groups![autolink.groupName];
       token.value = autolink.url;
+    } else if (match.groups?.divider) {
+      // Dividers
+      type = "divider";
+      token.value = match.groups.divider;
     }
 
     tokens.push(token);

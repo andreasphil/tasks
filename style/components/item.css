@@ -14,6 +14,22 @@
       font-weight: var(--font-weight-bold);
     }
 
+    &.divider {
+      all: unset;
+      border: none;
+      color: transparent;
+      display: block;
+      position: relative;
+
+      &:after {
+        border-top: var(--border-width) solid var(--c-border);
+        content: "";
+        inset-inline: 0;
+        position: absolute;
+        top: 50%;
+      }
+    }
+
     &.task:has(.status.completed) {
       color: var(--c-fg-variant);
     }

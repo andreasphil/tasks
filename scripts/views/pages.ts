@@ -30,6 +30,7 @@ import {
 } from "../lib/icons.ts";
 import { usePages } from "../stores/pages.ts";
 import { useTodayCount } from "../stores/todayCount.ts";
+import { shouldAppendDivider } from "../lib/page.ts";
 
 export default defineComponent({
   name: "Pages",
@@ -68,7 +69,7 @@ export default defineComponent({
 
         const title = icon ? page.title.replace(icon, "").trim() || "Untitled" : page.title;
 
-        return { ...page, icon, title };
+        return { ...page, icon, title, hasDivider: shouldAppendDivider(page) };
       }),
     );
 
@@ -264,15 +265,21 @@ export default defineComponent({
             </li>
 
             <!-- User pages -->
-            <li v-for="page in pageSidebarItems">
-              <SidebarLink :to="{ name: 'Page', params: { id: page.id } }">
-                <span v-if="page.icon" class="glow" :data-content="page.icon">
-                  {{ page.icon }}
-                </span>
-                <span v-else v-html="FileCheck2" />
-                <span class="clamp">{{ page.title }}</span>
-              </SidebarLink>
-            </li>
+            <template v-for="page in pageSidebarItems">
+              <li>
+                <SidebarLink :to="{ name: 'Page', params: { id: page.id } }">
+                  <span v-if="page.icon" class="glow" :data-content="page.icon">
+                    {{ page.icon }}
+                  </span>
+                  <span v-else v-html="FileCheck2" />
+                  <span class="clamp">{{ page.title }}</span>
+                </SidebarLink>
+              </li>
+
+              <li v-if="page.hasDivider">
+                <hr />
+              </li>
+            </template>
           </ul>
         </nav>
       </template>
