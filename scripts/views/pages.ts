@@ -13,7 +13,7 @@ import {
   watch,
 } from "vue";
 import { RouterView, useRoute, useRouter } from "vue-router";
-import { confirm } from "../common/cap.js";
+import { confirm } from "../../common/cap.js";
 import Layout from "../components/layout.ts";
 import SidebarLink from "../components/sidebarLink.ts";
 import { html } from "../lib/html.ts";
@@ -28,9 +28,9 @@ import {
   Trash2,
   User,
 } from "../lib/icons.ts";
+import { shouldAppendDivider } from "../lib/page.ts";
 import { usePages } from "../stores/pages.ts";
 import { useTodayCount } from "../stores/todayCount.ts";
-import { shouldAppendDivider } from "../lib/page.ts";
 
 export default defineComponent({
   name: "Pages",
