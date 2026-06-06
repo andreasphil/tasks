@@ -1,11 +1,11 @@
 {
   "type": "module",
   "scripts": {
+    "build": "node --run typecheck && node --run build:bundle",
+    "build:bundle": "vite build",
     "dev": "vite dev",
     "test": "node --test --experimental-test-module-mocks --import ./test-setup.ts",
     "test:watch": "node --run test -- --watch",
-    "build": "node --run typecheck && node --run build:bundle",
-    "build:bundle": "vite build",
     "typecheck": "tsgo --noEmit"
   },
   "dependencies": {
@@ -15,12 +15,12 @@
     "browser-fs-access": "^0.38.0",
     "memize": "^2.1.1",
     "temporal-polyfill": "^0.3.2",
-    "vue": "^3.5.34",
-    "vue-router": "^5.0.6"
+    "vue": "^3.5.35",
+    "vue-router": "^5.1.0"
   },
   "devDependencies": {
     "@types/node": "^25.6.1",
-    "@typescript/native-preview": "7.0.0-dev.20260507.1",
-    "vite": "^8.0.11"
+    "@typescript/native-preview": "7.0.0-dev.20260605.1",
+    "vite": "^8.0.16"
   }
 }
