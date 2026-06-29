@@ -9,7 +9,7 @@ describe("statusPage", () => {
 
   before(async () => {
     mock.module("./pages.ts", {
-      namedExports: {
+      exports: {
         usePages: () => ({
           pages: {
             foo: {

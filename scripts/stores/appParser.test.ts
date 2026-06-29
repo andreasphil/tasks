@@ -8,7 +8,7 @@ describe("appParser", () => {
 
   before(async () => {
     mock.module("../lib/parser.ts", {
-      namedExports: {
+      exports: {
         parse: mocks.parse,
       },
     });

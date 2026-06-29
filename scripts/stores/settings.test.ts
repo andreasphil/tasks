@@ -24,7 +24,7 @@ describe("settings", () => {
     mocks.parse.setOpts = mock.fn();
 
     mock.module("./appParser.ts", {
-      namedExports: {
+      exports: {
         parse: mocks.parse,
       },
     });

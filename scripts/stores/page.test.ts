@@ -10,7 +10,7 @@ describe("usePage", () => {
 
   before(async () => {
     mock.module("./pages.ts", {
-      namedExports: {
+      exports: {
         usePages: () => ({
           pages: {
             foo: { id: "foo", items: [parse("Page 1"), parse("[ ] Task")] },
