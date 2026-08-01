@@ -1,7 +1,7 @@
 import { computed, defineComponent, type PropType } from "vue";
 import { getDateHint } from "../lib/date.ts";
 import { html } from "../lib/html.ts";
-import type { Item } from "../lib/parser.ts";
+import type { Item, TaskStatus } from "../lib/parser.ts";
 
 export default defineComponent({
   name: "Item",
@@ -31,8 +31,19 @@ export default defineComponent({
 
     const status = computed(() => (props.item.type === "task" ? props.item.status : "incomplete"));
 
-    function updateStatus() {
-      emit("update:status", props.item.status === "completed" ? "incomplete" : "completed");
+    const statusCycle: TaskStatus[] = ["incomplete", "important", "inProgress", "question", "completed"];
+
+    function onUpdateStatus(event: MouseEvent) {
+      let nextStatus: TaskStatus;
+
+      if (event.shiftKey && props.item.type === "task") {
+        const currentIndex = statusCycle.indexOf(props.item.status);
+        nextStatus = statusCycle[(currentIndex + 1) % statusCycle.length];
+      } else {
+        nextStatus = props.item.status === "completed" ? "incomplete" : "completed";
+      }
+
+      emit("update:status", nextStatus);
     }
 
     // Due date -----------------------------------------------
@@ -51,9 +62,9 @@ export default defineComponent({
       dueDateHint,
       effectiveType,
       htmlTag,
+      onUpdateStatus,
       status,
       todayOrOverdue,
-      updateStatus,
     };
   },
 
@@ -63,7 +74,7 @@ export default defineComponent({
         <button
           v-if="token.type === 'status'"
           :class="status"
-          @click.prevent.stop="updateStatus()"
+          @click.prevent.stop="onUpdateStatus($event)"
           class="token status"
           type="button"
         >

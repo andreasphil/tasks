@@ -171,13 +171,13 @@ export default defineComponent({
       });
     }
 
-    function toggleCompleted(index: number) {
+    function setStatus(index: number, status: TaskStatus) {
       textareaEl.value?.act(async ({ selectionStart, select }) => {
         let oldSelection = selectionStart();
 
         updateOnPage(index, (item) => {
           if (item.type !== "task") item.type = "task";
-          item.status = item.status === "completed" ? "incomplete" : "completed";
+          item.status = status;
         });
 
         await nextTick();
@@ -478,7 +478,7 @@ export default defineComponent({
       pageText,
       textareaEl,
       items,
-      toggleCompleted,
+      setStatus,
       downloadDialog,
       pageId,
       dueDateDialog,
@@ -498,7 +498,7 @@ export default defineComponent({
               v-for="(item, index) in items"
               :as="index === 0 ? 'heading' : undefined"
               :item="item"
-              @update:status="toggleCompleted(index)"
+              @update:status="setStatus(index, $event)"
             />
           </div>
         </textarea-2>

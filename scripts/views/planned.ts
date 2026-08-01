@@ -2,6 +2,7 @@ import { computed, defineComponent } from "vue";
 import Item from "../components/item.ts";
 import { html } from "../lib/html.ts";
 import { Calendar } from "../lib/icons.ts";
+import type { TaskStatus } from "../lib/parser.ts";
 import { parse } from "../stores/appParser.ts";
 import { usePlannedPage } from "../stores/plannedPage.ts";
 
@@ -13,10 +14,10 @@ export default defineComponent({
   setup() {
     const { text, updateOnPage } = usePlannedPage();
 
-    function toggleCompleted(index: number) {
+    function setStatus(index: number, status: TaskStatus) {
       updateOnPage(index, (item) => {
         if (item.type !== "task") item.type = "task";
-        item.status = item.status === "completed" ? "incomplete" : "completed";
+        item.status = status;
       });
     }
 
@@ -26,7 +27,7 @@ export default defineComponent({
       Calendar,
       items,
       text,
-      toggleCompleted,
+      setStatus,
     };
   },
 
@@ -40,7 +41,7 @@ export default defineComponent({
               v-for="(item, index) in items"
               :as="index === 0 ? 'heading' : undefined"
               :item="item"
-              @update:status="toggleCompleted(index)"
+              @update:status="setStatus(index, $event)"
             />
           </div>
         </textarea-2>
