@@ -6,21 +6,21 @@
     "dev": "vite dev",
     "test": "node --test --experimental-test-module-mocks --import ./test-setup.ts",
     "test:watch": "node --run test -- --watch",
-    "typecheck": "tsgo --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@andreasphil/command-bar": "github:andreasphil/command-bar#v0.15.0",
     "@andreasphil/design-system": "github:andreasphil/design-system#v0.58.0",
     "@andreasphil/textarea2": "github:andreasphil/textarea2#v0.9.0",
-    "browser-fs-access": "^0.38.0",
-    "memize": "^2.1.1",
-    "temporal-polyfill": "^1.0.1",
-    "vue": "^3.5.38",
-    "vue-router": "^5.1.0"
+    "browser-fs-access": "0.38.0",
+    "memize": "2.1.1",
+    "temporal-polyfill": "1.0.2",
+    "vue": "3.5.40",
+    "vue-router": "5.2.0"
   },
   "devDependencies": {
-    "@types/node": "^26.0.0",
-    "@typescript/native-preview": "7.0.0-dev.20260620.1",
-    "vite": "^8.0.16"
+    "@types/node": "26.1.2",
+    "typescript": "7.0.2",
+    "vite": "8.2.0"
   }
 }
