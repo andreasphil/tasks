@@ -3,4 +3,4 @@ node = "26"
 pnpm = "latest"
 
 [env]
-NODE_NO_WARNINGS=1
+NODE_NO_WARNINGS = 1

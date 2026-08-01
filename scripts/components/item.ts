@@ -31,7 +31,13 @@ export default defineComponent({
 
     const status = computed(() => (props.item.type === "task" ? props.item.status : "incomplete"));
 
-    const statusCycle: TaskStatus[] = ["incomplete", "important", "inProgress", "question", "completed"];
+    const statusCycle: TaskStatus[] = [
+      "incomplete",
+      "important",
+      "inProgress",
+      "question",
+      "completed",
+    ];
 
     function onUpdateStatus(event: MouseEvent) {
       let nextStatus: TaskStatus;
