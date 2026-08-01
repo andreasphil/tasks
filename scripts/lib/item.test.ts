@@ -75,6 +75,26 @@ describe("item", () => {
       const newR = parse("    Task 1");
       assert.deepEqual(writable, newR);
     });
+
+    test("removes list markers when converting from a note", () => {
+      const items: Fixtures = [
+        { source: "- Note 1", changeTo: "task", expected: "[ ] Note 1" },
+        { source: "* Note 1", changeTo: "task", expected: "[ ] Note 1" },
+        { source: "1. Note 1", changeTo: "task", expected: "[ ] Note 1" },
+        { source: "  - Note 1", changeTo: "task", expected: "  [ ] Note 1" },
+        { source: "- Note 1", changeTo: "heading", expected: "# Note 1" },
+        { source: "- Note 1", changeTo: "note", expected: "- Note 1" },
+      ];
+
+      items.forEach(({ source, changeTo, expected }) => {
+        const r = parse(source);
+        const writable = asWritable(r);
+
+        writable.type = changeTo;
+        const newR = parse(expected);
+        assert.deepEqual(writable, newR);
+      });
+    });
   });
 
   describe("set due date", () => {
