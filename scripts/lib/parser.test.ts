@@ -256,11 +256,6 @@ describe("parse", () => {
   });
 
   describe("notes", () => {
-    test("correctly identifies notes in tasks", () => {
-      const r = parse("[-] Task 1");
-      assert.equal(r.type, "note");
-    });
-
     test("correctly identifies notes", () => {
       const r = parse("Note 1");
       assert.equal(r.type, "note");
@@ -521,7 +516,6 @@ describe("stringify", () => {
     "[ ] Task with due date @2021-01-01 continued",
     "[ ] Task with tag #tag1 continued",
     "[ ] Task with tags #tag1 #tag1 continued",
-    "[-] This is a note.",
     "[?] Task 1",
     "[*] Task 1",
     "[/] Task 1",

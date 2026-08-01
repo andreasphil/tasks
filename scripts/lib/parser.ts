@@ -9,7 +9,6 @@
  *     [x] Completed
  *     [/] In progress
  *     [*] Important
- *     [-] Note
  *     [?] Question
  *
  * The text after the brackets is the text of the task. Lines can also start with whitespace, which

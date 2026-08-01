@@ -277,7 +277,6 @@ export default defineComponent({
     const textareaEl = useTemplateRef<Textarea2 | null>("textareaEl");
 
     const lists: ContinueListRule[] = [
-      { pattern: /^\t*\[-] /, next: "same" },
       { pattern: /^\t*\[.\] /, next: (match) => match.replace(/\[.\]/, "[ ]") },
       ...Object.values(defaultContinueListRules),
     ];

@@ -27,9 +27,6 @@ describe("item", () => {
         { source: "Note 1", changeTo: "task", expected: "[ ] Note 1" },
         { source: "Note 1", changeTo: "heading", expected: "# Note 1" },
         { source: "Note 1", changeTo: "note", expected: "Note 1" },
-        { source: "[-] Note 1", changeTo: "task", expected: "[ ] Note 1" },
-        { source: "[-] Note 1", changeTo: "heading", expected: "# Note 1" },
-        { source: "[-] Note 1", changeTo: "note", expected: "[-] Note 1" },
       ];
 
       items.forEach(({ source, changeTo, expected }) => {
