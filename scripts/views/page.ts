@@ -16,9 +16,11 @@ import {
   nextTick,
   onBeforeUnmount,
   onMounted,
+  onUnmounted,
   ref,
   useTemplateRef,
   watch,
+  watchEffect,
 } from "vue";
 import { useRoute } from "vue-router";
 import DownloadDialog from "../components/downloadDialog.ts";
@@ -59,7 +61,7 @@ export default defineComponent({
 
     const pageId = computed(() => route.params.id?.toString());
 
-    const { pageExists, pageText, updateOnPage } = usePage(() => pageId.value);
+    const { pageExists, pageText, pageTitle, updateOnPage } = usePage(() => pageId.value);
 
     const { formatPage } = usePages();
 
@@ -88,6 +90,16 @@ export default defineComponent({
         }
       });
     });
+
+    // Page title ---------------------------------------------
+
+    const baseTitle = document.title;
+
+    watchEffect(() => {
+      if (pageTitle.value) document.title = `${pageTitle.value} | ${baseTitle}`;
+    });
+
+    onUnmounted(() => (document.title = baseTitle));
 
     // Interacting with items ---------------------------------
 
