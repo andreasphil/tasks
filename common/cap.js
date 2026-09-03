@@ -2,10 +2,10 @@
 
 /**
  * @param {{
- *  message: string;
- *  showCancel: boolean;
- *  showPrompt: boolean;
- *  onClose: (value: string | boolean) => void;
+ *   message: string;
+ *   showCancel: boolean;
+ *   showPrompt: boolean;
+ *   onClose: (value: string | boolean) => void;
  * }} state
  * @returns {HTMLDialogElement}
  */
@@ -49,7 +49,7 @@ function render(state) {
     dialog.close();
   });
 
-  /** @type {string | boolean } */
+  /** @type {string | boolean} */
   let returnValue = false;
 
   dialog.addEventListener("command", (event) => {
