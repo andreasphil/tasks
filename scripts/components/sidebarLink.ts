@@ -1,5 +1,5 @@
-import { defineComponent, PropType } from "vue";
-import { RouteLocationRaw, RouterLink } from "vue-router";
+import { defineComponent, type PropType } from "vue";
+import { type RouteLocationRaw, RouterLink } from "vue-router";
 import { html } from "../lib/html.ts";
 
 export default defineComponent({

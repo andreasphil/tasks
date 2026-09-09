@@ -1,4 +1,4 @@
-import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
+import { type RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
 import Board from "./views/board.ts";
 import NotFound from "./views/notFound.ts";
 import Page from "./views/page.ts";

@@ -1,7 +1,7 @@
 import { CommandBar, renderSvgFromString, type Command } from "@andreasphil/command-bar";
 import {
   AutocompletePlugin,
-  ContinueListRule,
+  type ContinueListRule,
   defaultContinueListRules,
   FlipLinesPlugin,
   FullLineEditsPlugin,
