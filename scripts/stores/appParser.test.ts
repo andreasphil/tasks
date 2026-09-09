@@ -3,7 +3,7 @@ import test, { afterEach, before, describe, mock } from "node:test";
 import type { parse as parseFn } from "./appParser.ts";
 
 describe("appParser", () => {
-  let mocks = { parse: mock.fn((_: string) => ({})) };
+  let mocks = { parse: mock.fn(() => ({})) };
   let parse: typeof parseFn;
 
   before(async () => {
