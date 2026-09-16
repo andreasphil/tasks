@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@andreasphil/command-bar':
-        specifier: github:andreasphil/command-bar#v0.15.0
-        version: https://codeload.github.com/andreasphil/command-bar/tar.gz/0c6e44076bd52638d25eafa0628ea8d3a5fea5d7
+        specifier: github:andreasphil/command-bar#v0.17.0
+        version: https://codeload.github.com/andreasphil/command-bar/tar.gz/752ab39273b488f71cfc1269e2902a95916c4c57
       '@andreasphil/design-system':
-        specifier: github:andreasphil/design-system#v0.58.0
-        version: https://codeload.github.com/andreasphil/design-system/tar.gz/b4d9911e5dc255c48b87997fd61395ba7da02f43
+        specifier: github:andreasphil/design-system#v0.63.0
+        version: https://codeload.github.com/andreasphil/design-system/tar.gz/469576998d3acbe4ff050b76a4256823ef27f039
       '@andreasphil/textarea2':
         specifier: github:andreasphil/textarea2#v0.9.0
         version: https://codeload.github.com/andreasphil/textarea2/tar.gz/bea728b2ec4be1622a38132dad2dd5da70125da7
@@ -24,8 +24,8 @@ importers:
         specifier: 2.1.1
         version: 2.1.1
       temporal-polyfill:
-        specifier: 1.0.4
-        version: 1.0.4
+        specifier: 1.0.5
+        version: 1.0.5
       vue:
         specifier: 3.5.42
         version: 3.5.42(typescript@7.0.2)
@@ -45,20 +45,20 @@ importers:
 
 packages:
 
-  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/0c6e44076bd52638d25eafa0628ea8d3a5fea5d7':
-    resolution: {gitHosted: true, integrity: sha512-RdO94tHMIooPGSIWy0BeT5v3BKYxbnQtPQvgQE1msoN/DB/jZfyGk7KelZx9/3GTHlkdvd411G76o5wQvttYBA==, tarball: https://codeload.github.com/andreasphil/command-bar/tar.gz/0c6e44076bd52638d25eafa0628ea8d3a5fea5d7}
-    version: 0.15.0
+  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/752ab39273b488f71cfc1269e2902a95916c4c57':
+    resolution: {gitHosted: true, integrity: sha512-80YKrnz2F/9eKG8Klvf6l1USHZUVwVEqaMjDz+deCBPe1AML5vbUilpdEIkemZgfEcs1ultd0BOYGss7jC7ibQ==, tarball: https://codeload.github.com/andreasphil/command-bar/tar.gz/752ab39273b488f71cfc1269e2902a95916c4c57}
+    version: 0.17.0
     bundledDependencies:
       - lit-html
       - nanostores
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/4da4c20e505383f2dafdd0b750ce7fb1250aa0f4':
-    resolution: {gitHosted: true, integrity: sha512-BLOzgTL/zlmFzH0i3JtFQ3HbAiqbgRs4FM5WU87n+d/locQvxAG/qh463ONj76M4WN8bSnmP8WeNb8KFdeXbHg==, tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/4da4c20e505383f2dafdd0b750ce7fb1250aa0f4}
-    version: 0.61.0
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/469576998d3acbe4ff050b76a4256823ef27f039':
+    resolution: {gitHosted: true, integrity: sha512-+XAqb0/wqFcm2gtMo7ffyYNqFYYNvYbS3405sltNWWHDzEOoMPupqz3GvsKPzOf0i7jhPuz+eEO21N+r8U6tpw==, tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/469576998d3acbe4ff050b76a4256823ef27f039}
+    version: 0.63.0
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/b4d9911e5dc255c48b87997fd61395ba7da02f43':
-    resolution: {gitHosted: true, integrity: sha512-FY5mMrmQdOvBfwNcmCmr1iw9wldCluhnr36fH8wAoIMYn1avq4ED1CPs+kflnQ7Xv62uEP47cDCY8BiTrbwziQ==, tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/b4d9911e5dc255c48b87997fd61395ba7da02f43}
-    version: 0.58.0
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/77c050f573f6da54844f8768792cb8d1f831e4cd':
+    resolution: {gitHosted: true, integrity: sha512-ENLhkINwfr8vaLYcjiZlbqJHvHMPiTxMU0zq8e1kGXQtvfPit1pXS4W/Y2uI+giSyEesHxdRmiypmOlrR6AQAQ==, tarball: https://codeload.github.com/andreasphil/design-system/tar.gz/77c050f573f6da54844f8768792cb8d1f831e4cd}
+    version: 0.61.0
 
   '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/bea728b2ec4be1622a38132dad2dd5da70125da7':
     resolution: {gitHosted: true, integrity: sha512-3HcVQGIYo7q7svTwvUqmY8gMA7WFddkErK0fwhujuhLXA6ZupRslDSE3PIeLEDZP9hoKE/kWiyPQWug75Ur4jw==, tarball: https://codeload.github.com/andreasphil/textarea2/tar.gz/bea728b2ec4be1622a38132dad2dd5da70125da7}
@@ -524,11 +524,6 @@ packages:
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
 
-  nanoid@3.3.17:
-    resolution: {integrity: sha512-xQLf0A3HOMlgHq0n247/LRuAOYmB7dXJ/DvAxGvsSBij45XtBSmQycu+F8ODbHwns/XyFZagyL1+J0Offw1E0g==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-
   nanoid@3.3.19:
     resolution: {integrity: sha512-Y2tUNy4ouw6tq5oDSKeQYGOyhkUBhNOcGV/02KC+6kd9eDGqdZd++mjMiIDilrBYvjEnCYvVtsuHCuP+okSfug==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -556,10 +551,6 @@ packages:
   pkg-types@2.3.1:
     resolution: {integrity: sha512-y+ichcgc2LrADuhLNAx8DFjVfgz91pRxfZdI3UDhxHvcVEZsenLO+7XaU5vOp0u/7V/wZ+plyuQxtrDlZJ+yeg==}
 
-  postcss@8.5.26:
-    resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
-    engines: {node: ^10 || ^12 || >=14}
-
   postcss@8.5.28:
     resolution: {integrity: sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==}
     engines: {node: ^10 || ^12 || >=14}
@@ -583,14 +574,14 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
-  temporal-polyfill@1.0.4:
-    resolution: {integrity: sha512-MLEU0qOD2uXlz24oINNtdLZQl8RgmMxSnRtKEGZGGetTJjlRwQJjk+VsJ4EREaUoiaTb8NJOcUiKtoAiWn9EBg==}
+  temporal-polyfill@1.0.5:
+    resolution: {integrity: sha512-+H/mmY74i6wXCMcjIhGuSnODcyZnc4eois2myhOyX0UqRAKNXQY5m9iB1en5jQ/n4SXtjLXo1ElBI5bmn8tZwQ==}
 
   temporal-spec@1.0.1:
     resolution: {integrity: sha512-wxVoanmDeavXie1vu2JaQ3WIc3JZnWAOYFBsJyATaVsXsycKYUflGsyBmrRSnoCpZJpwPyr38VpgSUlQ8CbFxg==}
 
-  temporal-utils@1.0.2:
-    resolution: {integrity: sha512-1B8Dl4KzrOvsNUlpoWGno2VLQlxroLjDgc5NBjVC9ax9ymdo+ezfyvhyjEMx+IVfhINr6CIG2gcnlP95iRrybQ==}
+  temporal-utils@1.0.3:
+    resolution: {integrity: sha512-9jbTSX3HvkOWvDpNpFzwX/d1mkCrgQgwLmVTOEiuocZGKHsrQJtttGZFmybJ2zYP5zCSZuU5ZyeS8+eOEPABiQ==}
 
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
@@ -723,13 +714,13 @@ packages:
 
 snapshots:
 
-  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/0c6e44076bd52638d25eafa0628ea8d3a5fea5d7':
+  '@andreasphil/command-bar@https://codeload.github.com/andreasphil/command-bar/tar.gz/752ab39273b488f71cfc1269e2902a95916c4c57':
     dependencies:
-      '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/4da4c20e505383f2dafdd0b750ce7fb1250aa0f4
+      '@andreasphil/design-system': https://codeload.github.com/andreasphil/design-system/tar.gz/77c050f573f6da54844f8768792cb8d1f831e4cd
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/4da4c20e505383f2dafdd0b750ce7fb1250aa0f4': {}
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/469576998d3acbe4ff050b76a4256823ef27f039': {}
 
-  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/b4d9911e5dc255c48b87997fd61395ba7da02f43': {}
+  '@andreasphil/design-system@https://codeload.github.com/andreasphil/design-system/tar.gz/77c050f573f6da54844f8768792cb8d1f831e4cd': {}
 
   '@andreasphil/textarea2@https://codeload.github.com/andreasphil/textarea2/tar.gz/bea728b2ec4be1622a38132dad2dd5da70125da7': {}
 
@@ -910,7 +901,7 @@ snapshots:
       '@vue/shared': 3.5.42
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.26
+      postcss: 8.5.28
       source-map-js: 1.2.1
 
   '@vue/compiler-ssr@3.5.42':
@@ -1073,8 +1064,6 @@ snapshots:
 
   muggle-string@0.4.1: {}
 
-  nanoid@3.3.17: {}
-
   nanoid@3.3.19: {}
 
   nostics@1.2.0: {}
@@ -1098,12 +1087,6 @@ snapshots:
       confbox: 0.2.4
       exsolve: 1.1.1
       pathe: 2.0.3
-
-  postcss@8.5.26:
-    dependencies:
-      nanoid: 3.3.17
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
 
   postcss@8.5.28:
     dependencies:
@@ -1140,14 +1123,14 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
-  temporal-polyfill@1.0.4:
+  temporal-polyfill@1.0.5:
     dependencies:
       temporal-spec: 1.0.1
-      temporal-utils: 1.0.2
+      temporal-utils: 1.0.3
 
   temporal-spec@1.0.1: {}
 
-  temporal-utils@1.0.2: {}
+  temporal-utils@1.0.3: {}
 
   tinyglobby@0.2.17:
     dependencies:
