@@ -36,11 +36,6 @@
     min-width: 640px;
   }
 
-  aside nav button {
-    justify-content: start;
-    width: 100%;
-  }
-
   article {
     min-height: calc(100dvh - calc(2 * var(--outer-spacing-y)));
   }
