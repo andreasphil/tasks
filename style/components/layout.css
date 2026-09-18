@@ -12,7 +12,7 @@
   .sidebar {
     flex: 0 0 auto;
     overflow: auto;
-    padding: 4rem 1.25rem 4rem var(--outer-spacing-y);
+    padding: 4rem 1rem 4rem var(--outer-spacing-y);
     width: 16rem;
   }
 
